@@ -230,7 +230,7 @@ set_up_page_tables:
     ;; 0b11.
     mov eax, p2_table
     or eax, 0b11
-    mov [p3_table_low], eax
+    mov [p3_table], eax
 
     ;; Initialize the counter for the loop below. ECX contains the entry
     ;; number in the P2 table we're currently on in the loop.
