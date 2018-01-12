@@ -26,4 +26,4 @@ These can all be installed via sudo apt-get \<package-name\>.
 + xorriso
 
 ## Running
-At the moment, there is no source code, so there is no running!
+First, ensure Xming Server is running on the Windows 10 machine. Then, from a WSL Bash terminal, issue "make qemu". A QEMU window should appear with a white "OK" on a red background in the upper left-hand corner of the emulator window; this indicates the kernel is safely in 64-bit mode!
