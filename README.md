@@ -2,7 +2,6 @@
 A hobby microkernel operating system. Currently written in C, it runs only on QEMU.
 
 ## Building
-___
 Currently, the only supported build process is on Windows 10 with Windows Subsystem for Linux. In the future, this will change to include multiple Linux distributions.
 ### Windows 10 with Windows Subsystem for Linux
 The primary development system is on Windows 10 using the Windows Subsystem for Linux; this is effectively Ubuntu running on top of Windows, so it should transfer easily to Ubuntu 16.04 and up.
@@ -27,5 +26,4 @@ These can all be installed via sudo apt-get \<package-name\>.
 + xorriso
 
 ## Running
-___
 At the moment, there is no source code, so there is no running!
