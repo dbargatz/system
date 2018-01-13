@@ -1,4 +1,5 @@
 global start
+extern kboot_main
 
 section .text
 bits 32
@@ -102,8 +103,15 @@ bits 64
 ;; processor into 64-bit long mode (rather than long mode's compatibility
 ;; submode).
 long_mode_start:
-    ;; Simply print "OK" to indicate we made it to long mode!
-    mov qword [0xB8000], 0x4F4B4F4F
+    ;; Pop the Multiboot 2 information structure off the stack into RDI. By x64
+    ;; calling convention, RDI receives the first argument to a function call;
+    ;; as the only argument to kboot_main is the Multiboot 2 info struct, we 
+    ;; pass it via RDI.
+    pop rdi
+
+    ;; Load RAX with the address of kboot_main and call it!
+    lea rax, [kboot_main]
+    call rax
 
     ;; Halt the processor.
     hlt
@@ -359,6 +367,11 @@ section .rodata
 ;; fields of each entry are set to 0, meaning each entry (representing
 ;; a memory segment) spans ALL of memory. Therefore, all of memory is
 ;; in both the data segment and the code segment.
+;; NOTE: While the RW bit is set for the code segment, it's a bit of a 
+;; misnomer - really, it means that the segment is readable, but is 
+;; never writeable, as it's a code segment. Data segments, on the other
+;; hand, are always readable - setting the RW bit means the segment is
+;; writeable.
 gdt64:
     dq 0
 .code: equ $-gdt64
