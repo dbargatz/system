@@ -1,6 +1,6 @@
 build_dir := build
 os := $(build_dir)/system.a
-kernel = $(build_dir)/system.bin
+kernel = $(build_dir)/system.elf
 iso := $(build_dir)/system.iso
 target ?= x64-unknown-linux-gnu
 
@@ -25,7 +25,7 @@ qemu: $(iso)
 	@DISPLAY=:0 qemu-system-x86_64 -m 1G -smp 3 -cdrom $(iso)
 
 qemu-debug: $(iso)
-	@DISPLAY=:0 qemu-system-x86_64 -m 1G -smp 3 -d int -no-reboot -cdrom $(iso)
+	@DISPLAY=:0 qemu-system-x86_64 -m 1G -smp 3 -s -S -d int -no-reboot -cdrom $(iso)
 
 iso: $(iso)
 
@@ -45,6 +45,6 @@ $(kernel_obj): $(kernel_asm_files) $(kernel_source_files)
 		nasm -felf64 $$f -o $(kernel_build_dir)/$$(basename $$f).o; \
 		done
 	@for f in $(kernel_source_files); do \
-		clang -ffreestanding -fno-builtin -nostdlib -nostdinc -march=x86-64 -mcmodel=large -mno-sse -D x64 -I$(kernel_include_dir) -c $$f -o $(kernel_build_dir)/$$(basename $$f).o; \
+		clang -ffreestanding -fno-builtin -nostdlib -nostdinc -march=x86-64 -g -mcmodel=large -mno-sse -D x64 -I$(kernel_include_dir) -c $$f -o $(kernel_build_dir)/$$(basename $$f).o; \
 		done
 	@ld -r -o $(kernel_obj) $(kernel_build_dir)/*.o
