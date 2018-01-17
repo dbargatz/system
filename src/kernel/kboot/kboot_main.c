@@ -1,3 +1,5 @@
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 typedef unsigned long long uint64_t;
 typedef unsigned char bool;
@@ -5,7 +7,30 @@ typedef unsigned char bool;
 #define true  1
 #define false 0
 
-#define APIC_SUPPORTED_BIT (1 << 9)
+#define FLAGS_INTERRUPTS_ENABLED_BIT (1 << 9)
+#define CPUID_APIC_SUPPORTED_BIT     (1 << 9)
+
+typedef struct idtDescriptor 
+{
+    uint16_t offset_0_15;
+    uint16_t seg_selector;
+    uint8_t  ist_index;
+    uint8_t  type;
+    uint16_t offset_16_31;
+    uint32_t offset_32_63;
+    uint32_t reserved;
+} __attribute__((packed)) idtDescriptor_t;
+
+struct idt
+{
+    idtDescriptor_t descriptors[256];
+} __attribute__((packed)) gIdt;
+
+struct idtr 
+{
+    uint16_t limit;
+    void *   offset;
+} __attribute__((packed));
 
 static inline void cpuid(uint32_t inCode, uint32_t * eax, uint32_t * edx)
 {
@@ -16,19 +41,52 @@ bool is_apic_supported(void)
 {
     uint32_t eax, edx;
     cpuid(1, &eax, &edx);
-    return (bool)(0 != (edx & APIC_SUPPORTED_BIT));
+    return (bool)(0 != (edx & CPUID_APIC_SUPPORTED_BIT));
+}
+
+void interrupts_enable(bool inEnable)
+{
+    if(inEnable) 
+    {
+        asm volatile("sti");
+    }
+    else
+    {
+        asm volatile("cli");
+    }
+    
+}
+
+bool are_interrupts_enabled(void)
+{
+    uint64_t flags;
+    asm volatile("pushf\n\tpop %0" : "=g"(flags));
+    return (bool)(0 != (flags & FLAGS_INTERRUPTS_ENABLED_BIT));
+}
+
+void load_idtr(void * inIdt)
+{
+    struct idtr idt_info;
+    idt_info.limit = sizeof(struct idt);
+    idt_info.offset = inIdt;
+    asm volatile("lidt %0": :"m"(idt_info));
 }
 
 int kboot_main(void * inBootInfo)
 {
-    if(is_apic_supported())
+    if(!is_apic_supported())
     {
-        *((uint64_t *)0xb8000) = 0x0A430A490A500A41;
+        *((uint64_t *)0xB8000) = 0x4F414F204F4F4F4E;
+        *((uint64_t *)0xB8008) = 0x0F204F434F494F50;
+        return -1;
     }
-    else
+
+    if(!are_interrupts_enabled())
     {
-        *((uint64_t *)0xb8000) = 0x4F4F4F4E4F4F4F4E;
+        *((uint64_t *)0xB8000) = 0x4F494F204F4F4F4E;
+        *((uint64_t *)0xB8008) = 0x0F204F524F544F4E;
     }
     
-    return -1;
+    load_idtr(&gIdt);
+    return -10;
 }
