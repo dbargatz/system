@@ -1,15 +1,16 @@
-build_dir := build
+build_dir := temp
 os := $(build_dir)/system.a
 kernel = $(build_dir)/system.elf
 iso := $(build_dir)/system.iso
+iso_dir := $(build_dir)/isofiles
 target ?= x64-unknown-linux-gnu
 
-grub_cfg := src/kernel/kboot/grub.cfg
-linker_script := src/kernel/kboot/linker.ld
-include_dir := src
+grub_cfg := run/grub.cfg
+linker_script := linker.ld
+include_dir := ../src
 
-kernel_asm_files = $(shell find ./src/kernel -name *.asm)
-kernel_source_files = $(shell find ./src/kernel -name *.c)
+kernel_asm_files = $(shell find ../src/kernel -name *.asm)
+kernel_source_files = $(shell find ../src/kernel -name *.c)
 kernel_build_dir = $(build_dir)/kernel
 kernel_include_dir = $(include_dir)/kernel
 kernel_obj = $(kernel_build_dir)/kernel.o
@@ -30,11 +31,11 @@ qemu-debug: $(iso)
 iso: $(iso)
 
 $(iso): $(kernel) $(grub_cfg)
-	@mkdir -p build/isofiles/boot/grub
-	@cp $(kernel) build/isofiles/boot/kernel.bin
-	@cp $(grub_cfg) build/isofiles/boot/grub
-	@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
-	@rm -r build/isofiles
+	@mkdir -p $(iso_dir)/boot/grub
+	@cp $(kernel) $(iso_dir)/boot/kernel.bin
+	@cp $(grub_cfg) $(iso_dir)/boot/grub
+	@grub-mkrescue -o $(iso) $(iso_dir) 2> /dev/null
+	@rm -r $(iso_dir)
 
 $(kernel): $(kernel_obj)
 	@ld -n --gc-sections -T $(linker_script) -o $(kernel) $(kernel_obj)
