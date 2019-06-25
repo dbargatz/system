@@ -25,5 +25,5 @@ These can all be installed via `sudo apt install <package-name>`.
 
 ## Running
 
-On the Ubuntu 18.04 build VM, issue a `make qemu` in the `system/build` directory. A qemu window should appear, with ` OK NTR` 
+On the Ubuntu 18.04 build VM, issue a `make qemu` in the `system/build` directory. A qemu window should appear, with `OK NTR`
 in white text on a red background; this indicates the kernel is safely in 64-bit mode!
