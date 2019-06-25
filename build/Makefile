@@ -23,10 +23,10 @@ clean:
 	@rm -r build
 
 qemu: $(iso)
-	@DISPLAY=:0 qemu-system-x86_64 -m 1G -smp 3 -cdrom $(iso)
+	qemu-system-x86_64 -m 1G -smp 3 -cdrom $(iso)
 
 qemu-debug: $(iso)
-	@DISPLAY=:0 qemu-system-x86_64 -m 1G -smp 3 -s -S -d int -no-reboot -cdrom $(iso)
+	qemu-system-x86_64 -m 1G -smp 3 -s -S -d int -no-reboot -cdrom $(iso)
 
 iso: $(iso)
 

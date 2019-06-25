@@ -88,5 +88,8 @@ int kboot_main(void * inBootInfo)
     }
     
     load_idtr(&gIdt);
+
+    *((uint64_t *)0xB8000) = 0x4F204F4B4F4F4F20;
+
     return -10;
 }
