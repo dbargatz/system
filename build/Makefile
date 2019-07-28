@@ -20,13 +20,13 @@ kernel_obj = $(kernel_build_dir)/kernel.o
 all: $(iso)
 
 clean:
-	@rm -r build
+	@rm -r temp
 
 qemu: $(iso)
-	qemu-system-x86_64 -m 1G -smp 3 -cdrom $(iso)
+	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(iso)
 
 qemu-debug: $(iso)
-	qemu-system-x86_64 -m 1G -smp 3 -s -S -d int -no-reboot -cdrom $(iso)
+	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(iso) -s -S -d int -no-reboot 
 
 iso: $(iso)
 
