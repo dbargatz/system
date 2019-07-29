@@ -1,5 +1,5 @@
 global start
-extern kboot_main
+extern main
 
 section .text
 bits 32
@@ -105,12 +105,12 @@ bits 64
 long_mode_start:
     ;; Pop the Multiboot 2 information structure off the stack into RDI. By x64
     ;; calling convention, RDI receives the first argument to a function call;
-    ;; as the only argument to kboot_main is the Multiboot 2 info struct, we 
+    ;; as the only argument to main is the Multiboot 2 info struct, we 
     ;; pass it via RDI.
     pop rdi
 
-    ;; Load RAX with the address of kboot_main and call it!
-    lea rax, [kboot_main]
+    ;; Load RAX with the address of main and call it!
+    lea rax, [main]
     call rax
 
     ;; Halt the processor.
