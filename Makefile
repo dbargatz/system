@@ -16,23 +16,23 @@ ISO       := $(BUILD_DIR)/system.iso
 
 include $(SRC_DIR)/kernel/Makefile.mk
 
-.PHONY: all clean qemu qemu-debug iso
+.PHONY: all clean gdb iso qemu qemu-debug
 
 all: $(ISO)
 
 clean:
 	@rm -rf $(BUILD_DIR)
 
+gdb: $(GDB_SCRIPT)
+	gdb -q -x $(GDB_SCRIPT)
+
+iso: $(ISO)
+
 qemu: $(ISO)
 	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio
 
 qemu-debug: $(ISO)
 	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio -s -S -d int -no-reboot
-
-gdb:
-	gdb -q -x $(GDB_SCRIPT)
-
-iso: $(ISO)
 
 $(ISO): $(KERNEL) $(GRUB_CFG)
 	@mkdir -p $(ISO_DIR)/boot/grub
