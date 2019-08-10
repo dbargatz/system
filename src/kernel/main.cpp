@@ -1,6 +1,6 @@
 typedef unsigned long long uint64_t;
 
-extern "C" int main(void * inBootInfo)
+extern "C" int kmain(void * inBootInfo)
 {
     *((uint64_t *)0xB8000) = 0x4F204F4B4F4F4F20;
 

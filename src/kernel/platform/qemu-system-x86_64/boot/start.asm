@@ -1,5 +1,5 @@
 global start
-extern main
+extern kmain
 
 section .text
 bits 32
@@ -23,15 +23,15 @@ start:
     ;; pointer to the Multiboot information structure in EBX. This
     ;; information structure contains a wealth of platform info that
     ;; was determined by the bootloader, including a physical memory
-    ;; map. We need to pass this into kernel_main, but there are two
+    ;; map. We need to pass this into kmain, but there are two
     ;; problems:
     ;;  1. We need to use EBX in the meantime.
-    ;;  2. kernel_main is 64-bit code, so it expects a 64-bit pointer.
+    ;;  2. kmain is 64-bit code, so it expects a 64-bit pointer.
     ;; The solution is to push 4 bytes (32 bits) of zeroes on the
     ;; stack followed by the 32-bit (4 byte) pointer in EBX, which
     ;; effectively creates a 64-bit pointer that has been extended
     ;; from the 32-bit pointer. In 64-bit mode, we'll pop the full 8
-    ;; bytes (64 bits) off of the stack to pass to kernel_main, so
+    ;; bytes (64 bits) off of the stack to pass to kmain, so
     ;; it looks like a real 64-bit pointer.
     push 0x00000000
     push ebx
@@ -105,12 +105,12 @@ bits 64
 long_mode_start:
     ;; Pop the Multiboot 2 information structure off the stack into RDI. By x64
     ;; calling convention, RDI receives the first argument to a function call;
-    ;; as the only argument to main is the Multiboot 2 info struct, we 
+    ;; as the only argument to kmain is the Multiboot 2 info struct, we 
     ;; pass it via RDI.
     pop rdi
 
-    ;; Load RAX with the address of main and call it!
-    lea rax, [main]
+    ;; Load RAX with the address of kmain and call it!
+    lea rax, [kmain]
     call rax
 
     ;; Halt the processor.

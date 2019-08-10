@@ -1,42 +1,41 @@
-AS = nasm
-ASFLAGS = -felf64 
+AS       = nasm
+ASFLAGS  = -felf64 
 CPPFLAGS =
-CXX = clang
-CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -march=x86-64 -g -mcmodel=large -mno-sse -D x64
-LD = ld
+CXX      = clang++
+CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -march=x86-64 -g \
+		   -mcmodel=large -mno-sse -D x64 -std=c++17 -Wall
+LD       = ld
 
-BUILD_DIR = ./temp
-SRC_DIR = ../src
+BUILD_DIR  = build
+SRC_DIR    = src
+ISO_DIR    = $(BUILD_DIR)/iso
 
-iso := $(BUILD_DIR)/system.iso
-iso_dir := $(BUILD_DIR)/isofiles
-
-grub_cfg := run/grub.cfg
+GDB_SCRIPT = $(SRC_DIR)/debug/gdb_script_pre
+GRUB_CFG  := $(SRC_DIR)/grub.cfg
+ISO       := $(BUILD_DIR)/system.iso
 
 include $(SRC_DIR)/kernel/Makefile.mk
 
-.PHONY: all clean run iso directories
+.PHONY: all clean qemu qemu-debug iso
 
-all: directories $(iso)
+all: $(ISO)
 
 clean:
-	@rm -r $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
 
-directories: 
-	@mkdir -p $(BUILD_DIR)
-	@mkdir -p $(KERNEL_BUILD_DIR)
+qemu: $(ISO)
+	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio
 
-qemu: $(iso)
-	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(iso)
+qemu-debug: $(ISO)
+	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio -s -S -d int -no-reboot
 
-qemu-debug: $(iso)
-	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(iso) -s -S -d int -no-reboot 
+gdb:
+	gdb -q -x $(GDB_SCRIPT)
 
-iso: $(iso)
+iso: $(ISO)
 
-$(iso): directories $(KERNEL_ELF) $(grub_cfg)
-	@mkdir -p $(iso_dir)/boot/grub
-	@cp $(KERNEL_ELF) $(iso_dir)/boot/kernel.bin
-	@cp $(grub_cfg) $(iso_dir)/boot/grub
-	@grub-mkrescue -o $(iso) $(iso_dir) 2> /dev/null
-	@rm -r $(iso_dir)
+$(ISO): $(KERNEL) $(GRUB_CFG)
+	@mkdir -p $(ISO_DIR)/boot/grub
+	@cp $(GRUB_CFG) $(ISO_DIR)/boot/grub
+	@cp $(KERNEL) $(ISO_DIR)/boot
+	@grub-mkrescue -o $(ISO) $(ISO_DIR) 2> /dev/null
