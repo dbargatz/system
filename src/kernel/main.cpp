@@ -37,9 +37,8 @@ namespace kernel::platform::x86_64
 
         void SetPosition(uint8_t inColumn, uint8_t inRow)
         {
-            // TODO: ensure these are in-bounds
-            curRow = inRow;
-            curColumn = inColumn;
+            curRow = inRow < ROWS ? inRow : ROWS - 1;
+            curColumn = inColumn < COLUMNS ? inColumn : COLUMNS - 1;
         }
 
         void Clear(Color inColor)
@@ -92,7 +91,6 @@ namespace kernel::platform::x86_64
                 
                 curChar++;
             }
-            
         }
     };
 };
@@ -105,44 +103,17 @@ extern "C" int kmain(void * inBootInfo)
     vga.Clear(VGA::Color::DARK_GRAY);
 
     vga.Write("Booting\n", VGA::Color::WHITE, VGA::Color::RED);
-    vga.Write("Hello, world!", VGA::Color::WHITE, VGA::Color::RED);
+    vga.Write("Hello, world!\n", VGA::Color::WHITE, VGA::Color::RED);
 
-    uint8_t count = 0;
+    uint16_t c = 0x0030;
     while(true)
     {
-        // Spin forever!
-        switch(count)
+        // Make sure scrolling works.
+        if(c > 0x0038)
         {
-            case 0:
-                vga.Write("0", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 1:
-                vga.Write("1", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 2:
-                vga.Write("2", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 3:
-                vga.Write("3", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 4:
-                vga.Write("4", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 5:
-                vga.Write("5", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 6:
-                vga.Write("6", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            case 7:
-                vga.Write("7", VGA::Color::WHITE, VGA::Color::RED);
-                break;
-            default:
-                count = -1;
-                vga.Write("8", VGA::Color::WHITE, VGA::Color::RED);
-                break;
+            c = 0x0030;
         }
-        
-        count++;
+        vga.Write(&c, VGA::Color::WHITE, VGA::Color::RED);
+        c += 0x0001;
     }
 }
