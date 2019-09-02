@@ -1,18 +1,15 @@
-#include "platform/qemu-system-x86_64/boot/vga.hpp"
+#include "platform/qemu-system-x86_64/boot/logger.hpp"
 
-extern "C" int kmain(void * inBootInfo) {
-    using kernel::platform::x86_64::vga;
+extern "C" int kmain(const void * in_boot_info) {
+    using kernel::platform::x86_64::logger;
 
-    vga output;
-    output.clear_screen(vga::color::black);
-
-    char str[2] = { 0x30, 0x00 };
-    while (true) {
-        // Make sure scrolling works.
-        if(str[0] > 0x38) {
-            str[0] = 0x30;
-        }
-        output.write(str, vga::color::white, vga::color::red);
-        str[0] += 0x01;
+    logger log;
+    log.dbg("Hello, world!\n");
+    log.inf("Hello, world!\n");
+    log.wrn("Hello, world!\n");
+    log.err("Hello, world!\n");
+    
+    while(true) {
+        // Spin forever.
     }
 }
