@@ -1,3 +1,6 @@
+#ifndef KERNEL_PLATFORM_X86_64_LOGGER
+#define KERNEL_PLATFORM_X86_64_LOGGER
+
 #include "vga.hpp"
 
 namespace kernel::platform::x86_64 {
@@ -5,16 +8,18 @@ namespace kernel::platform::x86_64 {
     public:
         logger();
 
-        void dbg(const char * in_msg, ...);
-        void err(const char * in_msg, ...);
-        void inf(const char * in_msg, ...);
-        void wrn(const char * in_msg, ...);
+        void debug(const char * in_msg, ...);
+        void error(const char * in_msg, ...);
+        void info(const char * in_msg, ...);
+        void warn(const char * in_msg, ...);
 
     private:
         static vga _vga;
 
-        static void write(const vga::color in_text_color, 
+        static void _write(const vga::color in_text_color, 
             const vga::color in_bg_color, const char * in_prefix, 
             const char * in_msg, __builtin_va_list in_varargs);
     };
 };
+
+#endif

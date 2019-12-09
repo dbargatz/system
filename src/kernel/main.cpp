@@ -4,10 +4,10 @@ extern "C" int kmain(const void * in_boot_info) {
     using kernel::platform::x86_64::logger;
 
     logger log;
-    log.dbg("Hello, world!\n");
-    log.inf("Hello, world!\n");
-    log.wrn("Hello, world!\n");
-    log.err("Hello, world!\n");
+    log.debug("Hello, world!\n");
+    log.info("Hello, world!\n");
+    log.warn("Hello, world!\n");
+    log.error("Hello, world!\n");
     
     while(true) {
         // Spin forever.

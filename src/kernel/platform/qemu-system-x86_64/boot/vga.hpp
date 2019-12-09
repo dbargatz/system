@@ -1,3 +1,6 @@
+#ifndef KERNEL_PLATFORM_X86_64_VGA
+#define KERNEL_PLATFORM_X86_64_VGA
+
 #include "stdint.h"
 
 namespace kernel::platform::x86_64 {
@@ -38,3 +41,5 @@ namespace kernel::platform::x86_64 {
         uint8_t _cur_row = 0;
     };
 };
+
+#endif
