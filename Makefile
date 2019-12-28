@@ -3,7 +3,7 @@ ASFLAGS  = -felf64
 CPPFLAGS =
 CXX      = clang++
 CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -march=x86-64 -g \
-		   -mcmodel=large -mno-sse -D x64 -std=c++17 -Wall
+		   -mcmodel=large -mno-sse -D x64 -std=c++17 -Wall -Werror
 LD       = ld
 
 BUILD_DIR  = build
