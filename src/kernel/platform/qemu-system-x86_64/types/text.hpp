@@ -39,33 +39,36 @@ namespace kernel::platform::x86_64::types {
                 if('{' == *in_format_str) {
                     ++in_format_str;
                     if('{' != *in_format_str) {
-                        // TODO: handle positional index
+                        bool prepend_prefix = false;
 
-                        // TODO: handle colon
-                        if(':' == *in_format_str) {
+                        // TODO: handle positional index (must be followed by colon if any of the below fields are specified)
+
+                        // TODO: handle padding char
+                        // TODO: handle padding alignment
+                        // TODO: handle sign
+                        // TODO: handle prefix (#)
+                        if('#' == *in_format_str) {
+                            prepend_prefix = true;
                             ++in_format_str;
                         }
 
-                        // TODO: handle padding alignment
-                        // TODO: handle padding char
                         // TODO: handle padding width
-                        // TODO: handle prefix (#)
 
                         // TODO: handle argument format (x, X, d, s, etc)
                         if('d' == *in_format_str) {
-                            format_arg(in_arg);
+                            format_arg(in_arg, 10, false, prepend_prefix);
                             ++in_format_str;
                         }
                         else if('s' == *in_format_str) {
-                            format_arg(in_arg, 0, false);
+                            format_arg(in_arg, 0, false, prepend_prefix);
                             ++in_format_str;
                         }
                         else if('x' == *in_format_str) {
-                            format_arg(in_arg, 16, false);
+                            format_arg(in_arg, 16, false, prepend_prefix);
                             ++in_format_str;
                         }
                         else if('X' == *in_format_str) {
-                            format_arg(in_arg, 16, true);
+                            format_arg(in_arg, 16, true, prepend_prefix);
                             ++in_format_str;
                         }
                         else {
@@ -98,7 +101,8 @@ namespace kernel::platform::x86_64::types {
         }
 
         template<typename T>
-        void format_arg(const T in_arg, uint8_t in_base = 10, bool in_uppercase_digits = false);
+        void format_arg(const T in_arg, uint8_t in_base = 10, bool in_uppercase_digits = false,
+                        bool in_prepend_prefix = false);
     };
 };
 

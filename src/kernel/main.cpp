@@ -12,11 +12,14 @@ extern "C" int kmain(const void * in_boot_info) {
     log.warn("Hello, world!\n");
     log.error("Hello, world!\n");
 
-    log.test(text("This is a format string: {}, {}, \"{}\"\n", (uint64_t)42, (uint64_t)32, 
-                  (const char *)"booze ain't food!"));
+    log.test(text("Default format string: {}, {}, \"{}\"\n", (uint64_t)42, (uint64_t)63, 
+                  (const char *)"raw string 1"));
 
-    log.test(text("This one has formatting: {:x}, {:X}, \"{:s}\"",
-                  (uint8_t)0xFF, (uint16_t)0xBEEF, (const char *)"raw string"));
+    log.test(text("With format specifiers: {x}, {X}, \"{s}\"\n", (uint64_t)42, (uint64_t)63, 
+                  (const char *)"raw string 2"));
+
+    log.test(text("With prefixes: {#x}, {#X}, \"{#s}\"\n", (uint64_t)42, (uint64_t)63, 
+                  (const char *)"raw string 3"));
     
     while(true) {
         // Spin forever.
