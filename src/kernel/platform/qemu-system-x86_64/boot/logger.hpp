@@ -1,6 +1,7 @@
 #ifndef KERNEL_PLATFORM_X86_64_LOGGER
 #define KERNEL_PLATFORM_X86_64_LOGGER
 
+#include "../types/text.hpp"
 #include "vga.hpp"
 
 namespace kernel::platform::x86_64 {
@@ -12,6 +13,10 @@ namespace kernel::platform::x86_64 {
         void error(const char * in_msg, ...);
         void info(const char * in_msg, ...);
         void warn(const char * in_msg, ...);
+
+        void test(types::text in_msg) {
+            _write(vga::color::red, vga::color::black, "[?] ", in_msg.get(), nullptr);
+        }
 
     private:
         static vga _vga;
