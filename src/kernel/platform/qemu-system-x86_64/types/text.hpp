@@ -36,8 +36,9 @@ namespace kernel::platform::x86_64::types {
         template<typename T, typename ...RemainingArgs>
         void format(const char * in_format_str, const T& in_arg, RemainingArgs&&... in_remaining_args) {
             while('\0' != *in_format_str) {
-                if('{' == *in_format_str++) {
-
+                if('{' == *in_format_str) {
+                    ++in_format_str;
+                    
                     if('\0' == *in_format_str) {
                         // TODO: panic/throw (single open brace at end of string)
                         return;
