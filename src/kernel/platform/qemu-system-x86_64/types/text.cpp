@@ -6,11 +6,6 @@ void text::format(const char * in_format_str) {
     while('\0' != *in_format_str) {
         if('{' == *in_format_str) {
             // TODO: panic/throw (there were more args in the format string than args provided)
-            _buf[0] = 'Y';
-            _buf[1] = 'Y';
-            _buf[2] = 'Y';
-            _buf[3] = '\0';
-            _length_in_chars = 3;
             return;
         }
 

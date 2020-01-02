@@ -36,9 +36,13 @@ namespace kernel::platform::x86_64::types {
         template<typename T, typename ...RemainingArgs>
         void format(const char * in_format_str, const T& in_arg, RemainingArgs&&... in_remaining_args) {
             while('\0' != *in_format_str) {
-                if('{' == *in_format_str) {
-                    ++in_format_str;
-                    if('{' != *in_format_str) {
+                if('{' == *in_format_str++) {
+
+                    if('\0' == *in_format_str) {
+                        // TODO: panic/throw (single open brace at end of string)
+                        return;
+                    }
+                    else if('{' != *in_format_str) {
                         bool prepend_prefix = false;
 
                         // TODO: handle positional index (must be followed by colon if any of the below fields are specified)
@@ -46,7 +50,8 @@ namespace kernel::platform::x86_64::types {
                         // TODO: handle padding char
                         // TODO: handle padding alignment
                         // TODO: handle sign
-                        // TODO: handle prefix (#)
+                        
+                        // Handle the "alternate form" option, if present.
                         if('#' == *in_format_str) {
                             prepend_prefix = true;
                             ++in_format_str;
@@ -76,19 +81,12 @@ namespace kernel::platform::x86_64::types {
                             format_arg(in_arg);
                         }
 
-                        if('}' != *in_format_str) {
+                        if('}' != *in_format_str++) {
                             // TODO: panic/throw (next expected char was closing brace)
-                            _buf[0] = 'X';
-                            _buf[1] = 'X';
-                            _buf[2] = 'X';
-                            _buf[3] = ':';
-                            _buf[4] = ' ';
-                            _buf[5] = *in_format_str;
-                            _length_in_chars = 6;  
                             return;                  
                         }
 
-                        format(++in_format_str, in_remaining_args...);
+                        format(in_format_str, in_remaining_args...);
                         return;
                     }
                 }
