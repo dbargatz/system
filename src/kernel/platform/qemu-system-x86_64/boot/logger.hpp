@@ -9,21 +9,48 @@ namespace kernel::platform::x86_64 {
     public:
         logger();
 
-        void debug(const char * in_msg, ...);
-        void error(const char * in_msg, ...);
-        void info(const char * in_msg, ...);
-        void warn(const char * in_msg, ...);
+        void debug(types::text& in_msg);
+        template<typename ... Args>
+        void debug(const char * in_format_str, Args&&... in_args) {
+            types::text msg(in_format_str, static_cast<Args>(in_args)...);
+            debug(msg);
+        }
 
-        void test(types::text in_msg) {
-            _write(vga::color::red, vga::color::black, "[?] ", in_msg.get(), nullptr);
+        void error(types::text& in_msg);
+        template<typename ... Args>
+        void error(const char * in_format_str, Args&&... in_args) {
+            types::text msg(in_format_str, static_cast<Args>(in_args)...);
+            error(msg);
+        }
+
+        void info(types::text& in_msg);
+        template<typename ... Args>
+        void info(const char * in_format_str, Args&&... in_args) {
+            types::text msg(in_format_str, static_cast<Args>(in_args)...);
+            info(msg);
+        }
+
+        void panic(types::text& in_msg);
+        template<typename ... Args>
+        void panic(const char * in_format_str, Args&&... in_args) {
+            types::text msg(in_format_str, static_cast<Args>(in_args)...);
+            panic(msg);
+        }
+
+        void warn(types::text& in_msg);
+        template<typename ... Args>
+        void warn(const char * in_format_str, Args&&... in_args) {
+            types::text msg(in_format_str, static_cast<Args>(in_args)...);
+            warn(msg);
         }
 
     private:
         static vga _vga;
 
         static void _write(const vga::color in_text_color, 
-            const vga::color in_bg_color, const char * in_prefix, 
-            const char * in_msg, __builtin_va_list in_varargs);
+                           const vga::color in_bg_color, 
+                           const char * in_prefix, 
+                           types::text& in_msg);
     };
 };
 
