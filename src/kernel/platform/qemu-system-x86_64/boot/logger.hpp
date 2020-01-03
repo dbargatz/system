@@ -30,13 +30,6 @@ namespace kernel::platform::x86_64 {
             info(msg);
         }
 
-        void panic(types::text& in_msg);
-        template<typename ... Args>
-        void panic(const char * in_format_str, Args&&... in_args) {
-            types::text msg(in_format_str, static_cast<Args>(in_args)...);
-            panic(msg);
-        }
-
         void warn(types::text& in_msg);
         template<typename ... Args>
         void warn(const char * in_format_str, Args&&... in_args) {

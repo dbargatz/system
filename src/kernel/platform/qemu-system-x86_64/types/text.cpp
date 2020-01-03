@@ -31,10 +31,15 @@ template<> void text::format_arg(const uint64_t in_arg, uint8_t in_base, bool in
     size_t idx = 0;
     const char * digits = in_uppercase_digits ? "0123456789ABCDEF" : "0123456789abcdef";
     uint64_t remainder = in_arg;
-    
-    while(remainder != 0) {
-        temp[idx++] = digits[remainder % in_base];
-        remainder /= in_base;
+
+    if(0 == remainder) {
+        temp[idx++] = digits[0];
+    }
+    else {
+        while(remainder != 0) {
+            temp[idx++] = digits[remainder % in_base];
+            remainder /= in_base;
+        }
     }
 
     if(in_prepend_prefix && 2 == in_base) {

@@ -1,6 +1,6 @@
 #ifndef PANIC_H
 #define PANIC_H
 
-extern "C" [[noreturn]] void panic(const char * in_str);
+#define panic() while(true) { asm("ud2"); }
 
 #endif //PANIC_H

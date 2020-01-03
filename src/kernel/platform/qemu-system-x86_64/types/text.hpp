@@ -1,28 +1,15 @@
 #ifndef KERNEL_PLATFORM_X86_64_TYPES_TEXT
 #define KERNEL_PLATFORM_X86_64_TYPES_TEXT
 
+#include "stdint.h"
+
 namespace kernel::platform::x86_64::types {
-    typedef signed char int8_t;
-    typedef signed short int16_t;
-    typedef signed int int32_t;
-    typedef signed long long int64_t;
-
-    typedef unsigned char uint8_t;
-    typedef unsigned short uint16_t;
-    typedef unsigned int uint32_t;
-    typedef unsigned long long uint64_t;
-
-    typedef float float32_t;
-    typedef double float64_t;
-
-    typedef uint64_t size_t;
-
     class text {
     public:
         template<typename ...Args>
-        text(const char * in_format_str, const Args&&... in_args) {
+        text(const char * in_format_str, Args&&... in_args) {
             _length_in_chars = 0;
-            format(in_format_str, in_args...);
+            format(in_format_str, static_cast<Args>(in_args)...);
         }
 
         const char * get() { return (const char *)_buf; }

@@ -20,12 +20,6 @@ void logger::info(types::text& in_msg) {
     _write(vga::color::bright_green, vga::color::black, "[+] ", in_msg);
 }
 
-void logger::panic(types::text& in_msg) {
-    _vga.clear_screen(vga::color::bright_magenta);
-    _vga.set_position(0, 0);
-    _write(vga::color::white, vga::color::bright_magenta, "PANIC: ", in_msg);
-}
-
 void logger::warn(types::text& in_msg) {
     _write(vga::color::yellow, vga::color::black, "[-] ", in_msg);
 }
