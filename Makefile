@@ -2,8 +2,9 @@ AS       = nasm
 ASFLAGS  = -felf64 
 CPPFLAGS =
 CXX      = clang++
-CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -march=x86-64 -g \
-		   -mcmodel=large -mno-sse -D x64 -std=c++17 -Wall -Werror
+CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -nostdinc++ \
+		   -march=x86-64 -g -mcmodel=large -mno-sse -D x64 -std=c++17 \
+		   -Wall -Werror
 LD       = ld
 
 BUILD_DIR  = build
@@ -32,7 +33,7 @@ qemu: $(ISO)
 	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio
 
 qemu-debug: $(ISO)
-	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio -s -S -d int -no-reboot
+	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO) -s -S -d int -no-reboot
 
 $(ISO): $(KERNEL) $(GRUB_CFG)
 	@mkdir -p $(ISO_DIR)/boot/grub
