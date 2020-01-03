@@ -350,7 +350,7 @@ p2_table:
 ;; but not much is needed - these functions don't have deep call trees,
 ;; nor do they push/pop much for local variables.
 stack_bottom:
-    resb 8192;
+    resb 8192
 stack_top:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
