@@ -346,11 +346,11 @@ p3_table:
 p2_table:
     resb 4096
 
-;; The initial stack for the functions in the boot code. Only 1 kilobyte,
+;; The initial stack for the functions in the boot code. Only 8 kilobytes,
 ;; but not much is needed - these functions don't have deep call trees,
 ;; nor do they push/pop much for local variables.
 stack_bottom:
-    resb 1024
+    resb 8192;
 stack_top:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
