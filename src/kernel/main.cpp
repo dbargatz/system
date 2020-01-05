@@ -144,24 +144,25 @@ void panic_handler(struct interrupt_frame * in_frame) {
     screen.write("PANIC\n", fg, bg);
 
     // Dump RIP and the stack pointers.
-    screen.write(text("\trip:    {#X}\n", state.rip).get(), fg, bg);
-    screen.write(text("\trsp:    {#X}\trbp:    {#X}\n", state.rsp, state.rbp).get(), fg, bg);
+    screen.write(text("\trip:    {#016X}\n", state.rip).get(), fg, bg);
+    // TODO: get correct RBP
+    screen.write(text("\trsp:    {#016X}\trbp:    {#016X}\n", state.rsp, state.rbp).get(), fg, bg);
 
     // Dump the flags register.
-    screen.write(text("\trflags: {#X}\n", state.rflags).get(), fg, bg);
+    screen.write(text("\n\trflags: {#016X}\n", state.rflags).get(), fg, bg);
 
-    screen.write(text("\trax:    {#X}\trbx:    {#X}\n", state.rax, state.rbx).get(), fg, bg);
-    screen.write(text("\trcx:    {#X}\trdx:    {#X}\n", state.rcx, state.rdx).get(), fg, bg);
-    screen.write(text("\trsi:    {#X}\trdi:    {#X}\n", state.rsi, state.rdi).get(), fg, bg);
-    screen.write(text("\tr8:     {#X}\tr9:     {#X}\n", state.r8, state.r9).get(), fg, bg);
-    screen.write(text("\tr10:    {#X}\tr11:    {#X}\n", state.r10, state.r11).get(), fg, bg);
-    screen.write(text("\tr12:    {#X}\tr13:    {#X}\n", state.r12, state.r13).get(), fg, bg);
-    screen.write(text("\tr14:    {#X}\tr15:    {#X}\n", state.r14, state.r15).get(), fg, bg);
+    screen.write(text("\trax:    {#016X}\trbx:    {#016X}\n", state.rax, state.rbx).get(), fg, bg);
+    screen.write(text("\trcx:    {#016X}\trdx:    {#016X}\n", state.rcx, state.rdx).get(), fg, bg);
+    screen.write(text("\trsi:    {#016X}\trdi:    {#016X}\n", state.rsi, state.rdi).get(), fg, bg);
+    screen.write(text("\tr8:     {#016X}\tr9:     {#016X}\n", state.r8, state.r9).get(), fg, bg);
+    screen.write(text("\tr10:    {#016X}\tr11:    {#016X}\n", state.r10, state.r11).get(), fg, bg);
+    screen.write(text("\tr12:    {#016X}\tr13:    {#016X}\n", state.r12, state.r13).get(), fg, bg);
+    screen.write(text("\tr14:    {#016X}\tr15:    {#016X}\n", state.r14, state.r15).get(), fg, bg);
     
     // Dump selectors.
-    screen.write(text("\tcs:     {#X}\tds:     {#X}\n", state.cs, state.ds).get(), fg, bg);
-    screen.write(text("\tes:     {#X}\tfs:     {#X}\n", state.es, state.fs).get(), fg, bg);
-    screen.write(text("\tgs:     {#X}\tss:     {#X}\n", state.gs, state.ss).get(), fg, bg);
+    screen.write(text("\n\tcs:     {#016X}\tds:     {#016X}\n", state.cs, state.ds).get(), fg, bg);
+    screen.write(text("\tes:     {#016X}\tfs:     {#016X}\n", state.es, state.fs).get(), fg, bg);
+    screen.write(text("\tgs:     {#016X}\tss:     {#016X}\n", state.gs, state.ss).get(), fg, bg);
     
     // Dump the CR registers.
     // TODO: dump CR0
