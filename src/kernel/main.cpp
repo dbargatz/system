@@ -47,6 +47,7 @@ struct interrupt_frame
     uint64_t ss;
 } __attribute__((packed));
 
+#define SAVE_REG(state, reg) do { asm volatile("movq %%" #reg ", %0" : "=r"(state.reg)); } while(0)
 struct register_state
 {
     uint64_t rip;
@@ -113,24 +114,37 @@ void panic_handler(struct interrupt_frame * in_frame) {
         .dr7 = 0,
     };
 
-    asm volatile("movq %%rax, %0" : "=r"(state.rax));
-    asm volatile("movq %%rbx, %0" : "=r"(state.rbx));
-    asm volatile("movq %%rcx, %0" : "=r"(state.rcx));
-    asm volatile("movq %%rdx, %0" : "=r"(state.rdx));
-    asm volatile("movq %%rsi, %0" : "=r"(state.rsi));
-    asm volatile("movq %%rdi, %0" : "=r"(state.rdi));
-    asm volatile("movq %%r8, %0"  : "=r"(state.r8));
-    asm volatile("movq %%r9, %0"  : "=r"(state.r9));
-    asm volatile("movq %%r10, %0" : "=r"(state.r10));
-    asm volatile("movq %%r11, %0" : "=r"(state.r11));
-    asm volatile("movq %%r12, %0" : "=r"(state.r12));
-    asm volatile("movq %%r13, %0" : "=r"(state.r13));
-    asm volatile("movq %%r14, %0" : "=r"(state.r14));
-    asm volatile("movq %%r15, %0" : "=r"(state.r15));
-    asm volatile("movq %%ds, %0"  : "=r"(state.ds));
-    asm volatile("movq %%es, %0"  : "=r"(state.es));
-    asm volatile("movq %%fs, %0"  : "=r"(state.fs));
-    asm volatile("movq %%gs, %0"  : "=r"(state.gs));
+    SAVE_REG(state, rax);
+    SAVE_REG(state, rbx);
+    SAVE_REG(state, rcx);
+    SAVE_REG(state, rdx);
+    SAVE_REG(state, rsi);
+    SAVE_REG(state, rdi);
+    SAVE_REG(state, r8);
+    SAVE_REG(state, r9);
+    SAVE_REG(state, r10);
+    SAVE_REG(state, r11);
+    SAVE_REG(state, r12);
+    SAVE_REG(state, r13);
+    SAVE_REG(state, r14);
+    SAVE_REG(state, r15);
+
+    SAVE_REG(state, ds);
+    SAVE_REG(state, es);
+    SAVE_REG(state, fs);
+    SAVE_REG(state, gs);
+
+    SAVE_REG(state, cr0);
+    SAVE_REG(state, cr2);
+    SAVE_REG(state, cr3);
+    SAVE_REG(state, cr4);
+
+    SAVE_REG(state, dr0);
+    SAVE_REG(state, dr1);
+    SAVE_REG(state, dr2);
+    SAVE_REG(state, dr3);
+    SAVE_REG(state, dr6);
+    SAVE_REG(state, dr7);
 
     using kernel::platform::x86_64::vga;
     using kernel::platform::x86_64::types::text;
