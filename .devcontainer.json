@@ -1,0 +1,15 @@
+{
+    // Install various VSCode extensions to make development in VSCode and
+    // Codespaces more pleasant.
+    "extensions": [
+        "davidanson.vscode-markdownlint",
+        "github.vscode-pull-request-github",
+        "ms-vscode.azure-account",
+        "ms-vscode.cpptools",
+        "ms-vsliveshare.vsliveshare"
+    ],
+    // Install and configure the necessary tools, libraries, and dependencies.
+    "postCreateCommand": [
+        "/bin/bash ./configure"
+    ]
+}
