@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Install the dependencies for compiling, debugging, and running.
-sudo apt-get install clang-7 gdb grub-common grub-pc-bin nasm qemu-system xorriso
+sudo apt-get install -y clang-7 gdb grub-common grub-pc-bin nasm qemu-system xorriso
