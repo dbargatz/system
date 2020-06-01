@@ -91,109 +91,44 @@ struct register_state
     uint64_t dr7;
 } __attribute__((packed));
 
+struct panic_data {
+    uint16_t instruction;
+    const char * filename;
+    uint16_t lineNum;
+    const char * msg;
+} __attribute__((packed));
+
+using kernel::platform::x86_64::vga;
+using kernel::platform::x86_64::types::text;
+
+void hexdump(vga& screen, const void * in_ptr, uint8_t in_count) {
+    uint8_t * ptr = (uint8_t *)in_ptr;
+    vga::color fg = vga::color::white;
+    vga::color bg = vga::color::bright_magenta;
+
+    for(int i = 0; i < in_count; i++) {
+        if(i % 16 == 0) {
+            if(i > 0) {
+                screen.write("\n", fg, bg);
+            }
+            screen.write(text("{#016X}:\t",(uint64_t)(ptr+i)).get(), fg, bg);
+        }
+        screen.write(text("{02X} ", *(ptr+i)).get(), fg, bg);
+    }
+    screen.write("\n", fg, bg);
+}
+
 extern "C" __attribute__((interrupt))
 void panic_handler(struct interrupt_frame * in_frame) {
-    struct register_state state = { 
-        .rip = in_frame->rip, 
-        .rflags = in_frame->rflags,
-        .rsp = in_frame->rsp,
-
-        .cs = in_frame->cs, 
-        .ss = in_frame->ss,
-
-        .cr0 = 0,
-        .cr2 = 0,
-        .cr3 = 0,
-        .cr4 = 0,
-
-        .dr0 = 0,
-        .dr1 = 0,
-        .dr2 = 0,
-        .dr3 = 0,
-        .dr6 = 0,
-        .dr7 = 0,
-    };
-
-    SAVE_REG(state, rax);
-    SAVE_REG(state, rbx);
-    SAVE_REG(state, rcx);
-    SAVE_REG(state, rdx);
-    SAVE_REG(state, rsi);
-    SAVE_REG(state, rdi);
-    SAVE_REG(state, r8);
-    SAVE_REG(state, r9);
-    SAVE_REG(state, r10);
-    SAVE_REG(state, r11);
-    SAVE_REG(state, r12);
-    SAVE_REG(state, r13);
-    SAVE_REG(state, r14);
-    SAVE_REG(state, r15);
-
-    SAVE_REG(state, ds);
-    SAVE_REG(state, es);
-    SAVE_REG(state, fs);
-    SAVE_REG(state, gs);
-
-    SAVE_REG(state, cr0);
-    SAVE_REG(state, cr2);
-    SAVE_REG(state, cr3);
-    SAVE_REG(state, cr4);
-
-    SAVE_REG(state, dr0);
-    SAVE_REG(state, dr1);
-    SAVE_REG(state, dr2);
-    SAVE_REG(state, dr3);
-    SAVE_REG(state, dr6);
-    SAVE_REG(state, dr7);
-
-    using kernel::platform::x86_64::vga;
-    using kernel::platform::x86_64::types::text;
-
     vga screen;
     vga::color fg = vga::color::white;
     vga::color bg = vga::color::bright_magenta;
+    struct panic_data * data = (struct panic_data *)in_frame->rip;
     screen.clear_screen(bg);
     screen.set_position(0, 0);
-    // TODO: print custom panic message?
-    screen.write("PANIC\n", fg, bg);
 
-    // Dump RIP and the stack pointers.
-    screen.write(text("\trip:    {#016X}\n", state.rip).get(), fg, bg);
-    // TODO: get correct RBP
-    screen.write(text("\trsp:    {#016X}\trbp:    {#016X}\n", state.rsp, state.rbp).get(), fg, bg);
-
-    // Dump the flags register.
-    screen.write(text("\n\trflags: {#016X}\n", state.rflags).get(), fg, bg);
-
-    screen.write(text("\trax:    {#016X}\trbx:    {#016X}\n", state.rax, state.rbx).get(), fg, bg);
-    screen.write(text("\trcx:    {#016X}\trdx:    {#016X}\n", state.rcx, state.rdx).get(), fg, bg);
-    screen.write(text("\trsi:    {#016X}\trdi:    {#016X}\n", state.rsi, state.rdi).get(), fg, bg);
-    screen.write(text("\tr8:     {#016X}\tr9:     {#016X}\n", state.r8, state.r9).get(), fg, bg);
-    screen.write(text("\tr10:    {#016X}\tr11:    {#016X}\n", state.r10, state.r11).get(), fg, bg);
-    screen.write(text("\tr12:    {#016X}\tr13:    {#016X}\n", state.r12, state.r13).get(), fg, bg);
-    screen.write(text("\tr14:    {#016X}\tr15:    {#016X}\n", state.r14, state.r15).get(), fg, bg);
-    
-    // Dump selectors.
-    screen.write(text("\n\tcs:     {#016X}\tds:     {#016X}\n", state.cs, state.ds).get(), fg, bg);
-    screen.write(text("\tes:     {#016X}\tfs:     {#016X}\n", state.es, state.fs).get(), fg, bg);
-    screen.write(text("\tgs:     {#016X}\tss:     {#016X}\n", state.gs, state.ss).get(), fg, bg);
-    
-    // Dump the CR registers.
-    // TODO: dump CR0
-    // TODO: dump CR2
-    // TODO: dump CR3
-    // TODO: dump CR4
-
-    // Dump the debug registers.
-    // TODO: dump DR0
-    // TODO: dump DR1
-    // TODO: dump DR2
-    // TODO: dump DR3
-    // TODO: dump DR4
-    // TODO: dump DR5
-    // TODO: dump DR6
-    // TODO: dump DR7
-
+    hexdump(screen, (void *)data, 64);
+    screen.write(text("PANIC({}:{}): {}\n", data->filename, data->lineNum, data->msg).get(), fg, bg);
     while(true) {
         // Loop forever
     }
@@ -225,14 +160,13 @@ extern "C" int kmain(const void * in_boot_info) {
     gIdt.descriptors[6].seg_selector = { .rpl = 0, .table_idx = 0, .descriptor_idx = 1};
     //                           Interrupt Gate     System Segment
     gIdt.descriptors[6].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 }; 
-                                           
 
     struct idtr idt_info;
     idt_info.limit = sizeof(struct idt);
     idt_info.offset = &gIdt;
     asm volatile("lidt %0": :"m"(idt_info));
 
-    unsigned long long x = 200000000;
+    unsigned long long x = 80000000;
     while(--x > 0) {
         // Loop for a bit
         if(0 == x % 25000000) {
@@ -240,6 +174,6 @@ extern "C" int kmain(const void * in_boot_info) {
         }
     }
 
-    panic();
+    PANIC("Kernel test");
     return -1;
 }
