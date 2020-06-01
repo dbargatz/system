@@ -1,7 +1,7 @@
 AS       = nasm
 ASFLAGS  = -felf64 
 CPPFLAGS =
-CXX      = clang++
+CXX      = clang++-7
 CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -nostdinc++ \
 		   -march=x86-64 -g -mcmodel=large -mno-sse -D x64 -std=c++17 \
 		   -Wall -Werror
@@ -39,4 +39,4 @@ $(ISO): $(KERNEL) $(GRUB_CFG)
 	@mkdir -p $(ISO_DIR)/boot/grub
 	@cp $(GRUB_CFG) $(ISO_DIR)/boot/grub
 	@cp $(KERNEL) $(ISO_DIR)/boot
-	@grub-mkrescue -o $(ISO) $(ISO_DIR) 2> /dev/null
+	@grub-mkrescue -o $(ISO) $(ISO_DIR)
