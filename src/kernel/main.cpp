@@ -2,6 +2,8 @@
 #include "platform/qemu-system-x86_64/boot/panic.h"
 #include "platform/qemu-system-x86_64/boot/vga.hpp"
 #include "platform/qemu-system-x86_64/types/text.hpp"
+#include "../driver/cpu/x64/inline_asm.hpp"
+#include "../driver/cpu/x64/pic.hpp"
 
 kernel::platform::x86_64::logger gLog;
 
@@ -127,131 +129,6 @@ void delay(uint16_t in_megaloops) {
     }
 }
 
-/**
- * @brief Write the given byte to the given I/O port address.
- * 
- * @param in_io_port I/O port to write to
- * @param in_byte Byte to write
- */
-static inline void outb(const uint16_t in_io_port, const uint8_t in_byte) {
-    asm volatile("outb %0, %1" : : "a"(in_byte), "Nd"(in_io_port));
-}
-
-/**
- * @brief Read a byte from the given I/O port address.
- * 
- * @param in_io_port I/O port to read from
- * @return uint8_t Byte that was read
- */
-static inline uint8_t inb(const uint16_t in_io_port) {
-    uint8_t retval;
-    asm volatile("inb %1, %0" : "=a"(retval) : "Nd"(in_io_port));
-    return retval;
-}
-
-static inline void enable_interrupts(void) {
-    asm volatile("sti");
-}
-
-class PIC {
-private:
-    static const uint16_t PIC1_COMMAND_PORT = 0x0020;
-    static const uint16_t PIC1_DATA_PORT    = 0x0021;
-    static const uint16_t PIC2_COMMAND_PORT = 0x00A0;
-    static const uint16_t PIC2_DATA_PORT    = 0x00A1;
-
-    static const uint8_t EOI_COMMAND  = 0x20;
-    static const uint8_t INIT_COMMAND = 0x11;
-
-    static const uint8_t PIC2_IRQ_NUMBER = 0x02;
-
-    static const uint8_t CPU_MODE_8086 = 0x01;
-
-public:
-    static void send_eoi(const uint8_t in_irq_number) {
-        // TODO: assert 0 <= in_irq_number < 15
-
-        if(in_irq_number >= 8) {
-            outb(PIC2_COMMAND_PORT, EOI_COMMAND);
-            gLog.debug("Sent EOI to PIC2 for IRQ {}\n", in_irq_number);
-        }
-        outb(PIC1_COMMAND_PORT, EOI_COMMAND);
-        gLog.debug("Sent EOI to PIC1 for IRQ {}\n", in_irq_number);
-    }
-
-    static void remap(const uint8_t in_pic1_interrupt_base, 
-                      const uint8_t in_pic2_interrupt_base) {
-
-        // Save off the current interrupt masks.
-        uint8_t pic1_mask = inb(PIC1_DATA_PORT);
-        uint8_t pic2_mask = inb(PIC2_DATA_PORT);
-        gLog.debug("Original masks: PIC1({#02X}) PIC2({#02X})\n", inb(PIC1_DATA_PORT), inb(PIC2_DATA_PORT));
-
-        // Start the initialization of both PICs. After this command is sent,
-        // each PIC will expect three data bytes in sequence on their data port:
-        //     1. ICW2: The base interrupt vector to deliver IRQs on for this PIC.
-        //     2. ICW3: The cascaded identity of the cascaded PICs (if any)
-        //     3. ICW4: The CPU mode to deliver interrupts as
-        // See Figures 14.75 - 14.79 in the 8259 PIC datasheet for more.
-        outb(PIC1_COMMAND_PORT, INIT_COMMAND);
-        outb(PIC2_COMMAND_PORT, INIT_COMMAND);
-
-        // Send ICW2, the interrupt vector base.
-        outb(PIC1_DATA_PORT, in_pic1_interrupt_base);
-        outb(PIC2_DATA_PORT, in_pic2_interrupt_base);
-        gLog.debug("Set interrupt bases: PIC1({#02X}) PIC2({#02X})\n", in_pic1_interrupt_base, in_pic2_interrupt_base);
-
-        // Send ICW3, the cascaded PIC identity.
-        outb(PIC1_DATA_PORT, PIC2_IRQ_NUMBER << 2);
-        outb(PIC2_DATA_PORT, PIC2_IRQ_NUMBER);
-
-        // Send ICW4, and set the delivery mode as 8086/8088.
-        outb(PIC1_DATA_PORT, CPU_MODE_8086);
-        outb(PIC2_DATA_PORT, CPU_MODE_8086);
-
-        // Restore the saved interrupt masks.
-        outb(PIC1_DATA_PORT, pic1_mask);
-        outb(PIC2_DATA_PORT, pic2_mask);
-        gLog.debug("Current masks: PIC1({#02X}) PIC2({#02X})\n", inb(PIC1_DATA_PORT), inb(PIC2_DATA_PORT));
-    }
-
-    static void disable_all(void) {
-        // Mask all interrupts on both the PICs.
-        outb(PIC2_DATA_PORT, 0xFF);
-        outb(PIC1_DATA_PORT, 0xFF);
-    }
-
-    static void disable_irq(const uint8_t in_irq_number) {
-        // TODO: assert 0 <= in_irq_number < 15
-        uint8_t mask;
-
-        if(in_irq_number < 8) {
-            mask = inb(PIC1_DATA_PORT) | (1 << in_irq_number);
-            outb(PIC1_DATA_PORT, mask);
-        } else {
-            mask = inb(PIC2_DATA_PORT) | (1 << (in_irq_number - 8));
-            outb(PIC2_DATA_PORT, mask);
-        }
-        gLog.debug("Disabled IRQ {#02X}\n", in_irq_number);
-        gLog.debug("Current masks: PIC1({#02X}) PIC2({#02X})\n", inb(PIC1_DATA_PORT), inb(PIC2_DATA_PORT));
-    }
-
-    static void enable_irq(const uint8_t in_irq_number) {
-        // TODO: assert 0 <= in_irq_number < 15
-        uint8_t mask;
-
-        if(in_irq_number < 8) {
-            mask = inb(PIC1_DATA_PORT) & ~(1 << in_irq_number);
-            outb(PIC1_DATA_PORT, mask);
-        } else {
-            mask = inb(PIC2_DATA_PORT) & ~(1 << (in_irq_number - 8));
-            outb(PIC2_DATA_PORT, mask);
-        }
-        gLog.debug("Enabled IRQ {#02X}\n", in_irq_number);
-        gLog.debug("Current masks: PIC1({#02X}) PIC2({#02X})\n", inb(PIC1_DATA_PORT), inb(PIC2_DATA_PORT));
-    }
-};
-
 extern "C" __attribute__((interrupt))
 void panic_handler(struct interrupt_frame * in_frame) {
     vga screen;
@@ -336,8 +213,8 @@ extern "C" int kmain(const void * in_boot_info) {
     PIC::enable_irq(0x1);
 
     gLog.info("Enabling interrupts...\n");
-    enable_interrupts();
-
+    sti();
+    
     while(true) {
         // Loop forever
     }
