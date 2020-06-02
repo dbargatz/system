@@ -111,6 +111,20 @@ void hexdump(vga& screen, const void * in_ptr, uint8_t in_count) {
     screen.write("\n", fg, bg);
 }
 
+/**
+ * @brief Loops the given number of times (in millions of loops) as a rough
+ * delay mechanism.
+ * 
+ * @param in_megaloops millions of loops to perform; if given value is 25, then
+ * 25,000,000 loops will be performed
+ */
+void delay(uint16_t in_megaloops) {
+    uint64_t loops = in_megaloops * 1000000;
+    while(loops-- > 0) {
+        // Loop for a bit
+    }
+}
+
 extern "C" __attribute__((interrupt))
 void panic_handler(struct interrupt_frame * in_frame) {
     vga screen;
@@ -159,13 +173,8 @@ extern "C" int kmain(const void * in_boot_info) {
     idt_info.offset = &gIdt;
     asm volatile("lidt %0": :"m"(idt_info));
 
-    unsigned long long x = 80000000;
-    while(--x > 0) {
-        // Loop for a bit
-        if(0 == x % 25000000) {
-            log.debug("Panic in {}\n", x / 25000000);
-        }
-    }
+    log.info("Delaying for a few seconds before panic...\n");
+    delay(300);
 
     PANIC("End of kmain reached!");
     return -1;
