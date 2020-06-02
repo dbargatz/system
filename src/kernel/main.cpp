@@ -91,13 +91,6 @@ struct register_state
     uint64_t dr7;
 } __attribute__((packed));
 
-struct panic_data {
-    uint16_t instruction;
-    const char * filename;
-    uint16_t lineNum;
-    const char * msg;
-} __attribute__((packed));
-
 using kernel::platform::x86_64::vga;
 using kernel::platform::x86_64::types::text;
 
@@ -174,6 +167,6 @@ extern "C" int kmain(const void * in_boot_info) {
         }
     }
 
-    PANIC("Kernel test");
+    PANIC("End of kmain reached!");
     return -1;
 }
