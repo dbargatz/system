@@ -14,6 +14,7 @@ ISO_DIR    = $(BUILD_DIR)/iso
 GDB_SCRIPT = $(SRC_DIR)/debug/gdb_script_pre
 GRUB_CFG  := $(SRC_DIR)/grub.cfg
 ISO       := $(BUILD_DIR)/system.iso
+QEMU_LOG  := $(BUILD_DIR)/qemu-debug.log
 
 include $(SRC_DIR)/kernel/Makefile.mk
 
@@ -30,10 +31,13 @@ gdb: $(GDB_SCRIPT)
 iso: $(ISO)
 
 qemu: $(ISO)
-	qemu-system-x86_64 -m 1G -smp 3 -display curses -cdrom $(ISO) -serial mon:stdio
+	qemu-system-x86_64 -m 1G -smp 3 -curses -cdrom $(ISO) -serial mon:stdio
 
 qemu-debug: $(ISO)
-	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO) -s -S -d int -no-reboot
+	qemu-system-x86_64 -m 1G -smp 3 -curses -cdrom $(ISO) -serial mon:stdio -d int -D $(QEMU_LOG) -no-reboot
+
+qemu-gdb: $(ISO)
+	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO) -d int -D $(QEMU_LOG) -no-reboot -s -S
 
 $(ISO): $(KERNEL) $(GRUB_CFG)
 	@mkdir -p $(ISO_DIR)/boot/grub
