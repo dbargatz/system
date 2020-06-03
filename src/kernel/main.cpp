@@ -78,11 +78,6 @@ void pit_handler(struct interrupt_frame * in_frame) {
 extern "C" int kmain(const void * in_boot_info) {
     vga screen;
     screen.clear_screen(vga::color::black);
-    gLog.debug("Default format string: {}, {}, \"{}\"\n", (uint64_t)42, (uint64_t)63, (const char *)"raw string 1");
-    gLog.info("With format specifiers: {x}, {X}, \"{s}\"\n", (uint64_t)42, (uint64_t)63, (const char *)"raw string 2");
-    gLog.warn("With prefixes: {#x}, {#X}, \"{#s}\"\n", (uint64_t)42, (uint64_t)63, (const char *)"raw string 3");
-    gLog.error("Here is some error text\n");
-
     pit_count = 0;
 
     IDT::init();
