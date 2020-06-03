@@ -9,10 +9,8 @@ void PIC::send_eoi(const uint8_t in_irq_number) {
 
     if(in_irq_number >= 8) {
         outb(PIC2_COMMAND_PORT, EOI_COMMAND);
-        gLog.debug("Sent EOI to PIC2 for IRQ {}\n", in_irq_number);
     }
     outb(PIC1_COMMAND_PORT, EOI_COMMAND);
-    gLog.debug("Sent EOI to PIC1 for IRQ {}\n", in_irq_number);
 }
 
 void PIC::remap(const uint8_t in_pic1_interrupt_base,

@@ -10,6 +10,8 @@ kernel::platform::x86_64::logger gLog;
 using kernel::platform::x86_64::vga;
 using kernel::platform::x86_64::types::text;
 
+uint64_t pit_count;
+
 void hexdump(vga& screen, const void * in_ptr, uint8_t in_count) {
     uint8_t * ptr = (uint8_t *)in_ptr;
     vga::color fg = vga::color::white;
@@ -66,7 +68,10 @@ void kbd_handler(struct interrupt_frame * in_frame) {
 
 extern "C" __attribute__((interrupt))
 void pit_handler(struct interrupt_frame * in_frame) {
-    gLog.warn("PIT fired\n");
+    if(pit_count > 0 && 0 == (pit_count % 100)) {
+        gLog.info("PIT has fired {} times.\n", pit_count);
+    }
+    pit_count++;
     PIC::send_eoi(0);
 }
 
@@ -77,6 +82,8 @@ extern "C" int kmain(const void * in_boot_info) {
     gLog.info("With format specifiers: {x}, {X}, \"{s}\"\n", (uint64_t)42, (uint64_t)63, (const char *)"raw string 2");
     gLog.warn("With prefixes: {#x}, {#X}, \"{#s}\"\n", (uint64_t)42, (uint64_t)63, (const char *)"raw string 3");
     gLog.error("Here is some error text\n");
+
+    pit_count = 0;
 
     IDT::init();
 
@@ -96,7 +103,7 @@ extern "C" int kmain(const void * in_boot_info) {
     gLog.info("Enabling PIC...\n");
     PIC::remap(0x20, 0x28);
     PIC::disable_all();
-    //PIC::enable_irq(0x0);
+    PIC::enable_irq(0x0);
     PIC::enable_irq(0x1);
 
     IDT::enable_interrupts();
