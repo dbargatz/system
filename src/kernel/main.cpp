@@ -2,54 +2,11 @@
 #include "platform/qemu-system-x86_64/boot/panic.h"
 #include "platform/qemu-system-x86_64/boot/vga.hpp"
 #include "platform/qemu-system-x86_64/types/text.hpp"
+#include "../driver/cpu/x64/idt.hpp"
 #include "../driver/cpu/x64/inline_asm.hpp"
 #include "../driver/cpu/x64/pic.hpp"
 
 kernel::platform::x86_64::logger gLog;
-
-typedef struct segment_selector {
-    uint16_t rpl: 2;
-    uint16_t table_idx: 1;
-    uint16_t descriptor_idx: 12;
-} __attribute__((packed)) segment_selector_t;
-
-typedef struct descriptor_attrs {
-    uint8_t gate_type: 4;
-    uint8_t segment_type: 1;
-    uint8_t dpl: 2;
-    uint8_t present: 1;
-} __attribute__((packed)) descriptor_attrs_t;
-
-typedef struct idtDescriptor 
-{
-    uint16_t offset_0_15;
-    segment_selector_t seg_selector;
-    uint8_t  ist_index;
-    descriptor_attrs_t type;
-    uint16_t offset_16_31;
-    uint32_t offset_32_63;
-    uint32_t reserved;
-} __attribute__((packed)) idtDescriptor_t;
-
-struct idt
-{
-    idtDescriptor_t descriptors[256];
-} __attribute__((packed)) gIdt;
-
-struct idtr 
-{
-    uint16_t limit;
-    void *   offset;
-} __attribute__((packed));
-
-struct interrupt_frame
-{
-    uint64_t rip;
-    uint64_t cs;
-    uint64_t rflags;
-    uint64_t rsp;
-    uint64_t ss;
-} __attribute__((packed));
 
 #define SAVE_REG(state, reg) do { asm volatile("movq %%" #reg ", %0" : "=r"(state.reg)); } while(0)
 struct register_state
@@ -166,45 +123,20 @@ extern "C" int kmain(const void * in_boot_info) {
     gLog.warn("With prefixes: {#x}, {#X}, \"{#s}\"\n", (uint64_t)42, (uint64_t)63, (const char *)"raw string 3");
     gLog.error("Here is some error text\n");
 
+    IDT::init();
+
     // HACK: Set up the IDT so we can use the UD2 instruction for panic(), which
     //       causes a processor exception. This allows the exception handler to
     //       dump registers unmodified, shown as they were when the panic 
     //       occurred. 
-    for(int idx = 0; idx < sizeof(gIdt); idx++) {
-        ((char *)&gIdt)[idx] = 0;
-    }
-
     // UD2 (Panic)
-    gIdt.descriptors[6].offset_0_15  = (uint16_t)(((uint64_t)panic_handler >>  0) & 0x0000FFFF);
-    gIdt.descriptors[6].offset_16_31 = (uint16_t)(((uint64_t)panic_handler >> 16) & 0x0000FFFF);
-    gIdt.descriptors[6].offset_32_63 = (uint32_t)(((uint64_t)panic_handler >> 32) & 0xFFFFFFFF);
-    //                                   Ring 0    GDT             Ring 0 code segment
-    gIdt.descriptors[6].seg_selector = { .rpl = 0, .table_idx = 0, .descriptor_idx = 1};
-    //                           Interrupt Gate     System Segment
-    gIdt.descriptors[6].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 };
+    IDT::register_handler(6, panic_handler);
 
     // PIT
-    gIdt.descriptors[32].offset_0_15  = (uint16_t)(((uint64_t)pit_handler >>  0) & 0x0000FFFF);
-    gIdt.descriptors[32].offset_16_31 = (uint16_t)(((uint64_t)pit_handler >> 16) & 0x0000FFFF);
-    gIdt.descriptors[32].offset_32_63 = (uint32_t)(((uint64_t)pit_handler >> 32) & 0xFFFFFFFF);
-    //                                    Ring 0    GDT             Ring 0 code segment
-    gIdt.descriptors[32].seg_selector = { .rpl = 0, .table_idx = 0, .descriptor_idx = 1};
-    //                            Interrupt Gate     System Segment
-    gIdt.descriptors[32].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 };
+    IDT::register_handler(32, pit_handler);
 
     // Keyboard
-    gIdt.descriptors[33].offset_0_15  = (uint16_t)(((uint64_t)kbd_handler >>  0) & 0x0000FFFF);
-    gIdt.descriptors[33].offset_16_31 = (uint16_t)(((uint64_t)kbd_handler >> 16) & 0x0000FFFF);
-    gIdt.descriptors[33].offset_32_63 = (uint32_t)(((uint64_t)kbd_handler >> 32) & 0xFFFFFFFF);
-    //                                    Ring 0    GDT             Ring 0 code segment
-    gIdt.descriptors[33].seg_selector = { .rpl = 0, .table_idx = 0, .descriptor_idx = 1};
-    //                            Interrupt Gate     System Segment
-    gIdt.descriptors[33].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 };
-
-    struct idtr idt_info;
-    idt_info.limit = sizeof(struct idt);
-    idt_info.offset = &gIdt;
-    asm volatile("lidt %0": :"m"(idt_info));
+    IDT::register_handler(33, kbd_handler);
 
     gLog.info("Enabling PIC...\n");
     PIC::remap(0x20, 0x28);
@@ -212,8 +144,7 @@ extern "C" int kmain(const void * in_boot_info) {
     //PIC::enable_irq(0x0);
     PIC::enable_irq(0x1);
 
-    gLog.info("Enabling interrupts...\n");
-    sti();
+    IDT::enable_interrupts();
     
     while(true) {
         // Loop forever
