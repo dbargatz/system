@@ -7,9 +7,10 @@ KERNEL_OBJ           = $(KERNEL_BUILD_DIR)/kernel.o
 KERNEL               = $(KERNEL_BUILD_DIR)/kernel.bin
 
 DRIVER_SRC_DIR       = $(SRC_DIR)/driver
+DRIVER_ASM_SRC       = $(shell find $(DRIVER_SRC_DIR) -name *.asm)
 DRIVER_CPP_SRC       = $(shell find $(DRIVER_SRC_DIR) -name *.cpp)
 
-$(KERNEL) : $(KERNEL_ASM_SRC) $(KERNEL_CPP_SRC)
+$(KERNEL) : $(KERNEL_ASM_SRC) $(KERNEL_CPP_SRC) $(DRIVER_ASM_SRC) $(DRIVER_CPP_SRC)
 	@mkdir -p $(KERNEL_BUILD_DIR)
 	@for s in $(KERNEL_CPP_SRC); do \
 		$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) -o $(KERNEL_BUILD_DIR)/$$(basename $$s .cpp).o $$s; \
@@ -18,6 +19,9 @@ $(KERNEL) : $(KERNEL_ASM_SRC) $(KERNEL_CPP_SRC)
 		$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) -o $(KERNEL_BUILD_DIR)/$$(basename $$s .cpp).o $$s; \
 		done
 	@for s in $(KERNEL_ASM_SRC); do \
+		$(AS) $(ASFLAGS) -o $(KERNEL_BUILD_DIR)/$$(basename $$s .asm).o $$s; \
+		done
+	@for s in $(DRIVER_ASM_SRC); do \
 		$(AS) $(ASFLAGS) -o $(KERNEL_BUILD_DIR)/$$(basename $$s .asm).o $$s; \
 		done
 	@rm -rf $(KERNEL_OBJ) # Prevents 'File truncated' error when linking
