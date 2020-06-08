@@ -1,9 +1,9 @@
 #ifndef _PIC_HPP
 #define _PIC_HPP
 
-#include "inline_asm.hpp"
+#include "../inline_asm.hpp"
 // TODO: redirect to local stdint.h when migration complete.
-#include "../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
+#include "../../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
 
 class PIC {
 private:

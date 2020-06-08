@@ -2,9 +2,9 @@
 #include "platform/qemu-system-x86_64/boot/panic.h"
 #include "platform/qemu-system-x86_64/boot/vga.hpp"
 #include "platform/qemu-system-x86_64/types/text.hpp"
-#include "../driver/cpu/x64/idt.hpp"
+#include "../driver/cpu/x64/interrupts/idt.hpp"
 #include "../driver/cpu/x64/inline_asm.hpp"
-#include "../driver/cpu/x64/pic.hpp"
+#include "../driver/cpu/x64/interrupts/pic.hpp"
 
 kernel::platform::x86_64::logger gLog;
 using kernel::platform::x86_64::vga;

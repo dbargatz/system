@@ -1,10 +1,10 @@
 #include "idt.hpp"
-#include "inline_asm.hpp"
+#include "../inline_asm.hpp"
 
 struct IDT::idt IDT::our_idt;
 
 // TODO: Handling logging this way is gross. Fix logging once migration complete.
-#include "../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
+#include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
 extern kernel::platform::x86_64::logger gLog;
 
 void IDT::init() {

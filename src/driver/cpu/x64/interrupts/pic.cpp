@@ -1,7 +1,7 @@
 #include "pic.hpp"
 
 // TODO: Handling logging this way is gross. Fix logging once migration complete.
-#include "../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
+#include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
 extern kernel::platform::x86_64::logger gLog;
 
 void PIC::send_eoi(const uint8_t in_irq_number) {

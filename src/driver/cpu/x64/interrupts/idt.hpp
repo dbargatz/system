@@ -2,7 +2,7 @@
 #define _IDT_HPP
 
 // TODO: redirect to local stdint.h when migration complete.
-#include "../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
+#include "../../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
 
 struct interrupt_frame {
     uint64_t rip;
