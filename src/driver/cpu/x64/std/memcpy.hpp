@@ -12,6 +12,6 @@
  * @param in_num number of bytes to copy
  * @return void* in_destination
  */
-void * memcpy(void * in_destination, const void * in_source, size_t in_num);
+extern "C" void * memcpy(void * in_destination, const void * in_source, size_t in_num);
 
 #endif // _STD_MEMCPY_HPP
