@@ -4,6 +4,22 @@
 // TODO: redirect to local stdint.h when migration complete.
 #include "../../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
 
+/**
+ * @brief Disable interrupts on this core (excluding NMIs).
+ * 
+ */
+static inline void cli(void) {
+    asm volatile("cli");
+}
+
+/**
+ * @brief Enable interrupts on this core.
+ * 
+ */
+static inline void sti(void) {
+    asm volatile("sti");
+}
+
 struct interrupt_frame {
     uint64_t rip;
     uint64_t cs;

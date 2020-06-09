@@ -26,20 +26,4 @@ static inline void outb(const uint16_t in_io_port, const uint8_t in_byte) {
     asm volatile("outb %0, %1" : : "a"(in_byte), "Nd"(in_io_port));
 }
 
-/**
- * @brief Disable interrupts on this core (excluding NMIs).
- * 
- */
-static inline void cli(void) {
-    asm volatile("cli");
-}
-
-/**
- * @brief Enable interrupts on this core.
- * 
- */
-static inline void sti(void) {
-    asm volatile("sti");
-}
-
 #endif // _INLINE_ASM_HPP
