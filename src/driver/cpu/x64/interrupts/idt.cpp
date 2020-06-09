@@ -2,10 +2,6 @@
 #include "../inline_asm.hpp"
 #include "../std/memset.hpp"
 
-// TODO: Handling logging this way is gross. Fix logging once migration complete.
-#include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
-extern kernel::platform::x86_64::logger gLog;
-
 struct idtr {
     uint16_t limit;
     void *   offset;
@@ -39,14 +35,4 @@ void IDT::install(const IDT * in_table) {
     };
     asm volatile("lidt %0": :"m"(idtr));
     gLog.debug("IDT loaded: address {#016X}, length {}.\n", (uint64_t)idtr.offset, idtr.limit);
-}
-
-void IDT::disable_interrupts() {
-    cli();
-    gLog.info("Interrupts disabled.\n");
-}
-
-void IDT::enable_interrupts() {
-    sti();
-    gLog.info("Interrupts enabled.\n");
 }

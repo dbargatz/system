@@ -82,7 +82,7 @@ extern "C" int kmain(const void * in_boot_info) {
     screen.clear_screen(vga::color::black);
     pit_count = 0;
 
-    IDT::disable_interrupts();
+    disable_interrupts();
 
     // HACK: Set up the IDT so we can use the UD2 instruction for panic(), which
     //       causes a processor exception. This allows the exception handler to
@@ -106,7 +106,7 @@ extern "C" int kmain(const void * in_boot_info) {
     pic.enable_irq(0x0);
     pic.enable_irq(0x1);
 
-    IDT::enable_interrupts();
+    enable_interrupts();
 
     while(true) {
         // Loop forever

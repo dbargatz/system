@@ -3,21 +3,24 @@
 
 // TODO: redirect to local stdint.h when migration complete.
 #include "../../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
+// TODO: Handling logging this way is gross. Fix logging once migration complete.
+#include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
+extern kernel::platform::x86_64::logger gLog;
 
 /**
  * @brief Disable interrupts on this core (excluding NMIs).
- * 
  */
-static inline void cli(void) {
+static inline void disable_interrupts(void) {
     asm volatile("cli");
+    gLog.info("Interrupts disabled.\n");
 }
 
 /**
  * @brief Enable interrupts on this core.
- * 
  */
-static inline void sti(void) {
+static inline void enable_interrupts(void) {
     asm volatile("sti");
+    gLog.info("Interrupts enabled.\n");
 }
 
 struct interrupt_frame {
@@ -81,9 +84,6 @@ public:
      * @param in_table IDT to load
      */
     static void install(const IDT * in_table);
-
-    static void disable_interrupts();
-    static void enable_interrupts();
 };
 
 #endif // _IDT_HPP
