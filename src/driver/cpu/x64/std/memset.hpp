@@ -12,6 +12,6 @@
  * @param inValue value of each byte written
  * @param inNum number of bytes to overwrite
  */
-void inline memset(void * inPtr, uint8_t inValue, size_t inNum);
+void memset(void * inPtr, uint8_t inValue, size_t inNum);
 
 #endif // _STD_MEMSET_H
