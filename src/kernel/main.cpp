@@ -10,6 +10,7 @@ kernel::platform::x86_64::logger gLog;
 using kernel::platform::x86_64::vga;
 using kernel::platform::x86_64::types::text;
 
+IDT idt;
 uint64_t pit_count;
 
 void hexdump(vga& screen, const void * in_ptr, uint8_t in_count) {
@@ -80,20 +81,23 @@ extern "C" int kmain(const void * in_boot_info) {
     screen.clear_screen(vga::color::black);
     pit_count = 0;
 
-    IDT::init();
+    IDT::disable_interrupts();
 
     // HACK: Set up the IDT so we can use the UD2 instruction for panic(), which
     //       causes a processor exception. This allows the exception handler to
-    //       dump registers unmodified, shown as they were when the panic 
-    //       occurred. 
+    //       dump registers unmodified, shown as they were when the panic
+    //       occurred.
     // UD2 (Panic)
-    IDT::register_handler(6, panic_handler);
+    idt.register_handler(6, panic_handler);
 
     // PIT
-    IDT::register_handler(32, pit_handler);
+    idt.register_handler(32, pit_handler);
 
     // Keyboard
-    IDT::register_handler(33, kbd_handler);
+    idt.register_handler(33, kbd_handler);
+
+    // Load the populated IDT into the core.
+    IDT::install(&idt);
 
     gLog.info("Enabling PIC...\n");
     PIC::remap(0x20, 0x28);
@@ -102,7 +106,7 @@ extern "C" int kmain(const void * in_boot_info) {
     PIC::enable_irq(0x1);
 
     IDT::enable_interrupts();
-    
+
     while(true) {
         // Loop forever
     }

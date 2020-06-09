@@ -37,22 +37,37 @@ private:
         uint32_t reserved;
     } __attribute__((packed));
 
-    struct idt {
-        struct idt_descriptor descriptors[256];
-    } __attribute__((packed));
-
-    struct idtr {
-        uint16_t limit;
-        void *   offset;
-    } __attribute__((packed));
-
-    static struct idt our_idt;
+    struct idt_descriptor idt[256];
 
 public:
-    static void init();
+    /**
+     * @brief Construct a new IDT object.
+     */
+    IDT();
+
+    /**
+     * @brief Inserts the given handler at the given index in the IDT, such
+     * that when the interrupt/exception of that index (vector) occurs, the
+     * handler is invoked.
+     * 
+     * @param in_index the IDT index to insert the handler at
+     * @param in_handler function to execute when the interrupt occurs
+     */
+    void register_handler(uint8_t in_index, void (*in_handler)(struct interrupt_frame *));
+
+    /**
+     * @brief Loads the given IDT into the core such that interrupts/exceptions
+     * will be handled with the given IDT.
+     * 
+     * Uses the lidt instruction to load the new IDT. @see Intel SDM, Volume 3A,
+     * Section 6.10 for more information.
+     * 
+     * @param in_table IDT to load
+     */
+    static void install(const IDT * in_table);
+
     static void disable_interrupts();
     static void enable_interrupts();
-    static bool register_handler(uint8_t in_index, void (*in_handler)(struct interrupt_frame *));
 };
 
 #endif // _IDT_HPP
