@@ -20,12 +20,14 @@ private:
     static const uint8_t CPU_MODE_8086 = 0x01;
 
 public:
-    static void send_eoi(const uint8_t in_irq_number);
-    static void remap(const uint8_t in_pic1_interrupt_base, 
-                      const uint8_t in_pic2_interrupt_base);
-    static void disable_all(void);
-    static void disable_irq(const uint8_t in_irq_number);
-    static void enable_irq(const uint8_t in_irq_number);
+    PIC();
+
+    void send_eoi(const uint8_t in_irq_number);
+    void remap(const uint8_t in_pic1_interrupt_base, 
+               const uint8_t in_pic2_interrupt_base);
+    void disable_all(void);
+    void disable_irq(const uint8_t in_irq_number);
+    void enable_irq(const uint8_t in_irq_number);
 };
 
 #endif // _PIC_HPP

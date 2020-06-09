@@ -4,6 +4,10 @@
 #include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
 extern kernel::platform::x86_64::logger gLog;
 
+PIC::PIC() {
+    gLog.debug("Initialized PIC.\n");
+}
+
 void PIC::send_eoi(const uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
 

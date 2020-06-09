@@ -11,6 +11,7 @@ using kernel::platform::x86_64::vga;
 using kernel::platform::x86_64::types::text;
 
 IDT idt;
+PIC pic;
 uint64_t pit_count;
 
 void hexdump(vga& screen, const void * in_ptr, uint8_t in_count) {
@@ -64,7 +65,7 @@ extern "C" __attribute__((interrupt))
 void kbd_handler(struct interrupt_frame * in_frame) {
     uint8_t keystroke = inb(0x60);
     gLog.warn("Keystroke {#02X} being dropped\n", keystroke);
-    PIC::send_eoi(1);
+    pic.send_eoi(1);
 }
 
 extern "C" __attribute__((interrupt))
@@ -73,7 +74,7 @@ void pit_handler(struct interrupt_frame * in_frame) {
         gLog.info("PIT has fired {} times.\n", pit_count);
     }
     pit_count++;
-    PIC::send_eoi(0);
+    pic.send_eoi(0);
 }
 
 extern "C" int kmain(const void * in_boot_info) {
@@ -100,10 +101,10 @@ extern "C" int kmain(const void * in_boot_info) {
     IDT::install(&idt);
 
     gLog.info("Enabling PIC...\n");
-    PIC::remap(0x20, 0x28);
-    PIC::disable_all();
-    PIC::enable_irq(0x0);
-    PIC::enable_irq(0x1);
+    pic.remap(0x20, 0x28);
+    pic.disable_all();
+    pic.enable_irq(0x0);
+    pic.enable_irq(0x1);
 
     IDT::enable_interrupts();
 
