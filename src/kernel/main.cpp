@@ -1,12 +1,11 @@
 #include "platform/qemu-system-x86_64/boot/logger.hpp"
 #include "platform/qemu-system-x86_64/boot/vga.hpp"
-#include "platform/qemu-system-x86_64/types/text.hpp"
+#include "../driver/cpu/x64/std/text.hpp"
 #include "../driver/cpu/x64/std/panic.h"
 #include "../driver/cpu/x64/interrupts/interrupt_manager.hpp"
 
 using kernel::platform::x86_64::vga;
 using kernel::platform::x86_64::logger;
-using kernel::platform::x86_64::types::text;
 
 vga gVga;
 logger gLog(gVga);

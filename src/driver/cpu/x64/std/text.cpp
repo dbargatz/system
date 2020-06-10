@@ -1,7 +1,5 @@
 #include "text.hpp"
 
-using namespace kernel::platform::x86_64::types;
-
 void text::format(const char * in_format_str) {
     while('\0' != *in_format_str) {
         if('{' == *in_format_str) {
