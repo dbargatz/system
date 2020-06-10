@@ -1,4 +1,5 @@
 #include "interrupt_manager.hpp"
+#include "../std/cpuid.h"
 
 // TODO: Handling logging this way is gross. Fix logging once migration complete.
 #include "../std/logger.hpp"
@@ -11,7 +12,18 @@ InterruptManager::InterruptManager() {
     // Load the populated IDT into the core.
     idt.install();
 
+    // Indicate whether a local APIC is present, just for diagnostics.
+    uint32_t eax, edx;
+    cpuid(1, &eax, &edx);
+    gLog.debug("This core {} a local APIC.\n",
+        (edx & CPUID_01_EDX_LOCAL_APIC_PRESENT) ? "has" : "doesn't have");
+
+    // Remap IRQ 0-7 to IDT vectors 0x20-0x27 (32-39), and IRQ 8-15 to IDT
+    // vectors 0x28-0x2F (40-47) to avoid conflicting with the Intel-reserved
+    // range of interrupts/exceptions from 0x00-0x1F (0-31).
     pic.remap(0x20, 0x28);
+
+    // Mask all IRQs (0-15).
     pic.disable_all();
 
     gLog.debug("Constructed InterruptManager.\n");

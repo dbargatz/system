@@ -12,7 +12,9 @@ enum class InterruptType : uint8_t {
 
 class InterruptManager {
 private:
-    static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT = (1 << 9);
+    ///< If bit 9 is set in CPUID:01H:EDX, a local APIC is present on this core.
+    static const uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
+    static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
 
     IDT idt;
     PIC pic;
