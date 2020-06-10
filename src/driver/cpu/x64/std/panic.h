@@ -1,5 +1,5 @@
-#ifndef _PANIC_H
-#define _PANIC_H
+#ifndef _STD_PANIC_H
+#define _STD_PANIC_H
 
 /**
  * @brief Data associated with a particular invocation of PANIC(). Includes 
@@ -29,4 +29,4 @@ do {                                                       \
                      "i" (msg));                           \
 } while(0)
 
-#endif // _PANIC_H
+#endif // _STD_PANIC_H
