@@ -3,7 +3,6 @@
 #include "platform/qemu-system-x86_64/boot/vga.hpp"
 #include "platform/qemu-system-x86_64/types/text.hpp"
 #include "../driver/cpu/x64/interrupts/interrupt_manager.hpp"
-#include "../driver/cpu/x64/inline_asm.hpp"
 
 using kernel::platform::x86_64::vga;
 using kernel::platform::x86_64::logger;

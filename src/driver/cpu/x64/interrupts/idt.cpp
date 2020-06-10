@@ -1,5 +1,4 @@
 #include "idt.hpp"
-#include "../inline_asm.hpp"
 #include "../std/memset.hpp"
 
 // TODO: Handling logging this way is gross. Fix logging once migration complete.

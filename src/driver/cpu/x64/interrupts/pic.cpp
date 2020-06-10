@@ -1,4 +1,5 @@
 #include "pic.hpp"
+#include "../ports/asm.h"
 
 // TODO: Handling logging this way is gross. Fix logging once migration complete.
 #include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"

@@ -1,7 +1,6 @@
 #ifndef _PIC_HPP
 #define _PIC_HPP
 
-#include "../inline_asm.hpp"
 #include "../std/stdint.h"
 
 class PIC {
