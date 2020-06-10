@@ -2,7 +2,7 @@
 #define KERNEL_PLATFORM_X86_64_LOGGER
 
 #include "../../../../driver/cpu/x64/std/text.hpp"
-#include "vga.hpp"
+#include "../../../../driver/cpu/x64/display/vga.hpp"
 
 namespace kernel::platform::x86_64 {
     class logger {
