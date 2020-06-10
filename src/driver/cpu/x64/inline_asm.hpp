@@ -1,8 +1,7 @@
 #ifndef _INLINE_ASM_HPP
 #define _INLINE_ASM_HPP
 
-// TODO: redirect to local stdint.h when migration complete.
-#include "../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
+#include "std/stdint.h"
 
 /**
  * @brief Read a byte from the given I/O port address.

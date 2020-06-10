@@ -1,7 +1,7 @@
 #ifndef KERNEL_PLATFORM_X86_64_VGA
 #define KERNEL_PLATFORM_X86_64_VGA
 
-#include "../types/stdint.h"
+#include "../../../../driver/cpu/x64/std/stdint.h"
 
 namespace kernel::platform::x86_64 {
     class vga {

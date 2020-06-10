@@ -1,8 +1,7 @@
 #ifndef _STD_MEMCPY_HPP
 #define _STD_MEMCPY_HPP
 
-// TODO: redirect to local stdint.h when migration complete.
-#include "../../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
+#include "../std/stdint.h"
 
 /**
  * @brief Copies the given number of bytes from the source to destination.
