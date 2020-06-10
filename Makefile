@@ -16,7 +16,7 @@ GRUB_CFG  := $(SRC_DIR)/grub.cfg
 ISO       := $(BUILD_DIR)/system.iso
 QEMU_LOG  := $(BUILD_DIR)/qemu-debug.log
 
-include $(SRC_DIR)/kernel/Makefile.mk
+include $(SRC_DIR)/driver/cpu/x64/Makefile.mk
 
 .PHONY: all clean gdb iso qemu qemu-debug
 
@@ -39,8 +39,8 @@ qemu-debug: $(ISO)
 qemu-gdb: $(ISO)
 	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO) -d int -D $(QEMU_LOG) -no-reboot -s -S
 
-$(ISO): $(KERNEL) $(GRUB_CFG)
+$(ISO): $(DRIVER_BIN) $(GRUB_CFG)
 	@mkdir -p $(ISO_DIR)/boot/grub
 	@cp $(GRUB_CFG) $(ISO_DIR)/boot/grub
-	@cp $(KERNEL) $(ISO_DIR)/boot
+	@cp $(DRIVER_BIN) $(ISO_DIR)/boot
 	@grub-mkrescue -o $(ISO) $(ISO_DIR)
