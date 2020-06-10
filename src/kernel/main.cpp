@@ -1,5 +1,5 @@
-#include "platform/qemu-system-x86_64/boot/logger.hpp"
 #include "../driver/cpu/x64/std/text.hpp"
+#include "../driver/cpu/x64/std/logger.hpp"
 #include "../driver/cpu/x64/std/panic.h"
 #include "../driver/cpu/x64/display/vga.hpp"
 #include "../driver/cpu/x64/interrupts/interrupt_manager.hpp"
