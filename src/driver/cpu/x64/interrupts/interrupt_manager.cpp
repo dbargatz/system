@@ -27,6 +27,12 @@ void InterruptManager::enable_interrupts() {
     gLog.debug("Interrupts enabled.\n");
 }
 
+bool InterruptManager::enabled() {
+    uint64_t rflags;
+    asm volatile("pushf; pop %0" : "=g"(rflags));
+    return (rflags & RFLAGS_INTERRUPTS_ENABLED_BIT);
+}
+
 void InterruptManager::handler_complete(InterruptType in_interrupt) {
     switch(in_interrupt) {
         case InterruptType::TIMER_EXPIRED:

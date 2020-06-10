@@ -7,7 +7,6 @@ typedef unsigned char bool;
 #define true  1
 #define false 0
 
-#define FLAGS_INTERRUPTS_ENABLED_BIT (1 << 9)
 #define CPUID_APIC_SUPPORTED_BIT     (1 << 9)
 
 typedef struct idtDescriptor 
@@ -57,13 +56,6 @@ void interrupts_enable(bool inEnable)
     
 }
 
-bool are_interrupts_enabled(void)
-{
-    uint64_t flags;
-    asm volatile("pushf\n\tpop %0" : "=g"(flags));
-    return (bool)(0 != (flags & FLAGS_INTERRUPTS_ENABLED_BIT));
-}
-
 void load_idtr(void * inIdt)
 {
     struct idtr idt_info;
@@ -79,12 +71,6 @@ int kboot_main(void * inBootInfo)
         *((uint64_t *)0xB8000) = 0x4F414F204F4F4F4E;
         *((uint64_t *)0xB8008) = 0x0F204F434F494F50;
         return -1;
-    }
-
-    if(!are_interrupts_enabled())
-    {
-        *((uint64_t *)0xB8000) = 0x4F494F204F4F4F4E;
-        *((uint64_t *)0xB8008) = 0x0F204F524F544F4E;
     }
     
     load_idtr(&gIdt);

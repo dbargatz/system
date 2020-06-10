@@ -12,6 +12,8 @@ enum class InterruptType : uint8_t {
 
 class InterruptManager {
 private:
+    static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT = (1 << 9);
+
     IDT idt;
     PIC pic;
 
@@ -30,6 +32,14 @@ public:
      * @brief Enable interrupts on this core.
      */
     void enable_interrupts();
+
+    /**
+     * @brief Returns whether or not interrupts are enabled on this core.
+     * 
+     * @return true interrupts are enabled (IF = 1 in RFLAGS)
+     * @return false interrupts are enabled (IF = 0 in RFLAGS)
+     */
+    bool enabled();
 
     void handler_complete(InterruptType in_interrupt);
 
