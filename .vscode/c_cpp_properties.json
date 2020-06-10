@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang++-7",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "compilerArgs": [
+                "-ffreestanding ",
+                "-fno-builtin ",
+                "-nostdlib ",
+                "-nostdinc ",
+                "-nostdinc++",
+                "-march=x86-64",
+                "-g",
+                "-mcmodel=large",
+                "-mno-sse",
+                "-D x64",
+                "-std=c++17",
+                "-Wall",
+                "-Werror"
+            ]
+        }
+    ],
+    "version": 4
+}
