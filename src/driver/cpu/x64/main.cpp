@@ -1,8 +1,8 @@
-#include "../driver/cpu/x64/std/text.hpp"
-#include "../driver/cpu/x64/std/logger.hpp"
-#include "../driver/cpu/x64/std/panic.h"
-#include "../driver/cpu/x64/display/vga.hpp"
-#include "../driver/cpu/x64/interrupts/interrupt_manager.hpp"
+#include "std/text.hpp"
+#include "std/logger.hpp"
+#include "std/panic.h"
+#include "display/vga.hpp"
+#include "interrupts/interrupt_manager.hpp"
 
 vga gVga;
 logger gLog(gVga);
