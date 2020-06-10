@@ -1,7 +1,5 @@
 #include "logger.hpp"
 
-using namespace kernel::platform::x86_64;
-
 void logger::debug(text& in_msg) {
     _write(vga::color::gray, vga::color::black, "[ ] ", in_msg);
 }

@@ -2,7 +2,7 @@
 
 // TODO: Handling logging this way is gross. Fix logging once migration complete.
 #include "../std/logger.hpp"
-extern kernel::platform::x86_64::logger gLog;
+extern logger gLog;
 
 InterruptManager::InterruptManager() {
     gLog.debug("Constructing InterruptManager...\n");

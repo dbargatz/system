@@ -4,8 +4,6 @@
 #include "../driver/cpu/x64/display/vga.hpp"
 #include "../driver/cpu/x64/interrupts/interrupt_manager.hpp"
 
-using kernel::platform::x86_64::logger;
-
 vga gVga;
 logger gLog(gVga);
 InterruptManager interrupts;
