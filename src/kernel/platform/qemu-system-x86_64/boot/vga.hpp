@@ -25,6 +25,7 @@ namespace kernel::platform::x86_64 {
             white          = 0xF,
         };
 
+        vga();
         void clear_row(const color in_color, const uint8_t in_row);
         void clear_screen(const color in_color);
         void scroll();

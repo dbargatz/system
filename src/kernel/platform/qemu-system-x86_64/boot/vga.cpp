@@ -2,6 +2,10 @@
 
 using kernel::platform::x86_64::vga;
 
+vga::vga() {
+    clear_screen(color::black);
+}
+
 void vga::clear_row(const color in_color, const uint8_t in_row) {
     auto old_row = _cur_row;
     auto old_col = _cur_column;
