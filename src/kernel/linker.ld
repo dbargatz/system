@@ -10,6 +10,13 @@ SECTIONS {
            thinks is unnecessary */
         KEEP(*(.multiboot_header))
     }
+    
+    .init_array ALIGN(0x1000) :
+    {
+        start_init_array = .;
+        KEEP(*(.init_array))
+        end_init_array = .;
+    }
 
     .rodata ALIGN(0x1000) :
     {

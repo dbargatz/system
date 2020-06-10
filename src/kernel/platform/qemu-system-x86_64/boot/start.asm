@@ -1,5 +1,7 @@
 global start
 extern kmain
+extern start_init_array
+extern end_init_array
 
 section .text
 bits 32
@@ -103,6 +105,17 @@ bits 64
 ;; processor into 64-bit long mode (rather than long mode's compatibility
 ;; submode).
 long_mode_start:
+    mov rbx, start_init_array
+    jmp .call_ctors_loop
+
+.call_ctor:
+    call [rbx]
+    add rbx, 8
+
+.call_ctors_loop:
+    cmp rbx, end_init_array
+    jb .call_ctor
+
     ;; Pop the Multiboot 2 information structure off the stack into RDI. By x64
     ;; calling convention, RDI receives the first argument to a function call;
     ;; as the only argument to kmain is the Multiboot 2 info struct, we 
