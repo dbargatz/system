@@ -7,7 +7,7 @@
 namespace kernel::platform::x86_64 {
     class logger {
     public:
-        logger();
+        logger(vga& in_vga) : _vga(in_vga) {}
 
         void debug(types::text& in_msg);
         template<typename ... Args>
@@ -38,12 +38,12 @@ namespace kernel::platform::x86_64 {
         }
 
     private:
-        static vga _vga;
+        vga& _vga;
 
-        static void _write(const vga::color in_text_color, 
-                           const vga::color in_bg_color, 
-                           const char * in_prefix, 
-                           types::text& in_msg);
+        void _write(const vga::color in_text_color,
+                    const vga::color in_bg_color,
+                    const char * in_prefix,
+                    types::text& in_msg);
     };
 };
 

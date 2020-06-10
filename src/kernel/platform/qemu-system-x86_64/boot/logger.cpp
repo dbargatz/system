@@ -2,12 +2,6 @@
 
 using namespace kernel::platform::x86_64;
 
-vga logger::_vga;
-
-logger::logger() {
-    _vga.clear_screen(vga::color::black);
-}
-
 void logger::debug(types::text& in_msg) {
     _write(vga::color::gray, vga::color::black, "[ ] ", in_msg);
 }
