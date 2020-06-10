@@ -3,25 +3,6 @@
 
 // TODO: redirect to local stdint.h when migration complete.
 #include "../../../../kernel/platform/qemu-system-x86_64/types/stdint.h"
-// TODO: Handling logging this way is gross. Fix logging once migration complete.
-#include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
-extern kernel::platform::x86_64::logger gLog;
-
-/**
- * @brief Disable interrupts on this core (excluding NMIs).
- */
-static inline void disable_interrupts(void) {
-    asm volatile("cli");
-    gLog.info("Interrupts disabled.\n");
-}
-
-/**
- * @brief Enable interrupts on this core.
- */
-static inline void enable_interrupts(void) {
-    asm volatile("sti");
-    gLog.info("Interrupts enabled.\n");
-}
 
 struct interrupt_frame {
     uint64_t rip;
@@ -36,7 +17,7 @@ private:
     struct segment_selector {
         uint16_t rpl: 2;
         uint16_t table_idx: 1;
-        uint16_t descriptor_idx: 12;
+        uint16_t descriptor_idx: 13;
     } __attribute__((packed));
 
     struct descriptor_attrs {
@@ -75,15 +56,13 @@ public:
     void register_handler(uint8_t in_index, void (*in_handler)(struct interrupt_frame *));
 
     /**
-     * @brief Loads the given IDT into the core such that interrupts/exceptions
-     * will be handled with the given IDT.
+     * @brief Loads this IDT into the core such that interrupts/exceptions will
+     * be handled by this IDT.
      * 
      * Uses the lidt instruction to load the new IDT. @see Intel SDM, Volume 3A,
      * Section 6.10 for more information.
-     * 
-     * @param in_table IDT to load
      */
-    static void install(const IDT * in_table);
+    void install();
 };
 
 #endif // _IDT_HPP

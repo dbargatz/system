@@ -2,6 +2,10 @@
 #include "../inline_asm.hpp"
 #include "../std/memset.hpp"
 
+// TODO: Handling logging this way is gross. Fix logging once migration complete.
+#include "../../../../kernel/platform/qemu-system-x86_64/boot/logger.hpp"
+extern kernel::platform::x86_64::logger gLog;
+
 struct idtr {
     uint16_t limit;
     void *   offset;
@@ -11,7 +15,7 @@ IDT::IDT() {
     gLog.debug("Zeroing IDT...\n");
     // Zero out the actual Interrupt Descriptor Table, which is stored as a 
     // class member.
-    memset(&idt, 0, sizeof(idt));
+    memset(idt, 0, sizeof(idt));
     gLog.debug("Zeroed.\n");
 }
 
@@ -27,11 +31,11 @@ void IDT::register_handler(uint8_t in_index, void (*in_handler)(struct interrupt
     gLog.debug("Registered handler {#016X} for index {#02X} ({}).\n", (uint64_t)in_handler, in_index, in_index);
 }
 
-void IDT::install(const IDT * in_table) {
+void IDT::install() {
     // Populate an IDTR struct and use lidt to install the IDT.
     struct idtr idtr = { 
-        .limit = sizeof(in_table->idt),
-        .offset = (void *)(in_table->idt)
+        .limit = sizeof(idt),
+        .offset = (void *)idt
     };
     asm volatile("lidt %0": :"m"(idtr));
     gLog.debug("IDT loaded: address {#016X}, length {}.\n", (uint64_t)idtr.offset, idtr.limit);
