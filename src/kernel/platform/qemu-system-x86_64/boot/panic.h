@@ -1,11 +1,10 @@
-#ifndef PANIC_H
-#define PANIC_H
+#ifndef _PANIC_H
+#define _PANIC_H
 
 /**
  * @brief Data associated with a particular invocation of PANIC(). Includes 
  * filename and line number for invocation of PANIC(), as well as caller-
  * supplied message (if any).
- * 
  */
 struct panic_data {
     const uint16_t instruction;  ///< Bytes of instruction that caused panic
@@ -30,4 +29,4 @@ do {                                                       \
                      "i" (msg));                           \
 } while(0)
 
-#endif // PANIC_H
+#endif // _PANIC_H
