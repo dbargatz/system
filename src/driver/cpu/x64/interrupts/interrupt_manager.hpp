@@ -1,5 +1,5 @@
-#ifndef _INTERRUPT_MANAGER_HPP
-#define _INTERRUPT_MANAGER_HPP
+#ifndef _INTERRUPTS_INTERRUPT_MANAGER_HPP
+#define _INTERRUPTS_INTERRUPT_MANAGER_HPP
 
 #include "idt.hpp"
 #include "pic.hpp"
@@ -36,4 +36,4 @@ public:
     void register_handler(InterruptType in_interrupt, void (*in_handler)(struct interrupt_frame *));
 };
 
-#endif // _INTERRUPT_MANAGER_HPP
+#endif // _INTERRUPTS_INTERRUPT_MANAGER_HPP

@@ -1,5 +1,5 @@
-#ifndef _IDT_HPP
-#define _IDT_HPP
+#ifndef _INTERRUPTS_IDT_HPP
+#define _INTERRUPTS_IDT_HPP
 
 #include "../std/stdint.h"
 
@@ -64,4 +64,4 @@ public:
     void install();
 };
 
-#endif // _IDT_HPP
+#endif // _INTERRUPTS_IDT_HPP

@@ -1,5 +1,5 @@
-#ifndef _PIC_HPP
-#define _PIC_HPP
+#ifndef _INTERRUPTS_PIC_HPP
+#define _INTERRUPTS_PIC_HPP
 
 #include "../std/stdint.h"
 
@@ -28,4 +28,4 @@ public:
     void enable_irq(const uint8_t in_irq_number);
 };
 
-#endif // _PIC_HPP
+#endif // _INTERRUPTS_PIC_HPP
