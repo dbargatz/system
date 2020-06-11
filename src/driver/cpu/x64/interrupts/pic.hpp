@@ -2,6 +2,7 @@
 #define _INTERRUPTS_PIC_HPP
 
 #include "../std/stdint.h"
+#include "../std/logger.hpp"
 
 class PIC {
 private:
@@ -17,8 +18,15 @@ private:
 
     static const uint8_t CPU_MODE_8086 = 0x01;
 
+    logger& _log;
+
 public:
-    PIC();
+    /**
+     * @brief Construct a new Programmable Interrupt Controller (PIC) object.
+     * 
+     * @param in_log logger for member functions
+     */
+    PIC(logger& in_log);
 
     void send_eoi(const uint8_t in_irq_number);
     void remap(const uint8_t in_pic1_interrupt_base, 

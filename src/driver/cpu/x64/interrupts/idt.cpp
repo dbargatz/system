@@ -1,21 +1,17 @@
 #include "idt.hpp"
 #include "../std/memset.hpp"
 
-// TODO: Handling logging this way is gross. Fix logging once migration complete.
-#include "../std/logger.hpp"
-extern logger gLog;
-
 struct idtr {
     uint16_t limit;
     void *   offset;
 } __attribute__((packed));
 
-IDT::IDT() {
-    gLog.debug("Zeroing IDT...\n");
+IDT::IDT(logger& in_log) : _log(in_log) {
+    _log.debug("Zeroing IDT...\n");
     // Zero out the actual Interrupt Descriptor Table, which is stored as a 
     // class member.
     memset(idt, 0, sizeof(idt));
-    gLog.debug("Zeroed.\n");
+    _log.debug("Zeroed.\n");
 }
 
 void IDT::register_handler(uint8_t in_index, void (*in_handler)(struct interrupt_frame *)) {
@@ -27,7 +23,7 @@ void IDT::register_handler(uint8_t in_index, void (*in_handler)(struct interrupt
     idt[in_index].seg_selector = { .rpl = 0, .table_idx = 0, .descriptor_idx = 1};
     //                      Interrupt Gate     System Segment
     idt[in_index].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 };
-    gLog.debug("Registered handler {#016X} for index {#02X} ({}).\n", (uint64_t)in_handler, in_index, in_index);
+    _log.debug("Registered handler {#016X} for index {#02X} ({}).\n", (uint64_t)in_handler, in_index, in_index);
 }
 
 void IDT::install() {
@@ -37,5 +33,5 @@ void IDT::install() {
         .offset = (void *)idt
     };
     asm volatile("lidt %0": :"m"(idtr));
-    gLog.debug("IDT loaded: address {#016X}, length {}.\n", (uint64_t)idtr.offset, idtr.limit);
+    _log.debug("IDT loaded: address {#016X}, length {}.\n", (uint64_t)idtr.offset, idtr.limit);
 }

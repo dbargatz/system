@@ -1,12 +1,8 @@
 #include "pic.hpp"
 #include "../ports/asm.h"
 
-// TODO: Handling logging this way is gross. Fix logging once migration complete.
-#include "../std/logger.hpp"
-extern logger gLog;
-
-PIC::PIC() {
-    gLog.debug("Initialized PIC.\n");
+PIC::PIC(logger& in_log) : _log(in_log) {
+    _log.debug("Initialized PIC.\n");
 }
 
 void PIC::send_eoi(const uint8_t in_irq_number) {
@@ -56,7 +52,7 @@ void PIC::disable_all(void) {
     // Mask all interrupts on both the PICs.
     outb(PIC2_DATA_PORT, 0xFF);
     outb(PIC1_DATA_PORT, 0xFF);
-    gLog.debug("Disabled all IRQs\n");
+    _log.debug("Disabled all IRQs\n");
 }
 
 void PIC::disable_irq(const uint8_t in_irq_number) {
@@ -70,7 +66,7 @@ void PIC::disable_irq(const uint8_t in_irq_number) {
         mask = inb(PIC2_DATA_PORT) | (1 << (in_irq_number - 8));
         outb(PIC2_DATA_PORT, mask);
     }
-    gLog.debug("Disabled IRQ {#02X} ({})\n", in_irq_number, in_irq_number);
+    _log.debug("Disabled IRQ {#02X} ({})\n", in_irq_number, in_irq_number);
 }
 
 void PIC::enable_irq(const uint8_t in_irq_number) {
@@ -84,5 +80,5 @@ void PIC::enable_irq(const uint8_t in_irq_number) {
         mask = inb(PIC2_DATA_PORT) & ~(1 << (in_irq_number - 8));
         outb(PIC2_DATA_PORT, mask);
     }
-    gLog.debug("Enabled IRQ {#02X} ({})\n", in_irq_number, in_irq_number);
+    _log.debug("Enabled IRQ {#02X} ({})\n", in_irq_number, in_irq_number);
 }

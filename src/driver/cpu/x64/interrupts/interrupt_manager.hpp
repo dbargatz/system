@@ -3,6 +3,7 @@
 
 #include "idt.hpp"
 #include "pic.hpp"
+#include "../std/logger.hpp"
 
 enum class InterruptType : uint8_t {
     PANIC         = 6,
@@ -16,14 +17,17 @@ private:
     static const uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
     static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
 
-    IDT idt;
-    PIC pic;
+    logger& _log;
+    IDT& _idt;
+    PIC& _pic;
 
 public:
     /**
      * @brief Construct a new Interrupt Manager object.
+     * 
+     * @param in_log logger for member functions
      */
-    InterruptManager();
+    InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic);
 
     /**
      * @brief Disable interrupts on this core (excluding NMIs).

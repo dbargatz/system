@@ -2,6 +2,7 @@
 #define _INTERRUPTS_IDT_HPP
 
 #include "../std/stdint.h"
+#include "../std/logger.hpp"
 
 struct interrupt_frame {
     uint64_t rip;
@@ -36,13 +37,16 @@ private:
         uint32_t reserved;
     } __attribute__((packed));
 
+    logger& _log;
     struct idt_descriptor idt[256];
 
 public:
     /**
-     * @brief Construct a new IDT object.
+     * @brief Construct a new Interrupt Descriptor Table (IDT) object.
+     * 
+     * @param in_log logger for member functions
      */
-    IDT();
+    IDT(logger& in_log);
 
     /**
      * @brief Inserts the given handler at the given index in the IDT, such

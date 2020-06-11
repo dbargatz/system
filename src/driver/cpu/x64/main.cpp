@@ -6,7 +6,6 @@
 #include "core.hpp"
 
 vga gVga;
-logger gLog(gVga);
 InterruptManager * gInterrupts;
 uint64_t pit_count;
 
@@ -58,16 +57,23 @@ void panic_handler(struct interrupt_frame * in_frame) {
 
 extern "C" __attribute__((interrupt))
 void pit_handler(struct interrupt_frame * in_frame) {
+    logger log(gVga);
     if(pit_count > 0 && 0 == (pit_count % 100)) {
-        gLog.info("PIT has fired {} times.\n", pit_count);
+        log.info("PIT has fired {} times.\n", pit_count);
     }
     pit_count++;
     gInterrupts->handler_complete(InterruptType::TIMER_EXPIRED);
 }
 
 extern "C" int kmain(const void * in_boot_info) {
+    logger idt_log(gVga);
+    IDT idt(idt_log);
+    logger pic_log(gVga);
+    PIC pic(pic_log);
+    logger intmgr_log(gVga);
+    InterruptManager intmgr(intmgr_log, idt, pic);
     logger core_log(gVga);
-    InterruptManager intmgr;
+
     gInterrupts = &intmgr;
     Core bootstrap_core(core_log, in_boot_info, intmgr);
 
