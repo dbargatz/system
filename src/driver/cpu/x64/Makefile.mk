@@ -3,8 +3,8 @@ DRIVER_BUILD_DIR     = $(BUILD_DIR)/driver/cpu/x64
 DRIVER_ASM_SRC       = $(shell find $(DRIVER_SRC_DIR) -name *.asm)
 DRIVER_CPP_SRC       = $(shell find $(DRIVER_SRC_DIR) -name *.cpp)
 DRIVER_LD_SRC        = $(DRIVER_SRC_DIR)/linker.ld
-DRIVER_OBJ           = $(DRIVER_BUILD_DIR)/core.o
-DRIVER_BIN           = $(DRIVER_BUILD_DIR)/core.bin
+DRIVER_OBJ           = $(DRIVER_BUILD_DIR)/core_x64.o
+DRIVER_BIN           = $(DRIVER_BUILD_DIR)/core_x64.bin
 
 $(DRIVER_BIN) : $(DRIVER_ASM_SRC) $(DRIVER_CPP_SRC)
 	@mkdir -p $(DRIVER_BUILD_DIR)
