@@ -3,10 +3,11 @@
 #include "std/panic.h"
 #include "display/vga.hpp"
 #include "interrupts/interrupt_manager.hpp"
+#include "core.hpp"
 
 vga gVga;
 logger gLog(gVga);
-InterruptManager interrupts;
+InterruptManager * gInterrupts;
 uint64_t pit_count;
 
 void hexdump(const void * in_ptr, uint8_t in_count) {
@@ -61,14 +62,19 @@ void pit_handler(struct interrupt_frame * in_frame) {
         gLog.info("PIT has fired {} times.\n", pit_count);
     }
     pit_count++;
-    interrupts.handler_complete(InterruptType::TIMER_EXPIRED);
+    gInterrupts->handler_complete(InterruptType::TIMER_EXPIRED);
 }
 
 extern "C" int kmain(const void * in_boot_info) {
+    logger core_log(gVga);
+    InterruptManager intmgr;
+    gInterrupts = &intmgr;
+    Core bootstrap_core(core_log, in_boot_info, intmgr);
+
     pit_count = 0;
 
-    interrupts.register_handler(InterruptType::PANIC, panic_handler);
-    interrupts.register_handler(InterruptType::TIMER_EXPIRED, pit_handler);
+    intmgr.register_handler(InterruptType::PANIC, panic_handler);
+    intmgr.register_handler(InterruptType::TIMER_EXPIRED, pit_handler);
 
     while(true) {
         // Loop forever
