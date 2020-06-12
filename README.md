@@ -1,6 +1,6 @@
 # system
 
-A hobby microkernel operating system. Currently written in C, it runs only on x86_64 QEMU.
+A hobby multikernel operating system. Currently written in C, it runs only on x86_64 QEMU.
 
 ## Building
 
