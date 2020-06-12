@@ -1,6 +1,9 @@
 #ifndef _STD_STDINT_H
 #define _STD_STDINT_H
 
+#define UINT8_MIN (0x00)
+#define UINT8_MAX (0xFF)
+
 typedef signed char         int8_t;
 typedef signed short        int16_t;
 typedef signed int          int32_t;
