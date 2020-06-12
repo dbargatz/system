@@ -25,7 +25,7 @@ public:
     const size_t length() const { return _length_in_chars; }
 
 private:
-    char _buf[256];
+    char _buf[512];
     size_t _length_in_chars;
 
     bool _is_digit(char in_char, bool in_exclude_zero = false) {
