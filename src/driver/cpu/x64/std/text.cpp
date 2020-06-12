@@ -15,6 +15,16 @@ void text::format(const char * in_format_str) {
     _buf[_length_in_chars] = '\0';
 }
 
+template<> void text::format_arg(const char in_arg,
+                                 uint8_t in_base,
+                                 bool in_uppercase_digits,
+                                 bool in_prepend_prefix,
+                                 uint64_t in_min_width,
+                                 char in_fill_char) {
+    // TODO: how to handle multi-byte chars?
+    _buf[_length_in_chars++] = in_arg;
+}
+
 template<> void text::format_arg(const char * in_arg, 
                                  uint8_t in_base, 
                                  bool in_uppercase_digits,
