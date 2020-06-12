@@ -24,7 +24,8 @@ public:
         error(msg);
     }
 
-    void hexdump(const level in_level, const void * in_ptr, size_t in_count);
+    void hexdump(const level in_level, const void * in_ptr, size_t in_count,
+                 uint8_t in_indent=0);
 
     void info(text& in_msg);
     template<typename ... Args>
@@ -48,17 +49,22 @@ public:
     }
 
     void write(const level in_level, text& in_msg);
+    template<typename ... Args>
+    void write(const level in_level, const char * in_format_str, Args&&... in_args) {
+        text msg(in_format_str, static_cast<Args>(in_args)...);
+        write(in_level, msg);
+    }
 
 private:
     static constexpr char _LEVEL_SYMBOLS[] = { 
         [(uint8_t)level::Debug]   = ' ',
-        [(uint8_t)level::Info]    = '!',
-        [(uint8_t)level::Warning] = '+',
-        [(uint8_t)level::Error]   = '-',
+        [(uint8_t)level::Info]    = '+',
+        [(uint8_t)level::Warning] = '-',
+        [(uint8_t)level::Error]   = '!',
         [(uint8_t)level::Panic]   = '*',
     };
 
-    static constexpr char _HEXDUMP_FORMAT[] = "[{}] {#016X}:\t";
+    static constexpr char _HEXDUMP_FORMAT[] = "[{}] {}{#016X}:\t";
     static constexpr char _MSG_FORMAT[] = "[{}] {}";
 
     SerialPort& _serial_port;
