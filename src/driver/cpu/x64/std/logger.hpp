@@ -2,11 +2,13 @@
 #define _STD_LOGGER_HPP
 
 #include "text.hpp"
-#include "../display/vga.hpp"
+#include "../debug/serial.hpp"
 
 class logger {
 public:
-    logger(vga& in_vga) : _vga(in_vga) {}
+    enum class level { Debug, Info, Warning, Error, Panic };
+
+    logger(SerialPort& in_serial_port) : _serial_port(in_serial_port) {}
 
     void debug(text& in_msg);
     template<typename ... Args>
@@ -22,11 +24,20 @@ public:
         error(msg);
     }
 
+    void hexdump(const level in_level, const void * in_ptr, size_t in_count);
+
     void info(text& in_msg);
     template<typename ... Args>
     void info(const char * in_format_str, Args&&... in_args) {
         text msg(in_format_str, static_cast<Args>(in_args)...);
         info(msg);
+    }
+
+    void panic(text& in_msg);
+    template<typename ... Args>
+    void panic(const char * in_format_str, Args&&... in_args) {
+        text msg(in_format_str, static_cast<Args>(in_args)...);
+        panic(msg);
     }
 
     void warn(text& in_msg);
@@ -36,13 +47,21 @@ public:
         warn(msg);
     }
 
-private:
-    vga& _vga;
+    void write(const level in_level, text& in_msg);
 
-    void _write(const vga::color in_text_color,
-                const vga::color in_bg_color,
-                const char * in_prefix,
-                text& in_msg);
+private:
+    static constexpr char _LEVEL_SYMBOLS[] = { 
+        [(uint8_t)level::Debug]   = ' ',
+        [(uint8_t)level::Info]    = '!',
+        [(uint8_t)level::Warning] = '+',
+        [(uint8_t)level::Error]   = '-',
+        [(uint8_t)level::Panic]   = '*',
+    };
+
+    static constexpr char _HEXDUMP_FORMAT[] = "[{}] {#016X}:\t";
+    static constexpr char _MSG_FORMAT[] = "[{}] {}";
+
+    SerialPort& _serial_port;
 };
 
 #endif // _STD_LOGGER_HPP

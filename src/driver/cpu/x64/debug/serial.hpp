@@ -2,7 +2,6 @@
 #define _DEBUG_SERIAL_HPP
 
 #include "../ports/io.h"
-#include "../std/logger.hpp"
 #include "../std/text.hpp"
 
 class SerialPort {
@@ -17,10 +16,10 @@ private:
     static const io_port_addr_t MODEM_STATUS      = DATA + 6;
     static const io_port_addr_t SCRATCH           = DATA + 7;
 
-    logger& _log;
+    static bool _our_initialized;
 
 public:
-    SerialPort(logger& in_log);
+    SerialPort();
 
     void write(const text& in_text);
 };

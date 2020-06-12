@@ -1,31 +1,13 @@
-#include "std/text.hpp"
+#include "std/halt.h"
 #include "std/logger.hpp"
 #include "std/panic.h"
+#include "std/text.hpp"
 #include "debug/serial.hpp"
-#include "display/vga.hpp"
 #include "interrupts/interrupt_manager.hpp"
 #include "core.hpp"
 
-vga gVga;
 InterruptManager * gInterrupts;
 uint64_t pit_count;
-
-void hexdump(const void * in_ptr, uint8_t in_count) {
-    uint8_t * ptr = (uint8_t *)in_ptr;
-    vga::color fg = vga::color::white;
-    vga::color bg = vga::color::bright_magenta;
-
-    for(int i = 0; i < in_count; i++) {
-        if(i % 16 == 0) {
-            if(i > 0) {
-                gVga.write("\n", fg, bg);
-            }
-            gVga.write(text("{#016X}:\t",(uint64_t)(ptr+i)).get(), fg, bg);
-        }
-        gVga.write(text("{02X} ", *(ptr+i)).get(), fg, bg);
-    }
-    gVga.write("\n", fg, bg);
-}
 
 /**
  * @brief Loops the given number of times (in millions of loops) as a rough
@@ -43,20 +25,16 @@ void delay(uint16_t in_megaloops) {
 
 extern "C" __attribute__((interrupt))
 void panic_handler(struct interrupt_frame * in_frame) {
-    vga::color fg = vga::color::white;
-    vga::color bg = vga::color::bright_magenta;
+    SerialPort serial;
+    logger log(serial);
     struct panic_data * data = (struct panic_data *)in_frame->rip;
-    gVga.clear_screen(bg);
-    gVga.set_position(0, 0);
 
-    hexdump((void *)data, 64);
-    gVga.write(text("PANIC({}:{}): {}\n", data->filename, data->lineNum, data->msg).get(), fg, bg);
-    while(true) {
-        // Loop forever
-    }
+    log.error("PANIC({}:{}): {}\n", data->filename, data->lineNum, data->msg);
+    log.hexdump(logger::level::Error, (void *)data, sizeof(*data));
+    halt();
 }
 
-extern "C" __attribute__((interrupt))
+/*extern "C" __attribute__((interrupt))
 void pit_handler(struct interrupt_frame * in_frame) {
     logger log(gVga);
     if(pit_count > 0 && 0 == (pit_count % 100)) {
@@ -64,21 +42,20 @@ void pit_handler(struct interrupt_frame * in_frame) {
     }
     pit_count++;
     gInterrupts->handler_complete(InterruptType::TIMER_EXPIRED);
-}
+}*/
 
 extern "C" int kmain(const void * in_boot_info) {
-    logger serial_log(gVga);
-    SerialPort serial(serial_log);
-    logger idt_log(gVga);
+    SerialPort serial;
+    logger idt_log(serial);
     IDT idt(idt_log);
-    logger pic_log(gVga);
+    logger pic_log(serial);
     PIC pic(pic_log);
-    logger intmgr_log(gVga);
+    logger intmgr_log(serial);
     InterruptManager intmgr(intmgr_log, idt, pic);
-    logger core_log(gVga);
+    logger core_log(serial);
 
     gInterrupts = &intmgr;
-    Core bootstrap_core(core_log, in_boot_info, intmgr, serial);
+    Core bootstrap_core(core_log, in_boot_info, intmgr);
 
     pit_count = 0;
 
