@@ -49,7 +49,7 @@ public:
 
     void handler_complete(InterruptType in_interrupt);
 
-    void register_handler(InterruptType in_interrupt, void (*in_handler)(struct interrupt_frame *));
+    void register_handler(InterruptType in_interrupt, interrupt_handler_t * in_handler);
 };
 
 #endif // _INTERRUPTS_INTERRUPT_MANAGER_HPP

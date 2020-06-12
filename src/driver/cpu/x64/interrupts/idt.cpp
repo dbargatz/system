@@ -14,7 +14,7 @@ IDT::IDT(logger& in_log) : _log(in_log) {
     _log.debug("Zeroed.\n");
 }
 
-void IDT::register_handler(uint8_t in_index, void (*in_handler)(struct interrupt_frame *)) {
+void IDT::register_handler(uint8_t in_index, interrupt_handler_t * in_handler) {
     // TODO: ensure that this handler isn't already registered?
     idt[in_index].offset_0_15  = (uint16_t)(((uint64_t)in_handler >>  0) & 0x0000FFFF);
     idt[in_index].offset_16_31 = (uint16_t)(((uint64_t)in_handler >> 16) & 0x0000FFFF);

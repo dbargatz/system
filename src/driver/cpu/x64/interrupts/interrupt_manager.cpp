@@ -1,5 +1,55 @@
 #include "interrupt_manager.hpp"
 #include "../std/cpuid.h"
+#include "../std/halt.h"
+#include "../std/panic.h"
+
+extern interrupt_handler_t interrupt_handler_0;
+extern interrupt_handler_t interrupt_handler_6;
+
+void dump_interrupt_frame(logger& in_log, logger::level in_level, struct interrupt_frame * in_frame) {
+    in_log.write(in_level, "Registers:\n");
+    in_log.write(in_level, "\tcs : {#016X}\trip: {#016X}\tss : {#016X}\trsp: {#016X}\n",
+                 in_frame->cs, in_frame->rip, in_frame->ss, in_frame->rsp);
+    in_log.write(in_level, "\trax: {#016X}\trbx: {#016X}\trcx: {#016X}\trdx: {#016X}\n",
+                 in_frame->rax, in_frame->rbx, in_frame->rcx, in_frame->rdx);
+    in_log.write(in_level, "\trdi: {#016X}\trsi: {#016X}\tr8 : {#016X}\tr9 : {#016X}\n",
+                 in_frame->rdi, in_frame->rsi, in_frame->r8, in_frame->r9);
+    in_log.write(in_level, "\tr10: {#016X}\tr11: {#016X}\tr12: {#016X}\tr13: {#016X}\n",
+                 in_frame->r10, in_frame->r11, in_frame->r12, in_frame->r13);
+    in_log.write(in_level, "\tr14: {#016X}\tr15: {#016X}\n", in_frame->r14, in_frame->r15);
+    in_log.write(in_level, "\trflags: {#016X}\n", in_frame->rflags);
+}
+
+extern "C" void panic_handler(logger& in_log, struct interrupt_frame * in_frame) {
+    struct panic_data * data = (struct panic_data *)in_frame->rip;
+
+    in_log.panic("\n");
+    in_log.panic("\n");
+    in_log.panic("PANIC({}:{}): {}\n", data->filename, data->lineNum, data->msg);
+    dump_interrupt_frame(in_log, logger::level::Panic, in_frame);
+    in_log.panic("Raw panic data:\n");
+    in_log.hexdump(logger::level::Panic, (void *)data, sizeof(*data), 1);
+    in_log.panic("\n");
+    in_log.panic("\n");
+}
+
+extern "C" void dispatch_interrupt(struct interrupt_frame * regs) {
+    SerialPort serial;
+    logger log(serial);
+
+    switch(regs->interrupt_number) {
+        case 6:
+            panic_handler(log, regs);
+            break;
+        default:
+            log.panic("UNHANDLED INTERRUPT {}!\n", regs->interrupt_number);
+            dump_interrupt_frame(log, logger::level::Panic, regs);
+            break;
+    }
+
+    log.warn("Halting!\n");
+    halt();
+}
 
 InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) : 
     _log(in_log), _idt(in_idt), _pic(in_pic) {
@@ -22,6 +72,9 @@ InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) :
 
     // Mask all IRQs (0-15).
     _pic.disable_all();
+
+    _idt.register_handler(0, &interrupt_handler_0);
+    _idt.register_handler(6, &interrupt_handler_6);
 
     _log.debug("Constructed InterruptManager.\n");
 }
@@ -53,7 +106,7 @@ void InterruptManager::handler_complete(InterruptType in_interrupt) {
     }
 }
 
-void InterruptManager::register_handler(InterruptType in_interrupt, void (*in_handler)(struct interrupt_frame *)) {
+void InterruptManager::register_handler(InterruptType in_interrupt, interrupt_handler_t * in_handler) {
     // If interrupts are enabled, disable them.
     bool were_enabled = enabled();
     if(were_enabled) {
