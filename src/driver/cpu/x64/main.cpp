@@ -46,17 +46,12 @@ void pit_handler(struct interrupt_frame * in_frame) {
 
 extern "C" int kmain(const void * in_boot_info) {
     SerialPort serial;
-    logger idt_log(serial);
-    IDT idt(idt_log);
-    logger pic_log(serial);
-    PIC pic(pic_log);
-    logger intmgr_log(serial);
-    InterruptManager intmgr(intmgr_log, idt, pic);
-    logger core_log(serial);
     logger log(serial);
-
+    IDT idt(log);
+    PIC pic(log);
+    InterruptManager intmgr(log, idt, pic);
+    Core bootstrap_core(log, in_boot_info, intmgr);
     gInterrupts = &intmgr;
-    Core bootstrap_core(core_log, in_boot_info, intmgr);
 
     pit_count = 0;
 
