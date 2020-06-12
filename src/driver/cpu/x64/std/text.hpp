@@ -12,7 +12,17 @@ public:
         format(in_format_str, static_cast<Args>(in_args)...);
     }
 
-    const char * get() { return (const char *)_buf; }
+    const char * get() const { return (const char *)_buf; }
+
+    /**
+     * @brief Returns the length in characters.
+     * 
+     * @note does not include null terminator.
+     * @note disregards encoding; multi-byte character sequences count as a
+     *       single character.
+     * @return length of the text in characters
+     */
+    const size_t length() const { return _length_in_chars; }
 
 private:
     char _buf[256];
