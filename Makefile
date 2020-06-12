@@ -43,4 +43,4 @@ $(ISO): $(DRIVER_BIN) $(GRUB_CFG)
 	@mkdir -p $(ISO_DIR)/boot/grub
 	@cp $(GRUB_CFG) $(ISO_DIR)/boot/grub
 	@cp $(DRIVER_BIN) $(ISO_DIR)/boot
-	@grub-mkrescue -o $(ISO) $(ISO_DIR)
+	@grub-mkrescue --quiet -o $(ISO) $(ISO_DIR)
