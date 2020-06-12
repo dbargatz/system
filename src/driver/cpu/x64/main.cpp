@@ -53,6 +53,7 @@ extern "C" int kmain(const void * in_boot_info) {
     logger intmgr_log(serial);
     InterruptManager intmgr(intmgr_log, idt, pic);
     logger core_log(serial);
+    logger log(serial);
 
     gInterrupts = &intmgr;
     Core bootstrap_core(core_log, in_boot_info, intmgr);
@@ -62,9 +63,8 @@ extern "C" int kmain(const void * in_boot_info) {
     intmgr.register_handler(InterruptType::PANIC, panic_handler);
     //intmgr.register_handler(InterruptType::TIMER_EXPIRED, pit_handler);
 
-    while(true) {
-        // Loop forever
-    }
+    log.info("Halting core, waiting for interrupts...\n");
+    halt();
 
     PANIC("End of kmain reached!");
     return -1;
