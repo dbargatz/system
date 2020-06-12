@@ -1,6 +1,7 @@
 #include "std/text.hpp"
 #include "std/logger.hpp"
 #include "std/panic.h"
+#include "debug/serial.hpp"
 #include "display/vga.hpp"
 #include "interrupts/interrupt_manager.hpp"
 #include "core.hpp"
@@ -66,6 +67,8 @@ void pit_handler(struct interrupt_frame * in_frame) {
 }
 
 extern "C" int kmain(const void * in_boot_info) {
+    logger serial_log(gVga);
+    SerialPort serial(serial_log);
     logger idt_log(gVga);
     IDT idt(idt_log);
     logger pic_log(gVga);
@@ -75,12 +78,12 @@ extern "C" int kmain(const void * in_boot_info) {
     logger core_log(gVga);
 
     gInterrupts = &intmgr;
-    Core bootstrap_core(core_log, in_boot_info, intmgr);
+    Core bootstrap_core(core_log, in_boot_info, intmgr, serial);
 
     pit_count = 0;
 
     intmgr.register_handler(InterruptType::PANIC, panic_handler);
-    intmgr.register_handler(InterruptType::TIMER_EXPIRED, pit_handler);
+    //intmgr.register_handler(InterruptType::TIMER_EXPIRED, pit_handler);
 
     while(true) {
         // Loop forever
