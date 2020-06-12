@@ -54,7 +54,14 @@ void InterruptManager::handler_complete(InterruptType in_interrupt) {
 }
 
 void InterruptManager::register_handler(InterruptType in_interrupt, void (*in_handler)(struct interrupt_frame *)) {
-    disable_interrupts();
+    // If interrupts are enabled, disable them.
+    bool were_enabled = enabled();
+    if(were_enabled) {
+        disable_interrupts();
+    }
+
+    // Register the handler and, if it's a PIC-handled interrupt (IRQ 0-15),
+    // enable it in the PIC.
     _idt.register_handler((uint8_t)in_interrupt, in_handler);
     switch(in_interrupt) {
         case InterruptType::TIMER_EXPIRED:
@@ -63,5 +70,9 @@ void InterruptManager::register_handler(InterruptType in_interrupt, void (*in_ha
         default:
             break;
     }
-    enable_interrupts();
+
+    // Re-enable interrupts if they were enabled on entry.
+    if(were_enabled) {
+        enable_interrupts();
+    }
 }
