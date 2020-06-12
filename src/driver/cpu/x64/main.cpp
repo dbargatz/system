@@ -6,8 +6,8 @@
 #include "interrupts/interrupt_manager.hpp"
 #include "core.hpp"
 
-InterruptManager * gInterrupts;
-uint64_t pit_count;
+//InterruptManager * gInterrupts;
+//uint64_t pit_count;
 
 /**
  * @brief Loops the given number of times (in millions of loops) as a rough
@@ -21,17 +21,6 @@ void delay(uint16_t in_megaloops) {
     while(loops-- > 0) {
         // Loop for a bit
     }
-}
-
-extern "C" __attribute__((interrupt))
-void panic_handler(struct interrupt_frame * in_frame) {
-    SerialPort serial;
-    logger log(serial);
-    struct panic_data * data = (struct panic_data *)in_frame->rip;
-
-    log.error("PANIC({}:{}): {}\n", data->filename, data->lineNum, data->msg);
-    log.hexdump(logger::level::Error, (void *)data, sizeof(*data));
-    halt();
 }
 
 /*extern "C" __attribute__((interrupt))
@@ -51,15 +40,13 @@ extern "C" int kmain(const void * in_boot_info) {
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
     Core bootstrap_core(log, in_boot_info, intmgr);
-    gInterrupts = &intmgr;
 
-    pit_count = 0;
+    bootstrap_core.run();
+    //gInterrupts = &intmgr;
 
-    intmgr.register_handler(InterruptType::PANIC, panic_handler);
+    //pit_count = 0;
+
     //intmgr.register_handler(InterruptType::TIMER_EXPIRED, pit_handler);
-
-    log.info("Halting core, waiting for interrupts...\n");
-    halt();
 
     PANIC("End of kmain reached!");
     return -1;

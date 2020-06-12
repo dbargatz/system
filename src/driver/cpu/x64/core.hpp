@@ -1,7 +1,6 @@
 #ifndef _CORE_HPP
 #define _CORE_HPP
 
-#include "std/stdint.h"
 #include "std/logger.hpp"
 #include "interrupts/interrupt_manager.hpp"
 
@@ -15,6 +14,8 @@ public:
     Core(logger& in_log,
         const void * in_boot_info,
         InterruptManager& in_interrupts);
+
+    void run();
 };
 
 #endif // _CORE_HPP
