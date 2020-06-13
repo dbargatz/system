@@ -1,5 +1,5 @@
 set arch i386:x86-64:intel
 target remote localhost:1234
-symbol-file build/iso/boot/core.bin
+symbol-file build/iso/boot/core_x64.bin
 break kmain
 continue
