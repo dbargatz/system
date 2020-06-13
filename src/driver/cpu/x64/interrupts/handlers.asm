@@ -57,7 +57,7 @@ interrupt_handler_generic:
     iretq
 .no_err_exit:
     pop rdi
-    add rsp, 0x16
+    add rsp, 0x10
     iretq
 
 ;; NEED: what is my vector number?
