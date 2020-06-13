@@ -1,14 +1,14 @@
 #ifndef _TIMER_PIT_H
 #define _TIMER_PIT_H
 
+#include "ITimer.hpp"
 #include "../interrupts/frame.hpp"
 #include "../ports/io.h"
 #include "../std/logger.hpp"
 
 extern "C" void pit_handler(logger& in_log, interrupt_frame& in_frame);
 
-class PIT {
-
+class PIT : public ITimer {
 public:
     ///< Read/write. When read, returns 16-bit count value. Written values are
     ///< "reload" values. Meaning of "count" and "reload" vary based on mode of
@@ -50,7 +50,7 @@ public:
 
     PIT(logger& in_log, uint32_t in_frequency);
 
-    void set_frequency(uint32_t in_frequency);
+    void set_frequency(uint32_t in_frequency) override;
 };
 
 #endif // _TIMER_PIT_H
