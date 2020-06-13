@@ -31,6 +31,16 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
     in_log.hexdump(logger::level::Panic, (void *)data, sizeof(*data), 1);
     in_log.panic("\n");
     in_log.panic("\n");
+    halt();
+}
+
+extern "C" void unhandled_interrupt_handler(logger& in_log, interrupt_frame& in_frame) {
+    in_log.panic("\n");
+    in_log.panic("\n");
+    in_log.panic("UNHANDLED INTERRUPT: {}\n", in_frame.frame->interrupt_number);
+    in_frame.dump(logger::level::Panic);
+    in_log.panic("\n");
+    in_log.panic("\n");
 }
 
 extern "C" void dispatch_interrupt(const void * in_frame_ptr) {
@@ -43,13 +53,10 @@ extern "C" void dispatch_interrupt(const void * in_frame_ptr) {
             panic_handler(log, frame);
             break;
         default:
-            log.panic("UNHANDLED INTERRUPT: {}\n", frame.frame->interrupt_number);
-            frame.dump(logger::level::Panic);
+            unhandled_interrupt_handler(log, frame);
             break;
     }
-
-    log.warn("Halting!\n");
-    halt();
+    log.debug("Back from handler.\n");
 }
 
 InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) : 

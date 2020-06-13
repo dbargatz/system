@@ -16,7 +16,14 @@ Core::Core(logger& in_log, const void * in_boot_info,
 }
 
 void Core::run() {
-    _log.info("Halting core, waiting for interrupts...\n");
+    _log.info("Validating software interrupts...\n");
+    asm volatile("int $32\n");
+    asm volatile("int $45\n");
+    asm volatile("int $62\n");
+    asm volatile("int $98\n");
+    asm volatile("int $150\n");
+    asm volatile("int $254\n");
+    asm volatile("int $255\n");
+    _log.info("Done with software interrupts, panicking!\n");
     PANIC("oh bother");
-    halt();
 }
