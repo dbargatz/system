@@ -1,5 +1,11 @@
+/**
+ * @file
+ * @brief Contains invalid opcode-based implementation of PANIC().
+ */
 #ifndef _STD_PANIC_H
 #define _STD_PANIC_H
+
+#include "stdint.h"
 
 /**
  * @brief Data associated with a particular invocation of PANIC(). Includes 
