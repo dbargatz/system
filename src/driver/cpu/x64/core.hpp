@@ -10,13 +10,13 @@ private:
     logger& _log;
     const void * _boot_info;
     InterruptManager& _interrupts;
-    PIT& _pit;
+    ITimer& _timer;
 
 public:
     Core(logger& in_log,
         const void * in_boot_info,
         InterruptManager& in_interrupts,
-        PIT& in_pit);
+        ITimer& in_timer);
 
     void run();
 };
