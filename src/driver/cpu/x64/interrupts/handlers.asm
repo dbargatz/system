@@ -4,6 +4,7 @@ section .text
 bits 64
 
 interrupt_handler_generic:
+    ;; TODO: save SSE registers (XMM; FXSAVE/FXRSTOR?)
     ;; TODO: why push in this order? 
     ;; TODO: push segment regs?
     push rdi

@@ -55,6 +55,9 @@ start:
     ;; processor supports it before trying to enter long mode.
     call check_long_mode
 
+    ;; Verify and enable SSE so we can use floating-point arithmetic.
+    call enable_sse
+
     ;; Now that we've verified the processor supports long mode, we
     ;; need to set up the page tables before we can proceed.
     call set_up_page_tables
@@ -334,6 +337,44 @@ enable_paging:
     ;; At this point, we're in long mode, but in compatibility mode of
     ;; long mode.
     ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Verifies the minimum level of SSE support (SSE3) and enables SSE. Note
+;; that once SSE is enabled, code is capable of using floating-point
+;; (IEEE754) arithmetic, but can also cause numeric/floating-point
+;; exceptions. See Intel Software Developer's Manual Volume 3A, May
+;; 2020, page 6-52: Interrupt 19 for more information. If SSE is not
+;; supported, prints error "3" and hangs.
+enable_sse:
+    ;; All the SSE support bits are in CPUID page 1.
+    mov eax, 1
+    cpuid
+
+    ;; Ensure SSE is supported (EDX bit 25).
+    test edx, 1 << 25
+    jz .no_sse
+
+    ;; Ensure SSE2 is supported (EDX bit 26).
+    test edx, 1 << 26
+    jz .no_sse
+
+    ;; Clear CR0.EM (coprocessor emulation, bit 2) and set CR0.MP (coprocessor
+    ;; monitoring, bit 1).
+    mov eax, cr0
+    and eax, ~(1 << 2)
+    or eax, 1 << 1
+    mov cr0, eax
+
+    ;; Set CR4.OSFXSR (OS supports FXSAVE/FXRSTOR, bit 9) and CR4.OSXMMEXCPT
+    ;; (OS supports unmasked SSE exceptions, bit 10).
+    mov eax, cr4
+    or eax, 1 << 9
+    or eax, 1 << 10
+    mov cr4, eax
+
+    ret
+.no_sse:
+    mov al, "3"
+    jmp print32
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .bss
 align 4096

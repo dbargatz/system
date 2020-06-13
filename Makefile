@@ -4,7 +4,7 @@ CPPFLAGS =
 CXX      = clang++-7
 CXXFLAGS = -ffreestanding -fno-builtin -fno-rtti \
            -nostdlib -nostdinc -nostdinc++       \
-           -march=x86-64 -mcmodel=large -mno-sse \
+           -march=x86-64 -mcmodel=large          \
            -g -std=c++17                         \
            -Wall -Werror
 LD       = ld
