@@ -3,6 +3,7 @@
 #include "../std/cpuid.h"
 #include "../std/halt.h"
 #include "../std/panic.h"
+#include "../timer/pit.hpp"
 
 #define HANDLERS \
     X(0) X(10) X(20) X(30) X(40) X(50) X(60) X(70) X(80) X(90) X(100) X(110) X(120) X(130) X(140) X(150) X(160) X(170) X(180) X(190) X(200) X(210) X(220) X(230) X(240) X(250) \
@@ -49,14 +50,16 @@ extern "C" void dispatch_interrupt(const void * in_frame_ptr) {
     interrupt_frame frame(log, in_frame_ptr);
 
     switch(frame.frame->interrupt_number) {
-        case 6:
+        case 6:                         // IDT index 6, undefined opcode (used for panic)
             panic_handler(log, frame);
             break;
-        default:
+        case 32:                        // IDT index 32, IRQ 0, timer interrupt
+            pit_handler(log, frame);
+            break;
+        default:                        // Unhandled interrupt
             unhandled_interrupt_handler(log, frame);
             break;
     }
-    log.debug("Back from handler.\n");
 }
 
 InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) : 

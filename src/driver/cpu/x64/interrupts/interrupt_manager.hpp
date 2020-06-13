@@ -53,6 +53,8 @@ public:
     void handler_complete(InterruptType in_interrupt);
 
     void register_handler(InterruptType in_interrupt, const interrupt_handler in_handler);
+
+    void temp_unmask(uint8_t in_irq) { _pic.enable_irq(in_irq); }
 };
 
 #endif // _INTERRUPTS_INTERRUPT_MANAGER_HPP
