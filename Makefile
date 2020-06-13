@@ -2,9 +2,11 @@ AS       = nasm
 ASFLAGS  = -felf64 
 CPPFLAGS =
 CXX      = clang++-7
-CXXFLAGS = -ffreestanding -fno-builtin -nostdlib -nostdinc -nostdinc++ \
-		   -march=x86-64 -g -mcmodel=large -mno-sse -D x64 -std=c++17 \
-		   -Wall -Werror
+CXXFLAGS = -ffreestanding -fno-builtin -fno-rtti \
+           -nostdlib -nostdinc -nostdinc++       \
+           -march=x86-64 -mcmodel=large -mno-sse \
+           -g -std=c++17                         \
+           -Wall -Werror
 LD       = ld
 
 BUILD_DIR  = build
