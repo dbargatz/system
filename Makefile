@@ -34,7 +34,7 @@ qemu: $(ISO)
 	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO)
 
 qemu-debug: $(ISO)
-	qemu-system-x86_64 -m 1G -smp 3 -curses -cdrom $(ISO) -serial mon:stdio -d int -D $(QEMU_LOG) -no-reboot
+	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO) -d int -D $(QEMU_LOG) -no-reboot
 
 qemu-gdb: $(ISO)
 	qemu-system-x86_64 -m 1G -smp 3 -nographic -cdrom $(ISO) -d int -D $(QEMU_LOG) -no-reboot -s -S
