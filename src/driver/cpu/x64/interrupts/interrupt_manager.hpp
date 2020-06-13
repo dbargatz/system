@@ -1,6 +1,7 @@
 #ifndef _INTERRUPTS_INTERRUPT_MANAGER_HPP
 #define _INTERRUPTS_INTERRUPT_MANAGER_HPP
 
+#include "frame.hpp"
 #include "idt.hpp"
 #include "pic.hpp"
 #include "../std/logger.hpp"
@@ -10,6 +11,8 @@ enum class InterruptType : uint8_t {
     TIMER_EXPIRED = 32,
     KEYPRESS      = 33,
 };
+
+typedef void(*interrupt_handler)(logger& in_log, interrupt_frame& in_frame);
 
 class InterruptManager {
 private:
@@ -49,7 +52,7 @@ public:
 
     void handler_complete(InterruptType in_interrupt);
 
-    void register_handler(InterruptType in_interrupt, interrupt_handler_t * in_handler);
+    void register_handler(InterruptType in_interrupt, const interrupt_handler in_handler);
 };
 
 #endif // _INTERRUPTS_INTERRUPT_MANAGER_HPP
