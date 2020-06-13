@@ -1,9 +1,7 @@
 #include "frame.hpp"
 
 interrupt_frame::interrupt_frame(logger& in_log, const void * in_frame_ptr) :
-    _log(in_log), frame((struct _interrupt_frame *)in_frame_ptr) {
-    _log.debug("Constructed interrupt_frame.\n");
-}
+    _log(in_log), frame((struct _interrupt_frame *)in_frame_ptr) { }
 
 void interrupt_frame::dump(logger::level in_level, uint8_t in_indent) {
     _log.write(in_level, "Registers:\n");
