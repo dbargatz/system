@@ -6,10 +6,12 @@ DRIVER_LD_SRC        = $(DRIVER_SRC_DIR)/linker.ld
 DRIVER_OBJ           = $(DRIVER_BUILD_DIR)/core_x64.o
 DRIVER_BIN           = $(DRIVER_BUILD_DIR)/core_x64.bin
 
+CXX_INCLUDES         = -include $(DRIVER_SRC_DIR)/std/cpp.hpp
+
 $(DRIVER_BIN) : $(DRIVER_ASM_SRC) $(DRIVER_CPP_SRC)
 	@mkdir -p $(DRIVER_BUILD_DIR)
 	@for s in $(DRIVER_CPP_SRC); do \
-		$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) -o $(DRIVER_BUILD_DIR)/$$(basename $$s .cpp).o $$s; \
+		$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $(CXX_INCLUDES) -o $(DRIVER_BUILD_DIR)/$$(basename $$s .cpp).o $$s; \
 		done
 	@for s in $(DRIVER_ASM_SRC); do \
 		$(AS) $(ASFLAGS) -o $(DRIVER_BUILD_DIR)/$$(basename $$s .asm).o $$s; \
