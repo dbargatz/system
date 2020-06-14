@@ -122,6 +122,11 @@ private:
                                     min_width, fill);
                         ++in_format_str;
                     }
+                    else if('f' == *in_format_str) {
+                        format_arg(in_arg, 10, false, prepend_prefix, min_width,
+                            fill);
+                        ++in_format_str;
+                    }
                     else {
                         // Format argument using defaults. Do not advance.
                         format_arg(in_arg, 10, false, prepend_prefix,
