@@ -5,27 +5,27 @@
 #include "../interrupts/frame.hpp"
 #include "../ports/io.h"
 #include "../std/logger.hpp"
-
-extern "C" void pit_handler(logger& in_log, interrupt_frame& in_frame);
+#include "../std/stdint.h"
+#include "../core.hpp"
 
 class PIT : public ITimer {
 public:
     ///< Read/write. When read, returns 16-bit count value. Written values are
     ///< "reload" values. Meaning of "count" and "reload" vary based on mode of
     ///< PIT, which is specified by the COMMAND_REGISTER.
-    static const io_port_addr_t CHANNEL_0_REGISTER = 0x0040;
+    constexpr static const io_port_addr_t CHANNEL_0_REGISTER = 0x0040;
 
     ///< Write-only. Determines how a specified channel register will be read or
     ///< written to, and what mode the PIT channel operates in. See 
     ///< _command_reg for format.
-    static const io_port_addr_t COMMAND_REGISTER        = 0x0043;
+    constexpr static const io_port_addr_t COMMAND_REGISTER        = 0x0043;
 
     ///< The base/maximum clock frequency of the PIT in Hz. Actual frequency is
-    ///< 1.193181666... MHz (with repeating 6), so rounded up.
-    static const uint32_t BASE_FREQUENCY_HZ = 1193182;
+    ///< 1,193,181.666... Hz (with repeating 6).
+    constexpr static const float64_t BASE_FREQUENCY_HZ = 1193181.666666666666666;
 
     ///< The slowest frequency the PIT can fire at, in Hz.
-    static const uint32_t MIN_FREQUENCY_HZ = 18;
+    constexpr static const float64_t MIN_FREQUENCY_HZ = BASE_FREQUENCY_HZ / UINT16_MAX;
 
     union _command_reg {
         uint8_t as_byte;
@@ -45,12 +45,16 @@ public:
         };
     };
 
-    logger& _log;
-    uint16_t _reload_value;
+    logger&   _log;
+    float64_t _uptime_ms;
+    float64_t _frequency_hz;
+    uint16_t  _reload_value;
 
-    PIT(logger& in_log, uint32_t in_frequency);
+    PIT(logger& in_log);
 
-    void set_frequency(uint32_t in_frequency) override;
+    float64_t get_frequency() override;
+    void set_frequency(float64_t in_frequency_hz) override;
+    void interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) override;
 };
 
 #endif // _TIMER_PIT_H

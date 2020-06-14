@@ -7,6 +7,8 @@
 #include "core.hpp"
 #include "timer/pit.hpp"
 
+Core * this_core;
+
 /**
  * @brief Loops the given number of times (in millions of loops) as a rough
  * delay mechanism.
@@ -27,8 +29,10 @@ extern "C" int kmain(const void * in_boot_info) {
     IDT idt(log);
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
-    PIT pit(log, 20);
+    PIT pit(log);
+
     Core bootstrap_core(log, in_boot_info, intmgr, pit);
+    this_core = &bootstrap_core;
 
     bootstrap_core.run();
 

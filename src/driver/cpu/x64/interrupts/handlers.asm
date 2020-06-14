@@ -1,3 +1,4 @@
+extern this_core
 extern dispatch_interrupt
 
 section .text
@@ -6,6 +7,7 @@ bits 64
 interrupt_handler_generic:
     ;; TODO: save SSE registers (XMM; FXSAVE/FXRSTOR?)
     ;; TODO: why push in this order? 
+    ;; TODO: Clear direction flag for SysV ABI?
     ;; TODO: push segment regs?
     push rdi
     push rsi
@@ -22,7 +24,10 @@ interrupt_handler_generic:
     push r14
     push r15
 .dispatch:
-    mov rdi, rsp
+    ;; Pass the current Core as the first argument, and the stacl frame
+    ;; as the second argument.
+    mov rdi, [this_core]
+    mov rsi, rsp
     lea rax, [dispatch_interrupt]
     call rax
 .restore_registers:

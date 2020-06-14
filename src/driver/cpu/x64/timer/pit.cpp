@@ -2,39 +2,31 @@
 #include "../ports/asm.h"
 #include "../std/panic.h"
 
-float64_t freq;   // TODO: remove
-float64_t uptime_ms;
+PIT::PIT(logger& in_log) : _log(in_log), _uptime_ms(0.0),
+    _frequency_hz(MIN_FREQUENCY_HZ), _reload_value(0) { }
 
-extern "C" void pit_handler(logger& in_log, interrupt_frame& in_frame) {
-    uptime_ms += 1000.0/freq;
-    in_log.debug("Uptime: {}ms\n", (uint64_t)uptime_ms);
-
-    // TODO: sending EOI to PIC, integrate with rest of system
-    outb(0x0020, 0x20);
+float64_t PIT::get_frequency() {
+    return _frequency_hz;
 }
 
-PIT::PIT(logger& in_log, uint32_t in_frequency) : _log(in_log) {
-    set_frequency(in_frequency);
-    _log.debug("Constructed PIT.\n");
-}
-
-void PIT::set_frequency(uint32_t in_frequency) {
+void PIT::set_frequency(float64_t in_frequency_hz) {
     // If the frequency is too low or too high, panic.
-    if(in_frequency > BASE_FREQUENCY_HZ) {
+    if(in_frequency_hz > BASE_FREQUENCY_HZ) {
         PANIC("frequency too high");
-    } else if(in_frequency < MIN_FREQUENCY_HZ) {
+    } else if(in_frequency_hz < MIN_FREQUENCY_HZ) {
         PANIC("frequency too low");
     }
 
     // Calculate the new reload value.
-    _reload_value = BASE_FREQUENCY_HZ / in_frequency;
-    uint32_t remainder = BASE_FREQUENCY_HZ % in_frequency;
-    if(remainder > (BASE_FREQUENCY_HZ / 2)) {
+    auto new_value = (BASE_FREQUENCY_HZ / in_frequency_hz);
+    _reload_value = (uint16_t)new_value;
+    auto delta = new_value - _reload_value;
+    if(delta > 0.5) {
         _reload_value++;
     }
 
-    // TODO: remove statics
-    freq = (float64_t)BASE_FREQUENCY_HZ/(float64_t)_reload_value;
+    // Calculate the actual frequency.
+    _frequency_hz = (BASE_FREQUENCY_HZ / (float64_t)_reload_value);
 
     // Install the new reload value in the actual hardware.
     union _command_reg cmd;
@@ -50,5 +42,13 @@ void PIT::set_frequency(uint32_t in_frequency) {
     outb(CHANNEL_0_REGISTER, (uint8_t)(_reload_value >> 8));
 
     _log.debug("Set PIT frequency to {}Hz (requested frequency: {}Hz, reload value: {})\n", 
-        BASE_FREQUENCY_HZ / _reload_value, in_frequency, _reload_value);
+        _frequency_hz, in_frequency_hz, _reload_value);
+}
+
+void PIT::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) {
+    _uptime_ms += 1000.0 / _frequency_hz;
+    if((uint64_t)_uptime_ms % 1000 == 0) {
+        _log.debug("Uptime: {}ms\n", _uptime_ms);
+    }
+    in_mgr.handler_complete(InterruptType::TIMER_EXPIRED);
 }

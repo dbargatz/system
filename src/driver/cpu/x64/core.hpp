@@ -3,16 +3,17 @@
 
 #include "std/logger.hpp"
 #include "interrupts/interrupt_manager.hpp"
-#include "timer/pit.hpp"
+#include "timer/ITimer.hpp"
 
 class Core {
 private:
     logger& _log;
     const void * _boot_info;
-    InterruptManager& _interrupts;
-    ITimer& _timer;
 
 public:
+    ITimer& timer;
+    InterruptManager& interrupts;
+
     Core(logger& in_log,
         const void * in_boot_info,
         InterruptManager& in_interrupts,

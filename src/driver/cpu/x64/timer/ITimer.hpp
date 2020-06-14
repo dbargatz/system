@@ -5,6 +5,8 @@
 #ifndef _TIMER_ITIMER_HPP
 #define _TIMER_ITIMER_HPP
 
+#include "../interrupts/frame.hpp"
+#include "../interrupts/interrupt_manager.hpp"
 #include "../std/stdint.h"
 
 /**
@@ -12,7 +14,9 @@
  */
 class ITimer {
 public:
-    virtual void set_frequency(uint32_t in_frequency_in_hz) = 0;
+    virtual float64_t get_frequency() = 0;
+    virtual void set_frequency(float64_t in_frequency_hz) = 0;
+    virtual void interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) = 0;
 };
 
 #endif // _TIMER_ITIMER_HPP
