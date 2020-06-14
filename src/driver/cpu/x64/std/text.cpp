@@ -105,14 +105,21 @@ template<> void text::format_arg(const int64_t in_arg,
     char temp[32] = {0};
     size_t idx = 0;
     const char * digits = in_uppercase_digits ? "0123456789ABCDEF" : "0123456789abcdef";
-    uint64_t remainder = in_arg;
+    int64_t remainder = in_arg;
+    int8_t modulo;
 
     if(0 == remainder) {
         temp[idx++] = digits[0];
     }
     else {
+        // TODO: This is super hacky - works for now, but this whole class is
+        //       just formatting hacks on top of hacks.
         while(remainder != 0) {
-            temp[idx++] = digits[remainder % in_base];
+            modulo = remainder % in_base;
+            if(modulo < 0) {
+                modulo *= -1;
+            }
+            temp[idx++] = digits[modulo];
             remainder /= in_base;
         }
     }
