@@ -2,6 +2,7 @@
     // Install various VSCode extensions to make development in VSCode and
     // Codespaces more pleasant.
     "extensions": [
+        "asabil.meson",
         "cschlosser.doxdocgen",
         "davidanson.vscode-markdownlint",
         "github.vscode-pull-request-github",

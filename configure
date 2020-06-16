@@ -1,4 +1,21 @@
 #!/bin/bash
 
 # Install the dependencies for compiling, debugging, and running.
-sudo apt-get install -y clang-7 gdb grub-common grub-pc-bin nasm qemu-system xorriso
+sudo apt-get install -y \
+    clang-7             \
+    doxygen             \
+    gdb                 \
+    graphviz            \
+    grub-common         \
+    grub-pc-bin         \
+    nasm                \
+    python3             \
+    python3-pip         \
+    qemu-system         \
+    xorriso
+
+# Upgrade pip3 if necessary.
+python3 -m pip install --user --upgrade pip
+
+# Install the latest versions of meson and ninja.
+python3 -m pip install --user --upgrade meson ninja
