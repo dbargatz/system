@@ -19,3 +19,20 @@ python3 -m pip install --user --upgrade pip
 
 # Install the latest versions of meson and ninja.
 python3 -m pip install --user --upgrade meson ninja
+
+# QEMU deps (from https://wiki.qemu.org/Hosts/Linux, using Ubuntu/Debian instructions)
+# sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev git-email \
+#                      libaio-dev libbluetooth-dev libbrlapi-dev libbz2-dev libcap-dev \
+#                      libcap-ng-dev libcurl4-gnutls-dev libgtk-3-dev libibverbs-dev \
+#                      libjpeg62-turbo-dev libncurses5-dev libnuma-dev librbd-dev \
+#                      librdmacm-dev libsasl2-dev libsdl1.2-dev libseccomp-dev \
+#                      libsnappy-dev libssh2-1-dev libvde-dev libvdeplug-dev \
+#                      libxen-dev liblzo2-dev valgrind xfslibs-dev libnfs-dev \
+#                      libiscsi-dev
+
+# QEMU 5.0.0 install (from https://www.qemu.org/download/#source):
+# wget https://download.qemu.org/qemu-5.0.0.tar.xz
+# tar xvJf qemu-5.0.0.tar.xz
+# cd qemu-5.0.0
+# ./configure
+# make
