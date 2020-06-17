@@ -1,22 +1,21 @@
 #ifndef _DEBUG_SERIAL_HPP
 #define _DEBUG_SERIAL_HPP
 
-#include "../ports/io.h"
+#include "../ports/io_port.hpp"
 #include "../std/text.hpp"
 
 class SerialPort {
 private:
-    static const io_port_addr_t COM1_IO_PORT      = 0x03F8;
-    static const io_port_addr_t DATA              = COM1_IO_PORT;
-    static const io_port_addr_t INTERRUPT_ENABLE  = DATA + 1;
-    static const io_port_addr_t ID_FIFO_CONTROL   = DATA + 2;
-    static const io_port_addr_t LINE_CONTROL      = DATA + 3;
-    static const io_port_addr_t MODEM_CONTROL     = DATA + 4;
-    static const io_port_addr_t LINE_STATUS       = DATA + 5;
-    static const io_port_addr_t MODEM_STATUS      = DATA + 6;
-    static const io_port_addr_t SCRATCH           = DATA + 7;
+    static const uint16_t COM1_IO_PORT = 0x03F8;
 
-    static bool _our_initialized;
+    io_port _data;
+    io_port _interrupt_enable;
+    io_port _id_fifo_control;
+    io_port _line_control;
+    io_port _modem_control;
+    io_port _line_status;
+    io_port _modem_status;
+    io_port _scratch;
 
 public:
     SerialPort();

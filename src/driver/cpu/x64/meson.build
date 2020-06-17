@@ -16,6 +16,7 @@ driver_cpu_x64_cpp_src = [
     'interrupts/idt.cpp',
     'interrupts/interrupt_manager.cpp',
     'interrupts/pic.cpp',
+    'ports/io_port.cpp',
     'std/cpp.cpp',
     'std/logger.cpp',
     'std/memcpy.cpp',

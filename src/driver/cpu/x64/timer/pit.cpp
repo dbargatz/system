@@ -1,5 +1,4 @@
 #include "pit.hpp"
-#include "../ports/asm.h"
 #include "../std/panic.h"
 
 PIT::PIT(logger& in_log) : _log(in_log), _uptime_ms(0.0),
@@ -37,9 +36,9 @@ void PIT::set_frequency(float64_t in_frequency_hz) {
 
     // Set the mode/command, then write the reload value into the PIT (low byte
     // first).
-    outb(COMMAND_REGISTER, cmd.as_byte);
-    outb(CHANNEL_0_REGISTER, (uint8_t)_reload_value);
-    outb(CHANNEL_0_REGISTER, (uint8_t)(_reload_value >> 8));
+    COMMAND_REGISTER.outb(cmd.as_byte);
+    CHANNEL_0_REGISTER.outb((uint8_t)_reload_value);
+    CHANNEL_0_REGISTER.outb((uint8_t)(_reload_value >> 8));
 
     _log.debug("Set PIT frequency to {}Hz (requested frequency: {}Hz, reload value: {})\n", 
         _frequency_hz, in_frequency_hz, _reload_value);
