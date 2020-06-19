@@ -4,7 +4,9 @@
 apt-get -y --no-install-recommends install \
     clang                                  \
     doxygen                                \
+    fish                                   \
     gdb                                    \
+    git                                    \
     graphviz                               \
     grub-common                            \
     grub-pc-bin                            \
@@ -12,8 +14,7 @@ apt-get -y --no-install-recommends install \
     nasm                                   \
     python3                                \
     python3-pip                            \
-    qemu-system-x86                        \
-    qemu-system-arm                        \
+    qemu-system                            \
     xorriso
 
 # Upgrade pip3 if necessary.
@@ -21,6 +22,9 @@ python3 -m pip install --user --upgrade pip
 
 # Install the latest versions of meson and ninja.
 python3 -m pip install --user --upgrade meson ninja
+
+# Make fish the default shell.
+usermod --shell /usr/bin/fish root
 
 # QEMU deps (from https://wiki.qemu.org/Hosts/Linux, using Ubuntu/Debian instructions)
 # sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev git-email \
