@@ -13,7 +13,6 @@
         "ms-vsliveshare.vsliveshare"
     ],
     "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/root/.local/bin",
-        "SHELL": "/bin/bash"
+        "PATH": "${containerEnv:PATH}:/root/.local/bin"
     }
 }
