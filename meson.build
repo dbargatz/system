@@ -11,4 +11,4 @@ iso = custom_target('iso',
               'cp', '@INPUT@', 'iso/boot', '&&',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
     install: true,
-    install_dir: 'build/')
+    install_dir: 'build/artifacts')

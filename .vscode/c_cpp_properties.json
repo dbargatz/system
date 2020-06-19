@@ -6,7 +6,7 @@
                 "${workspaceFolder}/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang++-7",
+            "compilerPath": "/usr/bin/clang++",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "clang-x64",
@@ -20,8 +20,8 @@
                 "-g",
                 "-mcmodel=large",
                 "-mno-sse",
-                "-D x64",
                 "-std=c++17",
+                "-c",
                 "-Wall",
                 "-Werror"
             ]

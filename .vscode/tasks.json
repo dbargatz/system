@@ -8,7 +8,7 @@
                 "qemu-debug"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/build/"
+                "cwd": "${workspaceFolder}/build/artifacts"
             },
         }
     ],
