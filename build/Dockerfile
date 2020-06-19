@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:stable
 
 ARG CONFIGURE_SCRIPT="https://raw.githubusercontent.com/dbargatz/system/master/configure"
 
@@ -10,10 +10,9 @@ RUN apt-get update \
     && apt-get -y upgrade \
     #
     # Install tools needed for the configure script.
-    && apt-get -y install curl less \
+    && apt-get -y install curl \
     #
     # Download and run the configure script to install all the needed tools.
-    && apt-get -y install curl less \
     && curl --silent --output /tmp/configure.sh $CONFIGURE_SCRIPT \
     && /bin/bash /tmp/configure.sh \
     && rm /tmp/configure.sh \

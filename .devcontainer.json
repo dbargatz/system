@@ -1,6 +1,6 @@
 {
     "dockerFile": "build/Dockerfile",
-    "image": "docker.pkg.github.com/dbargatz/system/build:latest",
+    "image": "dbargatz/system-build:latest",
     // Install various VSCode extensions to make development in VSCode and
     // Codespaces more pleasant.
     "extensions": [

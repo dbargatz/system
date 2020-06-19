@@ -1,17 +1,19 @@
 #!usr/bin/env bash
 
 # Install the dependencies for compiling, debugging, and running.
-apt-get -y install      \
-    clang-7             \
-    doxygen             \
-    gdb                 \
-    graphviz            \
-    grub-common         \
-    grub-pc-bin         \
-    nasm                \
-    python3             \
-    python3-pip         \
-    qemu-system         \
+apt-get -y --no-install-recommends install \
+    clang                                  \
+    doxygen                                \
+    gdb                                    \
+    graphviz                               \
+    grub-common                            \
+    grub-pc-bin                            \
+    less                                   \
+    nasm                                   \
+    python3                                \
+    python3-pip                            \
+    qemu-system-x86                        \
+    qemu-system-arm                        \
     xorriso
 
 # Upgrade pip3 if necessary.
