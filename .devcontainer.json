@@ -12,7 +12,7 @@
         "ms-vscode.cpptools",
         "ms-vsliveshare.vsliveshare"
     ],
-    "containerEnv": {
+    "remoteEnv": {
         "PATH": "/root/.local/bin:${localEnv:PATH}",
         "SHELL": "/bin/bash"
     }
