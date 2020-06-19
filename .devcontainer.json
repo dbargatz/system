@@ -11,5 +11,9 @@
         "ms-vscode.azure-account",
         "ms-vscode.cpptools",
         "ms-vsliveshare.vsliveshare"
-    ]
+    ],
+    "containerEnv": {
+        "PATH": "/root/.local/bin:${localEnv:PATH}",
+        "SHELL": "/bin/bash"
+    }
 }
