@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian
 
 ARG CONFIGURE_SCRIPT="https://raw.githubusercontent.com/dbargatz/system/master/configure"
 
