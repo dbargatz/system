@@ -1,7 +1,7 @@
-#!/bin/bash
+#!usr/bin/env bash
 
 # Install the dependencies for compiling, debugging, and running.
-sudo apt-get install -y \
+apt-get -y install      \
     clang-7             \
     doxygen             \
     gdb                 \
