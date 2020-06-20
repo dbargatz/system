@@ -10,7 +10,9 @@ RUN apt-get update \
     && apt-get -y upgrade \
     # Install tools needed for the configure script or VS Code.
     && apt-get -y install apt-utils fish libicu63 wget \
-    # Make bash the default shell.
+    # Make bash the default shell instead of dash.
+    && (echo "dash dash/sh boolean false" | debconf-set-selections) \
+    && dpkg-reconfigure dash \
     && chsh -s /bin/bash root \
     # Download and run the configure script to install all the needed tools.
     && wget --quiet --output-document=/tmp/configure.sh $CONFIGURE_SCRIPT \
