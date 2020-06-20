@@ -17,7 +17,8 @@ apt-get -y --no-install-recommends install \
     xorriso
 
 # Add /root/.local/bin to PATH for meson and ninja and to avoid the warning that
-# it's not on the path.
+# it's not on the path; put it in .bashrc as well so it's persistent.
+export PATH=/root/.local/bin:$PATH
 echo "" >> ~/.bashrc
 echo "# Added by system's ./configure script" >> ~/.bashrc
 echo "export PATH=/root/.local/bin:\$PATH" >> ~/.bashrc
