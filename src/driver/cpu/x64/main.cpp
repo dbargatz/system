@@ -30,8 +30,20 @@ extern "C" int kmain(const void * in_boot_info) {
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
     PIT pit(log);
+
     ps2_controller ps2(log);
-    at_keyboard kbd(log, ps2);
+    ps2_port kbd_port = ps2_port::INVALID;
+    ps2_device_type port1 = ps2.get_type(ps2_port::PORT1);
+    ps2_device_type port2 = ps2.get_type(ps2_port::PORT2);
+    log.debug("PS/2 port 1: {}\n", (uint8_t)port1);
+    log.debug("PS/2 port 2: {}\n", (uint8_t)port2);
+
+    if(port1 == ps2_device_type::KEYBOARD_STANDARD) {
+        kbd_port = ps2_port::PORT1;
+    } else if(port2 == ps2_device_type::KEYBOARD_STANDARD) {
+        kbd_port = ps2_port::PORT2;
+    }
+    at_keyboard kbd(log, ps2, kbd_port);
 
     Core bootstrap_core(log, in_boot_info, intmgr, pit, kbd);
     this_core = &bootstrap_core;

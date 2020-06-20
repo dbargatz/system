@@ -7,11 +7,12 @@
 
 class at_keyboard : public keyboard {
 public:
-    at_keyboard(logger& in_log, ps2_controller& in_ps2);
+    at_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_port);
     void reset() override;
 
 private:
     logger& _log;
+    ps2_port _port;
     ps2_controller& _ps2;
 };
 

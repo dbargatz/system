@@ -5,12 +5,29 @@
 #include "../std/logger.hpp"
 #include "../std/stdint.h"
 
+enum class ps2_port : uint8_t {
+    INVALID = 0,
+    PORT1,
+    PORT2,
+    CONTROLLER
+};
+
+enum class ps2_device_type : uint8_t {
+    INVALID = 0,
+    MOUSE_STANDARD,
+    MOUSE_SCROLL,
+    MOUSE_5_BUTTON,
+    KEYBOARD_TRANSLATED,
+    KEYBOARD_STANDARD
+};
+
 class ps2_controller {
 public:
     ps2_controller(logger& in_log);
+    void disable(ps2_port in_port);
+    ps2_device_type get_type(ps2_port in_port);
     uint8_t read();
-    void write(uint8_t in_data);
-    void temp_dump();
+    uint8_t write(ps2_port in_port, uint8_t in_data, uint8_t in_resend=0, uint8_t in_ack=0, bool in_response=false);
 
 private:
     constexpr static const io_port PS2_DATA_REGISTER = io_port(0x0060);
@@ -21,14 +38,10 @@ private:
     logger& _log;
 
     uint8_t _read_config();
-    uint8_t _read_data();
+    void _write_config(uint8_t in_data);
 
     uint8_t _write_cmd(uint8_t in_data, bool in_response=false);
     void _write_data(uint8_t in_data);
-    uint8_t _write_data(uint8_t in_data, uint8_t in_resend, uint8_t in_ack);
-    void _write_config(uint8_t in_data);
-    uint8_t _write_port1(uint8_t in_data, uint8_t in_resend, uint8_t in_ack);
-    uint8_t _write_port2(uint8_t in_data, uint8_t in_resend, uint8_t in_ack);
 };
 
 #endif // _KEYBOARD_PS2_CONTROLLER_HPP

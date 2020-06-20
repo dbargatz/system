@@ -1,17 +1,127 @@
 #include "ps2_controller.hpp"
 #include "../std/panic.h"
 
-uint8_t ps2_controller::_read_config() {
-    // Write the "read byte 0" command to the controller, wait, and return the
-    // config byte.
-    return _write_cmd(0x20, true);
+ps2_device_type ps2_controller::get_type(ps2_port in_port) {
+    ps2_device_type type = ps2_device_type::INVALID;
+
+    // Disable scanning on the device.
+    write(in_port, 0xF5, 0xFE, 0xFA);
+
+    // Send the identify command to the device.
+    auto response = write(in_port, 0xF2, 0xFE, 0xFA, true);
+    _log.debug("Response 1: {#02X}\n", response);
+
+    switch(response) {
+        case 0x00:
+            type = ps2_device_type::MOUSE_STANDARD;
+            break;
+        case 0x03:
+            type = ps2_device_type::MOUSE_SCROLL;
+            break;
+        case 0x04:
+            type = ps2_device_type::MOUSE_5_BUTTON;
+            break;
+        case 0xAB:
+            // Start of a 2-byte response.
+            break;
+        default:
+            _log.warn("Invalid PS/2 device type {#02X} received\n", response);
+            type = ps2_device_type::INVALID;
+            break;
+    }
+
+    // Handle multi-byte types.
+    if(0xAB == response) {
+        response = read();
+        _log.debug("Response 2: {#02X}\n", response);
+        switch(response) {
+            case 0x41: // Intentional fall-through
+            case 0xC1:
+                type = ps2_device_type::KEYBOARD_TRANSLATED;
+                break;
+            case 0x83:
+                type = ps2_device_type::KEYBOARD_STANDARD;
+                break;
+            default:
+                _log.warn("Invalid PS/2 device type (0xAB, {#02X}) received\n", response);
+                type = ps2_device_type::INVALID;
+                break;
+        }
+    }
+
+    // Re-enable scanning on the device.
+    write(in_port, 0xF4, 0xFE, 0xFA);
+    return type;
 }
 
-uint8_t ps2_controller::_read_data() {
+void ps2_controller::disable(ps2_port in_port) {
+    switch(in_port) {
+        case ps2_port::PORT1:
+            _port_1_ok = false;
+            _write_cmd(0xAD); // Disable port 1
+            _log.debug("Disabled PS/2 port 1.\n");
+            return;
+        case ps2_port::PORT2:
+            _port_2_ok = false;
+            _write_cmd(0xA7); // Disable port 2
+            _log.debug("Disabled PS/2 port 2.\n");
+            return;
+        case ps2_port::CONTROLLER:
+            disable(ps2_port::PORT1);
+            disable(ps2_port::PORT2);
+            _log.debug("Disabled both PS/2 ports.\n");
+            return;
+        default:
+            _log.warn("Invalid PS/2 device; cannot disable.\n");
+            return;
+    }
+}
+
+uint8_t ps2_controller::read() {
     // Spin-wait until there's data available according to bit 0 of the 
     // controller's status register.
     while(!(PS2_STATUS_CMD_REGISTER.inb() & 0x01));
     return PS2_DATA_REGISTER.inb();
+}
+
+uint8_t ps2_controller::write(ps2_port in_port, uint8_t in_data, uint8_t in_resend, uint8_t in_ack, bool in_response) {
+    uint8_t response = 0;
+
+    // TODO: Verify port is OK for writing (_port_1_ok/_port_2_ok/in_port not invalid)
+
+    // Select the second port for writing, if necessary.
+    if(in_port == ps2_port::PORT2) {
+        _write_cmd(0xD4);
+    }
+
+    while(true) {
+        // Write out the given data.
+        _write_data(in_data);
+
+        if(0 == in_resend && 0 == in_ack && !in_response) {
+            break;
+        }
+
+        // Grab the response. If it's a resend request, loop; if it's an ack,
+        // grab the next byte and head out; otherwise, it's an error.
+        response = read();
+        if(0x00 != in_resend && response == in_resend && in_response) {
+            continue;
+        } else if(0x00 != in_ack && response == in_ack && in_response) {
+            response = read();
+            break;
+        } else {
+            break;
+        }
+    }
+
+    return response;
+}
+
+uint8_t ps2_controller::_read_config() {
+    // Write the "read byte 0" command to the controller, wait, and return the
+    // config byte.
+    return _write_cmd(0x20, true);
 }
 
 uint8_t ps2_controller::_write_cmd(uint8_t in_data, bool in_response) {
@@ -20,7 +130,7 @@ uint8_t ps2_controller::_write_cmd(uint8_t in_data, bool in_response) {
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x02);
     PS2_STATUS_CMD_REGISTER.outb(in_data);
 
-    return (in_response ? _read_data() : 0);
+    return (in_response ? read() : 0);
 }
 
 void ps2_controller::_write_config(uint8_t in_config) {
@@ -37,37 +147,6 @@ void ps2_controller::_write_data(uint8_t in_data) {
     // register bit 1.
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x02);
     PS2_DATA_REGISTER.outb(in_data);
-}
-
-uint8_t ps2_controller::_write_data(uint8_t in_data, uint8_t in_resend, uint8_t in_ack) {
-    uint8_t response;
-    while(true) {
-        // Write out the given data.
-        _write_data(in_data);
-
-        // Grab the response. If it's a resend request, loop; if it's an ack,
-        // grab the next byte and head out; otherwise, it's an error.
-        response = _read_data();
-        if(0x00 != in_resend && response == in_resend) {
-            continue;
-        } else if(0x00 != in_ack && response == in_ack) {
-            response = _read_data();
-            break;
-        } else {
-            break;
-        }
-    }
-
-    return response;
-}
-
-uint8_t ps2_controller::_write_port1(uint8_t in_data, uint8_t in_resend, uint8_t in_ack) {
-    return _write_data(in_data, in_resend, in_ack);
-}
-
-uint8_t ps2_controller::_write_port2(uint8_t in_data, uint8_t in_resend, uint8_t in_ack) {
-    _write_cmd(0xD4);
-    return _write_data(in_data, in_resend, in_ack);
 }
 
 ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
@@ -131,47 +210,22 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
         }
     }
 
-    // Enable the first PS/2 port, turn on interrupts, and reset the device to
-    // determine if a device is present.
+    // Enable the first PS/2 port and turn on interrupts.
     if(_port_1_ok) {
         _write_cmd(0xAE);                          // Enable port 1
         config = _read_config();
         _write_config(config | 0b00000001);        // Enable port 1 interrupts
 
-        response = _write_port1(0xFF, 0xFE, 0xFA); // Reset the device on port 1
-        if(response != 0xAA) {
-            _log.error("PS/2 device 1 failed reset (response {#02X})\n", response);
-            _port_1_ok = false;
-        }
+        // TODO: may need to reset the device here
     }
 
-    // Enable the second PS/2 port, turn on interrupts, and reset the device to
-    // determine if a device is present.
+    // Enable the second PS/2 port and turn on interrupts.
     if(_port_2_ok) {
         _write_cmd(0xA8);                          // Enable port 2
         config = _read_config();
         _write_config(config | 0b00000010);        // Enable port 2 interrupts
 
-        response = _write_port2(0xFF, 0xFE, 0xFA); // Reset the device on port 2
-        if(response != 0xAA) {
-            _log.error("PS/2 device 2 failed reset (response {#02X})\n", response);
-            _port_2_ok = false;
-        }
+        // TODO: may need to reset the device here
     }
     _log.debug("PS/2: so far, so good!\n");
-}
-
-uint8_t ps2_controller::read() {
-    PANIC("read() not implemented yet\n");
-    return 0;
-}
-
-void ps2_controller::write(uint8_t in_data) {
-    PANIC("write() not implemented yet\n");
-}
-
-void ps2_controller::temp_dump() {
-    _log.debug("PS/2 controller:\n");
-    _log.debug("\tPort 1: {}abled\n", _port_1_ok ? "en" : "dis");
-    _log.debug("\tPort 2: {}abled\n", _port_2_ok ? "en" : "dis");
 }
