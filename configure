@@ -1,10 +1,9 @@
-#!usr/bin/env sh
+#!usr/bin/env bash
 
 # Install the dependencies for compiling, debugging, and running.
 apt-get -y --no-install-recommends install \
     clang                                  \
     doxygen                                \
-    fish                                   \
     gdb                                    \
     git                                    \
     graphviz                               \
