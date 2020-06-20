@@ -1,4 +1,4 @@
-#!usr/bin/env bash
+#!/bin/bash
 
 # Install the dependencies for compiling, debugging, and running.
 apt-get -y --no-install-recommends install \
@@ -15,6 +15,12 @@ apt-get -y --no-install-recommends install \
     python3-pip                            \
     qemu-system                            \
     xorriso
+
+# Add /root/.local/bin to PATH for meson and ninja and to avoid the warning that
+# it's not on the path.
+echo "" >> ~/.bashrc
+echo "# Added by system's ./configure script" >> ~/.bashrc
+echo "export PATH=/root/.local/bin:\$PATH" >> ~/.bashrc
 
 # Upgrade pip3 if necessary.
 python3 -m pip install --user --upgrade pip
