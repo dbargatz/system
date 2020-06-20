@@ -2,10 +2,11 @@
 
 USAGE="Usage: $0 [-d/--debug] [-g/--gdb] [additional QEMU args]"
 
+ROOT_DIR="$(realpath $(dirname $(readlink -f $0))/../)"
 DEBUG=
 GDB=
-ISO=../build/artifacts/system.iso
-LOG="-D artifacts/qemu.log"
+ISO="${ROOT_DIR}/build/artifacts/system.iso"
+LOG="-D ${ROOT_DIR}/test/artifacts/qemu.log"
 MEMORY=1G
 SMP=3
 QEMU_ARGS=()
@@ -37,7 +38,7 @@ esac
 done
 
 # Create test/artifacts if it doesn't exist.
-mkdir -p artifacts
+mkdir -p ${ROOT_DIR}/test/artifacts
 
 # Note: ${QEMU_ARGS[@]} expands to all the members of QEMU_ARGS.
 qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} -nographic ${DEBUG} ${GDB} ${LOG} \
