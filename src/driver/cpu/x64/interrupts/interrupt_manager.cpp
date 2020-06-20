@@ -43,6 +43,8 @@ extern "C" void unhandled_interrupt_handler(logger& in_log, interrupt_frame& in_
     in_frame.dump(logger::level::Panic);
     in_log.panic("\n");
     in_log.panic("\n");
+    in_log.panic("HALTING\n");
+    halt();
 }
 
 extern "C" void dispatch_interrupt(const Core * in_core, const void * in_frame_ptr) {
