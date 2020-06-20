@@ -35,8 +35,8 @@ extern "C" int kmain(const void * in_boot_info) {
     ps2_port kbd_port = ps2_port::INVALID;
     ps2_device_type port1 = ps2.get_type(ps2_port::PORT1);
     ps2_device_type port2 = ps2.get_type(ps2_port::PORT2);
-    log.debug("PS/2 port 1: {}\n", (uint8_t)port1);
-    log.debug("PS/2 port 2: {}\n", (uint8_t)port2);
+    log.debug("PS/2 port 1: {}\n", ps2.get_type_str(port1));
+    log.debug("PS/2 port 2: {}\n", ps2.get_type_str(port2));
 
     if(port1 == ps2_device_type::KEYBOARD_STANDARD) {
         kbd_port = ps2_port::PORT1;

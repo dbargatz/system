@@ -26,6 +26,8 @@ public:
     ps2_controller(logger& in_log);
     void disable(ps2_port in_port);
     ps2_device_type get_type(ps2_port in_port);
+    const char * get_type_str(ps2_device_type in_type);
+    const char * get_type_str(ps2_port in_port);
     uint8_t read();
     uint8_t write(ps2_port in_port, uint8_t in_data, uint8_t in_resend=0, uint8_t in_ack=0, bool in_response=false);
 

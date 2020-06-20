@@ -9,7 +9,6 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
 
     // Send the identify command to the device.
     auto response = write(in_port, 0xF2, 0xFE, 0xFA, true);
-    _log.debug("Response 1: {#02X}\n", response);
 
     switch(response) {
         case 0x00:
@@ -33,7 +32,6 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
     // Handle multi-byte types.
     if(0xAB == response) {
         response = read();
-        _log.debug("Response 2: {#02X}\n", response);
         switch(response) {
             case 0x41: // Intentional fall-through
             case 0xC1:
@@ -52,6 +50,30 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
     // Re-enable scanning on the device.
     write(in_port, 0xF4, 0xFE, 0xFA);
     return type;
+}
+
+const char * ps2_controller::get_type_str(ps2_device_type in_type) {
+    switch(in_type) {
+        case ps2_device_type::INVALID:
+            return "invalid";
+        case ps2_device_type::MOUSE_STANDARD:
+            return "standard mouse";
+        case ps2_device_type::MOUSE_SCROLL:
+            return "mouse with scroll wheel";
+        case ps2_device_type::MOUSE_5_BUTTON:
+            return "5-button mouse";
+        case ps2_device_type::KEYBOARD_TRANSLATED:
+            return "keyboard (translation enabled)";
+        case ps2_device_type::KEYBOARD_STANDARD:
+            return "standard keyboard";
+        default:
+            return "unknown type";
+    }
+}
+
+const char * ps2_controller::get_type_str(ps2_port in_port) {
+    ps2_device_type type = get_type(in_port);
+    return get_type_str(type);
 }
 
 void ps2_controller::disable(ps2_port in_port) {
@@ -191,7 +213,6 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
             _write_cmd(0xA7);                 // Disable port 2 again
         }
     }
-    _log.debug("PS/2 is {}-channel\n", _port_2_ok ? "dual" : "single");
 
     // Test port 1.
     _port_1_ok = true;
@@ -227,5 +248,5 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
 
         // TODO: may need to reset the device here
     }
-    _log.debug("PS/2: so far, so good!\n");
+    _log.debug("PS/2 controller: initialized, {}-channel\n", _port_2_ok ? "dual" : "single");
 }
