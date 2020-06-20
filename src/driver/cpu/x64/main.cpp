@@ -1,11 +1,11 @@
-#include "std/halt.h"
 #include "std/logger.hpp"
 #include "std/panic.h"
-#include "std/text.hpp"
 #include "debug/serial.hpp"
 #include "interrupts/interrupt_manager.hpp"
 #include "core.hpp"
 #include "timer/pit.hpp"
+#include "keyboard/ps2_controller.hpp"
+#include "keyboard/at_keyboard.hpp"
 
 Core * this_core;
 
@@ -30,8 +30,10 @@ extern "C" int kmain(const void * in_boot_info) {
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
     PIT pit(log);
+    ps2_controller ps2(log);
+    at_keyboard kbd(log, ps2);
 
-    Core bootstrap_core(log, in_boot_info, intmgr, pit);
+    Core bootstrap_core(log, in_boot_info, intmgr, pit, kbd);
     this_core = &bootstrap_core;
 
     bootstrap_core.run();

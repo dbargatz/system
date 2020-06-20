@@ -4,19 +4,20 @@
 #include "timer/pit.hpp"
 
 Core::Core(logger& in_log, const void * in_boot_info,
-    InterruptManager& in_interrupts, ITimer& in_timer) : 
-    _log(in_log), _boot_info(in_boot_info), timer(in_timer),
-    interrupts(in_interrupts) {
+    InterruptManager& in_interrupts, ITimer& in_timer, keyboard& in_kbd) :
+     _log(in_log), _kbd(in_kbd), _boot_info(in_boot_info), timer(in_timer),
+     interrupts(in_interrupts) {
         _log.debug("Constructed Core:\n");
         _log.debug("    Boot Info    : {#016X}\n", (uint64_t)_boot_info);
         _log.debug("    Interrupts   : {}abled\n", interrupts.enabled() ? "en" : "dis");
         _log.debug("    PIT          : present\n");
         _log.debug("    Serial Port  : present\n");
+        _log.debug("    Keyboard     : present\n");
 }
 
 void Core::run() {
-    _log.info("Testing unhandled interrupts (will continue)...\n");
-    asm volatile("int $80h\n");
+    _log.info("Resetting keyboard...\n");
+    _kbd.reset();
 
     _log.info("Testing timer (interrupts: {}abled)...\n", interrupts.enabled() ? "en" : "dis");
     timer.set_frequency(1000.0);
