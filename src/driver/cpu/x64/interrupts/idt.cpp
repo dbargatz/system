@@ -23,7 +23,6 @@ void IDT::register_handler(uint8_t in_index, const void * in_handler) {
     idt[in_index].seg_selector = { .rpl = 0, .table_idx = 0, .descriptor_idx = 1};
     //                      Interrupt Gate     System Segment
     idt[in_index].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 };
-    _log.debug("Registered handler {#016X} for index {#02X} ({}).\n", (uint64_t)in_handler, in_index, in_index);
 }
 
 void IDT::install() {
