@@ -36,6 +36,9 @@ case $key in
 esac
 done
 
+# Create test/artifacts if it doesn't exist.
+mkdir -p artifacts
+
 # Note: ${QEMU_ARGS[@]} expands to all the members of QEMU_ARGS.
 qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} -nographic ${DEBUG} ${GDB} ${LOG} \
     -cdrom ${ISO} ${QEMU_ARGS[@]}
