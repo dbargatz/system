@@ -6,7 +6,8 @@ ROOT_DIR="$(realpath $(dirname $(readlink -f $0))/../)"
 DEBUG=
 GDB=
 ISO="${ROOT_DIR}/build/artifacts/system.iso"
-LOG="-D ${ROOT_DIR}/test/artifacts/qemu.log"
+QEMU_LOG="-D ${ROOT_DIR}/test/artifacts/qemu.log"
+SERIAL_LOG="-serial file:${ROOT_DIR}/test/artifacts/os.log"
 MEMORY=1G
 SMP=3
 QEMU_ARGS=()
@@ -41,5 +42,5 @@ done
 mkdir -p ${ROOT_DIR}/test/artifacts
 
 # Note: ${QEMU_ARGS[@]} expands to all the members of QEMU_ARGS.
-qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} -nographic ${DEBUG} ${GDB} ${LOG} \
-    -cdrom ${ISO} ${QEMU_ARGS[@]}
+qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} -display curses ${SERIAL_LOG} \
+    ${DEBUG} ${GDB} ${QEMU_LOG} -cdrom ${ISO} ${QEMU_ARGS[@]}
