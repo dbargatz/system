@@ -9,12 +9,12 @@
 class Core {
 private:
     logger& _log;
-    keyboard& _kbd;
     const void * _boot_info;
 
 public:
     ITimer& timer;
     InterruptManager& interrupts;
+    keyboard& kbd;
 
     Core(logger& in_log,
         const void * in_boot_info,

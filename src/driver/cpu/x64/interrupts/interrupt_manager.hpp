@@ -9,7 +9,7 @@
 enum class InterruptType : uint8_t {
     PANIC         = 6,
     TIMER_EXPIRED = 32,
-    KEYPRESS      = 33,
+    KEYBOARD      = 33,
 };
 
 typedef void(*interrupt_handler)(logger& in_log, interrupt_frame& in_frame);

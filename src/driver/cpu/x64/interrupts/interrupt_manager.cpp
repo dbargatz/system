@@ -59,6 +59,9 @@ extern "C" void dispatch_interrupt(const Core * in_core, const void * in_frame_p
         case 32:                        // IDT index 32, IRQ 0, timer interrupt
             in_core->timer.interrupt_handler(in_core->interrupts, frame);
             break;
+        case 33:                        // IDT index 33, IRQ 1, keyboard interrupt
+            in_core->kbd.interrupt_handler(in_core->interrupts, frame);
+            break;
         default:                        // Unhandled interrupt
             unhandled_interrupt_handler(log, frame);
             break;
@@ -115,6 +118,9 @@ void InterruptManager::handler_complete(InterruptType in_interrupt) {
         case InterruptType::TIMER_EXPIRED:
             _pic.send_eoi(0);
             break;
+        case InterruptType::KEYBOARD:
+            _pic.send_eoi(1);
+            break;
         default:
             _log.warn("Cannot mark handler complete for interrupt {}\n", (uint8_t)in_interrupt);
             break;
@@ -137,6 +143,9 @@ void InterruptManager::register_handler(InterruptType in_interrupt, const interr
     switch(in_interrupt) {
         case InterruptType::TIMER_EXPIRED:
             _pic.enable_irq(0);
+            break;
+        case InterruptType::KEYBOARD:
+            _pic.enable_irq(1);
             break;
         default:
             break;

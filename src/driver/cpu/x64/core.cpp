@@ -5,8 +5,8 @@
 
 Core::Core(logger& in_log, const void * in_boot_info,
     InterruptManager& in_interrupts, ITimer& in_timer, keyboard& in_kbd) :
-     _log(in_log), _kbd(in_kbd), _boot_info(in_boot_info), timer(in_timer),
-     interrupts(in_interrupts) {
+     _log(in_log), _boot_info(in_boot_info), timer(in_timer),
+     interrupts(in_interrupts), kbd(in_kbd) {
         _log.debug("Constructed Core:\n");
         _log.debug("    Boot Info    : {#016X}\n", (uint64_t)_boot_info);
         _log.debug("    Interrupts   : {}abled\n", interrupts.enabled() ? "en" : "dis");
@@ -16,14 +16,19 @@ Core::Core(logger& in_log, const void * in_boot_info,
 }
 
 void Core::run() {
-    _log.info("Resetting keyboard...\n");
-    _kbd.reset();
+    kbd.reset();
+    interrupts.enable_interrupts();
+    interrupts.temp_unmask(1);
+    _log.info("Testing keyboard (interrupts: {}abled)...\n", interrupts.enabled() ? "en" : "dis");
+    uint32_t ct = 0xFFFFFFFF;
+    while(ct > 0) {
+        ct--;
+    }
 
-    _log.info("Testing timer (interrupts: {}abled)...\n", interrupts.enabled() ? "en" : "dis");
     timer.set_frequency(1000.0);
     interrupts.temp_unmask(0);
-    interrupts.enable_interrupts();
-    uint32_t ct = 0xFFFFFFFF;
+    _log.info("Testing timer (interrupts: {}abled)...\n", interrupts.enabled() ? "en" : "dis");
+    ct = 0xFFFFFFFF;
     while(ct > 0) {
         ct--;
     }

@@ -31,7 +31,7 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
 
     // Handle multi-byte types.
     if(0xAB == response) {
-        response = read();
+        response = read(true);
         switch(response) {
             case 0x41: // Intentional fall-through
             case 0xC1:
@@ -99,11 +99,48 @@ void ps2_controller::disable(ps2_port in_port) {
     }
 }
 
-uint8_t ps2_controller::read() {
+void ps2_controller::enable(ps2_port in_port) {
+    uint8_t config;
+    switch(in_port) {
+        case ps2_port::PORT1:
+            if(!_port_1_ok) {
+                _log.warn("Cannot enable PS/2 port 1; in bad state.\n");
+                return;
+            }
+            _write_cmd(0xAE);                          // Enable port 1
+            config = _read_config();
+            _write_config(config | 0b00000001);        // Enable port 1 interrupts
+            _log.debug("Enabled PS/2 port 1.\n");
+            _port_1_ok = true;
+            return;
+        case ps2_port::PORT2:
+            if(!_port_2_ok) {
+                _log.warn("Cannot enable PS/2 port 2; in bad state.\n");
+                return;
+            }
+            _write_cmd(0xA8);                          // Enable port 2
+            config = _read_config();
+            _write_config(config | 0b00000010);        // Enable port 2 interrupts
+            _log.debug("Enabled PS/2 port 2.\n");
+            _port_1_ok = true;
+            return;
+        case ps2_port::CONTROLLER:
+            enable(ps2_port::PORT1);
+            enable(ps2_port::PORT2);
+            _log.debug("Enabled both PS/2 ports.\n");
+            return;
+        default:
+            _log.warn("Invalid PS/2 device; cannot enable.\n");
+            return;
+    }
+}
+
+uint8_t ps2_controller::read(bool in_poll) {
     // Spin-wait until there's data available according to bit 0 of the 
     // controller's status register.
-    while(!(PS2_STATUS_CMD_REGISTER.inb() & 0x01));
-    return PS2_DATA_REGISTER.inb();
+    while(in_poll && !(PS2_STATUS_CMD_REGISTER.inb() & 0x01));
+    auto response = PS2_DATA_REGISTER.inb();
+    return response;
 }
 
 uint8_t ps2_controller::write(ps2_port in_port, uint8_t in_data, uint8_t in_resend, uint8_t in_ack, bool in_response) {
@@ -126,11 +163,11 @@ uint8_t ps2_controller::write(ps2_port in_port, uint8_t in_data, uint8_t in_rese
 
         // Grab the response. If it's a resend request, loop; if it's an ack,
         // grab the next byte and head out; otherwise, it's an error.
-        response = read();
+        response = read(true);
         if(0x00 != in_resend && response == in_resend && in_response) {
             continue;
         } else if(0x00 != in_ack && response == in_ack && in_response) {
-            response = read();
+            response = read(true);
             break;
         } else {
             break;
@@ -151,8 +188,7 @@ uint8_t ps2_controller::_write_cmd(uint8_t in_data, bool in_response) {
     // controller) is full according to the controller's status register bit 1.
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x02);
     PS2_STATUS_CMD_REGISTER.outb(in_data);
-
-    return (in_response ? read() : 0);
+    return (in_response ? read(true) : 0);
 }
 
 void ps2_controller::_write_config(uint8_t in_config) {
@@ -231,22 +267,5 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
         }
     }
 
-    // Enable the first PS/2 port and turn on interrupts.
-    if(_port_1_ok) {
-        _write_cmd(0xAE);                          // Enable port 1
-        config = _read_config();
-        _write_config(config | 0b00000001);        // Enable port 1 interrupts
-
-        // TODO: may need to reset the device here
-    }
-
-    // Enable the second PS/2 port and turn on interrupts.
-    if(_port_2_ok) {
-        _write_cmd(0xA8);                          // Enable port 2
-        config = _read_config();
-        _write_config(config | 0b00000010);        // Enable port 2 interrupts
-
-        // TODO: may need to reset the device here
-    }
     _log.debug("PS/2 controller: initialized, {}-channel\n", _port_2_ok ? "dual" : "single");
 }
