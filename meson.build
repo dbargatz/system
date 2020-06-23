@@ -12,3 +12,19 @@ iso = custom_target('iso',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
     install: true,
     install_dir: 'build/artifacts')
+
+doxygen = find_program('doxygen')
+doxygen_data = configuration_data()
+doxygen_data.set('TOP_SRCDIR', meson.source_root())
+doxygen_data.set('TOP_BUILDDIR', meson.build_root())
+doxygen_data.set('OUTPUT_DIR', join_paths(meson.source_root(), 'docs'))
+doxygen_data.set('README_PATH', join_paths(meson.source_root(), 'README.md'))
+doxygen_data.set('VERSION', meson.project_version())
+doxygen_data.set('PROJECT_NAME', meson.project_name())
+
+doxyfile = configure_file(input:         'Doxyfile.in',
+                          output:        'Doxyfile',
+                          configuration: doxygen_data,
+                          install:       false)
+
+docs_target = run_target('docs', command: [doxygen, doxyfile])
