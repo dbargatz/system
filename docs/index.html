@@ -63,25 +63,42 @@ $(function() {
 <div class="title">system </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>A hobby multikernel operating system. Currently written in C, it runs only on x86_64 QEMU.</p>
-<h2>Building</h2>
-<p>The build host is Ubuntu 18.04; system does not currently host a compiler and cannot compile itself.</p>
-<h3>Development Environment</h3>
-<p>Building and running takes place in an Ubuntu 18.04 VM hosted in Hyper-V on a Windows 10 Professional host. Editing is done via <a href="https://code.visualstudio.com/">VS Code</a> using the <a href="https://code.visualstudio.com/docs/remote/ssh#_getting-started">Remote Development extension over SSH</a> to connect to the Ubuntu 18.04 VM and edit the source directly on the VM.</p>
-<h3>Required Packages</h3>
-<p>These can all be installed via <code>sudo apt install &lt;package-name&gt;</code>.</p>
+<div class="textblock"><p>A hobby multikernel inspired by Barrelfish<sup><a href="#barrelfish">1</a></sup> and seL4<sup><a href="#seL4">2</a></sup>. It only supports x86_64 QEMU at the moment.</p>
+<h2>Documentation</h2>
+<p>Doxygen-generated documentation is located at <a href="https://dbargatz.me/system">https://dbargatz.me/system</a>.</p>
+<h2>Environment</h2>
+<p>The <code>./configure</code> script assumes the following:</p>
 <ul>
-<li>clang (which should install LLVM along with it)</li>
-<li>grub-common (for grub-mkrescue; likely already installed)</li>
-<li>grub-pc-bin</li>
-<li>make</li>
-<li>nasm</li>
-<li>qemu-system-x86 (for qemu-system-x86_64)</li>
-<li>qemu-system-arm (for qemu-system-aarch64)</li>
-<li>xorriso</li>
+<li>Debian-based Linux</li>
 </ul>
-<h2>Running</h2>
-<p>On the Ubuntu 18.04 build VM, issue a <code>make qemu</code> in the <code>system/build</code> directory. A qemu window should appear, with <code>OK NTR</code> in white text on a red background; this indicates the kernel is safely in 64-bit mode! </p>
+<p>The <code>./configure</code> script will install or upgrade the following:</p>
+<ul>
+<li>clang++ 7.0.1 or newer</li>
+<li>Doxygen 1.8.13 or newer</li>
+<li>GDB 8.2.1 or newer</li>
+<li>Git 2.20.1 or newer</li>
+<li>Graphviz 2.40.1-6 or newer</li>
+<li>Grub-common 2.02 or newer</li>
+<li>Grub-pc-bin 2.02 or newer</li>
+<li>less 487-0.1 or newer</li>
+<li><a href="https://mesonbuild.com/index.html">Meson</a> 0.54.3 or newer</li>
+<li>nasm 2.14-1 or newer</li>
+<li><a href="https://ninja-build.org/">Ninja</a> 1.10.0 or newer</li>
+<li>Pip 18.1-5 or newer</li>
+<li>Python 3.7.3 or newer</li>
+<li>QEMU 3.1.0 or newer</li>
+<li>Xorriso 1.5.0-1 or newer</li>
+</ul>
+<h2>Building</h2>
+<p>Normal debug build:</p>
+<div class="fragment"><div class="line">&gt; ./configure</div><div class="line">&gt; meson build/artifacts</div></div><!-- fragment --><p>Generating Doxygen documentation (output to <code>docs/</code>):</p>
+<div class="fragment"><div class="line">&gt; meson build/artifacts</div><div class="line">&gt; cd build/artifacts &amp;&amp; ninja docs</div></div><!-- fragment --><h2>Running</h2>
+<p>Running QEMU with standard options and serial port output:</p>
+<div class="fragment"><div class="line">&gt; test/run.sh</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>test/artifacts/qemu.log</code>:</p>
+<div class="fragment"><div class="line">&gt; test/run.sh --debug</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>test/artifacts/qemu.log</code>, and GDB remote debugging:</p>
+<div class="fragment"><div class="line">&gt; test/run.sh --gdb</div><div class="line">&gt; gdb src/debug/gdb_pre_script</div><div class="line">(gdb) break kmain</div><div class="line">(gdb) source src/debug/gdb_post_script</div><div class="line">(gdb) continue</div></div><!-- fragment --><p><b>NOTE:</b> GDB remote debugging will pause on startup. When you connect to QEMU via GDB, issue a <code>continue</code> at the GDB prompt to continue.</p>
+<p><a class="anchor" id="barrelfish"></a>1: <a href="http://www.barrelfish.org">The Barrelfish Operating System</a><br />
+ <a class="anchor" id="seL4"></a>2: <a href="https://sel4.systems">The seL4 Microkernel</a> </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

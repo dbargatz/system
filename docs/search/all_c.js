@@ -1,16 +1,10 @@
 var searchData=
 [
-  ['magenta',['magenta',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a4c2a4a7078da0ac6733464eacfd00f86',1,'vga']]],
-  ['main',['main',['../sanitycheckcpp_8cc.html#a840291bc02cba5474a4cb46a9b9566fe',1,'sanitycheckcpp.cc']]],
-  ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]],
-  ['memcpy',['memcpy',['../memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78',1,'memcpy(void *in_destination, const void *in_source, size_t in_num):&#160;memcpy.cpp'],['../memcpy_8hpp.html#a97c133e4f136dd16c3c948f32c019f78',1,'memcpy(void *in_destination, const void *in_source, size_t in_num):&#160;memcpy.cpp']]],
-  ['memcpy_2ecpp',['memcpy.cpp',['../memcpy_8cpp.html',1,'']]],
-  ['memcpy_2ehpp',['memcpy.hpp',['../memcpy_8hpp.html',1,'']]],
-  ['memset',['memset',['../memset_8cpp.html#abc7d9e97dce41b5780585e6f382dd701',1,'memset(void *inPtr, uint8_t inValue, size_t inNum):&#160;memset.cpp'],['../memset_8hpp.html#abc7d9e97dce41b5780585e6f382dd701',1,'memset(void *inPtr, uint8_t inValue, size_t inNum):&#160;memset.cpp']]],
-  ['memset_2ecpp',['memset.cpp',['../memset_8cpp.html',1,'']]],
-  ['memset_2ehpp',['memset.hpp',['../memset_8hpp.html',1,'']]],
-  ['mouse_5f5_5fbutton',['MOUSE_5_BUTTON',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a8905ceddbf6834c0fad009d95f1a3405',1,'ps2_controller.hpp']]],
-  ['mouse_5fscroll',['MOUSE_SCROLL',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a8d39183657ef1c142f973da7bf626a76',1,'ps2_controller.hpp']]],
-  ['mouse_5fstandard',['MOUSE_STANDARD',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a2c5c1c5268a6b9a7be1850798933b6c4',1,'ps2_controller.hpp']]],
-  ['msg',['msg',['../structpanic__data.html#aa161732a1b338a7f6644331aac9b3544',1,'panic_data::msg()'],['../panic_8h.html#a2c3cb87d009c003069b9a90f020f8a9f',1,'msg():&#160;panic.h']]]
+  ['length',['length',['../classtext.html#a11145060bc25c57cd43059ea03cd157f',1,'text']]],
+  ['level',['level',['../classlogger.html#a11b5662c7f62b0e7f6a68b0b94346b24',1,'logger']]],
+  ['limit',['limit',['../structidtr.html#a740f7ff7bf39a2ef2935424fbab32252',1,'idtr::limit()'],['../idt_8cpp.html#ab28e82ae69032cb4ad3ec3a0be3d7129',1,'limit():&#160;idt.cpp']]],
+  ['linenum',['lineNum',['../structpanic__data.html#af3bf1913bf18e1d39c68999d01a6f734',1,'panic_data::lineNum()'],['../panic_8h.html#a9ec666fd8b9708e6ba0e47c54794966b',1,'lineNum():&#160;panic.h']]],
+  ['logger',['logger',['../classlogger.html',1,'logger'],['../classlogger.html#a4756d5117a4def2d8fe059cfa619ea1a',1,'logger::logger()']]],
+  ['logger_2ecpp',['logger.cpp',['../logger_8cpp.html',1,'']]],
+  ['logger_2ehpp',['logger.hpp',['../logger_8hpp.html',1,'']]]
 ];
