@@ -1,0 +1,5 @@
+<map id="Core" name="Core">
+<area shape="rect" id="node2" href="$classkeyboard.html" title="keyboard" alt="" coords="5,5,88,32"/>
+<area shape="rect" id="node3" href="$class_i_timer.html" title="Abstract representation of timer hardware. " alt="" coords="112,5,176,32"/>
+<area shape="rect" id="node4" href="$class_interrupt_manager.html" title="InterruptManager" alt="" coords="201,5,335,32"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="src/driver/cpu/x64/timer/ITimer.hpp" name="src/driver/cpu/x64/timer/ITimer.hpp">
+<area shape="rect" id="node2" href="$core_8hpp.html" title="src/driver/cpu/x64\l/core.hpp" alt="" coords="336,95,475,136"/>
+<area shape="rect" id="node4" href="$pit_8hpp.html" title="src/driver/cpu/x64\l/timer/pit.hpp" alt="" coords="229,184,368,225"/>
+<area shape="rect" id="node3" href="$core_8cpp.html" title="src/driver/cpu/x64\l/core.cpp" alt="" coords="5,281,144,322"/>
+<area shape="rect" id="node5" href="$interrupt__manager_8cpp.html" title="src/driver/cpu/x64\l/interrupts/interrupt\l_manager.cpp" alt="" coords="331,273,480,329"/>
+<area shape="rect" id="node6" href="$main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="504,281,643,322"/>
+<area shape="rect" id="node7" href="$pit_8cpp.html" title="src/driver/cpu/x64\l/timer/pit.cpp" alt="" coords="168,281,307,322"/>
+</map>

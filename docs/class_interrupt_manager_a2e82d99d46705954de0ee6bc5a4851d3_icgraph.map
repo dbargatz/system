@@ -1,0 +1,4 @@
+<map id="InterruptManager::disable_interrupts" name="InterruptManager::disable_interrupts">
+<area shape="rect" id="node2" href="$class_interrupt_manager.html#ae452433a24df601f7710447bb63003c6" title="Construct a new Interrupt Manager object. " alt="" coords="243,5,441,47"/>
+<area shape="rect" id="node3" href="$class_interrupt_manager.html#aef650220954fbe640c3e9a5e44faa95d" title="InterruptManager::register\l_handler" alt="" coords="246,71,438,112"/>
+</map>

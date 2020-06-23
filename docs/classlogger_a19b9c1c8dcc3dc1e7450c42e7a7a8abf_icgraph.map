@@ -1,0 +1,7 @@
+<map id="logger::panic" name="logger::panic">
+<area shape="rect" id="node2" href="$interrupt__manager_8cpp.html#a2c9c61366079d4b18f542590edc39aac" title="panic_handler" alt="" coords="180,5,293,32"/>
+<area shape="rect" id="node4" href="$interrupt__manager_8cpp.html#ab4316b8939ef8d81304c26a83a6567c9" title="unhandled_interrupt\l_handler" alt="" coords="160,57,313,98"/>
+<area shape="rect" id="node5" href="$classlogger.html#a393936bd05661890d0e17d2b08b4b091" title="logger::info" alt="" coords="189,123,285,149"/>
+<area shape="rect" id="node6" href="$classlogger.html#af6012f3c48e028ba20db227eee3a54f2" title="logger::panic" alt="" coords="183,173,290,200"/>
+<area shape="rect" id="node3" href="$interrupt__manager_8cpp.html#ab2f29945daed1930633210a302bd3f66" title="dispatch_interrupt" alt="" coords="361,35,501,61"/>
+</map>
