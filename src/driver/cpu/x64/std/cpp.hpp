@@ -13,7 +13,7 @@
  * @note Calls emitted by compiler for pure virtual functions; should not need
  * to be invoked directly.
  * @note Should be included via compiler command-line; does not need to be
- * #included in source.
+ * included in source.
  * @see https://stackoverflow.com/questions/920500
  */
 extern "C" void __cxa_pure_virtual();

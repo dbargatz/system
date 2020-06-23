@@ -29,6 +29,8 @@ public:
      * @brief Construct a new Interrupt Manager object.
      * 
      * @param in_log logger for member functions
+     * @param in_idt x86_64 Interrupt Descriptor Table (IDT)
+     * @param in_pic 8259 Programmable Interrupt Controller (PIC)
      */
     InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic);
 
