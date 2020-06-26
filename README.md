@@ -9,11 +9,13 @@ Doxygen-generated documentation is located at <https://dbargatz.me/system>.
 
 ## Environment
 
-The `./configure` script assumes the following:
+The `./configure` script will set up a complete build environment. It assumes
+the following:
 
 + Debian-based Linux
 
-The `./configure` script will install or upgrade the following:
+The `./configure` script will install or upgrade the following (along with any
+necessary dependencies) via apt-get:
 
 + clang++ 7.0.1 or newer
 + Doxygen 1.8.13 or newer
@@ -23,9 +25,9 @@ The `./configure` script will install or upgrade the following:
 + Grub-common 2.02 or newer
 + Grub-pc-bin 2.02 or newer
 + less 487-0.1 or newer
-+ [Meson](https://mesonbuild.com/index.html) 0.54.3 or newer
++ [Meson](https://mesonbuild.com/index.html) 0.49.2-1 or newer
 + nasm 2.14-1 or newer
-+ [Ninja](https://ninja-build.org/) 1.10.0 or newer
++ [Ninja](https://ninja-build.org/) 1.8.2-1 or newer
 + Pip 18.1-5 or newer
 + Python 3.7.3 or newer
 + QEMU 3.1.0 or newer
@@ -36,15 +38,15 @@ The `./configure` script will install or upgrade the following:
 Normal debug build:
 
 ```bash
-> ./configure
 > meson build/artifacts
+> ninja -C build/artifacts
 ```
 
 Generating Doxygen documentation (output to `docs/`):
 
 ```bash
 > meson build/artifacts
-> cd build/artifacts && ninja docs
+> ninja -C build/artifacts docs
 ```
 
 ## Running
