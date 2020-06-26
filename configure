@@ -10,43 +10,18 @@ apt-get -y --no-install-recommends install \
     grub-common                            \
     grub-pc-bin                            \
     less                                   \
+    meson                                  \
     nasm                                   \
-    python3                                \
-    python3-pip                            \
+    ninja-build                            \
     qemu-system                            \
     xorriso
 
-# Add /root/.local/bin to PATH for meson and ninja and to avoid the warning that
-# it's not on the path; put it in .bashrc as well so it's persistent.
-echo "" >> ~/.bashrc
-echo "# Added by system's ./configure script" >> ~/.bashrc
-echo "export PATH=/root/.local/bin:\$PATH" >> ~/.bashrc
-echo "export LS_OPTIONS='--color=auto'" >> ~/.bashrc
-echo "alias ls='ls \$LS_OPTIONS'" >> ~/.bashrc
-echo "alias ll='ls \$LS_OPTIONS -lA'" >> ~/.bashrc
+# Add some common aliases to the .bashrc.
+echo "" >> /root/.bashrc
+echo "# Added by system's ./configure script" >> /root/.bashrc
+echo "export LS_OPTIONS='--color=auto'" >> /root/.bashrc
+echo "alias ls='ls \$LS_OPTIONS'" >> /root/.bashrc
+echo "alias ll='ls \$LS_OPTIONS -lA'" >> /root/.bashrc
 
 # Re-source the .bashrc.
-source ~/.bashrc
-
-# Upgrade pip3 if necessary.
-python3 -m pip install --user --upgrade pip
-
-# Install the latest versions of meson and ninja.
-python3 -m pip install --user --upgrade meson ninja
-
-# QEMU deps (from https://wiki.qemu.org/Hosts/Linux, using Ubuntu/Debian instructions)
-# sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev git-email \
-#                      libaio-dev libbluetooth-dev libbrlapi-dev libbz2-dev libcap-dev \
-#                      libcap-ng-dev libcurl4-gnutls-dev libgtk-3-dev libibverbs-dev \
-#                      libjpeg62-turbo-dev libncurses5-dev libnuma-dev librbd-dev \
-#                      librdmacm-dev libsasl2-dev libsdl1.2-dev libseccomp-dev \
-#                      libsnappy-dev libssh2-1-dev libvde-dev libvdeplug-dev \
-#                      libxen-dev liblzo2-dev valgrind xfslibs-dev libnfs-dev \
-#                      libiscsi-dev
-
-# QEMU 5.0.0 install (from https://www.qemu.org/download/#source):
-# wget https://download.qemu.org/qemu-5.0.0.tar.xz
-# tar xvJf qemu-5.0.0.tar.xz
-# cd qemu-5.0.0
-# ./configure
-# make
+source /root/.bashrc

@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get -y upgrade \
     # Install tools needed for the configure script or VS Code.
-    && apt-get -y install apt-utils fish libicu63 wget \
+    && apt-get -y install apt-utils libicu63 procps wget \
     # Make bash the default shell instead of dash.
     && (echo "dash dash/sh boolean false" | debconf-set-selections) \
     && dpkg-reconfigure dash \
