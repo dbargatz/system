@@ -1,6 +1,0 @@
-<map id="logger::info" name="logger::info">
-<area shape="rect" id="node2" href="$class_core.html#adcc93b561dfefacfe2bcbd60604ea7a6" title="Core::run" alt="" coords="160,5,241,32"/>
-<area shape="rect" id="node4" href="$classlogger.html#ab5de894479f336da0204cf150e1da68c" title="logger::error" alt="" coords="149,56,252,83"/>
-<area shape="rect" id="node5" href="$classlogger.html#a393936bd05661890d0e17d2b08b4b091" title="logger::info" alt="" coords="153,107,249,133"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="300,5,363,32"/>
-</map>

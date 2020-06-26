@@ -1,7 +1,0 @@
-<map id="src/driver/cpu/x64/interrupts/frame.hpp" name="src/driver/cpu/x64/interrupts/frame.hpp">
-<area shape="rect" id="node2" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="35,95,161,121"/>
-<area shape="rect" id="node3" href="$text_8hpp.html" title="text.hpp" alt="" coords="5,244,81,271"/>
-<area shape="rect" id="node5" href="$serial_8hpp.html" title="../debug/serial.hpp" alt="" coords="81,169,224,196"/>
-<area shape="rect" id="node4" href="$stdint_8h.html" title="stdint.h" alt="" coords="75,319,145,345"/>
-<area shape="rect" id="node6" href="$io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="106,244,250,271"/>
-</map>
