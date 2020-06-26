@@ -1,6 +1,9 @@
 {
     "dockerFile": "build/Dockerfile",
     "image": "dbargatz/system-build:latest",
+    "runArgs":[
+        "--privileged"
+    ],
     // Install various VSCode extensions to make development in VSCode and
     // Codespaces more pleasant.
     "extensions": [
