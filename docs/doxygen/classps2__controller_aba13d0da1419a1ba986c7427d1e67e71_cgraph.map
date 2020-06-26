@@ -1,0 +1,13 @@
+<map id="ps2_controller::get_type_str" name="ps2_controller::get_type_str">
+<area shape="rect" id="node2" href="$classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="196,56,375,83"/>
+<area shape="rect" id="node12" href="$classps2__controller.html#aead94f9332a36f826699ccafdb28e159" title="ps2_controller::get\l_type_str" alt="" coords="214,107,357,149"/>
+<area shape="rect" id="node3" href="$classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="573,56,728,83"/>
+<area shape="rect" id="node4" href="$classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="776,5,927,32"/>
+<area shape="rect" id="node7" href="$classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="423,132,525,159"/>
+<area shape="rect" id="node5" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="979,56,1074,83"/>
+<area shape="rect" id="node6" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="975,107,1079,133"/>
+<area shape="rect" id="node8" href="$classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="599,157,703,184"/>
+<area shape="rect" id="node9" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="988,208,1065,235"/>
+<area shape="rect" id="node10" href="$class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="788,157,915,184"/>
+<area shape="rect" id="node11" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="978,157,1075,184"/>
+</map>

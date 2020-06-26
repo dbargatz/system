@@ -1,0 +1,8 @@
+<map id="logger::debug" name="logger::debug">
+<area shape="rect" id="node2" href="$classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="164,31,268,57"/>
+<area shape="rect" id="node3" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="504,5,581,32"/>
+<area shape="rect" id="node4" href="$class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="316,56,443,83"/>
+<area shape="rect" id="node5" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="494,56,591,83"/>
+<area shape="rect" id="node6" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="495,107,590,133"/>
+<area shape="rect" id="node7" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="491,157,595,184"/>
+</map>

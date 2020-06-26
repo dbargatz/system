@@ -1,0 +1,13 @@
+<map id="InterruptManager::register_handler" name="InterruptManager::register_handler">
+<area shape="rect" id="node2" href="$class_interrupt_manager.html#a86d74a5e48659c4d208e6cc3fb70b43f" title="Returns whether or not interrupts are enabled on this core. " alt="" coords="245,5,440,32"/>
+<area shape="rect" id="node3" href="$class_interrupt_manager.html#a2e82d99d46705954de0ee6bc5a4851d3" title="Disable interrupts on this core (excluding NMIs). " alt="" coords="248,57,437,98"/>
+<area shape="rect" id="node11" href="$class_p_i_c.html#ab3f5370e1e2545814f0ab8524b6ca2b3" title="PIC::enable_irq" alt="" coords="283,188,402,215"/>
+<area shape="rect" id="node12" href="$class_interrupt_manager.html#aa53839d5972332cf8822e0650bbde766" title="Enable interrupts on this core. " alt="" coords="249,122,436,163"/>
+<area shape="rect" id="node4" href="$classlogger.html#af49833763fd6dbf552e9412b1c370c3c" title="logger::debug" alt="" coords="488,129,599,156"/>
+<area shape="rect" id="node5" href="$classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="647,129,751,156"/>
+<area shape="rect" id="node6" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="987,83,1064,109"/>
+<area shape="rect" id="node7" href="$class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="799,133,925,160"/>
+<area shape="rect" id="node8" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="977,133,1074,160"/>
+<area shape="rect" id="node9" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="978,235,1073,261"/>
+<area shape="rect" id="node10" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="973,184,1077,211"/>
+</map>

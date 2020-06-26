@@ -1,0 +1,9 @@
+<map id="logger::warn" name="logger::warn">
+<area shape="rect" id="node2" href="$classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="156,5,259,32"/>
+<area shape="rect" id="node3" href="$classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="307,31,411,57"/>
+<area shape="rect" id="node4" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="647,5,724,32"/>
+<area shape="rect" id="node5" href="$class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="459,56,585,83"/>
+<area shape="rect" id="node6" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="637,56,734,83"/>
+<area shape="rect" id="node7" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="638,107,733,133"/>
+<area shape="rect" id="node8" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="633,157,737,184"/>
+</map>

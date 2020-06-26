@@ -1,0 +1,11 @@
+<map id="panic_handler" name="panic_handler">
+<area shape="rect" id="node2" href="$classlogger.html#a19b9c1c8dcc3dc1e7450c42e7a7a8abf" title="logger::panic" alt="" coords="198,5,305,32"/>
+<area shape="rect" id="node9" href="$classinterrupt__frame.html#a53486f8c4ec705f70029aa29764b1d1b" title="interrupt_frame::dump" alt="" coords="167,56,336,83"/>
+<area shape="rect" id="node10" href="$classlogger.html#a54e90615c67b7f77d1e3d60da44191f8" title="logger::hexdump" alt="" coords="384,107,516,133"/>
+<area shape="rect" id="node3" href="$classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="398,56,502,83"/>
+<area shape="rect" id="node4" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="752,56,829,83"/>
+<area shape="rect" id="node5" href="$class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="564,107,691,133"/>
+<area shape="rect" id="node6" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="742,107,839,133"/>
+<area shape="rect" id="node7" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="743,157,838,184"/>
+<area shape="rect" id="node8" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="739,208,843,235"/>
+</map>
