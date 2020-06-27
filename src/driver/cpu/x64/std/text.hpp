@@ -6,10 +6,12 @@
 
 class text {
 public:
+    text(const char * in_str);
+    text(const text& in_str);
+
     template<typename ...Args>
-    text(const char * in_format_str, Args&&... in_args) {
-        _length_in_chars = 0;
-        format(in_format_str, static_cast<Args>(in_args)...);
+    text(const text& in_format_str, Args&&... in_args) : _length_in_chars(0) {
+        format(in_format_str.get(), static_cast<Args>(in_args)...);
     }
 
     const char * get() const { return (const char *)_buf; }
@@ -25,8 +27,11 @@ public:
     const size_t length() const { return _length_in_chars; }
 
 private:
-    char _buf[512];
+    constexpr static const uint16_t _MAX_LENGTH_BYTES = 256;
+
+    char _buf[_MAX_LENGTH_BYTES];
     size_t _length_in_chars;
+
 
     bool _is_digit(char in_char, bool in_exclude_zero = false) {
         char min_char = in_exclude_zero ? '1' : '0';
@@ -152,11 +157,11 @@ private:
 
     // TODO: rename with underscore
     template<typename T>
-    void format_arg(const T in_arg, 
-                    uint8_t in_base, 
+    void format_arg(const T in_arg,
+                    uint8_t in_base,
                     bool in_uppercase_digits,
                     bool in_prepend_prefix,
-                    uint64_t in_min_width, 
+                    uint64_t in_min_width,
                     char in_fill_char);
 };
 

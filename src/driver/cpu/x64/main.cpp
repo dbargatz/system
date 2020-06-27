@@ -1,6 +1,7 @@
 #include "std/logger.hpp"
 #include "std/panic.h"
 #include "debug/serial.hpp"
+#include "display/vga_logger.hpp"
 #include "interrupts/interrupt_manager.hpp"
 #include "core.hpp"
 #include "timer/pit.hpp"
@@ -24,8 +25,9 @@ void delay(uint16_t in_megaloops) {
 }
 
 extern "C" int kmain(const void * in_boot_info) {
+    vga_logger vga;
     SerialPort serial;
-    logger log(serial);
+    logger log(vga, serial);
     IDT idt(log);
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
@@ -35,8 +37,8 @@ extern "C" int kmain(const void * in_boot_info) {
     ps2_port kbd_port = ps2_port::INVALID;
     ps2_device_type port1 = ps2.get_type(ps2_port::PORT1);
     ps2_device_type port2 = ps2.get_type(ps2_port::PORT2);
-    log.debug("PS/2 port 1: {}\n", ps2.get_type_str(port1));
-    log.debug("PS/2 port 2: {}\n", ps2.get_type_str(port2));
+    log.debug("PS/2 port 1: {}", ps2.get_type_str(port1));
+    log.debug("PS/2 port 2: {}", ps2.get_type_str(port2));
 
     if(port1 == ps2_device_type::KEYBOARD_STANDARD) {
         kbd_port = ps2_port::PORT1;

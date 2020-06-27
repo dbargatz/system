@@ -36,7 +36,7 @@ public:
 
     interrupt_frame(logger& in_log, const void * in_frame_ptr);
 
-    void dump(logger::level in_level, uint8_t in_indent=0);
+    void dump();
 };
 
 #endif // _INTERRUPTS_FRAME_HPP

@@ -1,5 +1,6 @@
 #include "interrupt_manager.hpp"
 #include "frame.hpp"
+#include "../display/vga_logger.hpp"
 #include "../std/cpuid.h"
 #include "../std/halt.h"
 #include "../std/panic.h"
@@ -27,9 +28,9 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
 
     in_log.panic("\n");
     in_log.panic("\n");
-    in_log.panic("PANIC({}:{}): {}\n", data->filename, data->lineNum, data->msg);
-    in_frame.dump(logger::level::Panic);
-    in_log.panic("Raw panic data:\n");
+    in_log.panic("PANIC({}:{}): {}", data->filename, data->lineNum, data->msg);
+    in_frame.dump();
+    in_log.panic("Raw panic data:");
     in_log.hexdump(logger::level::Panic, (void *)data, sizeof(*data), 1);
     in_log.panic("\n");
     in_log.panic("\n");
@@ -39,17 +40,18 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
 extern "C" void unhandled_interrupt_handler(logger& in_log, interrupt_frame& in_frame) {
     in_log.panic("\n");
     in_log.panic("\n");
-    in_log.panic("UNHANDLED INTERRUPT: {}\n", in_frame.frame->interrupt_number);
-    in_frame.dump(logger::level::Panic);
+    in_log.panic("UNHANDLED INTERRUPT: {}", in_frame.frame->interrupt_number);
+    in_frame.dump();
     in_log.panic("\n");
     in_log.panic("\n");
-    in_log.panic("HALTING\n");
+    in_log.panic("HALTING");
     halt();
 }
 
 extern "C" void dispatch_interrupt(const Core * in_core, const void * in_frame_ptr) {
+    vga_logger vga;
     SerialPort serial;
-    logger log(serial);
+    logger log(vga, serial);
     interrupt_frame frame(log, in_frame_ptr);
 
     switch(frame.frame->interrupt_number) {
@@ -70,7 +72,7 @@ extern "C" void dispatch_interrupt(const Core * in_core, const void * in_frame_p
 
 InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) : 
     _log(in_log), _idt(in_idt), _pic(in_pic) {
-    _log.debug("Constructing InterruptManager...\n");
+    _log.debug("Constructing InterruptManager...");
     disable_interrupts();
 
     // Load the populated IDT into the core.
@@ -79,7 +81,7 @@ InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) :
     // Indicate whether a local APIC is present, just for diagnostics.
     uint32_t eax, edx;
     cpuid(1, &eax, &edx);
-    _log.debug("This core {} a local APIC.\n",
+    _log.debug("This core {} a local APIC.",
         (edx & CPUID_01_EDX_LOCAL_APIC_PRESENT) ? "has" : "doesn't have");
 
     // Remap IRQ 0-7 to IDT vectors 0x20-0x27 (32-39), and IRQ 8-15 to IDT
@@ -94,17 +96,17 @@ InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) :
     HANDLERS
 #undef X
 
-    _log.debug("Constructed InterruptManager.\n");
+    _log.debug("Constructed InterruptManager.");
 }
 
 void InterruptManager::disable_interrupts() {
     asm volatile("cli");
-    _log.debug("Interrupts disabled.\n");
+    _log.debug("Interrupts disabled.");
 }
 
 void InterruptManager::enable_interrupts() {
     asm volatile("sti");
-    _log.debug("Interrupts enabled.\n");
+    _log.debug("Interrupts enabled.");
 }
 
 bool InterruptManager::enabled() {
@@ -122,7 +124,7 @@ void InterruptManager::handler_complete(InterruptType in_interrupt) {
             _pic.send_eoi(1);
             break;
         default:
-            _log.warn("Cannot mark handler complete for interrupt {}\n", (uint8_t)in_interrupt);
+            _log.warn("Cannot mark handler complete for interrupt {}", (uint8_t)in_interrupt);
             break;
     }
 }

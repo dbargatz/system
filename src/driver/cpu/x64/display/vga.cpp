@@ -50,20 +50,22 @@ void vga::write(const void * in_string, const color in_text_color,
         // the screen width.
         if ('\n' == *cur_char || _cur_column >= MAX_COLUMNS) {
             _cur_row++;
-            if (_cur_row >= MAX_ROWS) { 
-                scroll(); 
+            if (_cur_row >= MAX_ROWS) {
+                scroll();
             }
             _cur_column = 0;
+
+            if('\n' == *cur_char) {
+                cur_char++;
+                continue;
+            }
         }
 
-        if ('\n' != *cur_char) {
-            auto byte_offset = (_cur_row * sizeof(uint16_t) * MAX_COLUMNS);
-            byte_offset += (sizeof(uint16_t) * _cur_column);
-            uint16_t * addr = (uint16_t *)(BASE_ADDRESS + byte_offset);
-            *addr = color << 8 | *cur_char;
-            _cur_column++;
-        }
-        
+        auto byte_offset = (_cur_row * sizeof(uint16_t) * MAX_COLUMNS);
+        byte_offset += (sizeof(uint16_t) * _cur_column);
+        uint16_t * addr = (uint16_t *)(BASE_ADDRESS + byte_offset);
+        *addr = color << 8 | *cur_char;
+        _cur_column++;
         cur_char++;
     }
 }

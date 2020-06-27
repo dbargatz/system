@@ -12,6 +12,7 @@ nasm_objs = gen_nasm.process(driver_cpu_x64_asm_src)
 driver_cpu_x64_cpp_src = [
     'debug/serial.cpp',
     'display/vga.cpp',
+    'display/vga_logger.cpp',
     'interrupts/frame.cpp',
     'interrupts/idt.cpp',
     'interrupts/interrupt_manager.cpp',

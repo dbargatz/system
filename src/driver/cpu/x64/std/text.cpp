@@ -1,17 +1,30 @@
 #include "text.hpp"
+#include "assert.h"
+#include "memcpy.hpp"
+
+text::text(const char * in_str) : _length_in_chars(0) {
+    while('\0' != *in_str) {
+        ASSERT(_length_in_chars < (_MAX_LENGTH_BYTES - 1), "string too long");
+        _buf[_length_in_chars++] = *in_str++;
+    }
+
+    _buf[_length_in_chars] = '\0';
+}
+
+text::text(const text& in_other) : _length_in_chars(0) {
+    auto len = in_other.length();
+    ASSERT(len < (_MAX_LENGTH_BYTES - 1), "text too long");
+    memcpy(_buf, in_other._buf, len);
+    _buf[len] = '\0';
+    _length_in_chars = in_other.length();
+}
 
 void text::format(const char * in_format_str) {
     while('\0' != *in_format_str) {
-        if('{' == *in_format_str) {
-            // TODO: panic/throw (there were more args in the format string than args provided)
-            return;
-        }
-
-        // TODO: bounds-check _buf
+        ASSERT(_length_in_chars < (_MAX_LENGTH_BYTES - 1), "string too long");
         _buf[_length_in_chars++] = *in_format_str++;
     }
 
-    // TODO: bounds-check _buf
     _buf[_length_in_chars] = '\0';
 }
 
