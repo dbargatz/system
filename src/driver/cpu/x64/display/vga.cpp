@@ -1,6 +1,7 @@
 #include "vga.hpp"
+#include "../std/memcpy.hpp"
 
-vga::vga() {
+vga::vga() : _cur_column(0), _cur_row(0) {
     clear_screen(color::black);
 }
 
@@ -11,7 +12,7 @@ void vga::clear_row(const color in_color, const uint8_t in_row) {
 
     // Write spaces for the entire row, using the same color for the foreground
     // and background.
-    for (auto i = 0; i < MAX_COLUMNS; i++) {
+    for (auto i = 0; i < _MAX_COLUMNS; i++) {
         write((unsigned char *)" ", in_color, in_color);
     }
 
@@ -19,25 +20,29 @@ void vga::clear_row(const color in_color, const uint8_t in_row) {
 }
 
 void vga::clear_screen(const color in_color) {
-    for (auto i = 0; i < MAX_ROWS; i++) {
+    for (auto i = 0; i < _MAX_ROWS; i++) {
         clear_row(in_color, i);
     }
 }
 
 void vga::scroll() {
-    auto bytes_per_row = sizeof(uint16_t) * MAX_COLUMNS;
-    auto dst = (uint16_t *)(BASE_ADDRESS);
-    auto src = dst + (bytes_per_row);
-    auto end = dst + (bytes_per_row * (MAX_ROWS - 1));
+    auto dst = (uint8_t *)_START_ADDRESS;
+    auto src = dst + _ROW_LENGTH;
+    _cur_row = 0;
 
-    while (dst != end) {
-        *dst++ = *src++;
+    while (dst <= (uint8_t *)_END_ADDRESS) {
+        clear_row(color::black, _cur_row);
+        memcpy(dst, src, _ROW_LENGTH);
+        dst += _ROW_LENGTH;
+        src += _ROW_LENGTH;
+        _cur_row++;
     }
+    _cur_column = 0;
 }
 
 void vga::set_position(const uint8_t in_row, const uint8_t in_column) {
-    _cur_row = in_row < MAX_ROWS ? in_row : MAX_ROWS - 1;
-    _cur_column = in_column < MAX_COLUMNS ? in_column : MAX_COLUMNS - 1;
+    _cur_row = in_row < _MAX_ROWS ? in_row : _MAX_ROWS - 1;
+    _cur_column = in_column < _MAX_COLUMNS ? in_column : _MAX_COLUMNS - 1;
 }
 
 void vga::write(const void * in_string, const color in_text_color, 
@@ -48,9 +53,9 @@ void vga::write(const void * in_string, const color in_text_color,
     while ('\0' != *cur_char) {
         // Move to the next line (row) if we see a newline or are past
         // the screen width.
-        if ('\n' == *cur_char || _cur_column >= MAX_COLUMNS) {
+        if ('\n' == *cur_char || _cur_column >= _MAX_COLUMNS) {
             _cur_row++;
-            if (_cur_row >= MAX_ROWS) {
+            if (_cur_row >= _MAX_ROWS) {
                 scroll();
             }
             _cur_column = 0;
@@ -61,9 +66,9 @@ void vga::write(const void * in_string, const color in_text_color,
             }
         }
 
-        auto byte_offset = (_cur_row * sizeof(uint16_t) * MAX_COLUMNS);
+        auto byte_offset = (_cur_row * _ROW_LENGTH);
         byte_offset += (sizeof(uint16_t) * _cur_column);
-        uint16_t * addr = (uint16_t *)(BASE_ADDRESS + byte_offset);
+        uint16_t * addr = (uint16_t *)(_START_ADDRESS + byte_offset);
         *addr = color << 8 | *cur_char;
         _cur_column++;
         cur_char++;

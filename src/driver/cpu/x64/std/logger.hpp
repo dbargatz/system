@@ -16,7 +16,7 @@ public:
     void debug(const text& in_fmt, Args&&... in_args) {
         text msg(_MSG_FORMAT, _LEVEL_SYMBOLS[(uint8_t)level::Debug], in_fmt.get());
         text final_msg(msg.get(), static_cast<Args>(in_args)...);
-        //_backend_1.debug(final_msg);
+        _backend_1.debug(final_msg);
         _backend_2.write(final_msg);
     }
 

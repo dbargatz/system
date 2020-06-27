@@ -45,21 +45,31 @@ public:
         const color in_bg_color);
 
 private:
+    ///< First physical memory address of video RAM.
+    ///< @todo Represent with physical address type, not uint64_t.
+    constexpr static const uint64_t _START_ADDRESS = (uint64_t)0xB8000;
+
     ///< Fixed number of rows that can be displayed at one time.
-    constexpr static const uint8_t MAX_ROWS     = 25;
+    constexpr static const uint8_t _MAX_ROWS = 25;
 
     ///< Fixed number of columns that can be displayed in a single row.
-    constexpr static const uint8_t MAX_COLUMNS  = 80;
+    constexpr static const uint8_t _MAX_COLUMNS = 80;
 
-    ///< Physical memory address of video RAM.
+    ///< Length (in bytes) of a complete row of text in memory. Also known as
+    ///< the stride.
+    constexpr static const uint8_t _ROW_LENGTH = _MAX_COLUMNS * sizeof(uint16_t);
+
+    ///< Last valid physical memory address of video RAM.
     ///< @todo Represent with physical address type, not uint64_t.
-    static const uint64_t BASE_ADDRESS = (uint64_t)0xB8000;
+    constexpr static const uint64_t _END_ADDRESS = _START_ADDRESS + (_ROW_LENGTH * _MAX_ROWS);
 
-    ///< The current horizontal position of the cursor on the screen.
-    uint8_t _cur_column = 0;
+    ///< The current horizontal position of the cursor on the screen. Column
+    ///< numbers range from 0 to (MAX_COLUMNS - 1).
+    uint8_t _cur_column;
 
-    ///< The current vertical position of the cursor on the screen.
-    uint8_t _cur_row = 0;
+    ///< The current vertical position of the cursor on the screen. Row numbers
+    ///< range from 0 to (MAX_ROWS - 1).
+    uint8_t _cur_row;
 };
 
 #endif // _DISPLAY_VGA_HPP
