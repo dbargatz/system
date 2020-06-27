@@ -3,12 +3,7 @@
 #include "memcpy.hpp"
 
 text::text(const char * in_str) : _length_in_chars(0) {
-    while('\0' != *in_str) {
-        ASSERT(_length_in_chars < (_MAX_LENGTH_BYTES - 1), "string too long");
-        _buf[_length_in_chars++] = *in_str++;
-    }
-
-    _buf[_length_in_chars] = '\0';
+    format(in_str);
 }
 
 text::text(const text& in_other) : _length_in_chars(0) {
@@ -44,8 +39,8 @@ template<> void text::format_arg(const char * in_arg,
                                  bool in_prepend_prefix,
                                  uint64_t in_min_width, 
                                  char in_fill_char) {
-    // TODO: bounds-check _buf
     while('\0' != *in_arg) {
+        ASSERT(_length_in_chars < (_MAX_LENGTH_BYTES - 1), "string arg too long");
         _buf[_length_in_chars++] = *in_arg++;
     }
 }
@@ -61,29 +56,35 @@ template<> void text::format_arg(const float64_t in_arg,
     const char * digits = "0123456789";
     int64_t whole = (int64_t)in_arg;
     // TODO: make precision an argument
-    uint64_t fractional = ((in_arg - whole) * 1000000.0); // Move fractional component up by 10^6 places for precision of 6
+    // Move fractional component up by 10^6 places for precision of 6
+    uint64_t fractional = ((in_arg - whole) * 1000000.0);
 
     // TODO: verify this algorithm is actually correct?!
     // Do the fractional part.
     if(fractional == 0) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = digits[0];
     }
     else {
         while(fractional != 0) {
+            ASSERT(idx < (sizeof(temp) - 1), "text too long");
             temp[idx++] = digits[fractional % in_base];
             fractional /= in_base;
         }
     }
 
     // Put the decimal point in.
+    ASSERT(idx < (sizeof(temp) - 1), "text too long");
     temp[idx++] = '.';
 
     // Now do the whole number part.
     if(whole == 0) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = digits[0];
     }
     else {
         while(whole != 0) {
+            ASSERT(idx < (sizeof(temp) - 1), "text too long");
             temp[idx++] = digits[whole % in_base];
             whole /= in_base;
         }
@@ -93,18 +94,18 @@ template<> void text::format_arg(const float64_t in_arg,
     // fill character until reaching the minimum field width. Note that this 
     // effectively right-aligns the number, as the temp buffer is in reverse
     // order.
-    // TODO: bounds-check temp, or dynamically resize it; otherwise, buffer 
-    //       overflow with crafted minimum field width
     while(idx < in_min_width) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = in_fill_char;
     }
 
     if(in_arg < 0) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 1), "text too long");
         _buf[_length_in_chars++] = '-';
     }
 
-    // TODO: bounds-check _buf
     while(idx != 0) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 1), "text too long");
         _buf[_length_in_chars++] = temp[--idx];
     }
 }
@@ -122,6 +123,7 @@ template<> void text::format_arg(const int64_t in_arg,
     int8_t modulo;
 
     if(0 == remainder) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = digits[0];
     }
     else {
@@ -132,36 +134,39 @@ template<> void text::format_arg(const int64_t in_arg,
             if(modulo < 0) {
                 modulo *= -1;
             }
+            ASSERT(idx < (sizeof(temp) - 1), "text too long");
             temp[idx++] = digits[modulo];
             remainder /= in_base;
         }
     }
 
     // If the number of digits is less than the minimum field width, append the
-    // fill character until reaching the minimum field width. Note that this 
+    // fill character until reaching the minimum field width. Note that this
     // effectively right-aligns the number, as the temp buffer is in reverse
     // order.
-    // TODO: bounds-check temp, or dynamically resize it; otherwise, buffer 
-    //       overflow with crafted minimum field width
     while(idx < in_min_width) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = in_fill_char;
     }
 
     if(in_arg < 0) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 1), "text too long");
         _buf[_length_in_chars++] = '-';
     }
 
     if(in_prepend_prefix && 2 == in_base) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 2), "text too long");
         _buf[_length_in_chars++] = '0';
         _buf[_length_in_chars++] = 'b';
     }
     else if(in_prepend_prefix && 16 == in_base) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 2), "text too long");
         _buf[_length_in_chars++] = '0';
         _buf[_length_in_chars++] = 'x';
     }
 
-    // TODO: bounds-check _buf
     while(idx != 0) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 1), "text too long");
         _buf[_length_in_chars++] = temp[--idx];
     }
 }
@@ -178,10 +183,12 @@ template<> void text::format_arg(const uint64_t in_arg,
     uint64_t remainder = in_arg;
 
     if(0 == remainder) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = digits[0];
     }
     else {
         while(remainder != 0) {
+            ASSERT(idx < (sizeof(temp) - 1), "text too long");
             temp[idx++] = digits[remainder % in_base];
             remainder /= in_base;
         }
@@ -191,23 +198,24 @@ template<> void text::format_arg(const uint64_t in_arg,
     // fill character until reaching the minimum field width. Note that this 
     // effectively right-aligns the number, as the temp buffer is in reverse
     // order.
-    // TODO: bounds-check temp, or dynamically resize it; otherwise, buffer 
-    //       overflow with crafted minimum field width
     while(idx < in_min_width) {
+        ASSERT(idx < (sizeof(temp) - 1), "text too long");
         temp[idx++] = in_fill_char;
     }
 
     if(in_prepend_prefix && 2 == in_base) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 2), "text too long");
         _buf[_length_in_chars++] = '0';
         _buf[_length_in_chars++] = 'b';
     }
     else if(in_prepend_prefix && 16 == in_base) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 2), "text too long");
         _buf[_length_in_chars++] = '0';
         _buf[_length_in_chars++] = 'x';
     }
 
-    // TODO: bounds-check _buf
     while(idx != 0) {
+        ASSERT(_length_in_chars < (sizeof(_buf) - 1), "text too long");
         _buf[_length_in_chars++] = temp[--idx];
     }
 }
