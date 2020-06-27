@@ -7,11 +7,11 @@ struct idtr {
 } __attribute__((packed));
 
 IDT::IDT(logger& in_log) : _log(in_log) {
-    _log.debug("Zeroing IDT...\n");
+    _log.debug("Zeroing IDT...");
     // Zero out the actual Interrupt Descriptor Table, which is stored as a 
     // class member.
     memset(idt, 0, sizeof(idt));
-    _log.debug("Zeroed.\n");
+    _log.debug("Zeroed.");
 }
 
 void IDT::register_handler(uint8_t in_index, const void * in_handler) {
@@ -32,5 +32,5 @@ void IDT::install() {
         .offset = (void *)idt
     };
     asm volatile("lidt %0": :"m"(idtr));
-    _log.debug("IDT loaded: address {#016X}, length {}.\n", (uint64_t)idtr.offset, idtr.limit);
+    _log.debug("IDT loaded: address {#016X}, length {}.", (uint64_t)idtr.offset, idtr.limit);
 }

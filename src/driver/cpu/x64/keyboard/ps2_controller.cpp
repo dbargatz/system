@@ -24,7 +24,7 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
             // Start of a 2-byte response.
             break;
         default:
-            _log.warn("Invalid PS/2 device type {#02X} received\n", response);
+            _log.warn("Invalid PS/2 device type {#02X} receive", response);
             type = ps2_device_type::INVALID;
             break;
     }
@@ -41,7 +41,7 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
                 type = ps2_device_type::KEYBOARD_STANDARD;
                 break;
             default:
-                _log.warn("Invalid PS/2 device type (0xAB, {#02X}) received\n", response);
+                _log.warn("Invalid PS/2 device type (0xAB, {#02X}) received", response);
                 type = ps2_device_type::INVALID;
                 break;
         }
@@ -81,20 +81,20 @@ void ps2_controller::disable(ps2_port in_port) {
         case ps2_port::PORT1:
             _port_1_ok = false;
             _write_cmd(0xAD); // Disable port 1
-            _log.debug("Disabled PS/2 port 1.\n");
+            _log.debug("Disabled PS/2 port 1.");
             return;
         case ps2_port::PORT2:
             _port_2_ok = false;
             _write_cmd(0xA7); // Disable port 2
-            _log.debug("Disabled PS/2 port 2.\n");
+            _log.debug("Disabled PS/2 port 2.");
             return;
         case ps2_port::CONTROLLER:
             disable(ps2_port::PORT1);
             disable(ps2_port::PORT2);
-            _log.debug("Disabled both PS/2 ports.\n");
+            _log.debug("Disabled both PS/2 ports.");
             return;
         default:
-            _log.warn("Invalid PS/2 device; cannot disable.\n");
+            _log.warn("Invalid PS/2 device; cannot disable.");
             return;
     }
 }
@@ -104,33 +104,33 @@ void ps2_controller::enable(ps2_port in_port) {
     switch(in_port) {
         case ps2_port::PORT1:
             if(!_port_1_ok) {
-                _log.warn("Cannot enable PS/2 port 1; in bad state.\n");
+                _log.warn("Cannot enable PS/2 port 1; in bad state.");
                 return;
             }
             _write_cmd(0xAE);                          // Enable port 1
             config = _read_config();
             _write_config(config | 0b00000001);        // Enable port 1 interrupts
-            _log.debug("Enabled PS/2 port 1.\n");
+            _log.debug("Enabled PS/2 port 1.");
             _port_1_ok = true;
             return;
         case ps2_port::PORT2:
             if(!_port_2_ok) {
-                _log.warn("Cannot enable PS/2 port 2; in bad state.\n");
+                _log.warn("Cannot enable PS/2 port 2; in bad state.");
                 return;
             }
             _write_cmd(0xA8);                          // Enable port 2
             config = _read_config();
             _write_config(config | 0b00000010);        // Enable port 2 interrupts
-            _log.debug("Enabled PS/2 port 2.\n");
+            _log.debug("Enabled PS/2 port 2.");
             _port_1_ok = true;
             return;
         case ps2_port::CONTROLLER:
             enable(ps2_port::PORT1);
             enable(ps2_port::PORT2);
-            _log.debug("Enabled both PS/2 ports.\n");
+            _log.debug("Enabled both PS/2 ports.");
             return;
         default:
-            _log.warn("Invalid PS/2 device; cannot enable.\n");
+            _log.warn("Invalid PS/2 device; cannot enable.");
             return;
     }
 }
@@ -215,7 +215,7 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
 
     // Flush the controller's output buffer to clear out any old data.
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x01) {
-        _log.debug("Old PS/2 data in buffer: {#02X}\n", PS2_DATA_REGISTER.inb());
+        _log.debug("Old PS/2 data in buffer: {#02X", PS2_DATA_REGISTER.inb());
     }
 
     // Configure the controller to disable interrupts for ports 1 and 2, and
@@ -227,7 +227,7 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
     // it fails.
     auto response = _write_cmd(0xAA, true);
     if(response != 0x55) {
-        _log.error("PS/2 controller failed self-test (response: {#02X})\n");
+        _log.error("PS/2 controller failed self-test (response: {#02X})");
         _port_1_ok = false;
         _port_2_ok = false;
         return;
@@ -254,7 +254,7 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
     _port_1_ok = true;
     response = _write_cmd(0xAB, true);
     if(response != 0x00) {
-        _log.error("PS/2 port 1 failed test (response {#02X})\n", response);
+        _log.error("PS/2 port 1 failed test (response {#02X})", response);
         _port_1_ok = false;
     }
 
@@ -262,10 +262,10 @@ ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
     if(_port_2_ok) {
         response = _write_cmd(0xA9, true);
         if(response != 0x00) {
-            _log.error("PS/2 port 2 failed test (response {#02X})\n", response);
+            _log.error("PS/2 port 2 failed test (response {#02X})", response);
             _port_2_ok = false;
         }
     }
 
-    _log.debug("PS/2 controller: initialized, {}-channel\n", _port_2_ok ? "dual" : "single");
+    _log.debug("PS/2 controller: initialized, {}-channel", _port_2_ok ? "dual" : "single");
 }

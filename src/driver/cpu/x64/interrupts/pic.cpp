@@ -1,7 +1,7 @@
 #include "pic.hpp"
 
 PIC::PIC(logger& in_log) : _log(in_log) {
-    _log.debug("Initialized PIC.\n");
+    _log.debug("Initialized PIC.");
 }
 
 void PIC::send_eoi(const uint8_t in_irq_number) {
@@ -51,7 +51,7 @@ void PIC::disable_all(void) {
     // Mask all interrupts on both the PICs.
     PIC2_DATA_PORT.outb(0xFF);
     PIC1_DATA_PORT.outb(0xFF);
-    _log.debug("Disabled all IRQs\n");
+    _log.debug("Disabled all IRQ");
 }
 
 void PIC::disable_irq(const uint8_t in_irq_number) {
@@ -65,7 +65,7 @@ void PIC::disable_irq(const uint8_t in_irq_number) {
         mask = PIC2_DATA_PORT.inb() | (1 << (in_irq_number - 8));
         PIC2_DATA_PORT.outb(mask);
     }
-    _log.debug("Disabled IRQ {#02X} ({})\n", in_irq_number, in_irq_number);
+    _log.debug("Disabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
 }
 
 void PIC::enable_irq(const uint8_t in_irq_number) {
@@ -79,5 +79,5 @@ void PIC::enable_irq(const uint8_t in_irq_number) {
         mask = PIC2_DATA_PORT.inb() & ~(1 << (in_irq_number - 8));
         PIC2_DATA_PORT.outb(mask);
     }
-    _log.debug("Enabled IRQ {#02X} ({})\n", in_irq_number, in_irq_number);
+    _log.debug("Enabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
 }
