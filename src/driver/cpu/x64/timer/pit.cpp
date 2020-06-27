@@ -40,14 +40,14 @@ void PIT::set_frequency(float64_t in_frequency_hz) {
     CHANNEL_0_REGISTER.outb((uint8_t)_reload_value);
     CHANNEL_0_REGISTER.outb((uint8_t)(_reload_value >> 8));
 
-    _log.debug("Set PIT frequency to {}Hz (requested frequency: {}Hz, reload value: {})\n", 
+    _log.debug("Set PIT frequency to {}Hz (requested frequency: {}Hz, reload value: {})", 
         _frequency_hz, in_frequency_hz, _reload_value);
 }
 
 void PIT::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) {
     _uptime_ms += 1000.0 / _frequency_hz;
-    if((uint64_t)_uptime_ms % 1000 == 0) {
-        _log.debug("Uptime: {}ms\n", _uptime_ms);
+    if((uint64_t)_uptime_ms % 1000 == 0 && _uptime_ms > 1.0) {
+        _log.debug("Uptime: {}ms", _uptime_ms);
     }
     in_mgr.handler_complete(InterruptType::TIMER_EXPIRED);
 }
