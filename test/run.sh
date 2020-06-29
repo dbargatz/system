@@ -18,7 +18,7 @@ key="$1"
 
 case $key in
     -d|--debug)
-    DEBUG="-d int"
+    DEBUG="-d int -no-reboot"
     shift
     ;;
     -g|--gdb)
