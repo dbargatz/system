@@ -30,14 +30,14 @@ void vga::scroll() {
     auto src = dst + _ROW_LENGTH;
     _cur_row = 0;
 
-    while (dst <= (uint8_t *)_END_ADDRESS) {
+    while (dst < (uint8_t *)_END_ADDRESS) {
         clear_row(color::black, _cur_row);
         memcpy(dst, src, _ROW_LENGTH);
         dst += _ROW_LENGTH;
         src += _ROW_LENGTH;
         _cur_row++;
     }
-    _cur_column = 0;
+    clear_row(color::black, _cur_row);
 }
 
 void vga::set_position(const uint8_t in_row, const uint8_t in_column) {
