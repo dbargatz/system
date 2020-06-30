@@ -25,25 +25,16 @@ HANDLERS
 
 extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
     struct panic_data * data = (struct panic_data *)in_frame.frame->rip;
-
-    in_log.panic("\n");
-    in_log.panic("\n");
     in_log.panic("PANIC({}:{}): {}", data->filename, data->lineNum, data->msg);
     in_frame.dump();
     in_log.panic("Raw panic data:");
     in_log.hexdump(logger::level::Panic, (void *)data, sizeof(*data), 1);
-    in_log.panic("\n");
-    in_log.panic("\n");
     halt();
 }
 
 extern "C" void unhandled_interrupt_handler(logger& in_log, interrupt_frame& in_frame) {
-    in_log.panic("\n");
-    in_log.panic("\n");
     in_log.panic("UNHANDLED INTERRUPT: {}", in_frame.frame->interrupt_number);
     in_frame.dump();
-    in_log.panic("\n");
-    in_log.panic("\n");
     in_log.panic("HALTING");
     halt();
 }
