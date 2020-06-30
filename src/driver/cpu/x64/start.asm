@@ -1,4 +1,8 @@
 global start
+global tss_space
+global ist1_stack_bottom
+global ist2_stack_bottom
+
 extern kmain
 extern start_init_array
 extern end_init_array
@@ -406,6 +410,25 @@ p2_table:
 stack_bottom:
     resb 8192
 stack_top:
+
+;; Known-good stack, only used for PANIC/ASSERT calls and loaded into the TSS
+;; as Interrupt Stack Table (IST) 1. This can be shallow as it should only be
+;; switched to when a PANIC/ASSERT or undefined opcode (as a side effect of the
+;; PANIC/ASSERT implementation) occurs.
+ist1_stack_bottom:
+    resb 2048
+ist1_stack_top:
+
+;; Known-good stack, only used for unhandled interrupt vectors and loaded into
+;; the TSS as Interrupt Stack Table (IST) 2. This can be shallow as it should
+;; only be switched to when an unhandled interrupt vector is triggered.
+ist2_stack_bottom:
+    resb 2048
+ist2_stack_top:
+
+;; Space for the 64-bit TSS so it doesn't have to be dynamically allocated.
+tss_space:
+    resb 128
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
 ;; The 64-bit Global Descriptor Table (GDT), to be loaded into the

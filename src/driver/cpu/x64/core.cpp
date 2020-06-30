@@ -3,7 +3,7 @@
 
 Core::Core(logger& in_log, const void * in_boot_info,
     InterruptManager& in_interrupts, ITimer& in_timer, keyboard& in_kbd) :
-     _log(in_log), _boot_info(in_boot_info), timer(in_timer),
+     _tss(in_log), _log(in_log), _boot_info(in_boot_info), timer(in_timer),
      interrupts(in_interrupts), kbd(in_kbd) {
         _log.debug("Constructed Core:");
         _log.debug("    Boot Info    : {#016X}", (uint64_t)_boot_info);
@@ -11,6 +11,7 @@ Core::Core(logger& in_log, const void * in_boot_info,
         _log.debug("    PIT          : present");
         _log.debug("    Serial Port  : present");
         _log.debug("    Keyboard     : present");
+        _log.debug("    TSS          : {#016X}", (uint64_t)&_tss);
 }
 
 void Core::run() {

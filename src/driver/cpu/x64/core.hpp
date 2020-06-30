@@ -3,11 +3,13 @@
 
 #include "std/logger.hpp"
 #include "interrupts/interrupt_manager.hpp"
+#include "interrupts/tss.hpp"
 #include "timer/ITimer.hpp"
 #include "keyboard/keyboard.hpp"
 
 class Core {
 private:
+    tss _tss;
     logger& _log;
     const void * _boot_info;
 
