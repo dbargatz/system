@@ -28,6 +28,7 @@ extern "C" int kmain(const void * in_boot_info) {
     vga_logger vga;
     SerialPort serial;
     logger log(vga, serial);
+    tss t(log);
     IDT idt(log);
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
@@ -47,7 +48,7 @@ extern "C" int kmain(const void * in_boot_info) {
     }
     at_keyboard kbd(log, ps2, kbd_port);
 
-    Core bootstrap_core(log, in_boot_info, intmgr, pit, kbd);
+    Core bootstrap_core(log, t, in_boot_info, intmgr, pit, kbd);
     this_core = &bootstrap_core;
 
     bootstrap_core.run();

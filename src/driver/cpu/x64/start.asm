@@ -455,6 +455,8 @@ gdt64:
     dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
 .data: equ $-gdt64
     dq (1<<44) | (1<<47) | (1<<41)
+.tss:  equ $-gdt64
+    dq (1<<54) | (1<<47) | (1<<43) | (1<<40)
 ;; The GDT pointer is a special data structure expected by the lgdt
 ;; instruction. This structure  contains the length of the GDT in bytes
 ;; as the first word (2 bytes), and the next 8 bytes specify the actual

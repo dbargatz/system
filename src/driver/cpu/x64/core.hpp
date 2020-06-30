@@ -9,7 +9,7 @@
 
 class Core {
 private:
-    tss _tss;
+    tss& _tss;
     logger& _log;
     const void * _boot_info;
 
@@ -19,6 +19,7 @@ public:
     keyboard& kbd;
 
     Core(logger& in_log,
+        tss& in_tss,
         const void * in_boot_info,
         InterruptManager& in_interrupts,
         ITimer& in_timer,

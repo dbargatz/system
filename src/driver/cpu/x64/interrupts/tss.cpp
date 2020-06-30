@@ -27,7 +27,12 @@ tss::tss(logger& in_log) : _log(in_log) {
     // TODO: verify this with the Intel manuals.
     _core_tss->iopb_offset = (uint16_t)sizeof(*_core_tss);
 
-    _log.debug("TSS Space    : {#016X}", (uint64_t)_core_tss);
+    // Load the TSS into the core.
+    asm volatile("movq $0x18, %%rax; ltr %%ax": : : "rax");
+}
+
+void tss::dump() {
+    _log.debug("TSS          : {#016X}", (uint64_t)_core_tss);
     _log.debug("IST1         : {#016X}", _core_tss->ist1);
     _log.debug("IST2         : {#016X}", _core_tss->ist2);
     _log.debug("IOPB Offset  : {#016X}", _core_tss->iopb_offset);

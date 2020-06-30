@@ -13,6 +13,8 @@ class tss {
 public:
     tss(logger& in_log);
 
+    void dump();
+
 private:
     /**
      * Actual 64-bit Task State Segment structure used by processor.
