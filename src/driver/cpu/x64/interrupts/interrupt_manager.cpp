@@ -83,7 +83,7 @@ InterruptManager::InterruptManager(logger& in_log, IDT& in_idt, PIC& in_pic) :
     // Mask all IRQs (0-15).
     _pic.disable_all();
 
-#define X(n) _idt.register_handler(n, &interrupt_handler_##n);
+#define X(n) _idt.register_handler(n, &interrupt_handler_##n, (n == 6 ? 2 : 0));
     HANDLERS
 #undef X
 
