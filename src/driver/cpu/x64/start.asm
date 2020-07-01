@@ -1,6 +1,7 @@
 global start
 global ist1_stack_top
 global ist2_stack_top
+global gdt64
 
 extern kmain
 extern start_init_array
@@ -90,7 +91,7 @@ start:
     ;; GDT. We can't load the code selector (cs) the same way - we'll
     ;; handle that after we load the data segment entry into ss, ds, and
     ;; es.
-    mov ax, gdt64.data
+    mov ax, gdt64.ring0_data
     mov ss, ax
     mov ds, ax
     mov es, ax
@@ -100,7 +101,7 @@ start:
     ;; register with the proper code segment entry in the GDT, since (as
     ;; mentioned above), we can't just load cs with an arbitrary memory
     ;; address. When this jump completes, we'll be in 64-bit long mode!
-    jmp gdt64.code:long_mode_start
+    jmp gdt64.ring0_code:long_mode_start
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 bits 64
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -446,10 +447,19 @@ section .rodata
 ;; writeable.
 gdt64:
     dq 0
-.code: equ $-gdt64
-    dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
-.data: equ $-gdt64
-    dq (1<<44) | (1<<47) | (1<<41)
+.ring0_code: equ $-gdt64
+;;     64b cs    present   priv level   desctype    exec      r/w     accessed
+    dq (1<<53) | (1<<47)              | (1<<44) | (1<<43) | (1<<41)
+.ring0_data: equ $-gdt64
+    dq           (1<<47)              | (1<<44)           | (1<<41)
+.ring3_code: equ $-gdt64
+;;     64b cs    present   priv level   desctype    exec      r/w
+    dq (1<<53) | (1<<47) | (3 << 45)  | (1<<44) | (1<<43) | (1<<41)
+.ring3_data: equ $-gdt64
+    dq           (1<<47) | (3 << 45)  | (1<<44)           | (1<<41)
+.tss: equ $-gdt64
+    dq           (1<<47)                        | (1<<43)           | (1<<40)
+    dq 0
 ;; The GDT pointer is a special data structure expected by the lgdt
 ;; instruction. This structure  contains the length of the GDT in bytes
 ;; as the first word (2 bytes), and the next 8 bytes specify the actual
