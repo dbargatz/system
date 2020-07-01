@@ -2,7 +2,9 @@
 #include "std/panic.h"
 #include "debug/serial.hpp"
 #include "display/vga_logger.hpp"
+#include "interrupts/gdt.hpp"
 #include "interrupts/interrupt_manager.hpp"
+#include "interrupts/tss.hpp"
 #include "core.hpp"
 #include "timer/pit.hpp"
 #include "keyboard/ps2_controller.hpp"
@@ -28,6 +30,7 @@ extern "C" int kmain(const void * in_boot_info) {
     vga_logger vga;
     SerialPort serial;
     logger log(vga, serial);
+    gdt g(log);
     tss t(log);
     IDT idt(log);
     PIC pic(log);
@@ -48,7 +51,7 @@ extern "C" int kmain(const void * in_boot_info) {
     }
     at_keyboard kbd(log, ps2, kbd_port);
 
-    Core bootstrap_core(log, t, in_boot_info, intmgr, pit, kbd);
+    Core bootstrap_core(log, g, t, in_boot_info, intmgr, pit, kbd);
     this_core = &bootstrap_core;
 
     bootstrap_core.run();

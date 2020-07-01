@@ -2,6 +2,7 @@
 #define _CORE_HPP
 
 #include "std/logger.hpp"
+#include "interrupts/gdt.hpp"
 #include "interrupts/interrupt_manager.hpp"
 #include "interrupts/tss.hpp"
 #include "timer/ITimer.hpp"
@@ -9,6 +10,7 @@
 
 class Core {
 private:
+    gdt& _gdt;
     tss& _tss;
     logger& _log;
     const void * _boot_info;
@@ -19,6 +21,7 @@ public:
     keyboard& kbd;
 
     Core(logger& in_log,
+        gdt& in_gdt,
         tss& in_tss,
         const void * in_boot_info,
         InterruptManager& in_interrupts,
