@@ -33,16 +33,29 @@ template<> void text::format_arg(const char in_arg,
     _buf[_length_in_chars++] = in_arg;
 }
 
-template<> void text::format_arg(const char * in_arg, 
-                                 uint8_t in_base, 
+template<> void text::format_arg(const char * in_arg,
+                                 uint8_t in_base,
                                  bool in_uppercase_digits,
                                  bool in_prepend_prefix,
-                                 uint64_t in_min_width, 
+                                 uint64_t in_min_width,
                                  char in_fill_char) {
     while('\0' != *in_arg) {
         ASSERT(_length_in_chars < (_MAX_LENGTH_BYTES - 1), "string arg too long");
         _buf[_length_in_chars++] = *in_arg++;
     }
+}
+
+template<> void text::format_arg(const text in_arg,
+                                 uint8_t in_base,
+                                 bool in_uppercase_digits,
+                                 bool in_prepend_prefix,
+                                 uint64_t in_min_width,
+                                 char in_fill_char) {
+
+    auto len = in_arg.length();
+    ASSERT((_length_in_chars + len) < (_MAX_LENGTH_BYTES - 1), "text too long");
+    memcpy(&_buf[_length_in_chars], in_arg._buf, len);
+    _length_in_chars += len;
 }
 
 template<> void text::format_arg(const float64_t in_arg,
