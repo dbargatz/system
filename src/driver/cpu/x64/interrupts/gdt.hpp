@@ -10,6 +10,8 @@ public:
     gdt(logger& in_log);
 
     void dump();
+    void install(uint8_t in_index, const void * in_base, uint32_t in_limit,
+                 uint8_t in_access_byte, uint8_t in_flags);
 
 private:
     struct _gdt_entry {
@@ -32,13 +34,7 @@ private:
     } __attribute__((packed));
 
     struct _gdt {
-        struct _gdt_entry null;
-        struct _gdt_entry ring0_code;
-        struct _gdt_entry ring0_data;
-        struct _gdt_entry ring3_code;
-        struct _gdt_entry ring3_data;
-        struct _gdt_entry tss;
-        uint64_t tss_high;
+        struct _gdt_entry entries[7];
     } __attribute__((packed));
 
     struct _gdt_descriptor {
@@ -52,7 +48,7 @@ private:
     ///< Actual GDT for this core.
     struct _gdt& _our_gdt;
 
-    void _dump_entry(const text& in_name, struct _gdt_entry& in_entry);
+    void _dump_entry(const struct _gdt_entry& in_entry);
 };
 
 #endif // _INTERRUPTS_GDT_HPP
