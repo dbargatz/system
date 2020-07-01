@@ -47,8 +47,11 @@ public:
      * 
      * @param in_index the IDT index to insert the handler at
      * @param in_handler function to execute when the interrupt occurs
+     * @param in_ist_index Interrupt Stack Table (IST) stack to handle interrupt
+     *                     on; index into TSS
      */
-    void register_handler(uint8_t in_index, const void * in_handler);
+    void register_handler(uint8_t in_index, const void * in_handler,
+                          uint8_t in_ist_index = 0);
 
     /**
      * @brief Loads this IDT into the core such that interrupts/exceptions will
