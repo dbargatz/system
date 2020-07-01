@@ -1,5 +1,6 @@
 #include "core.hpp"
 #include "std/assert.h"
+#include "std/queue.hpp"
 
 Core::Core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
     InterruptManager& in_interrupts, ITimer& in_timer, keyboard& in_kbd) :
@@ -16,11 +17,19 @@ Core::Core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
 }
 
 void Core::run() {
-    kbd.reset();
     interrupts.enable_interrupts();
+
+    queue<uint8_t, 16> q;
+    for(auto i = 0; i < 48; i++) {
+        q.enqueue(i);
+        q.dump(_log);
+        //ASSERT(q.dequeue() == i, "dequeued wrong value");
+    }
+
+    kbd.reset();
     interrupts.temp_unmask(1);
     _log.info("Testing keyboard (interrupts: {}abled)...", interrupts.enabled() ? "en" : "dis");
-    uint32_t ct = 0xFFFFFFFF;
+    uint32_t ct = 0x7FFFFFFF;
     while(ct > 0) {
         ct--;
     }
@@ -28,7 +37,7 @@ void Core::run() {
     timer.set_frequency(1000.0);
     interrupts.temp_unmask(0);
     _log.info("Testing timer (interrupts: {}abled)...", interrupts.enabled() ? "en" : "dis");
-    ct = 0xFFFFFFFF;
+    ct = 0x7FFFFFFF;
     while(ct > 0) {
         ct--;
     }
