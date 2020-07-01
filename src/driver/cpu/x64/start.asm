@@ -1,7 +1,6 @@
 global start
-global tss_space
-global ist1_stack_bottom
-global ist2_stack_bottom
+global ist1_stack_top
+global ist2_stack_top
 
 extern kmain
 extern start_init_array
@@ -425,10 +424,6 @@ ist1_stack_top:
 ist2_stack_bottom:
     resb 2048
 ist2_stack_top:
-
-;; Space for the 64-bit TSS so it doesn't have to be dynamically allocated.
-tss_space:
-    resb 128
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
 ;; The 64-bit Global Descriptor Table (GDT), to be loaded into the
@@ -455,8 +450,6 @@ gdt64:
     dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
 .data: equ $-gdt64
     dq (1<<44) | (1<<47) | (1<<41)
-.tss:  equ $-gdt64
-    dq (1<<54) | (1<<47) | (1<<43) | (1<<40)
 ;; The GDT pointer is a special data structure expected by the lgdt
 ;; instruction. This structure  contains the length of the GDT in bytes
 ;; as the first word (2 bytes), and the next 8 bytes specify the actual

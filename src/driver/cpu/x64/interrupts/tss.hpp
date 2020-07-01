@@ -40,8 +40,8 @@ private:
     ///< Logger used by class.
     logger& _log;
 
-    ///< Pointer to the TSS used by this core.
-    struct _tss * _core_tss;
+    ///< Actual TSS for this core.
+    struct _tss _our_tss;
 };
 
 #endif // _INTERRUPTS_TSS_HPP
