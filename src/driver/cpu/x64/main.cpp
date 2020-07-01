@@ -31,7 +31,7 @@ extern "C" int kmain(const void * in_boot_info) {
     SerialPort serial;
     logger log(vga, serial);
     gdt g(log);
-    tss t(log);
+    tss t(log, g);
     IDT idt(log);
     PIC pic(log);
     InterruptManager intmgr(log, idt, pic);
