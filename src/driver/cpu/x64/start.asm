@@ -457,7 +457,7 @@ gdt64:
     dq (1<<53) | (1<<47) | (3 << 45)  | (1<<44) | (1<<43) | (1<<41)
 .ring3_data: equ $-gdt64
     dq           (1<<47) | (3 << 45)  | (1<<44)           | (1<<41)
-.tss: equ $-gdt64
+.tss: equ $-gdt64 ;; NOTE: 64-bit TSS descriptor is 16 bytes
     dq           (1<<47)                        | (1<<43)           | (1<<40)
     dq 0
 ;; The GDT pointer is a special data structure expected by the lgdt
