@@ -14,8 +14,8 @@ void gdt::dump() {
     _dump_entry("Null", _our_gdt.null);
     _dump_entry("Ring 0: Code", _our_gdt.ring0_code);
     _dump_entry("Ring 0: Data", _our_gdt.ring0_data);
-    //_dump_entry("Ring 3: Code", _our_gdt.ring3_code);
-    //_dump_entry("Ring 3: Data", _our_gdt.ring3_data);
+    _dump_entry("Ring 3: Code", _our_gdt.ring3_code);
+    _dump_entry("Ring 3: Data", _our_gdt.ring3_data);
     _dump_entry("TSS", _our_gdt.tss);
 }
 
