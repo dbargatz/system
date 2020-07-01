@@ -36,7 +36,7 @@ tss::tss(logger& in_log) : _log(in_log) {
     _our_tss.iopb_offset = (uint16_t)sizeof(_our_tss);
 
     // Load the TSS into the core.
-    asm volatile("movq $0x18, %%rax; ltr %%ax": : : "rax");
+    asm volatile("movq $0x28, %%rax; ltr %%ax": : : "rax");
 }
 
 void tss::dump() {
