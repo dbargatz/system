@@ -8,7 +8,7 @@
 #include "core.hpp"
 #include "timer/pit.hpp"
 #include "keyboard/ps2_controller.hpp"
-#include "keyboard/at_keyboard.hpp"
+#include "keyboard/ps2_keyboard.hpp"
 
 Core * this_core;
 
@@ -49,7 +49,7 @@ extern "C" int kmain(const void * in_boot_info) {
     } else if(port2 == ps2_device_type::KEYBOARD_STANDARD) {
         kbd_port = ps2_port::PORT2;
     }
-    at_keyboard kbd(log, ps2, kbd_port);
+    ps2_keyboard kbd(log, ps2, kbd_port);
 
     Core bootstrap_core(log, g, t, in_boot_info, intmgr, pit, kbd);
     this_core = &bootstrap_core;
