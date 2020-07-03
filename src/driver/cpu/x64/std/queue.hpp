@@ -6,37 +6,81 @@
 #include "memset.hpp"
 #include "stdint.h"
 
+/**
+ * Simple queue based on a stack-allocated circular buffer.
+ * 
+ * @tparam T type of item this queue will store
+ * @tparam N maximum number of items this queue can hold
+ * @note Internally, this queue allocates space for N+1 items on the stack to
+ *       simplify size calculations
+ */
 template <typename T, uint16_t N>
 class queue {
 public:
+    /**
+     * Construct a new queue object with the backing store on the stack.
+     */
     queue() : _front(0), _back(0) {
         memset(_buf, 0, sizeof(T) * (N+1));
     }
 
+    /**
+     * Remove and return the item at the front of the queue.
+     *
+     * @return T item at the front of the queue
+     * @warning Will panic if there are no items in the queue
+     */
     T dequeue() {
         ASSERT(size() > 0, "no items in queue");
 
+        // Grab the item, then increment and wrap the index around the buffer if
+        // necessary, taking into account the sentinel space (N+1).
         T item = _buf[_front];
-
-        // Increment and wrap the index around the buffer if necessary.
         _front = (_front + 1) % (N + 1);
-
         return item;
     }
 
+    /**
+     * Write a representation of the queue state to the given log.
+     *
+     * @param in_log logger to use
+     */
     void dump(logger& in_log) {
         in_log.debug("Queue: {#016X} ({}/{} items)", (uint64_t)this, size(), N);
     }
 
+    /**
+     * Add the given item to the back of the queue.
+     *
+     * @param in_item item to add at the back of the queue
+     * @warning Will panic if the queue is full
+     */
     void enqueue(T in_item) {
         ASSERT(size() < N, "queue is full");
 
+        // Store the item at the back of the queue, then increment and wrap the
+        // index around the buffer if necessary, taking into account the
+        // sentinel space (N+1).
         _buf[_back] = in_item;
-
-        // Increment and wrap the index around the buffer if necessary.
         _back = (_back + 1) % (N + 1);
     }
 
+    /**
+     * Get the item at the front of the queue without removing it.
+     *
+     * @return T item at the front of the queue
+     * @warning Will panic if there are no items in the queue
+     */
+    T peek() {
+        ASSERT(size() > 0, "no items in queue");
+        return _buf[_front];
+    }
+
+    /**
+     * Return the number of items in the queue.
+     * 
+     * @return size_t number of items in the queue
+     */
     size_t size() {
         if(_back >= _front) {
             return (_back - _front);

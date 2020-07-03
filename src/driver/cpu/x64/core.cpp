@@ -20,8 +20,12 @@ void Core::run() {
     interrupts.enable_interrupts();
 
     queue<uint8_t, 16> q;
-    for(auto i = 0; i < 48; i++) {
+    for(auto i = 0; i < 16; i++) {
         q.enqueue(i);
+        ASSERT(q.peek() == 0, "wrong value at front");
+    }
+
+    for(auto i = 0; i < 16; i++) {
         ASSERT(q.dequeue() == i, "dequeued wrong value");
     }
 
