@@ -24,11 +24,25 @@ HANDLERS
 #undef X
 
 extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
-    struct panic_data * data = (struct panic_data *)in_frame.frame->rip;
-    in_log.panic("PANIC({}:{}): {}", data->filename, data->lineNum, data->msg);
+    // Format the panic message appropriately based on the type of panic/invalid
+    // opcode exception.
+    struct panic_data * d = (struct panic_data *)in_frame.frame->rip;
+    switch(d->type) {
+        case panic_type::GENERIC:
+            in_log.panic("PANIC({}:{}): {}", d->filename, d->lineNum, d->msg);
+            break;
+        case panic_type::ASSERT_FAILED:
+            in_log.panic("ASSERT({}:{}): {}", d->filename, d->lineNum, d->msg);
+            break;
+        default:
+            in_log.panic("INVALID OPCODE({04X}): {#016X}", d->instruction,
+                in_frame.frame->rip);
+            break;
+    }
+
+    // Regardless of cause, dump the interrupt stack frame with the register
+    // contents at the time of the exception, then halt.
     in_frame.dump();
-    in_log.panic("Raw panic data:");
-    in_log.hexdump(logger::level::Panic, (void *)data, sizeof(*data), 1);
     halt();
 }
 
