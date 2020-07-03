@@ -32,8 +32,6 @@ void gdt::install(uint8_t in_index, const void * in_base, uint32_t in_limit,
     entry.is_64bit_cs     = (in_flags & 0x02) >> 1;
     entry.size_bit        = (in_flags & 0x04) >> 2;
     entry.granularity     = (in_flags & 0x08) >> 3;
-
-    _dump_entry(entry);
 }
 
 void gdt::_dump_entry(const struct _gdt_entry& in_entry) {
