@@ -29,10 +29,14 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
     struct panic_data * d = (struct panic_data *)in_frame.frame->rip;
     switch(d->type) {
         case panic_type::GENERIC:
-            in_log.panic("PANIC({}:{}): {}", d->filename, d->lineNum, d->msg);
+            in_log.panic("PANIC: {}", d->msg);
+            in_log.panic("Source:");
+            in_log.panic("\t{}:{}", d->filename, d->lineNum);
             break;
         case panic_type::ASSERT_FAILED:
-            in_log.panic("ASSERT({}:{}): {}", d->filename, d->lineNum, d->msg);
+            in_log.panic("ASSERT FAILED: {}", d->msg);
+            in_log.panic("Source:");
+            in_log.panic("\t{}:{}", d->filename, d->lineNum);
             break;
         default:
             in_log.panic("INVALID OPCODE({04X}): {#016X}", d->instruction,

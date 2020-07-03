@@ -45,31 +45,38 @@ void vga::set_position(const uint8_t in_row, const uint8_t in_column) {
     _cur_column = in_column < _MAX_COLUMNS ? in_column : _MAX_COLUMNS - 1;
 }
 
-void vga::write(const void * in_string, const color in_text_color, 
+void vga::write(const void * in_string, const color in_text_color,
     const color in_bg_color) {
-    uint16_t color = ((uint8_t)in_bg_color << 4 | (uint8_t)in_text_color);
     uint8_t * cur_char = (uint8_t *)in_string;
+    uint16_t color = ((uint8_t)in_bg_color << 4 | (uint8_t)in_text_color);
+
+    auto addr = (uint16_t *)(_START_ADDRESS + (_cur_row * _ROW_LENGTH));
+    addr += _cur_column;
 
     while ('\0' != *cur_char) {
-        // Move to the next line (row) if we see a newline or are past
-        // the screen width.
-        if ('\n' == *cur_char || _cur_column >= _MAX_COLUMNS) {
+        // On newlines, pad out the remainder of the line with spaces to fill in
+        // the background color and advance the column to max, then move to the
+        // next char.
+        if('\n' == *cur_char) {
+            while(_cur_column++ < _MAX_COLUMNS) {
+                *addr++ = color << 8 | ' ';
+            }
+            cur_char++;
+            continue;
+        }
+
+        // If we're at the end of the line, wrap the line, scrolling if needed.
+        if(_cur_column >= _MAX_COLUMNS) {
+            _cur_column = 0;
             _cur_row++;
             if (_cur_row >= _MAX_ROWS) {
                 scroll();
             }
-            _cur_column = 0;
-
-            if('\n' == *cur_char) {
-                cur_char++;
-                continue;
-            }
+            addr = (uint16_t *)(_START_ADDRESS + (_cur_row * _ROW_LENGTH));
         }
 
-        auto byte_offset = (_cur_row * _ROW_LENGTH);
-        byte_offset += (sizeof(uint16_t) * _cur_column);
-        uint16_t * addr = (uint16_t *)(_START_ADDRESS + byte_offset);
-        *addr = color << 8 | *cur_char;
+        // Write the styled character to the buffer and move to the next.
+        *addr++ = color << 8 | *cur_char;
         _cur_column++;
         cur_char++;
     }
