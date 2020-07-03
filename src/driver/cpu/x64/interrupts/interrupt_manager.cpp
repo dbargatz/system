@@ -27,16 +27,17 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
     // Format the panic message appropriately based on the type of panic/invalid
     // opcode exception.
     struct panic_data * d = (struct panic_data *)in_frame.frame->rip;
+    in_log.panic("");
     switch(d->type) {
         case panic_type::GENERIC:
             in_log.panic("PANIC: {}", d->msg);
-            in_log.panic("Source:");
-            in_log.panic("\t{}:{}", d->filename, d->lineNum);
+            in_log.panic("");
+            in_log.panic("Source    : {}:{}", d->filename, d->lineNum);
             break;
         case panic_type::ASSERT_FAILED:
             in_log.panic("ASSERT FAILED: {}", d->msg);
-            in_log.panic("Source:");
-            in_log.panic("\t{}:{}", d->filename, d->lineNum);
+            in_log.panic("");
+            in_log.panic("Source    : {}:{}", d->filename, d->lineNum);
             break;
         default:
             in_log.panic("INVALID OPCODE({04X}): {#016X}", d->instruction,

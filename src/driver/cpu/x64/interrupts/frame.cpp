@@ -4,14 +4,13 @@ interrupt_frame::interrupt_frame(logger& in_log, const void * in_frame_ptr) :
     _log(in_log), frame((struct _interrupt_frame *)in_frame_ptr) { }
 
 void interrupt_frame::dump() {
-    _log.panic("Interrupt:");
-    _log.panic("\tvector : {#02X} ({})", frame->interrupt_number,
+    _log.panic("Interrupt : {#04X} ({})", frame->interrupt_number,
         frame->interrupt_number);
-    _log.panic("\terror  : {#04X} ({})", frame->error_code, frame->error_code);
-    _log.panic("Registers:");
-    _log.panic("\trflags : {016X}", frame->rflags);
-    _log.panic("\tcs:rip : {04X}:{016X}", frame->cs, frame->rip);
-    _log.panic("\tss:rsp : {04X}:{016X}", frame->ss, frame->rsp);
+    _log.panic("Error Code: {#04X} ({})", frame->error_code, frame->error_code);
+    _log.panic("Registers :");
+    _log.panic("\trflags: {016X}", frame->rflags);
+    _log.panic("\tcs:rip: {04X}:{016X}", frame->cs, frame->rip);
+    _log.panic("\tss:rsp: {04X}:{016X}", frame->ss, frame->rsp);
     _log.panic("\trax: {016X}\trbx: {016X}\trcx: {016X}", frame->rax, 
         frame->rbx, frame->rcx);
     _log.panic("\trdx: {016X}\trdi: {016X}\trsi: {016X}", frame->rdx,
