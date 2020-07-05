@@ -51,8 +51,9 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
                 _cur_scancode = 0;
             } else {
                 auto unicode = _keystate.set_key(keycode);
-                _log.debug("{16X} -> {} -> {}", _cur_scancode, keycode.format(),
-                    unicode);
+                if(unicode.length() > 0) { 
+                    _log.debug("{}", unicode);
+                }
                 _cur_scancode = 0;
             }
             break;

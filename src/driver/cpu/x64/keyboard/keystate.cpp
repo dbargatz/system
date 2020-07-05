@@ -33,7 +33,11 @@ text keystate::set_key(keycode& in_code) {
     }
 
     // If this key should generate a unicode character, return a text object
-    // with the unicode; otherwise, return an empty text.
+    // with the unicode; otherwise, return an empty text. Only generate unicode
+    // on key press, not release.
+    if(!in_code.pressed) {
+        return "";
+    }
     switch(in_code.row) {
         case 2:
             switch(in_code.column) {
