@@ -54,17 +54,13 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
                 auto col_major_idx = keycode.column / 64;
                 auto col_minor_idx = keycode.column % 64;
                 auto col_block = _keystate[keycode.row][col_major_idx];
-                auto old_state = col_block & (1 << col_minor_idx);
-                if(old_state) {
-                    _log.debug("{} (keystate {}/{}/{}) released", keycode.name(),
-                        keycode.row, col_major_idx, col_minor_idx);
-                    col_block &= ~(1 << col_minor_idx);
-                } else {
-                    _log.debug("{} (keystate {}/{}/{}) pressed", keycode.name(),
-                        keycode.row, col_major_idx, col_minor_idx);
+                if(keycode.pressed) {
                     col_block |= (1 << col_minor_idx);
+                } else {
+                    col_block &= ~(1 << col_minor_idx);
                 }
                 _keystate[keycode.row][col_major_idx] = col_block;
+                _log.debug("{X} -> {} -> ?", _cur_scancode, keycode.format());
                 _cur_scancode = 0;
             }
             break;

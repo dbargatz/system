@@ -1,6 +1,7 @@
 #ifndef _KEYBOARD_SCANCODE_SET_HPP
 #define _KEYBOARD_SCANCODE_SET_HPP
 
+#include "../std/assert.h"
 #include "../std/stdint.h"
 #include "../std/text.hpp"
 
@@ -10,26 +11,30 @@ class keycode {
 public:
     const uint8_t row;
     const uint8_t column;
+    const bool pressed;
 
-    constexpr keycode(uint8_t in_row, uint8_t in_column) : row(in_row), column(in_column) {};
+    constexpr keycode(uint8_t in_row, uint8_t in_column, bool in_pressed) :
+        row(in_row), column(in_column), pressed(in_pressed) {};
 
     inline bool operator==(const keycode& in_other) {
         return (row == in_other.row && column == in_other.column);
     }
 
-    text name() {
-        return text("Row {}, Column {}", row, column);
+    text format() {
+        return text("Keycode {}.{}.{}", row, column,
+            pressed ? "press" : "release");
     }
 };
 
-constexpr static const keycode INVALID_KEYCODE{0, 0};
-constexpr static const keycode PARTIAL_KEYCODE{0, 1};
+constexpr static const keycode INVALID_KEYCODE{255, 0, false};
+constexpr static const keycode PARTIAL_KEYCODE{255, 1, false};
 
 struct scancode_to_keycode {
     text scancode_name;
     scancode press;
+    keycode key_press;
     scancode release;
-    keycode key;
+    keycode key_release;
 };
 
 class scancode_set {

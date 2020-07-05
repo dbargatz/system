@@ -23,9 +23,9 @@ keycode scancode_set_2::convert(scancode in_code) {
         default:
             for(auto& entry : mappings) {
                 if(entry.press == in_code) {
-                    return entry.key;
+                    return keycode(entry.key_press.row, entry.key_press.column, true);
                 } else if(entry.release == in_code) {
-                    return entry.key;
+                    return keycode(entry.key_release.row, entry.key_release.column, false);
                 }
             }
             return INVALID_KEYCODE;
