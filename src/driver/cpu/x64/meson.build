@@ -21,6 +21,7 @@ driver_cpu_x64_cpp_src = [
     'interrupts/tss.cpp',
     'keyboard/ps2_controller.cpp',
     'keyboard/ps2_keyboard.cpp',
+    'keyboard/scancode_set_2.cpp',
     'ports/io_port.cpp',
     'std/cpp.cpp',
     'std/logger.cpp',

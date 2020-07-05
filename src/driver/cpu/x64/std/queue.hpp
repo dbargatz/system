@@ -71,7 +71,7 @@ public:
      * @return T item at the front of the queue
      * @warning Will panic if there are no items in the queue
      */
-    T peek() {
+    T& peek() {
         ASSERT(size() > 0, "no items in queue");
         return _buf[_front];
     }
