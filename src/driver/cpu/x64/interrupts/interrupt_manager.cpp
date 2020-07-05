@@ -52,7 +52,8 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
 }
 
 extern "C" void unhandled_interrupt_handler(logger& in_log, interrupt_frame& in_frame) {
-    in_log.panic("UNHANDLED INTERRUPT {#02X}({})", in_frame.frame->interrupt_number);
+    in_log.panic("UNHANDLED INTERRUPT {#02X} ({})", in_frame.frame->interrupt_number,
+        in_frame.frame->interrupt_number);
     in_frame.dump();
     halt();
 }
