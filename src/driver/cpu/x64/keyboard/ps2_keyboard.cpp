@@ -8,7 +8,6 @@ scancode_set_2 ps2_keyboard::set2;
 ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_port) :
     _log(in_log), _port(in_port), _ps2(in_ps2), _cur_scancode_set(*(&set2)) {
     _cur_state = _state::IDLE;
-    memset(_keystate, 0, sizeof(_keystate));
 }
 
 // TODO: This implementation is gross. Convert to an instance of a 
@@ -51,16 +50,9 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
                 _log.error("Invalid keycode conversion!");
                 _cur_scancode = 0;
             } else {
-                auto col_major_idx = keycode.column / 64;
-                auto col_minor_idx = keycode.column % 64;
-                auto col_block = _keystate[keycode.row][col_major_idx];
-                if(keycode.pressed) {
-                    col_block |= (1 << col_minor_idx);
-                } else {
-                    col_block &= ~(1 << col_minor_idx);
-                }
-                _keystate[keycode.row][col_major_idx] = col_block;
-                _log.debug("{X} -> {} -> ?", _cur_scancode, keycode.format());
+                auto unicode = _keystate.set_key(keycode);
+                _log.debug("{16X} -> {} -> {}", _cur_scancode, keycode.format(),
+                    unicode);
                 _cur_scancode = 0;
             }
             break;

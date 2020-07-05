@@ -19,6 +19,7 @@ driver_cpu_x64_cpp_src = [
     'interrupts/interrupt_manager.cpp',
     'interrupts/pic.cpp',
     'interrupts/tss.cpp',
+    'keyboard/keystate.cpp',
     'keyboard/ps2_controller.cpp',
     'keyboard/ps2_keyboard.cpp',
     'keyboard/scancode_set_2.cpp',

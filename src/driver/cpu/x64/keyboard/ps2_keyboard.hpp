@@ -2,6 +2,7 @@
 #define _KEYBOARD_PS2_KEYBOARD_HPP
 
 #include "keyboard.hpp"
+#include "keystate.hpp"
 #include "ps2_controller.hpp"
 #include "scancode_set.hpp"
 #include "scancode_set_2.hpp"
@@ -99,7 +100,7 @@ private:
     scancode _cur_scancode;
     scancode_set& _cur_scancode_set;
     queue<struct _command, 16> _commands;
-    uint64_t _keystate[256][4];
+    keystate _keystate;
 };
 
 #endif // _KEYBOARD_PS2_KEYBOARD_HPP
