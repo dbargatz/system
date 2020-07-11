@@ -1,5 +1,6 @@
 #include "interrupt_manager.hpp"
 #include "frame.hpp"
+#include "../debug/uart_logger.hpp"
 #include "../display/vga_logger.hpp"
 #include "../std/cpuid.h"
 #include "../std/halt.h"
@@ -47,22 +48,22 @@ extern "C" void panic_handler(logger& in_log, interrupt_frame& in_frame) {
 
     // Regardless of cause, dump the interrupt stack frame with the register
     // contents at the time of the exception, then halt.
-    in_frame.dump();
+    in_frame.dump(in_log);
     halt();
 }
 
 extern "C" void unhandled_interrupt_handler(logger& in_log, interrupt_frame& in_frame) {
     in_log.panic("UNHANDLED INTERRUPT {#02X} ({})", in_frame.frame->interrupt_number,
         in_frame.frame->interrupt_number);
-    in_frame.dump();
+    in_frame.dump(in_log);
     halt();
 }
 
 extern "C" void dispatch_interrupt(const Core * in_core, const void * in_frame_ptr) {
-    vga_logger vga;
-    SerialPort serial;
-    logger log(vga, serial);
-    interrupt_frame frame(log, in_frame_ptr);
+    SerialPort uart_;
+    uart_logger uart(uart_);
+    logger log(uart);
+    interrupt_frame frame(in_frame_ptr);
 
     switch(frame.frame->interrupt_number) {
         case 6:                         // IDT index 6, undefined opcode (used for panic)

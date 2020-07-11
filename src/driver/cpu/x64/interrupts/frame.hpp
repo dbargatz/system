@@ -4,9 +4,6 @@
 #include "../std/logger.hpp"
 
 class interrupt_frame {
-private:
-    logger& _log;
-
 public:
     struct _interrupt_frame {
         uint64_t r15;
@@ -34,9 +31,9 @@ public:
 
     const struct _interrupt_frame * frame;
 
-    interrupt_frame(logger& in_log, const void * in_frame_ptr);
+    interrupt_frame(const void * in_frame_ptr);
 
-    void dump();
+    void dump(logger& in_log);
 };
 
 #endif // _INTERRUPTS_FRAME_HPP
