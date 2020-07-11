@@ -11,6 +11,7 @@ nasm_objs = gen_nasm.process(driver_cpu_x64_asm_src)
 
 driver_cpu_x64_cpp_src = [
     'debug/serial.cpp',
+    'debug/uart_logger.cpp',
     'display/vga.cpp',
     'display/vga_logger.cpp',
     'interrupts/gdt.cpp',
@@ -40,7 +41,9 @@ gen_clang = generator(clang_pp,
         '-include', '../../src/driver/cpu/x64/std/cpp.hpp',
         '-ffreestanding',
         '-fno-builtin',
+        '-fno-exceptions',
         '-fno-rtti',
+        '-fno-threadsafe-statics',
         '-nostdlib',
         '-nostdinc',
         '-nostdinc++',

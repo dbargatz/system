@@ -1,6 +1,6 @@
 #include "std/logger.hpp"
 #include "std/panic.h"
-#include "debug/serial.hpp"
+#include "debug/uart_logger.hpp"
 #include "display/vga_logger.hpp"
 #include "interrupts/gdt.hpp"
 #include "interrupts/interrupt_manager.hpp"
@@ -9,6 +9,9 @@
 #include "timer/pit.hpp"
 #include "keyboard/ps2_controller.hpp"
 #include "keyboard/ps2_keyboard.hpp"
+
+#include "../../../boost/di.hpp"
+namespace di = boost::di;
 
 Core * this_core;
 
@@ -27,9 +30,13 @@ void delay(uint16_t in_megaloops) {
 }
 
 extern "C" int kmain(const void * in_boot_info) {
-    vga_logger vga;
-    SerialPort serial;
-    logger log(vga, serial);
+    const auto injector = di::make_injector( 
+        // TODO: once we can parse Multiboot args, make the selection of logger
+        //       backends dependent on args.
+        di::bind<logger_backend>.to<uart_logger>()
+    );
+    auto log = injector.create<logger>();
+
     gdt g(log);
     tss t(log, g);
     IDT idt(log);
