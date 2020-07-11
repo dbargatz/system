@@ -11,14 +11,14 @@ void logger::hexdump(const level in_level, const void * in_ptr, size_t in_count,
     for(int i = 0; i < in_count; i++) {
         if(i % 16 == 0) {
             if(i > 0) {
-                _backend_2.write("\n");
+                _backends.panic("\n");
             }
-            _backend_2.write(text(_HEXDUMP_FORMAT,
+            _backends.panic(text(_HEXDUMP_FORMAT,
                 _LEVEL_SYMBOLS[(uint8_t)in_level],
                 indents,
                 (uint64_t)(ptr+i)).get());
         }
-        _backend_2.write(text("{02X} ", *(ptr+i)).get());
+        _backends.panic(text("{02X} ", *(ptr+i)).get());
     }
-    _backend_2.write("\n");
+    _backends.panic("\n");
 }
