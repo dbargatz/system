@@ -13,21 +13,10 @@
 #include "../../../boost/di.hpp"
 namespace di = boost::di;
 
+// TODO: store this in the FS or GS register so it's always accessible from
+//       the core driver; make sure on returns to user mode FS/GS is restored
+//       so we don't leak it to user mode.
 Core * this_core;
-
-/**
- * @brief Loops the given number of times (in millions of loops) as a rough
- * delay mechanism.
- * 
- * @param in_megaloops millions of loops to perform; if given value is 25, then
- * 25,000,000 loops will be performed
- */
-void delay(uint16_t in_megaloops) {
-    uint64_t loops = in_megaloops * 1000000;
-    while(loops-- > 0) {
-        // Loop for a bit
-    }
-}
 
 extern "C" int kmain(const void * in_boot_info) {
     const auto injector = di::make_injector( 
