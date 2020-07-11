@@ -404,12 +404,12 @@ p3_table:
 p2_table:
     resb 4096
 
-;; The initial stack for the functions in the boot code. Only 16 kilobytes,
+;; The initial stack for the functions in the boot code. Only 32 kilobytes,
 ;; but not much is needed - these functions don't have deep call trees,
 ;; nor do they push/pop much for local variables, other than text objects for
 ;; log messages.
 stack_bottom:
-    resb 16384
+    resb 32768
 stack_top:
 
 ;; Known-good stack, only used for PANIC/ASSERT calls and loaded into the TSS
