@@ -19,10 +19,10 @@ namespace di = boost::di;
 Core * this_core;
 
 extern "C" int kmain(const void * in_boot_info) {
-    const auto injector = di::make_injector( 
+    const auto injector = di::make_injector(
         // TODO: once we can parse Multiboot args, make the selection of logger
         //       backends dependent on args.
-        di::bind<logger_backend>.to<uart_logger>()
+        di::bind<logger_backend*[]>.to<vga_logger, uart_logger>()
     );
     auto log = injector.create<logger>();
 
