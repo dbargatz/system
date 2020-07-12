@@ -4,6 +4,8 @@
 #include "assert.h"
 #include "stdint.h"
 
+namespace std {
+
 template<typename T, size_t N>
 class array {
 public:
@@ -27,23 +29,61 @@ public:
         const T* _ptr;
     };
 
-    constexpr array() {}
-
-    constexpr T& operator[](const size_t in_idx) {
-        //static_assert(in_idx < N, "array index out-of-bounds");
+    T& operator[](size_t in_idx) {
         return _buf[in_idx];
     }
 
-    iterator begin() {
-        return iterator(_buf);
+    constexpr const T& operator[](size_t in_idx) const noexcept {
+        return _buf[in_idx];
     }
 
-    iterator end() {
-        return iterator(_buf + N);
+    T& at(size_t in_idx) {
+        return _buf[in_idx];
+    }
+
+    constexpr const T& at(size_t in_idx) const noexcept {
+        return _buf[in_idx];
+    }
+
+    iterator begin() noexcept {
+        return iterator((T*)_buf);
+    }
+
+    iterator end() noexcept {
+        return iterator((T*)_buf + N);
+    }
+
+    constexpr T& front() const noexcept {
+        return *begin();
+    }
+
+    constexpr T& back() const noexcept {
+        return N ? *(end() - 1) : *end();
+    }
+
+    constexpr size_t size() const noexcept {
+        return N;
+    }
+
+    constexpr size_t max_size() const noexcept {
+        return N;
+    }
+
+    constexpr bool empty() const noexcept {
+        return size() == 0;
+    }
+
+    T* data() noexcept {
+        return __addressof(_buf[0]);
+    }
+
+    const T* data() const noexcept {
+        return __addressof(_buf[0]);
     }
 
 private:
     T _buf[N];
 };
 
+}; // namespace std
 #endif // _STD_ARRAY
