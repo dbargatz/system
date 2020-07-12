@@ -18,9 +18,9 @@ private:
     static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
 
     gdt& _gdt;
-    IDT& _idt;
+    idt& _idt;
     keyboard& _kbd;
-    PIC& _pic;
+    pic& _pic;
     timer& _timer;
     tss& _tss;
     logger& _log;
@@ -36,8 +36,8 @@ public:
         gdt& in_gdt,
         tss& in_tss,
         const void * in_boot_info,
-        IDT& in_idt,
-        PIC& in_pic,
+        idt& in_idt,
+        pic& in_pic,
         timer& in_timer,
         keyboard& in_kbd);
 

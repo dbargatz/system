@@ -35,11 +35,11 @@ extern "C" int core_entry(const void * in_boot_info) {
     uart_logger uartl(uart);
     logger_backend* backends[] = {&vgal, &uartl};
     logger log(backends);
-    gdt g(log);
-    tss t(log, g);
-    IDT idt(log);
-    PIC pic(log);
-    pit pit(log);
+    gdt gdt_(log);
+    tss tss_(log, gdt_);
+    idt idt_(log);
+    pic pic_(log);
+    pit pit_(log);
 
     ps2_controller ps2(log);
     ps2_port kbd_port = ps2_port::INVALID;
@@ -55,7 +55,7 @@ extern "C" int core_entry(const void * in_boot_info) {
     }
     ps2_keyboard kbd(log, ps2, kbd_port);
 
-    core bootstrap_core(log, g, t, in_boot_info, idt, pic, pit, kbd);
+    core bootstrap_core(log, gdt_, tss_, in_boot_info, idt_, pic_, pit_, kbd);
     this_core = &bootstrap_core;
 
     bootstrap_core.run();

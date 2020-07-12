@@ -39,7 +39,7 @@ bool core::_interrupts_enabled() {
 }
 
 core::core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
-    IDT& in_idt, PIC& in_pic, timer& in_timer, keyboard& in_kbd) :
+    idt& in_idt, pic& in_pic, timer& in_timer, keyboard& in_kbd) :
      _gdt(in_gdt), _idt(in_idt), _kbd(in_kbd), _pic(in_pic), _timer(in_timer),
      _tss(in_tss), _log(in_log), _boot_info(in_boot_info) {
         _log.debug("Constructed Core:");

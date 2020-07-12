@@ -5,7 +5,7 @@
 #include "../std/logger.hpp"
 #include "../std/stdint.h"
 
-class PIC {
+class pic {
 private:
     constexpr static const io_port PIC1_COMMAND_PORT = io_port(0x0020);
     constexpr static const io_port PIC1_DATA_PORT    = io_port(0x0021);
@@ -27,7 +27,7 @@ public:
      * 
      * @param in_log logger for member functions
      */
-    PIC(logger& in_log);
+    pic(logger& in_log);
 
     void send_eoi(const uint8_t in_irq_number);
     void remap(const uint8_t in_pic1_interrupt_base, 
