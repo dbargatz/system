@@ -55,7 +55,7 @@ public:
 
     float64_t get_frequency() override;
     void set_frequency(float64_t in_frequency_hz) override;
-    void interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) override;
+    void interrupt_handler(interrupt_frame& in_frame) override;
 };
 
 #endif // _TIMER_PIT_H

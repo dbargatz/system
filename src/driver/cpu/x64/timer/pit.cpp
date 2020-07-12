@@ -44,10 +44,9 @@ void PIT::set_frequency(float64_t in_frequency_hz) {
         _frequency_hz, in_frequency_hz, _reload_value);
 }
 
-void PIT::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) {
+void PIT::interrupt_handler(interrupt_frame& in_frame) {
     _uptime_ms += 1000.0 / _frequency_hz;
     if((uint64_t)_uptime_ms % 1000 == 0 && _uptime_ms > 1.0) {
         _log.debug("Uptime: {}ms", _uptime_ms);
     }
-    in_mgr.handler_complete(InterruptType::TIMER_EXPIRED);
 }

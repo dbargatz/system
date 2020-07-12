@@ -17,7 +17,6 @@ driver_cpu_x64_cpp_src = [
     'interrupts/gdt.cpp',
     'interrupts/frame.cpp',
     'interrupts/idt.cpp',
-    'interrupts/interrupt_manager.cpp',
     'interrupts/pic.cpp',
     'interrupts/tss.cpp',
     'keyboard/keystate.cpp',

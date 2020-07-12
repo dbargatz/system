@@ -7,14 +7,13 @@
 #include "scancode_set.hpp"
 #include "scancode_set_2.hpp"
 #include "../interrupts/frame.hpp"
-#include "../interrupts/interrupt_manager.hpp"
 #include "../std/logger.hpp"
 #include "../std/queue.hpp"
 
 class ps2_keyboard : public keyboard {
 public:
     ps2_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_port);
-    void interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) override;
+    void interrupt_handler(interrupt_frame& in_frame) override;
     void reset() override;
 
 private:

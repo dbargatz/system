@@ -3,31 +3,46 @@
 
 #include "std/logger.hpp"
 #include "interrupts/gdt.hpp"
-#include "interrupts/interrupt_manager.hpp"
+#include "interrupts/idt.hpp"
+#include "interrupts/pic.hpp"
 #include "interrupts/tss.hpp"
 #include "timer/ITimer.hpp"
 #include "keyboard/keyboard.hpp"
 
 class Core {
 private:
+    ///< If bit 9 is set in CPUID:01H:EDX, a local APIC is present on this core.
+    static const uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
+
+    ///< If bit 9 (IF) is set in RFLAGS, interrupts are enabled on this core.
+    static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
+
     gdt& _gdt;
+    IDT& _idt;
+    PIC& _pic;
     tss& _tss;
     logger& _log;
     const void * _boot_info;
 
+    bool _disable_interrupts();
+    bool _enable_interrupts();
+    bool _interrupts_enabled();
+
 public:
     ITimer& timer;
-    InterruptManager& interrupts;
     keyboard& kbd;
 
     Core(logger& in_log,
         gdt& in_gdt,
         tss& in_tss,
         const void * in_boot_info,
-        InterruptManager& in_interrupts,
+        IDT& in_idt,
+        PIC& in_pic,
         ITimer& in_timer,
         keyboard& in_kbd);
 
+    void dispatch_interrupt(const void * in_frame_ptr);
+    void panic_handler(interrupt_frame& in_frame);
     void run();
 };
 

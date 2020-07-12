@@ -3,7 +3,6 @@
 #include "debug/uart_logger.hpp"
 #include "display/vga_logger.hpp"
 #include "interrupts/gdt.hpp"
-#include "interrupts/interrupt_manager.hpp"
 #include "interrupts/tss.hpp"
 #include "core.hpp"
 #include "timer/pit.hpp"
@@ -18,19 +17,28 @@ namespace di = boost::di;
 //       so we don't leak it to user mode.
 Core * this_core;
 
-extern "C" int kmain(const void * in_boot_info) {
-    const auto injector = di::make_injector(
-        // TODO: once we can parse Multiboot args, make the selection of logger
-        //       backends dependent on args.
-        di::bind<logger_backend*[]>.to<vga_logger, uart_logger>()
-    );
-    auto log = injector.create<logger>();
+extern "C" void interrupt_entry(const void * in_frame_ptr) {
+    this_core->dispatch_interrupt(in_frame_ptr);
+}
 
+extern "C" int core_entry(const void * in_boot_info) {
+    // const auto injector = di::make_injector(
+    //     // TODO: once we can parse Multiboot args, make the selection of logger
+    //     //       backends dependent on args.
+    //     di::bind<logger_backend*[]>.to<vga_logger, uart_logger>()
+    // );
+    // auto log = injector.create<logger>();
+
+    vga vga_;
+    vga_logger vgal(vga_);
+    SerialPort uart;
+    uart_logger uartl(uart);
+    logger_backend* backends[] = {&vgal, &uartl};
+    logger log(backends);
     gdt g(log);
     tss t(log, g);
     IDT idt(log);
     PIC pic(log);
-    InterruptManager intmgr(log, idt, pic);
     PIT pit(log);
 
     ps2_controller ps2(log);
@@ -47,11 +55,11 @@ extern "C" int kmain(const void * in_boot_info) {
     }
     ps2_keyboard kbd(log, ps2, kbd_port);
 
-    Core bootstrap_core(log, g, t, in_boot_info, intmgr, pit, kbd);
+    Core bootstrap_core(log, g, t, in_boot_info, idt, pic, pit, kbd);
     this_core = &bootstrap_core;
 
     bootstrap_core.run();
 
-    PANIC("End of kmain reached!");
+    PANIC("End of core_entry() reached!");
     return -1;
 }

@@ -13,7 +13,7 @@ ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_p
 // TODO: This implementation is gross. Convert to an instance of a 
 //       C++ state machine; see http://www.ludvikjerabek.com/2016/02/08/c11-state-machines/
 //       for examples.
-void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) {
+void ps2_keyboard::interrupt_handler(interrupt_frame& in_frame) {
     // Get the current data byte from the keyboard.
     uint8_t data = _ps2.read(false);
     struct _command dummy = { _command_byte::ECHO, 0, {}};
@@ -33,7 +33,6 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
         _log.debug("Keyboard requested re-send of command.");
         _resend_count++;
         _send_command();
-        in_mgr.handler_complete(InterruptType::KEYBOARD);
         return;
     }
 
@@ -106,7 +105,6 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
     // If there are commands to be sent and we're not in a waiting state, send
     // the next command.
     _send_command();
-    in_mgr.handler_complete(InterruptType::KEYBOARD);
 }
 
 void ps2_keyboard::reset() {
