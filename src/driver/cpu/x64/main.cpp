@@ -31,8 +31,8 @@ extern "C" int core_entry(const void * in_boot_info) {
 
     vga vga_;
     vga_logger vgal(vga_);
-    SerialPort uart;
-    uart_logger uartl(uart);
+    uart uart_;
+    uart_logger uartl(uart_);
     logger_backend* backends[] = {&vgal, &uartl};
     logger log(backends);
     gdt gdt_(log);

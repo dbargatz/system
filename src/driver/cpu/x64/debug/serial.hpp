@@ -1,10 +1,10 @@
-#ifndef _DEBUG_SERIAL_HPP
-#define _DEBUG_SERIAL_HPP
+#ifndef _DEBUG_UART_HPP
+#define _DEBUG_UART_HPP
 
 #include "../ports/io_port.hpp"
 #include "../std/text.hpp"
 
-class SerialPort {
+class uart {
 private:
     constexpr static const uint16_t _COM1_IO_PORT = 0x03F8;
 
@@ -20,9 +20,9 @@ private:
     static bool _ourInitialized;
 
 public:
-    SerialPort();
+    uart();
 
     void write(const text& in_text);
 };
 
-#endif // _DEBUG_SERIAL_HPP
+#endif // _DEBUG_UART_HPP

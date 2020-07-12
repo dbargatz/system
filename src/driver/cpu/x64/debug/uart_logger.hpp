@@ -6,7 +6,7 @@
 
 class uart_logger : public logger_backend {
 public:
-    uart_logger(SerialPort& in_uart) : _uart(in_uart) {}
+    uart_logger(uart& in_uart) : _uart(in_uart) {}
 
     void debug(const text& in_msg) override;
     void error(const text& in_msg) override;
@@ -15,7 +15,7 @@ public:
     void warn(const text& in_msg) override;
 
 private:
-    SerialPort& _uart;
+    uart& _uart;
 };
 
 #endif // _DEBUG_UART_LOGGER_HPP

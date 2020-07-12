@@ -1,8 +1,8 @@
 #include "serial.hpp"
 
-bool SerialPort::_ourInitialized = false;
+bool uart::_ourInitialized = false;
 
-SerialPort::SerialPort() {
+uart::uart() {
     // TODO: make this test and set atomic
     if(!_ourInitialized) {
         _ourInitialized = true;
@@ -18,7 +18,7 @@ SerialPort::SerialPort() {
     }
 }
 
-void SerialPort::write(const text& in_text) {
+void uart::write(const text& in_text) {
     // TODO: do we need to mutex this somehow? I don't think so, since:
     //         + interrupts disabled until boot/setup complete
     //         + core does nothing other than respond to interrupts/syscalls
