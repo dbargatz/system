@@ -39,9 +39,9 @@ bool core::_interrupts_enabled() {
 }
 
 core::core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
-    IDT& in_idt, PIC& in_pic, ITimer& in_timer, keyboard& in_kbd) :
-     _gdt(in_gdt), _idt(in_idt), _pic(in_pic), _tss(in_tss), _log(in_log),
-     _boot_info(in_boot_info), timer(in_timer), kbd(in_kbd) {
+    IDT& in_idt, PIC& in_pic, timer& in_timer, keyboard& in_kbd) :
+     _gdt(in_gdt), _idt(in_idt), _kbd(in_kbd), _pic(in_pic), _timer(in_timer),
+     _tss(in_tss), _log(in_log), _boot_info(in_boot_info) {
         _log.debug("Constructed Core:");
         _log.debug("    Boot Info    : {#016X}", (uint64_t)_boot_info);
         _log.debug("    Interrupts   : {}abled", _interrupts_enabled() ? "en" : "dis");
@@ -61,11 +61,11 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
             panic_handler(frame);
             break;
         case 32:                        // IDT index 32, IRQ 0, timer interrupt
-            timer.interrupt_handler(frame);
+            _timer.interrupt_handler(frame);
             _pic.send_eoi(0);
             break;
         case 33:                        // IDT index 33, IRQ 1, keyboard interrupt
-            kbd.interrupt_handler(frame);
+            _kbd.interrupt_handler(frame);
             _pic.send_eoi(1);
             break;
         default:                        // Unhandled interrupt
@@ -128,7 +128,7 @@ void core::run() {
     HANDLERS
 #undef X
 
-    kbd.reset();
+    _kbd.reset();
     _enable_interrupts();
     _pic.enable_irq(1);
     _log.info("Testing keyboard (interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
@@ -137,7 +137,7 @@ void core::run() {
         ct--;
     }
 
-    timer.set_frequency(1000.0);
+    _timer.set_frequency(1000.0);
     _pic.enable_irq(0);
     _log.info("Testing timer (interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
     ct = 0x1FFFFFFF;

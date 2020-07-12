@@ -39,7 +39,7 @@ extern "C" int core_entry(const void * in_boot_info) {
     tss t(log, g);
     IDT idt(log);
     PIC pic(log);
-    PIT pit(log);
+    pit pit(log);
 
     ps2_controller ps2(log);
     ps2_port kbd_port = ps2_port::INVALID;

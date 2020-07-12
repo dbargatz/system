@@ -19,7 +19,9 @@ private:
 
     gdt& _gdt;
     IDT& _idt;
+    keyboard& _kbd;
     PIC& _pic;
+    timer& _timer;
     tss& _tss;
     logger& _log;
     const void * _boot_info;
@@ -29,8 +31,6 @@ private:
     bool _interrupts_enabled();
 
 public:
-    ITimer& timer;
-    keyboard& kbd;
 
     core(logger& in_log,
         gdt& in_gdt,
@@ -38,7 +38,7 @@ public:
         const void * in_boot_info,
         IDT& in_idt,
         PIC& in_pic,
-        ITimer& in_timer,
+        timer& in_timer,
         keyboard& in_kbd);
 
     void dispatch_interrupt(const void * in_frame_ptr);

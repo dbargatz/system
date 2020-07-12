@@ -11,7 +11,7 @@
 /**
  * @brief Abstract representation of timer hardware.
  */
-class ITimer {
+class timer {
 public:
     virtual float64_t get_frequency() = 0;
     virtual void set_frequency(float64_t in_frequency_hz) = 0;
