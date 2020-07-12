@@ -1,7 +1,7 @@
 #ifndef _TIMER_PIT_H
 #define _TIMER_PIT_H
 
-#include "ITimer.hpp"
+#include "timer.hpp"
 #include "../interrupts/frame.hpp"
 #include "../ports/io_port.hpp"
 #include "../std/logger.hpp"
