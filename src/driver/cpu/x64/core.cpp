@@ -20,25 +20,25 @@
 HANDLERS
 #undef X
 
-bool Core::_disable_interrupts() {
+bool core::_disable_interrupts() {
     bool cur_state = _interrupts_enabled();
     asm volatile("cli");
     return cur_state;
 }
 
-bool Core::_enable_interrupts() {
+bool core::_enable_interrupts() {
     bool cur_state = _interrupts_enabled();
     asm volatile("sti");
     return cur_state;
 }
 
-bool Core::_interrupts_enabled() {
+bool core::_interrupts_enabled() {
     uint64_t rflags;
     asm volatile("pushf; pop %0" : "=g"(rflags));
     return (rflags & RFLAGS_INTERRUPTS_ENABLED_BIT);
 }
 
-Core::Core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
+core::core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
     IDT& in_idt, PIC& in_pic, ITimer& in_timer, keyboard& in_kbd) :
      _gdt(in_gdt), _idt(in_idt), _pic(in_pic), _tss(in_tss), _log(in_log),
      _boot_info(in_boot_info), timer(in_timer), kbd(in_kbd) {
@@ -52,7 +52,7 @@ Core::Core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
         _tss.dump();
 }
 
-void Core::dispatch_interrupt(const void * in_frame_ptr) {
+void core::dispatch_interrupt(const void * in_frame_ptr) {
     interrupt_frame frame(in_frame_ptr);
     auto int_num = frame.frame->interrupt_number;
 
@@ -76,7 +76,7 @@ void Core::dispatch_interrupt(const void * in_frame_ptr) {
     }
 }
 
-void Core::panic_handler(interrupt_frame& in_frame) {
+void core::panic_handler(interrupt_frame& in_frame) {
     // Format the panic message appropriately based on the type of panic/invalid
     // opcode exception.
     struct panic_data * d = (struct panic_data *)in_frame.frame->rip;
@@ -104,7 +104,7 @@ void Core::panic_handler(interrupt_frame& in_frame) {
     halt();
 }
 
-void Core::run() {
+void core::run() {
     _disable_interrupts();
 
     // Load the populated IDT into the core.

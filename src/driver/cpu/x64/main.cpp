@@ -15,7 +15,7 @@ namespace di = boost::di;
 // TODO: store this in the FS or GS register so it's always accessible from
 //       the core driver; make sure on returns to user mode FS/GS is restored
 //       so we don't leak it to user mode.
-Core * this_core;
+core * this_core;
 
 extern "C" void interrupt_entry(const void * in_frame_ptr) {
     this_core->dispatch_interrupt(in_frame_ptr);
@@ -55,7 +55,7 @@ extern "C" int core_entry(const void * in_boot_info) {
     }
     ps2_keyboard kbd(log, ps2, kbd_port);
 
-    Core bootstrap_core(log, g, t, in_boot_info, idt, pic, pit, kbd);
+    core bootstrap_core(log, g, t, in_boot_info, idt, pic, pit, kbd);
     this_core = &bootstrap_core;
 
     bootstrap_core.run();

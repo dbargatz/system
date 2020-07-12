@@ -9,7 +9,7 @@
 #include "timer/ITimer.hpp"
 #include "keyboard/keyboard.hpp"
 
-class Core {
+class core {
 private:
     ///< If bit 9 is set in CPUID:01H:EDX, a local APIC is present on this core.
     static const uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
@@ -32,7 +32,7 @@ public:
     ITimer& timer;
     keyboard& kbd;
 
-    Core(logger& in_log,
+    core(logger& in_log,
         gdt& in_gdt,
         tss& in_tss,
         const void * in_boot_info,
