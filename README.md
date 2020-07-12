@@ -70,7 +70,7 @@ Running QEMU with interrupt debugging turned on and logged to
 ```bash
 > test/run.sh --gdb
 > gdb src/debug/gdb_pre_script
-(gdb) break kmain
+(gdb) break core_entry
 (gdb) source src/debug/gdb_post_script
 (gdb) continue
 ```
