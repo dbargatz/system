@@ -6,7 +6,7 @@
 #include "interrupts/idt.hpp"
 #include "interrupts/pic.hpp"
 #include "interrupts/tss.hpp"
-#include "timer/ITimer.hpp"
+#include "timer/timer.hpp"
 #include "keyboard/keyboard.hpp"
 
 class core {

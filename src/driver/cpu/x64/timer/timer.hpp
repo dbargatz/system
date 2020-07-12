@@ -2,8 +2,8 @@
  * @file
  * @brief Contains interface that all timer hardware must implement.
  */
-#ifndef _TIMER_ITIMER_HPP
-#define _TIMER_ITIMER_HPP
+#ifndef _TIMER_TIMER_HPP
+#define _TIMER_TIMER_HPP
 
 #include "../interrupts/frame.hpp"
 #include "../std/stdint.h"
@@ -18,4 +18,4 @@ public:
     virtual void interrupt_handler(interrupt_frame& in_frame) = 0;
 };
 
-#endif // _TIMER_ITIMER_HPP
+#endif // _TIMER_TIMER_HPP
