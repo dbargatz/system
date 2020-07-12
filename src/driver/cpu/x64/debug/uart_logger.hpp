@@ -1,7 +1,7 @@
 #ifndef _DEBUG_UART_LOGGER_HPP
 #define _DEBUG_UART_LOGGER_HPP
 
-#include "serial.hpp"
+#include "uart.hpp"
 #include "../std/logger_backend.hpp"
 
 class uart_logger : public logger_backend {
