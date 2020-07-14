@@ -1,5 +1,5 @@
-#ifndef _STD_ARRAY
-#define _STD_ARRAY
+#ifndef _STD_ARRAY_HPP
+#define _STD_ARRAY_HPP
 
 #include "assert.h"
 #include "stdint.h"
@@ -30,6 +30,7 @@ public:
     };
 
     T& operator[](size_t in_idx) {
+        ASSERT(in_idx < N, "array index out-of-bounds");
         return _buf[in_idx];
     }
 
@@ -86,4 +87,4 @@ private:
 };
 
 }; // namespace std
-#endif // _STD_ARRAY
+#endif // _STD_ARRAY_HPP
