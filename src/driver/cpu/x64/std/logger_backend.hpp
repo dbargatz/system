@@ -9,6 +9,8 @@
  */
 class logger_backend {
 public:
+    virtual ~logger_backend() noexcept = default;
+
     virtual void debug(const text& in_msg) = 0;
     virtual void error(const text& in_msg) = 0;
     virtual void info(const text& in_msg)  = 0;

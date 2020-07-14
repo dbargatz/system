@@ -1,6 +1,7 @@
 #ifndef _STD_LOGGER_HPP
 #define _STD_LOGGER_HPP
 
+#include "array.hpp"
 #include "logger_backend.hpp"
 #include "text.hpp"
 
@@ -8,7 +9,12 @@ class logger {
 public:
     enum class level : uint8_t { Debug, Info, Warn, Error, Panic };
 
-    logger(logger_backend* in_backends[2]) : _backends{in_backends[0], in_backends[1]} {}
+    logger(std::array<logger_backend*,2> in_backends) : _backends{in_backends[0], in_backends[1]} {
+        auto be1 = in_backends[0];
+        auto be2 = in_backends[1];
+        be1->debug(text("BE0: {X}", (uint64_t)be1).get());
+        be2->debug(text("BE1: {X}", (uint64_t)be2).get());
+    }
 
     template<typename ... Args>
     void debug(const text& in_fmt, Args&&... in_args) {

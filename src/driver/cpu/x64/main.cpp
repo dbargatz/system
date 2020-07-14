@@ -1,3 +1,4 @@
+#include "std/array.hpp"
 #include "std/logger.hpp"
 #include "std/panic.h"
 #include "debug/uart_logger.hpp"
@@ -17,24 +18,28 @@ namespace di = boost::di;
 //       so we don't leak it to user mode.
 core * this_core;
 
+void operator delete(void * in_ptr) {
+    PANIC("delete() called in core driver!");
+}
+
 extern "C" void interrupt_entry(const void * in_frame_ptr) {
     this_core->dispatch_interrupt(in_frame_ptr);
 }
 
 extern "C" int core_entry(const void * in_boot_info) {
-    // const auto injector = di::make_injector(
-    //     // TODO: once we can parse Multiboot args, make the selection of logger
-    //     //       backends dependent on args.
-    //     di::bind<logger_backend*[]>.to<vga_logger, uart_logger>()
-    // );
-    // auto log = injector.create<logger>();
+    const auto injector = di::make_injector(
+        // TODO: once we can parse Multiboot args, make the selection of logger
+        //       backends dependent on args.
+        di::bind<logger_backend*[]>().to<vga_logger, uart_logger>()
+    );
+    auto log = injector.create<logger>();
 
-    vga vga_;
-    vga_logger vgal(vga_);
-    uart uart_;
-    uart_logger uartl(uart_);
-    logger_backend* backends[] = {&vgal, &uartl};
-    logger log(backends);
+    // vga vga_;
+    // vga_logger vgal(vga_);
+    // uart uart_;
+    // uart_logger uartl(uart_);
+    // logger_backend* backends[] = {&vgal, &uartl};
+    // logger log(backends);
     gdt gdt_(log);
     tss tss_(log, gdt_);
     idt idt_(log);
