@@ -111,7 +111,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a602573835e9d04c1193a1b0f8509601b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvga.html#a602573835e9d04c1193a1b0f8509601b">write</a> (const void *in_string, const <a class="el" href="classvga.html#a42db10ff22958fe6b979dfeef8803353">color</a> in_text_color, const <a class="el" href="classvga.html#a42db10ff22958fe6b979dfeef8803353">color</a> in_bg_color)</td></tr>
 <tr class="separator:a602573835e9d04c1193a1b0f8509601b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Simple kernel-mode implementation of a standard VGA text-mode console with 16 colors, 80 columns, and 25 characters.</p>
+<p>This is known as VGA Mode 3.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>: This class needs to be converted into a userspace driver. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/VGA_text_mode">https://en.wikipedia.org/wiki/VGA_text_mode</a> </dd></dl>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a42db10ff22958fe6b979dfeef8803353"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a42db10ff22958fe6b979dfeef8803353">&#9670;&nbsp;</a></span>color</h2>
 
@@ -131,6 +136,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Standard 16-color CGA palette of colors. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a42db10ff22958fe6b979dfeef8803353a1ffd9e753c8054cc61456ac7fac1ac89"></a>black&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a42db10ff22958fe6b979dfeef8803353a48d6215903dff56238e52e8891380c8f"></a>blue&#160;</td><td class="fielddoc"></td></tr>
@@ -172,11 +178,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_add0e8b0063f7565a6514ca6058fab919_cgraph.png" border="0" usemap="#classvga_add0e8b0063f7565a6514ca6058fab919_cgraph" alt=""/></div>
 <map name="classvga_add0e8b0063f7565a6514ca6058fab919_cgraph" id="classvga_add0e8b0063f7565a6514ca6058fab919_cgraph">
-<area shape="rect" id="node2" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="132,31,268,57"/>
-<area shape="rect" id="node3" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="316,31,433,57"/>
+<area shape="rect" id="node2" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="132,56,268,83"/>
+<area shape="rect" id="node3" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="316,56,433,83"/>
 <area shape="rect" id="node4" href="classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="481,5,615,32"/>
 <area shape="rect" id="node5" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="505,56,591,83"/>
-<area shape="rect" id="node6" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="663,56,752,83"/>
+<area shape="rect" id="node6" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="663,81,752,108"/>
+<area shape="rect" id="node7" href="memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="800,81,879,108"/>
 </map>
 </div>
 
@@ -215,7 +222,8 @@ Here is the call graph for this function:</div>
 <map name="classvga_a88cb78eb0d24ba38f86847694530430f_cgraph" id="classvga_a88cb78eb0d24ba38f86847694530430f_cgraph">
 <area shape="rect" id="node2" href="classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="171,5,304,32"/>
 <area shape="rect" id="node3" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="194,56,281,83"/>
-<area shape="rect" id="node4" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="352,56,441,83"/>
+<area shape="rect" id="node4" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="352,81,441,108"/>
+<area shape="rect" id="node5" href="memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="489,81,568,108"/>
 </map>
 </div>
 <div class="dynheader">
@@ -223,8 +231,15 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_a88cb78eb0d24ba38f86847694530430f_icgraph.png" border="0" usemap="#classvga_a88cb78eb0d24ba38f86847694530430f_icgraph" alt=""/></div>
 <map name="classvga_a88cb78eb0d24ba38f86847694530430f_icgraph" id="classvga_a88cb78eb0d24ba38f86847694530430f_icgraph">
-<area shape="rect" id="node2" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="171,5,307,32"/>
-<area shape="rect" id="node3" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="355,5,433,32"/>
+<area shape="rect" id="node2" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="171,31,307,57"/>
+<area shape="rect" id="node4" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="194,81,283,108"/>
+<area shape="rect" id="node3" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="359,31,437,57"/>
+<area shape="rect" id="node5" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="355,107,441,133"/>
+<area shape="rect" id="node6" href="classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893" title="vga_logger::debug" alt="" coords="489,5,632,32"/>
+<area shape="rect" id="node7" href="classvga__logger.html#a944df66c4b9b97781d57951d6afa7251" title="vga_logger::error" alt="" coords="494,56,627,83"/>
+<area shape="rect" id="node8" href="classvga__logger.html#ace8f0b5a68a170bff1a31f0362ed3afb" title="vga_logger::info" alt="" coords="497,107,624,133"/>
+<area shape="rect" id="node9" href="classvga__logger.html#a1a4b502fe5d8879c4f198ebdb4c5105a" title="vga_logger::panic" alt="" coords="492,157,629,184"/>
+<area shape="rect" id="node10" href="classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86" title="vga_logger::warn" alt="" coords="493,208,628,235"/>
 </map>
 </div>
 
@@ -250,10 +265,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_a6e9c8d01e6e926e417a7680ab738c7b8_cgraph.png" border="0" usemap="#classvga_a6e9c8d01e6e926e417a7680ab738c7b8_cgraph" alt=""/></div>
 <map name="classvga_a6e9c8d01e6e926e417a7680ab738c7b8_cgraph" id="classvga_a6e9c8d01e6e926e417a7680ab738c7b8_cgraph">
-<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="189,31,307,57"/>
+<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="189,56,307,83"/>
 <area shape="rect" id="node3" href="classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="355,5,488,32"/>
 <area shape="rect" id="node4" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="378,56,465,83"/>
-<area shape="rect" id="node5" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="536,56,625,83"/>
+<area shape="rect" id="node5" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="536,81,625,108"/>
+<area shape="rect" id="node6" href="memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="673,81,752,108"/>
 </map>
 </div>
 <div class="dynheader">
@@ -282,14 +298,30 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classvga_a2cb814a16a5962da514caed1db2d6e40_cgraph.png" border="0" usemap="#classvga_a2cb814a16a5962da514caed1db2d6e40_cgraph" alt=""/></div>
+<map name="classvga_a2cb814a16a5962da514caed1db2d6e40_cgraph" id="classvga_a2cb814a16a5962da514caed1db2d6e40_cgraph">
+<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="143,5,260,32"/>
+<area shape="rect" id="node5" href="memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="162,56,241,83"/>
+<area shape="rect" id="node3" href="classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="308,5,441,32"/>
+<area shape="rect" id="node4" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="331,81,418,108"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_a2cb814a16a5962da514caed1db2d6e40_icgraph.png" border="0" usemap="#classvga_a2cb814a16a5962da514caed1db2d6e40_icgraph" alt=""/></div>
 <map name="classvga_a2cb814a16a5962da514caed1db2d6e40_icgraph" id="classvga_a2cb814a16a5962da514caed1db2d6e40_icgraph">
-<area shape="rect" id="node2" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="143,5,229,32"/>
-<area shape="rect" id="node3" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="277,5,395,32"/>
-<area shape="rect" id="node4" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="443,5,579,32"/>
-<area shape="rect" id="node5" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="627,5,705,32"/>
+<area shape="rect" id="node2" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="143,107,229,133"/>
+<area shape="rect" id="node3" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="290,5,407,32"/>
+<area shape="rect" id="node6" href="classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893" title="vga_logger::debug" alt="" coords="277,56,420,83"/>
+<area shape="rect" id="node7" href="classvga__logger.html#a944df66c4b9b97781d57951d6afa7251" title="vga_logger::error" alt="" coords="282,107,415,133"/>
+<area shape="rect" id="node8" href="classvga__logger.html#ace8f0b5a68a170bff1a31f0362ed3afb" title="vga_logger::info" alt="" coords="285,157,412,184"/>
+<area shape="rect" id="node9" href="classvga__logger.html#a1a4b502fe5d8879c4f198ebdb4c5105a" title="vga_logger::panic" alt="" coords="280,208,417,235"/>
+<area shape="rect" id="node10" href="classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86" title="vga_logger::warn" alt="" coords="281,259,416,285"/>
+<area shape="rect" id="node4" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="468,5,604,32"/>
+<area shape="rect" id="node5" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="652,5,731,32"/>
 </map>
 </div>
 
@@ -325,9 +357,16 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_ada3be28a53ffa9620486136b7ee062cb_icgraph.png" border="0" usemap="#classvga_ada3be28a53ffa9620486136b7ee062cb_icgraph" alt=""/></div>
 <map name="classvga_ada3be28a53ffa9620486136b7ee062cb_icgraph" id="classvga_ada3be28a53ffa9620486136b7ee062cb_icgraph">
-<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="187,5,304,32"/>
-<area shape="rect" id="node3" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="352,5,488,32"/>
-<area shape="rect" id="node4" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="536,5,615,32"/>
+<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="187,81,304,108"/>
+<area shape="rect" id="node3" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="352,31,488,57"/>
+<area shape="rect" id="node5" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="375,81,465,108"/>
+<area shape="rect" id="node4" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="540,31,619,57"/>
+<area shape="rect" id="node6" href="classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="536,107,623,133"/>
+<area shape="rect" id="node7" href="classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893" title="vga_logger::debug" alt="" coords="671,5,813,32"/>
+<area shape="rect" id="node8" href="classvga__logger.html#a944df66c4b9b97781d57951d6afa7251" title="vga_logger::error" alt="" coords="675,56,809,83"/>
+<area shape="rect" id="node9" href="classvga__logger.html#ace8f0b5a68a170bff1a31f0362ed3afb" title="vga_logger::info" alt="" coords="679,107,805,133"/>
+<area shape="rect" id="node10" href="classvga__logger.html#a1a4b502fe5d8879c4f198ebdb4c5105a" title="vga_logger::panic" alt="" coords="673,157,811,184"/>
+<area shape="rect" id="node11" href="classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86" title="vga_logger::warn" alt="" coords="675,208,809,235"/>
 </map>
 </div>
 
@@ -369,7 +408,10 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_a602573835e9d04c1193a1b0f8509601b_cgraph.png" border="0" usemap="#classvga_a602573835e9d04c1193a1b0f8509601b_cgraph" alt=""/></div>
 <map name="classvga_a602573835e9d04c1193a1b0f8509601b_cgraph" id="classvga_a602573835e9d04c1193a1b0f8509601b_cgraph">
-<area shape="rect" id="node2" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="140,5,229,32"/>
+<area shape="rect" id="node2" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="140,56,229,83"/>
+<area shape="rect" id="node3" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="277,5,395,32"/>
+<area shape="rect" id="node5" href="memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="297,56,375,83"/>
+<area shape="rect" id="node4" href="classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="443,5,576,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -377,9 +419,15 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classvga_a602573835e9d04c1193a1b0f8509601b_icgraph.png" border="0" usemap="#classvga_a602573835e9d04c1193a1b0f8509601b_icgraph" alt=""/></div>
 <map name="classvga_a602573835e9d04c1193a1b0f8509601b_icgraph" id="classvga_a602573835e9d04c1193a1b0f8509601b_icgraph">
-<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="140,5,257,32"/>
-<area shape="rect" id="node3" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="305,5,441,32"/>
-<area shape="rect" id="node4" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="489,5,568,32"/>
+<area shape="rect" id="node2" href="classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="153,5,270,32"/>
+<area shape="rect" id="node6" href="classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893" title="vga_logger::debug" alt="" coords="140,56,283,83"/>
+<area shape="rect" id="node7" href="classvga__logger.html#a944df66c4b9b97781d57951d6afa7251" title="vga_logger::error" alt="" coords="145,107,278,133"/>
+<area shape="rect" id="node8" href="classvga__logger.html#ace8f0b5a68a170bff1a31f0362ed3afb" title="vga_logger::info" alt="" coords="148,157,275,184"/>
+<area shape="rect" id="node9" href="classvga__logger.html#a1a4b502fe5d8879c4f198ebdb4c5105a" title="vga_logger::panic" alt="" coords="143,208,280,235"/>
+<area shape="rect" id="node10" href="classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86" title="vga_logger::warn" alt="" coords="144,259,279,285"/>
+<area shape="rect" id="node3" href="classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="331,5,467,32"/>
+<area shape="rect" id="node5" href="classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="354,183,443,209"/>
+<area shape="rect" id="node4" href="classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="515,5,593,32"/>
 </map>
 </div>
 

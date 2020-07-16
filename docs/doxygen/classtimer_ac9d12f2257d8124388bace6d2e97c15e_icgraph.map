@@ -1,0 +1,4 @@
+<map id="timer::interrupt_handler" name="timer::interrupt_handler">
+<area shape="rect" id="node2" href="$classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="231,5,407,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="455,5,573,32"/>
+</map>

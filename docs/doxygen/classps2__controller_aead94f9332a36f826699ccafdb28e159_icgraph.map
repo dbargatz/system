@@ -1,4 +1,4 @@
 <map id="ps2_controller::get_type_str" name="ps2_controller::get_type_str">
-<area shape="rect" id="node2" href="$classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="196,5,339,47"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="236,71,299,98"/>
+<area shape="rect" id="node2" href="$classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="202,5,345,47"/>
+<area shape="rect" id="node3" href="$classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="196,71,351,98"/>
 </map>

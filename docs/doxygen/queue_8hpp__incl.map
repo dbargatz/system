@@ -1,0 +1,9 @@
+<map id="src/driver/cpu/x64/std/queue.hpp" name="src/driver/cpu/x64/std/queue.hpp">
+<area shape="rect" id="node2" href="$assert_8h.html" title="assert.h" alt="" coords="31,169,105,196"/>
+<area shape="rect" id="node4" href="$stdint_8h.html" title="stdint.h" alt="" coords="139,319,210,345"/>
+<area shape="rect" id="node5" href="$logger_8hpp.html" title="logger.hpp" alt="" coords="101,95,192,121"/>
+<area shape="rect" id="node8" href="$memset_8hpp.html" title="memset.hpp" alt="" coords="269,95,373,121"/>
+<area shape="rect" id="node3" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="35,244,104,271"/>
+<area shape="rect" id="node6" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="181,169,334,196"/>
+<area shape="rect" id="node7" href="$text_8hpp.html" title="text.hpp" alt="" coords="137,244,213,271"/>
+</map>

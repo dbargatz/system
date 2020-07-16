@@ -96,7 +96,7 @@ $(function() {
 <p>Running QEMU with standard options and serial port output:</p>
 <div class="fragment"><div class="line">&gt; test/run.sh</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>test/artifacts/qemu.log</code>:</p>
 <div class="fragment"><div class="line">&gt; test/run.sh --debug</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>test/artifacts/qemu.log</code>, and GDB remote debugging:</p>
-<div class="fragment"><div class="line">&gt; test/run.sh --gdb</div><div class="line">&gt; gdb src/debug/gdb_pre_script</div><div class="line">(gdb) break kmain</div><div class="line">(gdb) source src/debug/gdb_post_script</div><div class="line">(gdb) continue</div></div><!-- fragment --><p><b>NOTE:</b> GDB remote debugging will pause on startup. When you connect to QEMU via GDB, issue a <code>continue</code> at the GDB prompt to continue.</p>
+<div class="fragment"><div class="line">&gt; test/run.sh --gdb</div><div class="line">&gt; gdb src/debug/gdb_pre_script</div><div class="line">(gdb) break core_entry</div><div class="line">(gdb) source src/debug/gdb_post_script</div><div class="line">(gdb) continue</div></div><!-- fragment --><p><b>NOTE:</b> GDB remote debugging will pause on startup. When you connect to QEMU via GDB, issue a <code>continue</code> at the GDB prompt to continue.</p>
 <p><a class="anchor" id="barrelfish"></a>1: <a href="http://www.barrelfish.org">The Barrelfish Operating System</a><br />
  <a class="anchor" id="seL4"></a>2: <a href="https://sel4.systems">The seL4 Microkernel</a> </p>
 </div></div><!-- contents -->

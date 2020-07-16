@@ -1,0 +1,7 @@
+<map id="uart_logger::warn" name="uart_logger::warn">
+<area shape="rect" id="node2" href="$classuart.html#aaea6648aeb8d5530b614341571996e55" title="uart::write" alt="" coords="189,107,279,133"/>
+<area shape="rect" id="node6" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="340,157,417,184"/>
+<area shape="rect" id="node3" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="330,5,427,32"/>
+<area shape="rect" id="node4" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="331,56,426,83"/>
+<area shape="rect" id="node5" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="327,107,431,133"/>
+</map>

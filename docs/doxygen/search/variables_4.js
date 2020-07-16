@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['filename',['filename',['../structpanic__data.html#ab66f092dcb2f09dc6e262d0a0d5fa750',1,'panic_data::filename()'],['../panic_8h.html#a7efa5e9c7494c7d4586359300221aa5d',1,'filename():&#160;panic.h']]],
-  ['frame',['frame',['../classinterrupt__frame.html#aa9c5d2484cdc6292ae3c12534ba056b7',1,'interrupt_frame']]]
+  ['descriptor_5fidx',['descriptor_idx',['../idt_8hpp.html#ae7706293a1d08686750abbbefadfc35d',1,'idt.hpp']]],
+  ['descriptor_5ftype',['descriptor_type',['../gdt_8hpp.html#ab0cbd7bd2f55d27b7ae3e515cd850f15',1,'gdt.hpp']]],
+  ['dir_5fconform',['dir_conform',['../gdt_8hpp.html#a144ee6c5268aca58ea00fde23b0b2653',1,'gdt.hpp']]],
+  ['dpl',['dpl',['../idt_8hpp.html#a750aac8d20e297eab80c7d338be6c7d6',1,'idt.hpp']]],
+  ['dso_5fhandle',['dso_handle',['../structatexit__entry.html#a4d52381fbf8c10d98a382632730be311',1,'atexit_entry']]]
 ];

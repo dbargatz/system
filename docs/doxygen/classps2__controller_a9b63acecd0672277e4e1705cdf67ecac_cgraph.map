@@ -1,11 +1,8 @@
 <map id="ps2_controller::get_type" name="ps2_controller::get_type">
-<area shape="rect" id="node2" href="$classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="383,56,537,83"/>
-<area shape="rect" id="node3" href="$classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="585,5,736,32"/>
-<area shape="rect" id="node6" href="$classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="232,132,335,159"/>
-<area shape="rect" id="node4" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="789,56,883,83"/>
-<area shape="rect" id="node5" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="784,107,888,133"/>
-<area shape="rect" id="node7" href="$classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="408,157,512,184"/>
-<area shape="rect" id="node8" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="797,208,875,235"/>
-<area shape="rect" id="node9" href="$class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="597,157,724,184"/>
-<area shape="rect" id="node10" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="787,157,885,184"/>
+<area shape="rect" id="node2" href="$classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="232,56,387,83"/>
+<area shape="rect" id="node3" href="$classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="435,5,585,32"/>
+<area shape="rect" id="node6" href="$classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="258,132,361,159"/>
+<area shape="rect" id="node4" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="633,31,728,57"/>
+<area shape="rect" id="node5" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="458,107,562,133"/>
+<area shape="rect" id="node7" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="471,157,549,184"/>
 </map>

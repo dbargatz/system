@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['dark_5fgray',['dark_gray',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a49dba686026a18435dd23b5e83eb5cfd',1,'vga']]],
-  ['debug',['Debug',['../classlogger.html#a11b5662c7f62b0e7f6a68b0b94346b24aa603905470e2a5b8c13e96b579ef0dba',1,'logger']]]
+  ['controller',['CONTROLLER',['../ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9a42e074e8564dad9034ef033c6a6cf8b6',1,'ps2_controller.hpp']]],
+  ['cyan',['cyan',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a6411532ba4971f378391776a9db629d3',1,'vga']]]
 ];

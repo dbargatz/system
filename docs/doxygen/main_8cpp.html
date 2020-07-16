@@ -70,14 +70,18 @@ $(function() {
 <div class="title">main.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="logger_8hpp_source.html">std/logger.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="array_8hpp_source.html">std/array.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logger_8hpp_source.html">std/logger.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="panic_8h_source.html">std/panic.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="serial_8hpp_source.html">debug/serial.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="interrupt__manager_8hpp_source.html">interrupts/interrupt_manager.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="uart__logger_8hpp_source.html">debug/uart_logger.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vga__logger_8hpp_source.html">display/vga_logger.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="gdt_8hpp_source.html">interrupts/gdt.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tss_8hpp_source.html">interrupts/tss.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="core_8hpp_source.html">core.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pit_8hpp_source.html">timer/pit.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ps2__controller_8hpp_source.html">keyboard/ps2_controller.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="at__keyboard_8hpp_source.html">keyboard/at_keyboard.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ps2__keyboard_8hpp_source.html">keyboard/ps2_keyboard.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="di_8hpp_source.html">../../../boost/di.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for main.cpp:</div>
 <div class="dyncontent">
@@ -104,52 +108,27 @@ Include dependency graph for main.cpp:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a133ee33b09f91d406e745f2ecd47e871"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a133ee33b09f91d406e745f2ecd47e871">delay</a> (<a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> in_megaloops)</td></tr>
-<tr class="memdesc:a133ee33b09f91d406e745f2ecd47e871"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loops the given number of times (in millions of loops) as a rough delay mechanism.  <a href="#a133ee33b09f91d406e745f2ecd47e871">More...</a><br /></td></tr>
-<tr class="separator:a133ee33b09f91d406e745f2ecd47e871"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc8e91c290de513dc771fff2ece9d46a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a">kmain</a> (const void *in_boot_info)</td></tr>
-<tr class="separator:acc8e91c290de513dc771fff2ece9d46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94e12500724eed82b981f92721155c12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a94e12500724eed82b981f92721155c12">operator delete</a> (void *in_ptr)</td></tr>
+<tr class="separator:a94e12500724eed82b981f92721155c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ea4b14e129430e2e58230f789bf9f09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09">interrupt_entry</a> (const void *in_frame_ptr)</td></tr>
+<tr class="separator:a4ea4b14e129430e2e58230f789bf9f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74570e5a6991fdfa8c53f94fbec87d84"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a74570e5a6991fdfa8c53f94fbec87d84">core_entry</a> (const void *in_boot_info)</td></tr>
+<tr class="separator:a74570e5a6991fdfa8c53f94fbec87d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a9bf81dc3665a9f8b4b957b5408c62837"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_core.html">Core</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a9bf81dc3665a9f8b4b957b5408c62837">this_core</a></td></tr>
-<tr class="separator:a9bf81dc3665a9f8b4b957b5408c62837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaba5bcb6aeb05e6635fa54807216249"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore.html">core</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#acaba5bcb6aeb05e6635fa54807216249">this_core</a></td></tr>
+<tr class="separator:acaba5bcb6aeb05e6635fa54807216249"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a133ee33b09f91d406e745f2ecd47e871"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a133ee33b09f91d406e745f2ecd47e871">&#9670;&nbsp;</a></span>delay()</h2>
+<a id="a74570e5a6991fdfa8c53f94fbec87d84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74570e5a6991fdfa8c53f94fbec87d84">&#9670;&nbsp;</a></span>core_entry()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void delay </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td>
-          <td class="paramname"><em>in_megaloops</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Loops the given number of times (in millions of loops) as a rough delay mechanism. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">in_megaloops</td><td>millions of loops to perform; if given value is 25, then 25,000,000 loops will be performed </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="acc8e91c290de513dc771fff2ece9d46a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc8e91c290de513dc771fff2ece9d46a">&#9670;&nbsp;</a></span>kmain()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int kmain </td>
+          <td class="memname">int core_entry </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>in_boot_info</em></td><td>)</td>
@@ -160,42 +139,80 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="main_8cpp_acc8e91c290de513dc771fff2ece9d46a_cgraph.png" border="0" usemap="#main_8cpp_acc8e91c290de513dc771fff2ece9d46a_cgraph" alt=""/></div>
-<map name="main_8cpp_acc8e91c290de513dc771fff2ece9d46a_cgraph" id="main_8cpp_acc8e91c290de513dc771fff2ece9d46a_cgraph">
-<area shape="rect" id="node2" href="classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="553,97,732,124"/>
-<area shape="rect" id="node12" href="classlogger.html#af49833763fd6dbf552e9412b1c370c3c" title="logger::debug" alt="" coords="784,259,895,285"/>
-<area shape="rect" id="node13" href="classps2__controller.html#aead94f9332a36f826699ccafdb28e159" title="ps2_controller::get\l_type_str" alt="" coords="116,242,259,283"/>
-<area shape="rect" id="node14" href="class_core.html#adcc93b561dfefacfe2bcbd60604ea7a6" title="Core::run" alt="" coords="147,359,228,385"/>
-<area shape="rect" id="node3" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="943,56,1097,83"/>
-<area shape="rect" id="node4" href="classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="1145,5,1296,32"/>
-<area shape="rect" id="node7" href="classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="788,107,891,133"/>
-<area shape="rect" id="node5" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="1349,107,1443,133"/>
-<area shape="rect" id="node6" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="1344,208,1448,235"/>
-<area shape="rect" id="node8" href="classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="968,259,1072,285"/>
-<area shape="rect" id="node9" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="1357,309,1435,336"/>
-<area shape="rect" id="node10" href="class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="1157,259,1284,285"/>
-<area shape="rect" id="node11" href="classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="1347,259,1445,285"/>
-<area shape="rect" id="node15" href="classkeyboard.html#a44d88d3e802f26b6862e4ba0de6b76d1" title="keyboard::reset" alt="" coords="342,308,466,335"/>
-<area shape="rect" id="node16" href="class_interrupt_manager.html#aa53839d5972332cf8822e0650bbde766" title="Enable interrupts on this core. " alt="" coords="549,278,736,319"/>
-<area shape="rect" id="node17" href="class_interrupt_manager.html#ada1f48f42f1c9d1f74af497ad0d6b9b4" title="InterruptManager::temp\l_unmask" alt="" coords="316,242,492,283"/>
-<area shape="rect" id="node19" href="classlogger.html#a7316d75a8a5267fcff2f6f55a4578973" title="logger::info" alt="" coords="595,381,691,408"/>
-<area shape="rect" id="node20" href="class_interrupt_manager.html#a86d74a5e48659c4d208e6cc3fb70b43f" title="Returns whether or not interrupts are enabled on this core. " alt="" coords="307,460,501,487"/>
-<area shape="rect" id="node21" href="class_i_timer.html#a222e400e3155fd9d13ec7f568bb4a95e" title="ITimer::set_frequency" alt="" coords="322,511,486,537"/>
-<area shape="rect" id="node18" href="class_p_i_c.html#ab3f5370e1e2545814f0ab8524b6ca2b3" title="PIC::enable_irq" alt="" coords="583,157,702,184"/>
+<div class="center"><img src="main_8cpp_a74570e5a6991fdfa8c53f94fbec87d84_cgraph.png" border="0" usemap="#main_8cpp_a74570e5a6991fdfa8c53f94fbec87d84_cgraph" alt=""/></div>
+<map name="main_8cpp_a74570e5a6991fdfa8c53f94fbec87d84_cgraph" id="main_8cpp_a74570e5a6991fdfa8c53f94fbec87d84_cgraph">
+<area shape="rect" id="node2" href="classcore.html#a8e63c5bcd3acc2d1f07336cabcfaeb7d" title="core::run" alt="" coords="144,50,223,77"/>
+<area shape="rect" id="node3" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="407,50,517,77"/>
+<area shape="rect" id="node5" href="classgdt.html#aa4cba957a8145924084e5ff92e3ddef2" title="gdt::dump" alt="" coords="271,25,359,51"/>
+<area shape="rect" id="node6" href="classtss.html#ae36eeac5719e37d6b555281d9140bb3b" title="tss::dump" alt="" coords="271,75,358,102"/>
+<area shape="rect" id="node7" href="classidt.html#aa4da818a99459769411c6f6ab7148ba4" title="Loads this IDT into the core such that interrupts/exceptions will be handled by this IDT..." alt="" coords="271,126,358,153"/>
+<area shape="rect" id="node4" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="565,50,643,77"/>
 </map>
 </div>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a9bf81dc3665a9f8b4b957b5408c62837"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf81dc3665a9f8b4b957b5408c62837">&#9670;&nbsp;</a></span>this_core</h2>
+<a id="a4ea4b14e129430e2e58230f789bf9f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea4b14e129430e2e58230f789bf9f09">&#9670;&nbsp;</a></span>interrupt_entry()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_core.html">Core</a>* this_core</td>
+          <td class="memname">void interrupt_entry </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>in_frame_ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="main_8cpp_a4ea4b14e129430e2e58230f789bf9f09_cgraph.png" border="0" usemap="#main_8cpp_a4ea4b14e129430e2e58230f789bf9f09_cgraph" alt=""/></div>
+<map name="main_8cpp_a4ea4b14e129430e2e58230f789bf9f09_cgraph" id="main_8cpp_a4ea4b14e129430e2e58230f789bf9f09_cgraph">
+<area shape="rect" id="node2" href="classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="172,132,348,159"/>
+<area shape="rect" id="node3" href="classcore.html#aa9df34d400b0068d4815edf8f7ff7f47" title="core::panic_handler" alt="" coords="410,5,559,32"/>
+<area shape="rect" id="node4" href="classlogger.html#aa00da2c4e3c6f1aacee5a6a3c99a008d" title="logger::panic" alt="" coords="839,56,945,83"/>
+<area shape="rect" id="node6" href="classinterrupt__frame.html#a0487d860c218f15c6358b0fc76286797" title="interrupt_frame::dump" alt="" coords="621,56,791,83"/>
+<area shape="rect" id="node7" href="classtimer.html#ac9d12f2257d8124388bace6d2e97c15e" title="timer::interrupt_handler" alt="" coords="396,157,573,184"/>
+<area shape="rect" id="node8" href="classpic.html#a908011c3396821a2be6ccb5d22d87070" title="pic::send_eoi" alt="" coords="431,208,538,235"/>
+<area shape="rect" id="node10" href="classkeyboard.html#adb1ceaaa93ff5d73d2b4bfaa6607fccb" title="keyboard::interrupt\l_handler" alt="" coords="411,259,558,301"/>
+<area shape="rect" id="node5" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="993,56,1071,83"/>
+<area shape="rect" id="node9" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="654,208,758,235"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a94e12500724eed82b981f92721155c12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94e12500724eed82b981f92721155c12">&#9670;&nbsp;</a></span>operator delete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void operator delete </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>in_ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="acaba5bcb6aeb05e6635fa54807216249"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaba5bcb6aeb05e6635fa54807216249">&#9670;&nbsp;</a></span>this_core</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore.html">core</a>* this_core</td>
         </tr>
       </table>
 </div><div class="memdoc">

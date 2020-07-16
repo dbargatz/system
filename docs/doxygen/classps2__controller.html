@@ -85,6 +85,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba13d0da1419a1ba986c7427d1e67e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c776265e62c1e906ae271d6e4e18889"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889">read</a> (bool in_poll)</td></tr>
 <tr class="separator:a7c776265e62c1e906ae271d6e4e18889"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98f1c6a2bd32d87d431b235b49a499df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classps2__controller.html#a98f1c6a2bd32d87d431b235b49a499df">reset</a> ()</td></tr>
+<tr class="separator:a98f1c6a2bd32d87d431b235b49a499df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad893133934f4c44a69df8c2bef6f682f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f">write</a> (<a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9">ps2_port</a> in_port, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> in_data, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> in_resend=0, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> in_ack=0, bool in_response=false)</td></tr>
 <tr class="separator:ad893133934f4c44a69df8c2bef6f682f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -104,21 +106,6 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classps2__controller_ac42ffa0610a59703db7edf1ffad0e067_cgraph.png" border="0" usemap="#classps2__controller_ac42ffa0610a59703db7edf1ffad0e067_cgraph" alt=""/></div>
-<map name="classps2__controller_ac42ffa0610a59703db7edf1ffad0e067_cgraph" id="classps2__controller_ac42ffa0610a59703db7edf1ffad0e067_cgraph">
-<area shape="rect" id="node2" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="689,5,783,32"/>
-<area shape="rect" id="node3" href="classlogger.html#af49833763fd6dbf552e9412b1c370c3c" title="logger::debug" alt="" coords="199,56,309,83"/>
-<area shape="rect" id="node9" href="classlogger.html#ac8270d6ba15c7cc9f9ce9771bcfd7634" title="logger::error" alt="" coords="203,107,305,133"/>
-<area shape="rect" id="node4" href="classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="357,107,461,133"/>
-<area shape="rect" id="node5" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="697,157,775,184"/>
-<area shape="rect" id="node6" href="class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="509,107,636,133"/>
-<area shape="rect" id="node7" href="classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="687,56,785,83"/>
-<area shape="rect" id="node8" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="684,107,788,133"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -143,14 +130,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_abdb5deb3a3638f47d6358941db271888_cgraph.png" border="0" usemap="#classps2__controller_abdb5deb3a3638f47d6358941db271888_cgraph" alt=""/></div>
 <map name="classps2__controller_abdb5deb3a3638f47d6358941db271888_cgraph" id="classps2__controller_abdb5deb3a3638f47d6358941db271888_cgraph">
-<area shape="rect" id="node2" href="classlogger.html#af49833763fd6dbf552e9412b1c370c3c" title="logger::debug" alt="" coords="223,5,333,32"/>
-<area shape="rect" id="node9" href="classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="227,56,329,83"/>
-<area shape="rect" id="node3" href="classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="381,31,485,57"/>
-<area shape="rect" id="node4" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="721,5,799,32"/>
-<area shape="rect" id="node5" href="class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="533,56,660,83"/>
-<area shape="rect" id="node6" href="classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="711,56,809,83"/>
-<area shape="rect" id="node7" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="713,107,807,133"/>
-<area shape="rect" id="node8" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="708,157,812,184"/>
+<area shape="rect" id="node2" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="223,5,333,32"/>
+<area shape="rect" id="node4" href="classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="227,56,329,83"/>
+<area shape="rect" id="node3" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="381,31,459,57"/>
 </map>
 </div>
 
@@ -176,14 +158,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_cgraph.png" border="0" usemap="#classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_cgraph" alt=""/></div>
 <map name="classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_cgraph" id="classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_cgraph">
-<area shape="rect" id="node2" href="classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="224,5,327,32"/>
-<area shape="rect" id="node9" href="classlogger.html#af49833763fd6dbf552e9412b1c370c3c" title="logger::debug" alt="" coords="220,56,331,83"/>
-<area shape="rect" id="node3" href="classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="379,31,483,57"/>
-<area shape="rect" id="node4" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="719,5,796,32"/>
-<area shape="rect" id="node5" href="class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="531,56,657,83"/>
-<area shape="rect" id="node6" href="classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="709,56,806,83"/>
-<area shape="rect" id="node7" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="710,107,805,133"/>
-<area shape="rect" id="node8" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="705,157,809,184"/>
+<area shape="rect" id="node2" href="classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="224,5,327,32"/>
+<area shape="rect" id="node4" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="220,56,331,83"/>
+<area shape="rect" id="node3" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="379,31,456,57"/>
 </map>
 </div>
 <div class="dynheader">
@@ -191,7 +168,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_icgraph.png" border="0" usemap="#classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_icgraph" alt=""/></div>
 <map name="classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_icgraph" id="classps2__controller_afb127edcfd4aa8e128f8eddc6b8f0960_icgraph">
-<area shape="rect" id="node2" href="classat__keyboard.html#a77b9ebb7ab7733a848e248c51f59afe9" title="at_keyboard::reset" alt="" coords="220,5,364,32"/>
+<area shape="rect" id="node2" href="classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="220,5,375,32"/>
 </map>
 </div>
 
@@ -217,15 +194,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_cgraph.png" border="0" usemap="#classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_cgraph" alt=""/></div>
 <map name="classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_cgraph" id="classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_cgraph">
-<area shape="rect" id="node2" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="383,56,537,83"/>
-<area shape="rect" id="node3" href="classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="585,5,736,32"/>
-<area shape="rect" id="node6" href="classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="232,132,335,159"/>
-<area shape="rect" id="node4" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="789,56,883,83"/>
-<area shape="rect" id="node5" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="784,107,888,133"/>
-<area shape="rect" id="node7" href="classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="408,157,512,184"/>
-<area shape="rect" id="node8" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="797,208,875,235"/>
-<area shape="rect" id="node9" href="class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="597,157,724,184"/>
-<area shape="rect" id="node10" href="classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="787,157,885,184"/>
+<area shape="rect" id="node2" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="232,56,387,83"/>
+<area shape="rect" id="node3" href="classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="435,5,585,32"/>
+<area shape="rect" id="node6" href="classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="258,132,361,159"/>
+<area shape="rect" id="node4" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="633,31,728,57"/>
+<area shape="rect" id="node5" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="458,107,562,133"/>
+<area shape="rect" id="node7" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="471,157,549,184"/>
 </map>
 </div>
 <div class="dynheader">
@@ -233,8 +207,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_icgraph.png" border="0" usemap="#classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_icgraph" alt=""/></div>
 <map name="classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_icgraph" id="classps2__controller_a9b63acecd0672277e4e1705cdf67ecac_icgraph">
-<area shape="rect" id="node2" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="232,5,375,47"/>
-<area shape="rect" id="node3" href="main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="272,71,335,98"/>
+<area shape="rect" id="node2" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="238,5,381,47"/>
+<area shape="rect" id="node3" href="classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="232,71,387,98"/>
 </map>
 </div>
 
@@ -260,8 +234,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_aead94f9332a36f826699ccafdb28e159_icgraph.png" border="0" usemap="#classps2__controller_aead94f9332a36f826699ccafdb28e159_icgraph" alt=""/></div>
 <map name="classps2__controller_aead94f9332a36f826699ccafdb28e159_icgraph" id="classps2__controller_aead94f9332a36f826699ccafdb28e159_icgraph">
-<area shape="rect" id="node2" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="196,5,339,47"/>
-<area shape="rect" id="node3" href="main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="236,71,299,98"/>
+<area shape="rect" id="node2" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="202,5,345,47"/>
+<area shape="rect" id="node3" href="classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="196,71,351,98"/>
 </map>
 </div>
 
@@ -288,16 +262,13 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="classps2__controller_aba13d0da1419a1ba986c7427d1e67e71_cgraph.png" border="0" usemap="#classps2__controller_aba13d0da1419a1ba986c7427d1e67e71_cgraph" alt=""/></div>
 <map name="classps2__controller_aba13d0da1419a1ba986c7427d1e67e71_cgraph" id="classps2__controller_aba13d0da1419a1ba986c7427d1e67e71_cgraph">
 <area shape="rect" id="node2" href="classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="196,56,375,83"/>
-<area shape="rect" id="node12" href="classps2__controller.html#aead94f9332a36f826699ccafdb28e159" title="ps2_controller::get\l_type_str" alt="" coords="214,107,357,149"/>
-<area shape="rect" id="node3" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="573,56,728,83"/>
-<area shape="rect" id="node4" href="classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="776,5,927,32"/>
-<area shape="rect" id="node7" href="classlogger.html#a5f2f1d5d865eebb040699ca51bdd1f23" title="logger::warn" alt="" coords="423,132,525,159"/>
-<area shape="rect" id="node5" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="979,56,1074,83"/>
-<area shape="rect" id="node6" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="975,107,1079,133"/>
-<area shape="rect" id="node8" href="classlogger.html#a7a07fd75895f73053db2cdd4a800d993" title="logger::write" alt="" coords="599,157,703,184"/>
-<area shape="rect" id="node9" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="988,208,1065,235"/>
-<area shape="rect" id="node10" href="class_serial_port.html#a055425b0ee9f2ec40004f492ae278555" title="SerialPort::write" alt="" coords="788,157,915,184"/>
-<area shape="rect" id="node11" href="classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="978,157,1075,184"/>
+<area shape="rect" id="node9" href="classps2__controller.html#aead94f9332a36f826699ccafdb28e159" title="ps2_controller::get\l_type_str" alt="" coords="214,107,357,149"/>
+<area shape="rect" id="node3" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="423,56,577,83"/>
+<area shape="rect" id="node4" href="classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="625,5,776,32"/>
+<area shape="rect" id="node7" href="classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="449,132,551,159"/>
+<area shape="rect" id="node5" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="824,31,919,57"/>
+<area shape="rect" id="node6" href="classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="649,107,753,133"/>
+<area shape="rect" id="node8" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="662,157,739,184"/>
 </map>
 </div>
 
@@ -331,12 +302,40 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_a7c776265e62c1e906ae271d6e4e18889_icgraph.png" border="0" usemap="#classps2__controller_a7c776265e62c1e906ae271d6e4e18889_icgraph" alt=""/></div>
 <map name="classps2__controller_a7c776265e62c1e906ae271d6e4e18889_icgraph" id="classps2__controller_a7c776265e62c1e906ae271d6e4e18889_icgraph">
-<area shape="rect" id="node2" href="classat__keyboard.html#a89029d7a97afc64cc234840e5d2c1a62" title="at_keyboard::interrupt\l_handler" alt="" coords="204,5,371,47"/>
-<area shape="rect" id="node3" href="classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="419,71,597,98"/>
-<area shape="rect" id="node6" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="210,122,365,149"/>
-<area shape="rect" id="node4" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="645,35,788,76"/>
-<area shape="rect" id="node5" href="main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="685,101,748,127"/>
-<area shape="rect" id="node7" href="classat__keyboard.html#a77b9ebb7ab7733a848e248c51f59afe9" title="at_keyboard::reset" alt="" coords="436,122,580,149"/>
+<area shape="rect" id="node2" href="classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="429,21,608,47"/>
+<area shape="rect" id="node5" href="classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="215,71,370,98"/>
+<area shape="rect" id="node6" href="classps2__keyboard.html#a54375c6ab885f98fde3ccac1b0005110" title="ps2_keyboard::interrupt\l_handler" alt="" coords="204,123,381,164"/>
+<area shape="rect" id="node3" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="662,5,805,47"/>
+<area shape="rect" id="node4" href="classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="656,71,811,98"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a98f1c6a2bd32d87d431b235b49a499df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f1c6a2bd32d87d431b235b49a499df">&#9670;&nbsp;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ps2_controller::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classps2__controller_a98f1c6a2bd32d87d431b235b49a499df_cgraph.png" border="0" usemap="#classps2__controller_a98f1c6a2bd32d87d431b235b49a499df_cgraph" alt=""/></div>
+<map name="classps2__controller_a98f1c6a2bd32d87d431b235b49a499df_cgraph" id="classps2__controller_a98f1c6a2bd32d87d431b235b49a499df_cgraph">
+<area shape="rect" id="node2" href="classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="216,5,311,32"/>
+<area shape="rect" id="node3" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="208,56,319,83"/>
+<area shape="rect" id="node5" href="classlogger.html#a79f736a0f326c5451cb43b7fc649fa10" title="logger::error" alt="" coords="212,107,315,133"/>
+<area shape="rect" id="node4" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="394,56,471,83"/>
+<area shape="rect" id="node6" href="classlogger.html#a54e90615c67b7f77d1e3d60da44191f8" title="logger::hexdump" alt="" coords="367,107,499,133"/>
 </map>
 </div>
 
@@ -400,10 +399,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classps2__controller_ad893133934f4c44a69df8c2bef6f682f_icgraph.png" border="0" usemap="#classps2__controller_ad893133934f4c44a69df8c2bef6f682f_icgraph" alt=""/></div>
 <map name="classps2__controller_ad893133934f4c44a69df8c2bef6f682f_icgraph" id="classps2__controller_ad893133934f4c44a69df8c2bef6f682f_icgraph">
-<area shape="rect" id="node2" href="classat__keyboard.html#a77b9ebb7ab7733a848e248c51f59afe9" title="at_keyboard::reset" alt="" coords="225,5,369,32"/>
-<area shape="rect" id="node3" href="classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="208,56,387,83"/>
-<area shape="rect" id="node4" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="435,19,577,61"/>
-<area shape="rect" id="node5" href="main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="475,85,537,112"/>
+<area shape="rect" id="node2" href="classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="208,21,387,47"/>
+<area shape="rect" id="node4" href="classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="435,71,589,98"/>
+<area shape="rect" id="node3" href="classps2__controller.html#aba13d0da1419a1ba986c7427d1e67e71" title="ps2_controller::get\l_type_str" alt="" coords="441,5,583,47"/>
 </map>
 </div>
 

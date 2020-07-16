@@ -1,6 +1,7 @@
 <map id="vga::clear_screen" name="vga::clear_screen">
-<area shape="rect" id="node2" href="$classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="189,31,307,57"/>
+<area shape="rect" id="node2" href="$classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="189,56,307,83"/>
 <area shape="rect" id="node3" href="$classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="355,5,488,32"/>
 <area shape="rect" id="node4" href="$classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="378,56,465,83"/>
-<area shape="rect" id="node5" href="$classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="536,56,625,83"/>
+<area shape="rect" id="node5" href="$classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="536,81,625,108"/>
+<area shape="rect" id="node6" href="$memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="673,81,752,108"/>
 </map>

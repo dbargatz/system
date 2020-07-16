@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['enable',['enable',['../classps2__controller.html#afb127edcfd4aa8e128f8eddc6b8f0960',1,'ps2_controller']]],
-  ['enable_5finterrupts',['enable_interrupts',['../class_interrupt_manager.html#aa53839d5972332cf8822e0650bbde766',1,'InterruptManager']]],
-  ['enable_5firq',['enable_irq',['../class_p_i_c.html#ab3f5370e1e2545814f0ab8524b6ca2b3',1,'PIC']]],
-  ['enabled',['enabled',['../class_interrupt_manager.html#a86d74a5e48659c4d208e6cc3fb70b43f',1,'InterruptManager']]],
-  ['error',['error',['../classlogger.html#ac8270d6ba15c7cc9f9ce9771bcfd7634',1,'logger::error(text &amp;in_msg)'],['../classlogger.html#ab5de894479f336da0204cf150e1da68c',1,'logger::error(const char *in_format_str, Args &amp;&amp;... in_args)']]]
+  ['data',['data',['../classstd_1_1array.html#aab445de9a9bcaa5482ff863b61da979e',1,'std::array::data() noexcept'],['../classstd_1_1array.html#ac8c1c0b8131beeb67ffec3084025edc9',1,'std::array::data() const noexcept']]],
+  ['debug',['debug',['../classuart__logger.html#ac00287bf9c1e96943dae533179f4e49b',1,'uart_logger::debug()'],['../classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893',1,'vga_logger::debug()'],['../classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7',1,'logger::debug()'],['../classlogger__backend.html#aa40ee9f8e7333a2baa33e30bc1a59d33',1,'logger_backend::debug()']]],
+  ['dequeue',['dequeue',['../classqueue.html#a103e30c8b600af138a2e0ae508b581b2',1,'queue']]],
+  ['disable',['disable',['../classps2__controller.html#abdb5deb3a3638f47d6358941db271888',1,'ps2_controller']]],
+  ['disable_5fall',['disable_all',['../classpic.html#ab9f771b49b83e9fe18419d792c67a253',1,'pic']]],
+  ['disable_5firq',['disable_irq',['../classpic.html#aac8d5d3a3384f922a2eb40f9a4c9c60f',1,'pic']]],
+  ['dispatch_5finterrupt',['dispatch_interrupt',['../classcore.html#ae41913b48679209e17bb0fa96c939457',1,'core']]],
+  ['dump',['dump',['../classinterrupt__frame.html#a0487d860c218f15c6358b0fc76286797',1,'interrupt_frame::dump()'],['../classgdt.html#aa4cba957a8145924084e5ff92e3ddef2',1,'gdt::dump()'],['../classtss.html#ae36eeac5719e37d6b555281d9140bb3b',1,'tss::dump()'],['../classqueue.html#a64d8c6c8eadb3516fb32cfb93238462c',1,'queue::dump()']]]
 ];

@@ -1,0 +1,6 @@
+<map id="pic::disable_irq" name="pic::disable_irq">
+<area shape="rect" id="node2" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="181,5,276,32"/>
+<area shape="rect" id="node3" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="177,56,281,83"/>
+<area shape="rect" id="node4" href="$classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="173,107,284,133"/>
+<area shape="rect" id="node5" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="332,107,409,133"/>
+</map>

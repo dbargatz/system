@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['keyboard',['KEYBOARD',['../interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5aedda266cdb6345b9f6914cc2e7577475',1,'interrupt_manager.hpp']]],
-  ['keyboard_5fstandard',['KEYBOARD_STANDARD',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5adaee620caa502607f1c082d69d0616b2',1,'ps2_controller.hpp']]],
-  ['keyboard_5ftranslated',['KEYBOARD_TRANSLATED',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5aaa2546c429cc79a8f3a1b8a19ce2f16d',1,'ps2_controller.hpp']]]
+  ['info',['Info',['../classlogger.html#a92246e13cd3e43799f11c4126f15568fa4059b0251f66a18cb56f544728796875',1,'logger']]],
+  ['invalid',['INVALID',['../ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9accc0377a8afbf50e7094f5c23a8af223',1,'INVALID():&#160;ps2_controller.hpp'],['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5accc0377a8afbf50e7094f5c23a8af223',1,'INVALID():&#160;ps2_controller.hpp']]]
 ];

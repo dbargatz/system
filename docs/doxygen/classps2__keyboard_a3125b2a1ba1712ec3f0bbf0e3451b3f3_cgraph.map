@@ -1,0 +1,16 @@
+<map id="ps2_keyboard::reset" name="ps2_keyboard::reset">
+<area shape="rect" id="node2" href="$classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="208,74,387,101"/>
+<area shape="rect" id="node3" href="$classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f" title="ps2_controller::write" alt="" coords="435,23,589,50"/>
+<area shape="rect" id="node9" href="$classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="457,175,567,202"/>
+<area shape="rect" id="node10" href="$classps2__controller.html#aead94f9332a36f826699ccafdb28e159" title="ps2_controller::get\l_type_str" alt="" coords="226,176,369,217"/>
+<area shape="rect" id="node11" href="$classps2__controller.html#afb127edcfd4aa8e128f8eddc6b8f0960" title="ps2_controller::enable" alt="" coords="214,125,381,151"/>
+<area shape="rect" id="node12" href="$classqueue.html#aa3172f99cee6aca7c63c21e913796235" title="queue::enqueue" alt="" coords="234,293,361,319"/>
+<area shape="rect" id="node13" href="$classqueue.html#a103e30c8b600af138a2e0ae508b581b2" title="queue::dequeue" alt="" coords="234,343,361,370"/>
+<area shape="rect" id="node14" href="$classqueue.html#a7da3328f11e0c8a905bbc06fe3712fbc" title="queue::size" alt="" coords="249,394,345,421"/>
+<area shape="rect" id="node15" href="$classqueue.html#a1ca1e27e0997ac14cadefb23410c453d" title="queue::peek" alt="" coords="246,445,349,471"/>
+<area shape="rect" id="node4" href="$classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="637,74,788,101"/>
+<area shape="rect" id="node7" href="$classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="461,125,563,151"/>
+<area shape="rect" id="node5" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="836,23,931,50"/>
+<area shape="rect" id="node6" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="661,23,765,50"/>
+<area shape="rect" id="node8" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="674,150,751,177"/>
+</map>

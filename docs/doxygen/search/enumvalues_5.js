@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['info',['Info',['../classlogger.html#a11b5662c7f62b0e7f6a68b0b94346b24a4059b0251f66a18cb56f544728796875',1,'logger']]],
-  ['invalid',['INVALID',['../ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9accc0377a8afbf50e7094f5c23a8af223',1,'INVALID():&#160;ps2_controller.hpp'],['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5accc0377a8afbf50e7094f5c23a8af223',1,'INVALID():&#160;ps2_controller.hpp']]]
+  ['generic',['GENERIC',['../panic_8h.html#af06c4d9ee226c87fe5c9d59593262845ac942dc2a9f958acddc67e11472d3ca0b',1,'panic.h']]],
+  ['gray',['gray',['../classvga.html#a42db10ff22958fe6b979dfeef8803353acda7a650c5856cf2f6738072447d7825',1,'vga']]],
+  ['green',['green',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a9f27410725ab8cc8854a2769c7a516b8',1,'vga']]]
 ];

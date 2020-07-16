@@ -1,0 +1,8 @@
+<map id="queue::size" name="queue::size">
+<area shape="rect" id="node2" href="$classps2__keyboard.html#a54375c6ab885f98fde3ccac1b0005110" title="ps2_keyboard::interrupt\l_handler" alt="" coords="158,5,335,47"/>
+<area shape="rect" id="node3" href="$classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="169,71,324,98"/>
+<area shape="rect" id="node4" href="$classqueue.html#a103e30c8b600af138a2e0ae508b581b2" title="queue\&lt; struct _command,\l 16 \&gt;::dequeue" alt="" coords="149,123,344,164"/>
+<area shape="rect" id="node5" href="$classqueue.html#a64d8c6c8eadb3516fb32cfb93238462c" title="queue\&lt; struct _command,\l 16 \&gt;::dump" alt="" coords="149,188,344,229"/>
+<area shape="rect" id="node6" href="$classqueue.html#aa3172f99cee6aca7c63c21e913796235" title="queue\&lt; struct _command,\l 16 \&gt;::enqueue" alt="" coords="149,253,344,295"/>
+<area shape="rect" id="node7" href="$classqueue.html#a1ca1e27e0997ac14cadefb23410c453d" title="queue\&lt; struct _command,\l 16 \&gt;::peek" alt="" coords="149,319,344,360"/>
+</map>
