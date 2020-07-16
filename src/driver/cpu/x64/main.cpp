@@ -27,43 +27,29 @@ extern "C" void interrupt_entry(const void * in_frame_ptr) {
 }
 
 extern "C" int core_entry(const void * in_boot_info) {
-    const auto injector = di::make_injector(
-        // TODO: once we can parse Multiboot args, make the selection of logger
-        //       backends dependent on args.
-        di::bind<logger_backend*[]>().to<vga_logger, uart_logger>()
+    // To work around the fact that boost::di isn't working right now with
+    // multiple bindings, create a logger instance and add both backends to
+    // it via the add_backend() helper (instead of the desired constructor
+    // injection technique), then register that logger as a singleton instance
+    // with a separate core injector.
+    const auto log_injector = di::make_injector();
+    auto vga_log = log_injector.create<vga_logger&>();
+    auto uart_log = log_injector.create<uart_logger&>();
+    auto log = log_injector.create<logger&>();
+    log.add_backend(&vga_log);
+    log.add_backend(&uart_log);
+
+    // Bind abstract classes to implementations and create the bootstrap core.
+    const auto core_injector = di::make_injector(
+        di::bind<logger>().to(log),
+        di::bind<keyboard>().to<ps2_keyboard>(),
+        di::bind<timer>().to<pit>()
     );
-    auto log = injector.create<logger>();
+    auto bootstrap_core = core_injector.create<core>();
 
-    // vga vga_;
-    // vga_logger vgal(vga_);
-    // uart uart_;
-    // uart_logger uartl(uart_);
-    // logger_backend* backends[] = {&vgal, &uartl};
-    // logger log(backends);
-    gdt gdt_(log);
-    tss tss_(log, gdt_);
-    idt idt_(log);
-    pic pic_(log);
-    pit pit_(log);
-
-    ps2_controller ps2(log);
-    ps2_port kbd_port = ps2_port::INVALID;
-    ps2_device_type port1 = ps2.get_type(ps2_port::PORT1);
-    ps2_device_type port2 = ps2.get_type(ps2_port::PORT2);
-    log.debug("PS/2 port 1: {}", ps2.get_type_str(port1));
-    log.debug("PS/2 port 2: {}", ps2.get_type_str(port2));
-
-    if(port1 == ps2_device_type::KEYBOARD_STANDARD) {
-        kbd_port = ps2_port::PORT1;
-    } else if(port2 == ps2_device_type::KEYBOARD_STANDARD) {
-        kbd_port = ps2_port::PORT2;
-    }
-    ps2_keyboard kbd(log, ps2, kbd_port);
-
-    core bootstrap_core(log, gdt_, tss_, in_boot_info, idt_, pic_, pit_, kbd);
+    // Save off the current core 
     this_core = &bootstrap_core;
-
-    bootstrap_core.run();
+    this_core->run(in_boot_info);
 
     PANIC("End of core_entry() reached!");
     return -1;
