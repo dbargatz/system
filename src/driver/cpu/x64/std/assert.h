@@ -4,7 +4,7 @@
 #include "panic.h"
 
 /**
- * If @cond is @false, triggers a PANIC().
+ * If cond is false, triggers a PANIC().
  *
  * @param cond: the condition to test.
  * @param msg: the message to provide to PANIC_TYPED().
