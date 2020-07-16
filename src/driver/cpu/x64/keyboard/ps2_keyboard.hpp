@@ -12,7 +12,7 @@
 
 class ps2_keyboard : public keyboard {
 public:
-    ps2_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_port);
+    ps2_keyboard(logger& in_log, ps2_controller& in_ps2);
     void interrupt_handler(interrupt_frame& in_frame) override;
     void reset() override;
 

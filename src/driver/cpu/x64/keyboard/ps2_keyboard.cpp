@@ -5,8 +5,8 @@
 
 scancode_set_2 ps2_keyboard::set2;
 
-ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_port) :
-    _log(in_log), _port(in_port), _ps2(in_ps2), _cur_scancode_set(*(&set2)) {
+ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2) :
+    _log(in_log), _ps2(in_ps2), _cur_scancode_set(*(&set2)) {
     _cur_state = _state::IDLE;
 }
 
@@ -108,6 +108,18 @@ void ps2_keyboard::interrupt_handler(interrupt_frame& in_frame) {
 }
 
 void ps2_keyboard::reset() {
+    // Determine which PS/2 port the keyboard is on.
+    auto port1_type = _ps2.get_type(ps2_port::PORT1);
+    _log.debug("PS/2 port 1: {}", _ps2.get_type_str(port1_type));
+    auto port2_type = _ps2.get_type(ps2_port::PORT2);
+    _log.debug("PS/2 port 2: {}", _ps2.get_type_str(port2_type));
+
+    if(ps2_device_type::KEYBOARD_STANDARD == port1_type) {
+        _port = ps2_port::PORT1;
+    } else if(ps2_device_type::KEYBOARD_STANDARD == port2_type) {
+        _port = ps2_port::PORT2;
+    }
+
     // Reset this keyboard the correct port.
     _ps2.enable(_port);
     
