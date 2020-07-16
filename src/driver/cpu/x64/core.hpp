@@ -8,6 +8,7 @@
 #include "interrupts/tss.hpp"
 #include "timer/timer.hpp"
 #include "keyboard/keyboard.hpp"
+#include "keyboard/ps2_controller.hpp"
 
 class core {
 private:
@@ -17,14 +18,14 @@ private:
     ///< If bit 9 (IF) is set in RFLAGS, interrupts are enabled on this core.
     static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
 
+    logger& _log;
     gdt& _gdt;
     idt& _idt;
-    keyboard& _kbd;
     pic& _pic;
     timer& _timer;
     tss& _tss;
-    logger& _log;
-    const void * _boot_info;
+    ps2_controller& _ps2;
+    keyboard& _kbd;
 
     bool _disable_interrupts();
     bool _enable_interrupts();
@@ -34,16 +35,16 @@ public:
 
     core(logger& in_log,
         gdt& in_gdt,
-        tss& in_tss,
-        const void * in_boot_info,
         idt& in_idt,
         pic& in_pic,
         timer& in_timer,
+        tss& in_tss,
+        ps2_controller& in_ps2,
         keyboard& in_kbd);
 
     void dispatch_interrupt(const void * in_frame_ptr);
     void panic_handler(interrupt_frame& in_frame);
-    void run();
+    void run(const void * in_boot_info);
 };
 
 #endif // _CORE_HPP

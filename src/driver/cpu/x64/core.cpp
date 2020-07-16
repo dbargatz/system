@@ -38,19 +38,10 @@ bool core::_interrupts_enabled() {
     return (rflags & RFLAGS_INTERRUPTS_ENABLED_BIT);
 }
 
-core::core(logger& in_log, gdt& in_gdt, tss& in_tss, const void * in_boot_info,
-    idt& in_idt, pic& in_pic, timer& in_timer, keyboard& in_kbd) :
-     _gdt(in_gdt), _idt(in_idt), _kbd(in_kbd), _pic(in_pic), _timer(in_timer),
-     _tss(in_tss), _log(in_log), _boot_info(in_boot_info) {
-        _log.debug("Constructed Core:");
-        _log.debug("    Boot Info    : {#016X}", (uint64_t)_boot_info);
-        _log.debug("    Interrupts   : {}abled", _interrupts_enabled() ? "en" : "dis");
-        _log.debug("    PIT          : present");
-        _log.debug("    Serial Port  : present");
-        _log.debug("    Keyboard     : present");
-        _gdt.dump();
-        _tss.dump();
-}
+core::core(logger& in_log, gdt& in_gdt, idt& in_idt, pic& in_pic,
+    timer& in_timer, tss& in_tss, ps2_controller& in_ps2, keyboard& in_kbd) :
+     _log(in_log), _gdt(in_gdt), _idt(in_idt), _pic(in_pic), _timer(in_timer),
+     _tss(in_tss), _ps2(in_ps2), _kbd(in_kbd) { }
 
 void core::dispatch_interrupt(const void * in_frame_ptr) {
     interrupt_frame frame(in_frame_ptr);
@@ -104,8 +95,16 @@ void core::panic_handler(interrupt_frame& in_frame) {
     halt();
 }
 
-void core::run() {
+void core::run(const void* in_boot_info) {
     _disable_interrupts();
+
+    _log.debug("Core Config:");
+    _log.debug("    Interrupts   : {}abled", _interrupts_enabled() ? "en" : "dis");
+    _log.debug("    PIT          : present");
+    _log.debug("    Serial Port  : present");
+    _log.debug("    Keyboard     : present");
+    _gdt.dump();
+    _tss.dump();
 
     // Load the populated IDT into the core.
     _idt.install();
@@ -128,6 +127,7 @@ void core::run() {
     HANDLERS
 #undef X
 
+    _ps2.reset();
     _kbd.reset();
     _enable_interrupts();
     _pic.enable_irq(1);
