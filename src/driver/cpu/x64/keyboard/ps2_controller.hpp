@@ -30,6 +30,7 @@ public:
     const char * get_type_str(ps2_device_type in_type);
     const char * get_type_str(ps2_port in_port);
     uint8_t read(bool in_poll);
+    void reset();
     uint8_t write(ps2_port in_port, uint8_t in_data, uint8_t in_resend=0, uint8_t in_ack=0, bool in_response=false);
 
 private:

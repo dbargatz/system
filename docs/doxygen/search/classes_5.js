@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['logger',['logger',['../classlogger.html',1,'']]]
+  ['keyboard',['keyboard',['../classkeyboard.html',1,'']]],
+  ['keycode',['keycode',['../classkeycode.html',1,'']]],
+  ['keystate',['keystate',['../classkeystate.html',1,'']]]
 ];

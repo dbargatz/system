@@ -1,10 +1,10 @@
 #include "pic.hpp"
 
-PIC::PIC(logger& in_log) : _log(in_log) {
+pic::pic(logger& in_log) : _log(in_log) {
     _log.debug("Initialized PIC.");
 }
 
-void PIC::send_eoi(const uint8_t in_irq_number) {
+void pic::send_eoi(const uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
 
     if(in_irq_number >= 8) {
@@ -13,7 +13,7 @@ void PIC::send_eoi(const uint8_t in_irq_number) {
     PIC1_COMMAND_PORT.outb(EOI_COMMAND);
 }
 
-void PIC::remap(const uint8_t in_pic1_interrupt_base,
+void pic::remap(const uint8_t in_pic1_interrupt_base,
                 const uint8_t in_pic2_interrupt_base) {
 
     // Save off the current interrupt masks.
@@ -47,14 +47,14 @@ void PIC::remap(const uint8_t in_pic1_interrupt_base,
     PIC2_DATA_PORT.outb(pic2_mask);
 }
 
-void PIC::disable_all(void) {
+void pic::disable_all(void) {
     // Mask all interrupts on both the PICs.
     PIC2_DATA_PORT.outb(0xFF);
     PIC1_DATA_PORT.outb(0xFF);
     _log.debug("Disabled all IRQ");
 }
 
-void PIC::disable_irq(const uint8_t in_irq_number) {
+void pic::disable_irq(const uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
     uint8_t mask;
 
@@ -68,7 +68,7 @@ void PIC::disable_irq(const uint8_t in_irq_number) {
     _log.debug("Disabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
 }
 
-void PIC::enable_irq(const uint8_t in_irq_number) {
+void pic::enable_irq(const uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
     uint8_t mask;
 

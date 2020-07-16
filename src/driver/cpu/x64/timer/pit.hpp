@@ -1,14 +1,14 @@
 #ifndef _TIMER_PIT_H
 #define _TIMER_PIT_H
 
-#include "ITimer.hpp"
+#include "timer.hpp"
 #include "../interrupts/frame.hpp"
 #include "../ports/io_port.hpp"
 #include "../std/logger.hpp"
 #include "../std/stdint.h"
 #include "../core.hpp"
 
-class PIT : public ITimer {
+class pit : public timer {
 private:
     ///< Read/write. When read, returns 16-bit count value. Written values are
     ///< "reload" values. Meaning of "count" and "reload" vary based on mode of
@@ -51,11 +51,11 @@ private:
     uint16_t  _reload_value;
 
 public:
-    PIT(logger& in_log);
+    pit(logger& in_log);
 
     float64_t get_frequency() override;
     void set_frequency(float64_t in_frequency_hz) override;
-    void interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) override;
+    void interrupt_handler(interrupt_frame& in_frame) override;
 };
 
 #endif // _TIMER_PIT_H

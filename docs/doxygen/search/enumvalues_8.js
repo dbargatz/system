@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['panic',['Panic',['../classlogger.html#a11b5662c7f62b0e7f6a68b0b94346b24ad4dbdf6f8e0aa2f9cb0e0efa247d4762',1,'logger::Panic()'],['../interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055',1,'PANIC():&#160;interrupt_manager.hpp']]],
-  ['port1',['PORT1',['../ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9ac455d7a285f95e8dd4ea3327006d91b7',1,'ps2_controller.hpp']]],
-  ['port2',['PORT2',['../ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9afb973c23511de656a94e22abf746e434',1,'ps2_controller.hpp']]]
+  ['magenta',['magenta',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a4c2a4a7078da0ac6733464eacfd00f86',1,'vga']]],
+  ['mouse_5f5_5fbutton',['MOUSE_5_BUTTON',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a8905ceddbf6834c0fad009d95f1a3405',1,'ps2_controller.hpp']]],
+  ['mouse_5fscroll',['MOUSE_SCROLL',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a8d39183657ef1c142f973da7bf626a76',1,'ps2_controller.hpp']]],
+  ['mouse_5fstandard',['MOUSE_STANDARD',['../ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a2c5c1c5268a6b9a7be1850798933b6c4',1,'ps2_controller.hpp']]]
 ];

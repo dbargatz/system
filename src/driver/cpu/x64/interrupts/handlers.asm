@@ -1,5 +1,5 @@
 extern this_core
-extern dispatch_interrupt
+extern interrupt_entry
 
 section .text
 bits 64
@@ -24,11 +24,9 @@ interrupt_handler_generic:
     push r14
     push r15
 .dispatch:
-    ;; Pass the current Core as the first argument, and the stacl frame
-    ;; as the second argument.
-    mov rdi, [this_core]
-    mov rsi, rsp
-    lea rax, [dispatch_interrupt]
+    ;; Pass the stack frame as the only argument.
+    mov rdi, rsp
+    lea rax, [interrupt_entry]
     call rax
 .restore_registers:
     pop r15

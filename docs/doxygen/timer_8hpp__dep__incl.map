@@ -1,0 +1,7 @@
+<map id="src/driver/cpu/x64/timer/timer.hpp" name="src/driver/cpu/x64/timer/timer.hpp">
+<area shape="rect" id="node2" href="$core_8hpp.html" title="src/driver/cpu/x64\l/core.hpp" alt="" coords="112,95,251,136"/>
+<area shape="rect" id="node5" href="$pit_8hpp.html" title="src/driver/cpu/x64\l/timer/pit.hpp" alt="" coords="219,184,357,225"/>
+<area shape="rect" id="node3" href="$core_8cpp.html" title="src/driver/cpu/x64\l/core.cpp" alt="" coords="5,184,144,225"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="112,273,251,315"/>
+<area shape="rect" id="node6" href="$pit_8cpp.html" title="src/driver/cpu/x64\l/timer/pit.cpp" alt="" coords="275,273,413,315"/>
+</map>

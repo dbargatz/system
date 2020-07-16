@@ -4,7 +4,7 @@
 #include "../std/stdint.h"
 #include "../std/logger.hpp"
 
-class IDT {
+class idt {
 private:
     struct segment_selector {
         uint16_t rpl: 2;
@@ -30,7 +30,7 @@ private:
     } __attribute__((packed));
 
     logger& _log;
-    struct idt_descriptor idt[256];
+    struct idt_descriptor _idt[256];
 
 public:
     /**
@@ -38,7 +38,7 @@ public:
      * 
      * @param in_log logger for member functions
      */
-    IDT(logger& in_log);
+    idt(logger& in_log);
 
     /**
      * @brief Inserts the given handler at the given index in the IDT, such

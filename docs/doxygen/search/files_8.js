@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['panic_2eh',['panic.h',['../panic_8h.html',1,'']]],
-  ['pic_2ecpp',['pic.cpp',['../pic_8cpp.html',1,'']]],
-  ['pic_2ehpp',['pic.hpp',['../pic_8hpp.html',1,'']]],
-  ['pit_2ecpp',['pit.cpp',['../pit_8cpp.html',1,'']]],
-  ['pit_2ehpp',['pit.hpp',['../pit_8hpp.html',1,'']]],
-  ['ps2_5fcontroller_2ecpp',['ps2_controller.cpp',['../ps2__controller_8cpp.html',1,'']]],
-  ['ps2_5fcontroller_2ehpp',['ps2_controller.hpp',['../ps2__controller_8hpp.html',1,'']]]
+  ['logger_2ecpp',['logger.cpp',['../logger_8cpp.html',1,'']]],
+  ['logger_2ehpp',['logger.hpp',['../logger_8hpp.html',1,'']]],
+  ['logger_5fbackend_2ehpp',['logger_backend.hpp',['../logger__backend_8hpp.html',1,'']]]
 ];

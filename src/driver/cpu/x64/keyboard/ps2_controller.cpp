@@ -143,6 +143,69 @@ uint8_t ps2_controller::read(bool in_poll) {
     return response;
 }
 
+void ps2_controller::reset() {
+    // Disable the first and second PS/2 ports. If this is a single-port
+    // controller, the disable command for port 2 will be ignored.
+    _write_cmd(0xAD); // Disable port 1
+    _write_cmd(0xA7); // Disable port 2
+
+    // Flush the controller's output buffer to clear out any old data.
+    while(PS2_STATUS_CMD_REGISTER.inb() & 0x01) {
+        _log.debug("Old PS/2 data in buffer: {#02X", PS2_DATA_REGISTER.inb());
+    }
+
+    // Configure the controller to disable interrupts for ports 1 and 2, and
+    // disable translation from scan code set 1 to scan code set 2.
+    auto config = _read_config();
+    _write_config(config & 0b10111100); // Clear bits 0, 1, 6
+
+    // Run the PS/2 controller's self-test. Indicate both ports are unusable if
+    // it fails.
+    auto response = _write_cmd(0xAA, true);
+    if(response != 0x55) {
+        _log.error("PS/2 controller failed self-test (response: {#02X})");
+        _port_1_ok = false;
+        _port_2_ok = false;
+        return;
+    }
+
+    // Determine if this is a single-channel (1 port) or dual-channel (2-port)
+    // PS/2 controller. If bit 5 of the config byte is set, it means the second
+    // port is disabled; at this point, bit 5 should be set because we disabled
+    // both ports. If bit 5 is clear, the controller is telling us there isn't
+    // a second PS/2 port, since if there was one, the second port would be
+    // disabled and bit 5 would be clear.
+    if(config & 0b00100000) {
+        // Briefly re-enable port 2 to ensure bit 5 is cleared, indicating the
+        // second port is supported by this controller.
+        _write_cmd(0xA8);                     // Enable port 2
+        config = _read_config();
+        _port_2_ok = !(config & 0b00100000); // Bit 5 should be clear now
+        if(_port_2_ok) {
+            _write_cmd(0xA7);                 // Disable port 2 again
+        }
+    }
+
+    // Test port 1.
+    _port_1_ok = true;
+    response = _write_cmd(0xAB, true);
+    if(response != 0x00) {
+        _log.error("PS/2 port 1 failed test (response {#02X})", response);
+        _port_1_ok = false;
+    }
+
+    // Test port 2 (if present).
+    if(_port_2_ok) {
+        response = _write_cmd(0xA9, true);
+        if(response != 0x00) {
+            _log.error("PS/2 port 2 failed test (response {#02X})", response);
+            _port_2_ok = false;
+        }
+    }
+
+    _log.debug("PS/2 controller: reset, {}-channel", _port_2_ok ? "dual" : "single");
+}
+
 uint8_t ps2_controller::write(ps2_port in_port, uint8_t in_data, uint8_t in_resend, uint8_t in_ack, bool in_response) {
     uint8_t response = 0;
 
@@ -207,65 +270,4 @@ void ps2_controller::_write_data(uint8_t in_data) {
     PS2_DATA_REGISTER.outb(in_data);
 }
 
-ps2_controller::ps2_controller(logger& in_log) : _log(in_log) {
-    // Disable the first and second PS/2 ports. If this is a single-port
-    // controller, the disable command for port 2 will be ignored.
-    _write_cmd(0xAD); // Disable port 1
-    _write_cmd(0xA7); // Disable port 2
-
-    // Flush the controller's output buffer to clear out any old data.
-    while(PS2_STATUS_CMD_REGISTER.inb() & 0x01) {
-        _log.debug("Old PS/2 data in buffer: {#02X", PS2_DATA_REGISTER.inb());
-    }
-
-    // Configure the controller to disable interrupts for ports 1 and 2, and
-    // disable translation from scan code set 1 to scan code set 2.
-    auto config = _read_config();
-    _write_config(config & 0b10111100); // Clear bits 0, 1, 6
-
-    // Run the PS/2 controller's self-test. Indicate both ports are unusable if
-    // it fails.
-    auto response = _write_cmd(0xAA, true);
-    if(response != 0x55) {
-        _log.error("PS/2 controller failed self-test (response: {#02X})");
-        _port_1_ok = false;
-        _port_2_ok = false;
-        return;
-    }
-
-    // Determine if this is a single-channel (1 port) or dual-channel (2-port)
-    // PS/2 controller. If bit 5 of the config byte is set, it means the second
-    // port is disabled; at this point, bit 5 should be set because we disabled
-    // both ports. If bit 5 is clear, the controller is telling us there isn't
-    // a second PS/2 port, since if there was one, the second port would be
-    // disabled and bit 5 would be clear.
-    if(config & 0b00100000) {
-        // Briefly re-enable port 2 to ensure bit 5 is cleared, indicating the
-        // second port is supported by this controller.
-        _write_cmd(0xA8);                     // Enable port 2
-        config = _read_config();
-        _port_2_ok = !(config & 0b00100000); // Bit 5 should be clear now
-        if(_port_2_ok) {
-            _write_cmd(0xA7);                 // Disable port 2 again
-        }
-    }
-
-    // Test port 1.
-    _port_1_ok = true;
-    response = _write_cmd(0xAB, true);
-    if(response != 0x00) {
-        _log.error("PS/2 port 1 failed test (response {#02X})", response);
-        _port_1_ok = false;
-    }
-
-    // Test port 2 (if present).
-    if(_port_2_ok) {
-        response = _write_cmd(0xA9, true);
-        if(response != 0x00) {
-            _log.error("PS/2 port 2 failed test (response {#02X})", response);
-            _port_2_ok = false;
-        }
-    }
-
-    _log.debug("PS/2 controller: initialized, {}-channel", _port_2_ok ? "dual" : "single");
-}
+ps2_controller::ps2_controller(logger& in_log) : _log(in_log) { }

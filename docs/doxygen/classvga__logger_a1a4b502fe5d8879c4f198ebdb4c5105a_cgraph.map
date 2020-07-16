@@ -1,0 +1,8 @@
+<map id="vga_logger::panic" name="vga_logger::panic">
+<area shape="rect" id="node2" href="$classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="191,31,277,57"/>
+<area shape="rect" id="node7" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="195,81,273,108"/>
+<area shape="rect" id="node3" href="$classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="325,56,415,83"/>
+<area shape="rect" id="node4" href="$classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="463,5,580,32"/>
+<area shape="rect" id="node6" href="$memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="482,56,561,83"/>
+<area shape="rect" id="node5" href="$classvga.html#ada3be28a53ffa9620486136b7ee062cb" title="vga::set_position" alt="" coords="628,5,761,32"/>
+</map>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['msg',['msg',['../structpanic__data.html#aa161732a1b338a7f6644331aac9b3544',1,'panic_data::msg()'],['../panic_8h.html#a2c3cb87d009c003069b9a90f020f8a9f',1,'msg():&#160;panic.h']]]
+  ['key_5fpress',['key_press',['../structscancode__to__keycode.html#abd3f4ec70da33e50468a7efeb86ad7cd',1,'scancode_to_keycode']]],
+  ['key_5frelease',['key_release',['../structscancode__to__keycode.html#a84c8d92b9418c9e318288e14e2e45825',1,'scancode_to_keycode']]]
 ];

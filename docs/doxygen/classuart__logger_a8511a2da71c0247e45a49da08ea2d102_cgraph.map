@@ -1,0 +1,12 @@
+<map id="uart_logger::uart_logger" name="uart_logger::uart_logger">
+<area shape="rect" id="node2" href="$classuart__logger.html#ac00287bf9c1e96943dae533179f4e49b" title="uart_logger::debug" alt="" coords="232,157,376,184"/>
+<area shape="rect" id="node8" href="$classuart__logger.html#a3b5386b206e9114da0d854873db92d26" title="uart_logger::error" alt="" coords="237,208,371,235"/>
+<area shape="rect" id="node9" href="$classuart__logger.html#adb43cf836e581ccfa65d0da4ac14e1c2" title="uart_logger::info" alt="" coords="239,5,369,32"/>
+<area shape="rect" id="node10" href="$classuart__logger.html#a88e3cb364bbe58f8c3dc40c5217879a4" title="uart_logger::panic" alt="" coords="235,56,373,83"/>
+<area shape="rect" id="node11" href="$classuart__logger.html#a83faf65c756e4087fc4694e2f6acedc2" title="uart_logger::warn" alt="" coords="236,107,372,133"/>
+<area shape="rect" id="node3" href="$classuart.html#aaea6648aeb8d5530b614341571996e55" title="uart::write" alt="" coords="424,183,513,209"/>
+<area shape="rect" id="node7" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="575,81,652,108"/>
+<area shape="rect" id="node4" href="$classtext.html#a11145060bc25c57cd43059ea03cd157f" title="Returns the length in characters. " alt="" coords="565,233,662,260"/>
+<area shape="rect" id="node5" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="566,132,661,159"/>
+<area shape="rect" id="node6" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="561,183,665,209"/>
+</map>

@@ -15,8 +15,8 @@ tss::tss(logger& in_log, gdt& in_gdt) : _log(in_log) {
     // privilege levels 2/1 should never be used.
     // TODO: This method of saving RSP takes the current call chain into
     //       account; however, we can't use stack_top from start.asm because
-    //       of local variables in kmain(). Is now the time to allocate a new
-    //       default stack and switch to it?
+    //       of local variables in core_entry(). Is now the time to allocate a
+    //       new default stack and switch to it?
     uint64_t rsp;
     asm volatile("movq %%rsp, %0" : "=m"(rsp));
     _our_tss.rsp0_low  = (uint32_t)((rsp & 0x00000000FFFFFFFF) >> 0);

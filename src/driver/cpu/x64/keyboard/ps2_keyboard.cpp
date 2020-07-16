@@ -5,15 +5,15 @@
 
 scancode_set_2 ps2_keyboard::set2;
 
-ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2, ps2_port in_port) :
-    _log(in_log), _port(in_port), _ps2(in_ps2), _cur_scancode_set(*(&set2)) {
+ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2) :
+    _log(in_log), _ps2(in_ps2), _cur_scancode_set(*(&set2)) {
     _cur_state = _state::IDLE;
 }
 
 // TODO: This implementation is gross. Convert to an instance of a 
 //       C++ state machine; see http://www.ludvikjerabek.com/2016/02/08/c11-state-machines/
 //       for examples.
-void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& in_frame) {
+void ps2_keyboard::interrupt_handler(interrupt_frame& in_frame) {
     // Get the current data byte from the keyboard.
     uint8_t data = _ps2.read(false);
     struct _command dummy = { _command_byte::ECHO, 0, {}};
@@ -33,7 +33,6 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
         _log.debug("Keyboard requested re-send of command.");
         _resend_count++;
         _send_command();
-        in_mgr.handler_complete(InterruptType::KEYBOARD);
         return;
     }
 
@@ -106,10 +105,21 @@ void ps2_keyboard::interrupt_handler(InterruptManager& in_mgr, interrupt_frame& 
     // If there are commands to be sent and we're not in a waiting state, send
     // the next command.
     _send_command();
-    in_mgr.handler_complete(InterruptType::KEYBOARD);
 }
 
 void ps2_keyboard::reset() {
+    // Determine which PS/2 port the keyboard is on.
+    auto port1_type = _ps2.get_type(ps2_port::PORT1);
+    _log.debug("PS/2 port 1: {}", _ps2.get_type_str(port1_type));
+    auto port2_type = _ps2.get_type(ps2_port::PORT2);
+    _log.debug("PS/2 port 2: {}", _ps2.get_type_str(port2_type));
+
+    if(ps2_device_type::KEYBOARD_STANDARD == port1_type) {
+        _port = ps2_port::PORT1;
+    } else if(ps2_device_type::KEYBOARD_STANDARD == port2_type) {
+        _port = ps2_port::PORT2;
+    }
+
     // Reset this keyboard the correct port.
     _ps2.enable(_port);
     

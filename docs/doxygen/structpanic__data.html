@@ -67,9 +67,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Data associated with a particular invocation of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a>. Includes filename and line number for invocation of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a>, as well as caller- supplied message (if any).  
- <a href="structpanic__data.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="panic_8h_source.html">panic.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -77,18 +74,21 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a96de6686b3c0f2be1dc5d74ea2e91cb5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpanic__data.html#a96de6686b3c0f2be1dc5d74ea2e91cb5">instruction</a></td></tr>
 <tr class="memdesc:a96de6686b3c0f2be1dc5d74ea2e91cb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bytes of instruction that caused panic.  <a href="#a96de6686b3c0f2be1dc5d74ea2e91cb5">More...</a><br /></td></tr>
 <tr class="separator:a96de6686b3c0f2be1dc5d74ea2e91cb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05eaf52d4ca82189fe513a3b66386f7f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="panic_8h.html#af06c4d9ee226c87fe5c9d59593262845">panic_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpanic__data.html#a05eaf52d4ca82189fe513a3b66386f7f">type</a></td></tr>
+<tr class="memdesc:a05eaf52d4ca82189fe513a3b66386f7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates as actual <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> and its cause.  <a href="#a05eaf52d4ca82189fe513a3b66386f7f">More...</a><br /></td></tr>
+<tr class="separator:a05eaf52d4ca82189fe513a3b66386f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab66f092dcb2f09dc6e262d0a0d5fa750"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpanic__data.html#ab66f092dcb2f09dc6e262d0a0d5fa750">filename</a></td></tr>
-<tr class="memdesc:ab66f092dcb2f09dc6e262d0a0d5fa750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source filename of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a> invocation.  <a href="#ab66f092dcb2f09dc6e262d0a0d5fa750">More...</a><br /></td></tr>
+<tr class="memdesc:ab66f092dcb2f09dc6e262d0a0d5fa750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source filename of <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> invocation.  <a href="#ab66f092dcb2f09dc6e262d0a0d5fa750">More...</a><br /></td></tr>
 <tr class="separator:ab66f092dcb2f09dc6e262d0a0d5fa750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3bf1913bf18e1d39c68999d01a6f734"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpanic__data.html#af3bf1913bf18e1d39c68999d01a6f734">lineNum</a></td></tr>
-<tr class="memdesc:af3bf1913bf18e1d39c68999d01a6f734"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line number of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a> invocation.  <a href="#af3bf1913bf18e1d39c68999d01a6f734">More...</a><br /></td></tr>
+<tr class="memdesc:af3bf1913bf18e1d39c68999d01a6f734"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line number of <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> invocation.  <a href="#af3bf1913bf18e1d39c68999d01a6f734">More...</a><br /></td></tr>
 <tr class="separator:af3bf1913bf18e1d39c68999d01a6f734"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa161732a1b338a7f6644331aac9b3544"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpanic__data.html#aa161732a1b338a7f6644331aac9b3544">msg</a></td></tr>
-<tr class="memdesc:aa161732a1b338a7f6644331aac9b3544"><td class="mdescLeft">&#160;</td><td class="mdescRight">String message describing <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a>  <a href="#aa161732a1b338a7f6644331aac9b3544">More...</a><br /></td></tr>
+<tr class="memdesc:aa161732a1b338a7f6644331aac9b3544"><td class="mdescLeft">&#160;</td><td class="mdescRight">String message describing <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>  <a href="#aa161732a1b338a7f6644331aac9b3544">More...</a><br /></td></tr>
 <tr class="separator:aa161732a1b338a7f6644331aac9b3544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data associated with a particular invocation of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a>. Includes filename and line number for invocation of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a>, as well as caller- supplied message (if any). </p>
+<div class="textblock"><p>Data associated with a particular invocation of <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>. Includes filename and line number for invocation of <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, as well as caller- supplied message (if any). </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ab66f092dcb2f09dc6e262d0a0d5fa750"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab66f092dcb2f09dc6e262d0a0d5fa750">&#9670;&nbsp;</a></span>filename</h2>
@@ -102,7 +102,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Source filename of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a> invocation. </p>
+<p>Source filename of <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> invocation. </p>
 
 </div>
 </div>
@@ -134,7 +134,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Line number of <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a> invocation. </p>
+<p>Line number of <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> invocation. </p>
 
 </div>
 </div>
@@ -150,7 +150,23 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>String message describing <a class="el" href="interrupt__manager_8hpp.html#ab8f56a1da0949b2f0051d707e6b9edb5a98a11b6a207bf1c64618790847ab8055">PANIC()</a> </p>
+<p>String message describing <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> </p>
+
+</div>
+</div>
+<a id="a05eaf52d4ca82189fe513a3b66386f7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05eaf52d4ca82189fe513a3b66386f7f">&#9670;&nbsp;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="panic_8h.html#af06c4d9ee226c87fe5c9d59593262845">panic_type</a> panic_data::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Validates as actual <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a> and its cause. </p>
 
 </div>
 </div>

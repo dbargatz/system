@@ -1,0 +1,8 @@
+<map id="uart::write" name="uart::write">
+<area shape="rect" id="node2" href="$classuart__logger.html#ac00287bf9c1e96943dae533179f4e49b" title="uart_logger::debug" alt="" coords="143,5,287,32"/>
+<area shape="rect" id="node4" href="$classuart__logger.html#a3b5386b206e9114da0d854873db92d26" title="uart_logger::error" alt="" coords="147,56,282,83"/>
+<area shape="rect" id="node5" href="$classuart__logger.html#adb43cf836e581ccfa65d0da4ac14e1c2" title="uart_logger::info" alt="" coords="150,107,279,133"/>
+<area shape="rect" id="node6" href="$classuart__logger.html#a88e3cb364bbe58f8c3dc40c5217879a4" title="uart_logger::panic" alt="" coords="145,157,284,184"/>
+<area shape="rect" id="node7" href="$classuart__logger.html#a83faf65c756e4087fc4694e2f6acedc2" title="uart_logger::warn" alt="" coords="147,208,283,235"/>
+<area shape="rect" id="node3" href="$classuart__logger.html#a8511a2da71c0247e45a49da08ea2d102" title="uart_logger::uart_logger" alt="" coords="335,107,513,133"/>
+</map>
