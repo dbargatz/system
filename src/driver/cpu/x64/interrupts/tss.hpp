@@ -12,9 +12,9 @@
  */
 class tss {
 public:
-    tss(logger& in_log, gdt& in_gdt);
+    tss(gdt& in_gdt);
 
-    void dump();
+    void dump(logger& in_log);
 
 private:
     /**
@@ -47,9 +47,6 @@ private:
         uint16_t reserved4;       ///< Reserved; must be zero.
         uint16_t iopb_offset;     ///< I/O Port Bitmap; unused, must be sizeof(struct _tss).
     } __attribute__((packed));
-
-    ///< Logger used by class.
-    logger& _log;
 
     ///< Actual TSS for this core.
     struct _tss _our_tss;

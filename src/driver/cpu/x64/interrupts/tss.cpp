@@ -3,7 +3,7 @@
 extern uint64_t ist1_stack_top;
 extern uint64_t ist2_stack_top;
 
-tss::tss(logger& in_log, gdt& in_gdt) : _log(in_log) {
+tss::tss(gdt& in_gdt) {
     // Zero out the reserved fields.
     _our_tss.reserved1 = (uint32_t)0;
     _our_tss.reserved2 = (uint64_t)0;
@@ -59,17 +59,17 @@ tss::tss(logger& in_log, gdt& in_gdt) : _log(in_log) {
     asm volatile("movq $0x28, %%rax; ltr %%ax": : : "rax");
 }
 
-void tss::dump() {
-    _log.debug("TSS           : {#016X}", (uint64_t)&_our_tss);
-    _log.debug("\tRSP0         : {#016X}", _our_tss.rsp0_low + (((uint64_t)_our_tss.rsp0_high << 32)));
-    _log.debug("\tRSP1         : {#016X}", _our_tss.rsp1_low + (((uint64_t)_our_tss.rsp1_high << 32)));
-    _log.debug("\tRSP2         : {#016X}", _our_tss.rsp2_low + (((uint64_t)_our_tss.rsp2_high << 32)));
-    _log.debug("\tIST1         : {#016X}", _our_tss.ist1_low + (((uint64_t)_our_tss.ist1_high << 32)));
-    _log.debug("\tIST2         : {#016X}", _our_tss.ist2_low + (((uint64_t)_our_tss.ist2_high << 32)));
-    _log.debug("\tIST3         : {#016X}", _our_tss.ist3_low + (((uint64_t)_our_tss.ist3_high << 32)));
-    _log.debug("\tIST4         : {#016X}", _our_tss.ist4_low + (((uint64_t)_our_tss.ist4_high << 32)));
-    _log.debug("\tIST5         : {#016X}", _our_tss.ist5_low + (((uint64_t)_our_tss.ist5_high << 32)));
-    _log.debug("\tIST6         : {#016X}", _our_tss.ist6_low + (((uint64_t)_our_tss.ist6_high << 32)));
-    _log.debug("\tIST7         : {#016X}", _our_tss.ist7_low + (((uint64_t)_our_tss.ist7_high << 32)));
-    _log.debug("\tIOPB Offset  : {#04X}", _our_tss.iopb_offset);
+void tss::dump(logger& in_log) {
+    in_log.debug("TSS           : {#016X}", (uint64_t)&_our_tss);
+    in_log.debug("\tRSP0         : {#016X}", _our_tss.rsp0_low + (((uint64_t)_our_tss.rsp0_high << 32)));
+    in_log.debug("\tRSP1         : {#016X}", _our_tss.rsp1_low + (((uint64_t)_our_tss.rsp1_high << 32)));
+    in_log.debug("\tRSP2         : {#016X}", _our_tss.rsp2_low + (((uint64_t)_our_tss.rsp2_high << 32)));
+    in_log.debug("\tIST1         : {#016X}", _our_tss.ist1_low + (((uint64_t)_our_tss.ist1_high << 32)));
+    in_log.debug("\tIST2         : {#016X}", _our_tss.ist2_low + (((uint64_t)_our_tss.ist2_high << 32)));
+    in_log.debug("\tIST3         : {#016X}", _our_tss.ist3_low + (((uint64_t)_our_tss.ist3_high << 32)));
+    in_log.debug("\tIST4         : {#016X}", _our_tss.ist4_low + (((uint64_t)_our_tss.ist4_high << 32)));
+    in_log.debug("\tIST5         : {#016X}", _our_tss.ist5_low + (((uint64_t)_our_tss.ist5_high << 32)));
+    in_log.debug("\tIST6         : {#016X}", _our_tss.ist6_low + (((uint64_t)_our_tss.ist6_high << 32)));
+    in_log.debug("\tIST7         : {#016X}", _our_tss.ist7_low + (((uint64_t)_our_tss.ist7_high << 32)));
+    in_log.debug("\tIOPB Offset  : {#04X}", _our_tss.iopb_offset);
 }
