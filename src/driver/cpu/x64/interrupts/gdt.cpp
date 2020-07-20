@@ -2,12 +2,12 @@
 
 extern struct _gdt gdt64;
 
-gdt::gdt(logger& in_log) : _log(in_log), _our_gdt(*(struct _gdt *)&gdt64) { }
+gdt::gdt() : _our_gdt(*(struct _gdt *)&gdt64) { }
 
-void gdt::dump() {
-    _log.debug("GDT: {#016X}", (uint64_t)&gdt64);
+void gdt::dump(logger& in_log) {
+    in_log.debug("GDT: {#016X}", (uint64_t)&gdt64);
     for(auto& entry : _our_gdt.entries) {
-        _dump_entry(entry);
+        _dump_entry(in_log, entry);
     }
 }
 
@@ -34,7 +34,7 @@ void gdt::install(uint8_t in_index, const void * in_base, uint32_t in_limit,
     entry.granularity     = (in_flags & 0x08) >> 3;
 }
 
-void gdt::_dump_entry(const struct _gdt_entry& in_entry) {
+void gdt::_dump_entry(logger& in_log, const struct _gdt_entry& in_entry) {
     auto entry_idx = (uint16_t)((uint8_t*)&in_entry - (uint8_t*)&_our_gdt);
     auto limit = in_entry.limit_0_15 + (in_entry.limit_16_19 << 16);
     auto base = in_entry.base_0_15  +
@@ -54,6 +54,6 @@ void gdt::_dump_entry(const struct _gdt_entry& in_entry) {
         (in_entry.size_bit    << 2)   +
         (in_entry.granularity << 3);
 
-    _log.debug("\t{#04X}: {016X}:{04X} Access: {02X} Flags: {01X}", entry_idx,
+    in_log.debug("\t{#04X}: {016X}:{04X} Access: {02X} Flags: {01X}", entry_idx,
         (uint64_t)base, (uint32_t)limit, access, flags);
 }

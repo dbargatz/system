@@ -7,9 +7,9 @@
 
 class gdt {
 public:
-    gdt(logger& in_log);
+    gdt();
 
-    void dump();
+    void dump(logger& in_log);
     void install(uint8_t in_index, const void * in_base, uint32_t in_limit,
                  uint8_t in_access_byte, uint8_t in_flags);
 
@@ -42,13 +42,10 @@ private:
         struct _gdt * offset;
     } __attribute__((packed));
 
-    ///< Logger used by class.
-    logger& _log;
-
     ///< Actual GDT for this core.
     struct _gdt& _our_gdt;
 
-    void _dump_entry(const struct _gdt_entry& in_entry);
+    void _dump_entry(logger& in_log, const struct _gdt_entry& in_entry);
 };
 
 #endif // _INTERRUPTS_GDT_HPP

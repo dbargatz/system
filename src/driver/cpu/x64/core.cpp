@@ -103,7 +103,7 @@ void core::run(const void* in_boot_info) {
     _log.debug("    PIT          : present");
     _log.debug("    Serial Port  : present");
     _log.debug("    Keyboard     : present");
-    _gdt.dump();
+    _gdt.dump(_log);
     _tss.dump();
 
     // Load the populated IDT into the core.
