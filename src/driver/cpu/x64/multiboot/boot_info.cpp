@@ -65,7 +65,8 @@ void boot_info::dump(logger& in_log, const void * in_boot_info) {
             case MULTIBOOT_TAG_TYPE_APM:
             {
                 auto apm_tag = (multiboot_tag_apm *)cur_ptr;
-                in_log.debug("\tAPM Information (version {}):", apm_tag->version);
+                in_log.debug("\tAPM Information (version {}.{}):",
+                    apm_tag->version >> 8, apm_tag->version & 0x00FF);
                 in_log.debug("\t\t32-bit CS:IP: {#04X}:{#08X} ({} bytes)",
                     apm_tag->cseg, apm_tag->offset, apm_tag->cseg_len);
                 in_log.debug("\t\t16-bit CS   : {#04X} ({} bytes)",
