@@ -1,14 +1,15 @@
 #ifndef _CORE_HPP
 #define _CORE_HPP
 
-#include "std/logger.hpp"
 #include "interrupts/gdt.hpp"
 #include "interrupts/idt.hpp"
 #include "interrupts/pic.hpp"
 #include "interrupts/tss.hpp"
-#include "timer/timer.hpp"
 #include "keyboard/keyboard.hpp"
 #include "keyboard/ps2_controller.hpp"
+#include "multiboot/boot_info.hpp"
+#include "std/logger.hpp"
+#include "timer/timer.hpp"
 
 class core {
 private:
@@ -19,13 +20,14 @@ private:
     static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
 
     logger& _log;
+    boot_info& _boot;
     gdt& _gdt;
     idt& _idt;
+    keyboard& _kbd;
     pic& _pic;
+    ps2_controller& _ps2;
     timer& _timer;
     tss& _tss;
-    ps2_controller& _ps2;
-    keyboard& _kbd;
 
     bool _disable_interrupts();
     bool _enable_interrupts();
@@ -34,13 +36,14 @@ private:
 public:
 
     core(logger& in_log,
+        boot_info& in_boot,
         gdt& in_gdt,
         idt& in_idt,
+        keyboard& in_kbd,
         pic& in_pic,
-        timer& in_timer,
-        tss& in_tss,
         ps2_controller& in_ps2,
-        keyboard& in_kbd);
+        timer& in_timer,
+        tss& in_tss);
 
     void dispatch_interrupt(const void * in_frame_ptr);
     void panic_handler(interrupt_frame& in_frame);

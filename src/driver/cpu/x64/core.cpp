@@ -38,10 +38,10 @@ bool core::_interrupts_enabled() {
     return (rflags & RFLAGS_INTERRUPTS_ENABLED_BIT);
 }
 
-core::core(logger& in_log, gdt& in_gdt, idt& in_idt, pic& in_pic,
-    timer& in_timer, tss& in_tss, ps2_controller& in_ps2, keyboard& in_kbd) :
-     _log(in_log), _gdt(in_gdt), _idt(in_idt), _pic(in_pic), _timer(in_timer),
-     _tss(in_tss), _ps2(in_ps2), _kbd(in_kbd) { }
+core::core(logger& in_log, boot_info& in_boot, gdt& in_gdt, idt& in_idt,
+    keyboard& in_kbd, pic& in_pic, ps2_controller& in_ps2, timer& in_timer,
+    tss& in_tss) : _log(in_log), _boot(in_boot), _gdt(in_gdt), _idt(in_idt),
+    _kbd(in_kbd), _pic(in_pic), _ps2(in_ps2), _timer(in_timer), _tss(in_tss) {}
 
 void core::dispatch_interrupt(const void * in_frame_ptr) {
     interrupt_frame frame(in_frame_ptr);
@@ -95,7 +95,7 @@ void core::panic_handler(interrupt_frame& in_frame) {
     halt();
 }
 
-void core::run(const void* in_boot_info) {
+void core::run(const void * in_boot_info) {
     _disable_interrupts();
 
     _log.debug("Core Config:");
@@ -126,6 +126,10 @@ void core::run(const void* in_boot_info) {
 #define X(n) _idt.register_handler(n, &interrupt_handler_##n, (n == 6 ? 2 : 0));
     HANDLERS
 #undef X
+
+    // Parse the memory map to determine available physical memory regions along
+    // with used regions (and their uses).
+    _boot.dump(_log, in_boot_info);
 
     _ps2.reset();
     _kbd.reset();
