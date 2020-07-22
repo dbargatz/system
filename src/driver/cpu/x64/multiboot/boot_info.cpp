@@ -1,6 +1,9 @@
 #include "boot_info.hpp"
 #include "multiboot2.h"
 #include "../std/elf64.hpp"
+#include "../std/memcpy.hpp"
+#include "../std/memset.hpp"
+#include "../std/string.hpp"
 
 #define ALIGN_8_BYTE(x) (x + ((x % 8) ? (8 - (x % 8)) : 0))
 
@@ -54,9 +57,21 @@ void boot_info::_dump(logger& in_log, const multiboot_tag_elf_sections * in_tag)
     in_log.debug("\tELF Symbols ({} bytes, {} entries):", in_tag->size, in_tag->num);
     auto sections = (const struct Elf64_Shdr *)&in_tag->sections;
     auto str_table = (const char *)sections[in_tag->shndx].sh_addr;
+    char name_buf[40] = {0};
     for(auto i = 0; i < in_tag->num; i++) {
         auto section = sections[i];
-        in_log.debug("\t\t{#016X}: {}", section.sh_addr, &(str_table[section.sh_name]));
+        auto name = &(str_table[section.sh_name]);
+        if(strlen(name) < sizeof(name_buf) - 1) {
+            memcpy(name_buf, name, strlen(name));
+        } else {
+            memcpy(name_buf, name, sizeof(name_buf)-4);
+            name_buf[sizeof(name_buf)-4] = '.';
+            name_buf[sizeof(name_buf)-3] = '.';
+            name_buf[sizeof(name_buf)-2] = '.';
+            name_buf[sizeof(name_buf)-1] = '\0';
+        }
+        in_log.debug("\t\t{#08X}: {}", section.sh_addr, (const char *)name_buf);
+        memset(name_buf, 0, sizeof(name_buf));
     }
 }
 
