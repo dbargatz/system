@@ -1,7 +1,83 @@
 #include "boot_info.hpp"
 #include "multiboot2.h"
+#include "../std/elf64.hpp"
 
 #define ALIGN_8_BYTE(x) (x + ((x % 8) ? (8 - (x % 8)) : 0))
+
+struct multiboot_tag_bootloader : multiboot_tag_string {};
+template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_bootloader * in_tag) {
+    in_log.debug("\tBootloader name: {}", in_tag->string);
+}
+
+struct multiboot_tag_cmdline : multiboot_tag_string {};
+template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_cmdline * in_tag) {
+    in_log.debug("\tCommand line: {}", in_tag->string);
+}
+
+template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_mmap * in_tag) {
+    uint64_t num_entries = (in_tag->size - sizeof(multiboot_tag_mmap)) / in_tag->entry_size;
+    in_log.debug("\tMemory map ({} entries):", num_entries);
+    for(auto i = 0; i < num_entries; i++) {
+        auto typestr = text("");
+        switch(in_tag->entries[i].type) {
+            case MULTIBOOT_MEMORY_AVAILABLE:
+                typestr = "available";
+                break;
+            case MULTIBOOT_MEMORY_RESERVED:
+                typestr = "reserved ";
+                break;
+            case MULTIBOOT_MEMORY_ACPI_RECLAIMABLE:
+                typestr = "ACPI reclaimable";
+                break;
+            case MULTIBOOT_MEMORY_NVS:
+                typestr = "reserved (preserve on hibernation)";
+                break;
+            case MULTIBOOT_MEMORY_BADRAM:
+                typestr = "bad RAM";
+                break;
+            default:
+                typestr = "unknown";
+                break;
+        }
+        in_log.debug("\t\tEntry {02d}: {#016X} - {#016X} ({16}: {} bytes)", i,
+            in_tag->entries[i].addr,
+            in_tag->entries[i].addr + in_tag->entries[i].len - 1,
+            typestr, in_tag->entries[i].len);
+    }
+}
+
+template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_elf_sections * in_tag) {
+    in_log.debug("\tELF Symbols ({} bytes, {} entries):", in_tag->size, in_tag->num);
+    auto sections = (const struct Elf64_Shdr *)&in_tag->sections;
+    auto str_table = (const char *)sections[in_tag->shndx].sh_addr;
+    for(auto i = 0; i < in_tag->num; i++) {
+        auto section = sections[i];
+        in_log.debug("\t\t{#016X}: {}", section.sh_addr, &(str_table[section.sh_name]));
+    }
+}
+
+template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_apm * in_tag) {
+    in_log.debug("\tAPM Information (version {}.{}):",
+        in_tag->version >> 8, in_tag->version & 0x00FF);
+    in_log.debug("\t\t32-bit CS:IP: {#04X}:{#08X} ({} bytes)",
+        in_tag->cseg, in_tag->offset, in_tag->cseg_len);
+    in_log.debug("\t\t16-bit CS   : {#04X} ({} bytes)",
+        in_tag->cseg_16, in_tag->cseg_16_len);
+    in_log.debug("\t\t16-bit DS   : {#04X} ({} bytes)",
+        in_tag->dseg, in_tag->dseg_len);
+    in_log.debug("\t\tFlags       : {#04X}", in_tag->flags);
+}
+
+template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_load_base_addr * in_tag) {
+    in_log.debug("\tImage load physical base address: {#016X}",
+        in_tag->load_base_addr);
+}
 
 void boot_info::dump(logger& in_log, const void * in_boot_info) {
     auto cur_ptr = (uint8_t *)in_boot_info;
@@ -17,72 +93,23 @@ void boot_info::dump(logger& in_log, const void * in_boot_info) {
         multiboot_tag * tag = (multiboot_tag *)cur_ptr;
         switch(tag->type) {
             case MULTIBOOT_TAG_TYPE_CMDLINE:
-            {
-                auto cmd_tag = (multiboot_tag_string *)cur_ptr;
-                in_log.debug("\tCommand line: {}", cmd_tag->string);
+                _dump(in_log, (const multiboot_tag_cmdline *)cur_ptr);
                 break;
-            }
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
-            {
-                auto name_tag = (multiboot_tag_string *)cur_ptr;
-                in_log.debug("\tBootloader name: {}", name_tag->string);
+                _dump(in_log, (const multiboot_tag_bootloader *)cur_ptr);
                 break;
-            }
             case MULTIBOOT_TAG_TYPE_MMAP:
-            {
-                auto mmap_tag = (multiboot_tag_mmap *)cur_ptr;
-                uint64_t num_entries = (mmap_tag->size - sizeof(multiboot_tag_mmap)) / mmap_tag->entry_size;
-                in_log.debug("\tMemory map ({} entries):", num_entries);
-                for(auto i = 0; i < num_entries; i++) {
-                    auto typestr = text("");
-                    switch(mmap_tag->entries[i].type) {
-                        case MULTIBOOT_MEMORY_AVAILABLE:
-                            typestr = "available";
-                            break;
-                        case MULTIBOOT_MEMORY_RESERVED:
-                            typestr = "reserved ";
-                            break;
-                        case MULTIBOOT_MEMORY_ACPI_RECLAIMABLE:
-                            typestr = "ACPI reclaimable";
-                            break;
-                        case MULTIBOOT_MEMORY_NVS:
-                            typestr = "reserved (preserve on hibernation)";
-                            break;
-                        case MULTIBOOT_MEMORY_BADRAM:
-                            typestr = "bad RAM";
-                            break;
-                        default:
-                            typestr = "unknown";
-                            break;
-                    }
-                    in_log.debug("\t\tEntry {02d}: {#016X} - {#016X} ({16}: {} bytes)", i,
-                        mmap_tag->entries[i].addr,
-                        mmap_tag->entries[i].addr + mmap_tag->entries[i].len - 1,
-                        typestr, mmap_tag->entries[i].len);
-                }
+                _dump(in_log, (const multiboot_tag_mmap *)cur_ptr);
                 break;
-            }
+            case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
+                _dump(in_log, (const multiboot_tag_elf_sections *)cur_ptr);
+                break;
             case MULTIBOOT_TAG_TYPE_APM:
-            {
-                auto apm_tag = (multiboot_tag_apm *)cur_ptr;
-                in_log.debug("\tAPM Information (version {}.{}):",
-                    apm_tag->version >> 8, apm_tag->version & 0x00FF);
-                in_log.debug("\t\t32-bit CS:IP: {#04X}:{#08X} ({} bytes)",
-                    apm_tag->cseg, apm_tag->offset, apm_tag->cseg_len);
-                in_log.debug("\t\t16-bit CS   : {#04X} ({} bytes)",
-                    apm_tag->cseg_16, apm_tag->cseg_16_len);
-                in_log.debug("\t\t16-bit DS   : {#04X} ({} bytes)",
-                    apm_tag->dseg, apm_tag->dseg_len);
-                in_log.debug("\t\tFlags       : {#04X}", apm_tag->flags);
+                _dump(in_log, (const multiboot_tag_apm *)cur_ptr);
                 break;
-            }
             case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-            {
-                auto load_tag = (multiboot_tag_load_base_addr *)cur_ptr;
-                in_log.debug("\tImage load physical base address: {#016X}",
-                    load_tag->load_base_addr);
+                _dump(in_log, (const multiboot_tag_load_base_addr *)cur_ptr);
                 break;
-            }
             default:
                 in_log.debug("Skipping tag {02d} ({} bytes)", tag->type, tag->size);
                 break;
