@@ -29,6 +29,7 @@ driver_cpu_x64_cpp_src = [
     'std/logger.cpp',
     'std/memcpy.cpp',
     'std/memset.cpp',
+    'std/string.cpp',
     'std/text.cpp',
     'timer/pit.cpp',
     'core.cpp',
