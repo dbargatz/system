@@ -1,3 +1,2 @@
 # System-specific excludes
-build/artifacts
-test/artifacts
+build/
