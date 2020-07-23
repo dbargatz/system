@@ -1,5 +1,5 @@
 {
-    "dockerFile": "build/Dockerfile",
+    "dockerFile": "tools/Dockerfile",
     "image": "dbargatz/system-build:latest",
     "runArgs":[
         "--privileged"
