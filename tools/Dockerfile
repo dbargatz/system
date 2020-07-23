@@ -1,6 +1,6 @@
 FROM debian:stable
 
-ARG CONFIGURE_SCRIPT="https://raw.githubusercontent.com/dbargatz/system/master/configure"
+ARG CONFIGURE_SCRIPT="https://raw.githubusercontent.com/dbargatz/system/master/tools/configure"
 
 # Avoid issues with debconf asking interactive questions during installation.
 ENV DEBIAN_FRONTEND=noninteractive
