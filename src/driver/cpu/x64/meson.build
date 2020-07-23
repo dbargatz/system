@@ -39,7 +39,7 @@ clang_pp = find_program('clang++')
 gen_clang = generator(clang_pp,
     output: '@BASENAME@.o',
     arguments: [
-        '-include', '../../src/driver/cpu/x64/std/cpp.hpp',
+        '-include', '../src/driver/cpu/x64/std/cpp.hpp',
         '-ffreestanding',
         '-fno-builtin',
         '-fno-exceptions',
@@ -66,7 +66,7 @@ core_x64_obj = custom_target('core_x64_obj',
     output: 'core_x64.o',
     command: ['ld', '-r', '-o', '@OUTPUT@', '@INPUT@'])
 
-driver_cpu_x64_linker_src = '../../src/driver/cpu/x64/linker.ld'
+driver_cpu_x64_linker_src = '../src/driver/cpu/x64/linker.ld'
 core_x64_bin = custom_target('core_x64_bin',
     input: core_x64_obj,
     output: '@BASENAME@.bin',

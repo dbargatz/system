@@ -1,6 +1,6 @@
 project('system', 'cpp', version: '0.1.0')
 
-grub_cfg = '../../src/grub.cfg'
+grub_cfg = '../src/grub.cfg'
 subdir('src/driver/cpu/x64')
 
 iso = custom_target('iso',
@@ -11,7 +11,7 @@ iso = custom_target('iso',
               'cp', '@INPUT@', 'iso/boot', '&&',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
     install: true,
-    install_dir: 'build/artifacts')
+    install_dir: 'build')
 
 doxygen = find_program('doxygen')
 doxygen_data = configuration_data()
@@ -22,7 +22,7 @@ doxygen_data.set('README_PATH', join_paths(meson.source_root(), 'README.md'))
 doxygen_data.set('VERSION', meson.project_version())
 doxygen_data.set('PROJECT_NAME', meson.project_name())
 
-doxyfile = configure_file(input:         'Doxyfile.in',
+doxyfile = configure_file(input:         'tools/Doxyfile.in',
                           output:        'Doxyfile',
                           configuration: doxygen_data,
                           install:       false)
