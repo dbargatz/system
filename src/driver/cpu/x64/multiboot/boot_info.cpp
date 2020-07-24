@@ -3,7 +3,7 @@
 #include "../std/elf64.hpp"
 #include "../std/memcpy.hpp"
 #include "../std/memset.hpp"
-#include "../std/string.hpp"
+#include "../../../../std/cstring.hpp" // TODO: include with angle-brackets
 
 #define ALIGN_8_BYTE(x) (x + ((x % 8) ? (8 - (x % 8)) : 0))
 
