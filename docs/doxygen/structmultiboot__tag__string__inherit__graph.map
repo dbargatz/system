@@ -1,0 +1,4 @@
+<map id="multiboot_tag_string" name="multiboot_tag_string">
+<area shape="rect" id="node2" href="$structmultiboot__tag__bootloader.html" title="multiboot_tag_bootloader" alt="" coords="5,80,196,107"/>
+<area shape="rect" id="node3" href="$structmultiboot__tag__cmdline.html" title="multiboot_tag_cmdline" alt="" coords="220,80,392,107"/>
+</map>

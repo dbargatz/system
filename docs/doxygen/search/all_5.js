@@ -1,12 +1,22 @@
 var searchData=
 [
+  ['efi_5fmmap',['efi_mmap',['../structmultiboot__tag__efi__mmap.html#a1f552c8382c2ecdf88c1fa07ea065d91',1,'multiboot_tag_efi_mmap']]],
+  ['elf64_2ehpp',['elf64.hpp',['../elf64_8hpp.html',1,'']]],
+  ['elf64_5faddr',['Elf64_Addr',['../elf64_8hpp.html#aeed51d08e3a950d637f8ec1f0cd4ef65',1,'elf64.hpp']]],
+  ['elf64_5foff',['Elf64_Off',['../elf64_8hpp.html#a6f7837bc80df7a68291fce54ff088849',1,'elf64.hpp']]],
+  ['elf64_5fshdr',['Elf64_Shdr',['../struct_elf64___shdr.html',1,'']]],
   ['empty',['empty',['../classstd_1_1array.html#aef20bf7a3ec39deec48ccf5417ea06c2',1,'std::array']]],
   ['enable',['enable',['../classps2__controller.html#afb127edcfd4aa8e128f8eddc6b8f0960',1,'ps2_controller']]],
   ['enable_5firq',['enable_irq',['../classpic.html#a52fb01a32f2b07d14aabaa82857a8382',1,'pic']]],
   ['end',['end',['../classstd_1_1array.html#a3b69b0da6c3b3e4ae0d66998845d446f',1,'std::array']]],
   ['enqueue',['enqueue',['../classqueue.html#aa3172f99cee6aca7c63c21e913796235',1,'queue']]],
-  ['entries',['entries',['../gdt_8hpp.html#a00456a930d12a48d35d06abdd60d9e33',1,'gdt.hpp']]],
-  ['error',['Error',['../classlogger.html#a92246e13cd3e43799f11c4126f15568fa902b0d55fddef6f8d651fe1035b7d4bd',1,'logger::Error()'],['../classuart__logger.html#a3b5386b206e9114da0d854873db92d26',1,'uart_logger::error()'],['../classvga__logger.html#a944df66c4b9b97781d57951d6afa7251',1,'vga_logger::error()'],['../classlogger.html#a79f736a0f326c5451cb43b7fc649fa10',1,'logger::error()'],['../classlogger__backend.html#afe8ceca8cea23eec30439ab690861d8f',1,'logger_backend::error()']]],
+  ['entries',['entries',['../structmultiboot__tag__mmap.html#a20c4427afce786340b01ded5ed0532a2',1,'multiboot_tag_mmap::entries()'],['../gdt_8hpp.html#a00456a930d12a48d35d06abdd60d9e33',1,'entries():&#160;gdt.hpp']]],
+  ['entry_5faddr',['entry_addr',['../structmultiboot__header__tag__entry__address.html#a82f971e8ab5e49e81468a9b94a5418e0',1,'multiboot_header_tag_entry_address']]],
+  ['entry_5fsize',['entry_size',['../structmultiboot__tag__mmap.html#aa5532c68672471f9da8ba18a8a16857d',1,'multiboot_tag_mmap']]],
+  ['entry_5fversion',['entry_version',['../structmultiboot__tag__mmap.html#af3b3d82da024d5ea2a7b817c6caea970',1,'multiboot_tag_mmap']]],
+  ['entsize',['entsize',['../structmultiboot__tag__elf__sections.html#aa0ebb417f9c9b0aeb4d925c45f714919',1,'multiboot_tag_elf_sections']]],
+  ['error',['error',['../classuart__logger.html#a3b5386b206e9114da0d854873db92d26',1,'uart_logger::error()'],['../classvga__logger.html#a944df66c4b9b97781d57951d6afa7251',1,'vga_logger::error()'],['../classlogger.html#a79f736a0f326c5451cb43b7fc649fa10',1,'logger::error()'],['../classlogger__backend.html#afe8ceca8cea23eec30439ab690861d8f',1,'logger_backend::error()'],['../classlogger.html#a92246e13cd3e43799f11c4126f15568fa902b0d55fddef6f8d651fe1035b7d4bd',1,'logger::Error()']]],
   ['error_5fcode',['error_code',['../structinterrupt__frame_1_1__interrupt__frame.html#a44f2ad29855d5274522a6c3a3b997ac4',1,'interrupt_frame::_interrupt_frame::error_code()'],['../frame_8hpp.html#aa22cd6caed49b7b115b13d77a3990bb0',1,'error_code():&#160;frame.hpp']]],
-  ['executable',['executable',['../gdt_8hpp.html#a4ec7f15c59a747235c07d65ef10ec1c8',1,'gdt.hpp']]]
+  ['executable',['executable',['../gdt_8hpp.html#a4ec7f15c59a747235c07d65ef10ec1c8',1,'gdt.hpp']]],
+  ['external_5fspecification',['external_specification',['../structmultiboot__vbe__info__block.html#a0c01936f867fa598194eca54a03cf7c8',1,'multiboot_vbe_info_block::external_specification()'],['../structmultiboot__vbe__mode__info__block.html#a6ccb4d7d52f004c3e7e3a583dd525ebb',1,'multiboot_vbe_mode_info_block::external_specification()']]]
 ];

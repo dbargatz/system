@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classpic.html" title="pic" alt="" coords="5,5,47,32"/>
+<area shape="rect" id="node1" href="$classlogger__backend.html" title="logger_backend" alt="" coords="5,31,131,57"/>
+<area shape="rect" id="node2" href="$classuart__logger.html" title="uart_logger" alt="" coords="179,5,275,32"/>
+<area shape="rect" id="node3" href="$classvga__logger.html" title="vga_logger" alt="" coords="179,56,274,83"/>
 </map>

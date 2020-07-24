@@ -1,6 +1,10 @@
 <map id="src/driver/cpu/x64/keyboard/ps2_controller.hpp" name="src/driver/cpu/x64/keyboard/ps2_controller.hpp">
-<area shape="rect" id="node2" href="$at__keyboard_8hpp.html" title="src/driver/cpu/x64\l/keyboard/at_keyboard.hpp" alt="" coords="61,95,261,136"/>
-<area shape="rect" id="node4" href="$main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="229,184,367,225"/>
-<area shape="rect" id="node5" href="$ps2__controller_8cpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_controller.cpp" alt="" coords="336,95,545,136"/>
-<area shape="rect" id="node3" href="$at__keyboard_8cpp.html" title="src/driver/cpu/x64\l/keyboard/at_keyboard.cpp" alt="" coords="5,184,204,225"/>
+<area shape="rect" id="node2" href="$core_8hpp.html" title="src/driver/cpu/x64\l/core.hpp" alt="" coords="193,95,332,136"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="325,273,464,315"/>
+<area shape="rect" id="node7" href="$ps2__controller_8cpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_controller.cpp" alt="" coords="433,95,642,136"/>
+<area shape="rect" id="node8" href="$ps2__keyboard_8hpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_keyboard.hpp" alt="" coords="667,95,877,136"/>
+<area shape="rect" id="node3" href="$core_8cpp.html" title="src/driver/cpu/x64\l/core.cpp" alt="" coords="5,184,144,225"/>
+<area shape="rect" id="node5" href="$pit_8hpp.html" title="src/driver/cpu/x64\l/timer/pit.hpp" alt="" coords="168,184,307,225"/>
+<area shape="rect" id="node6" href="$pit_8cpp.html" title="src/driver/cpu/x64\l/timer/pit.cpp" alt="" coords="163,273,301,315"/>
+<area shape="rect" id="node9" href="$ps2__keyboard_8cpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_keyboard.cpp" alt="" coords="667,184,877,225"/>
 </map>

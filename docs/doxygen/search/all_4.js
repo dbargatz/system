@@ -2,10 +2,14 @@ var searchData=
 [
   ['dark_5fgray',['dark_gray',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a49dba686026a18435dd23b5e83eb5cfd',1,'vga']]],
   ['data',['data',['../classstd_1_1array.html#aab445de9a9bcaa5482ff863b61da979e',1,'std::array::data() noexcept'],['../classstd_1_1array.html#ac8c1c0b8131beeb67ffec3084025edc9',1,'std::array::data() const noexcept']]],
-  ['debug',['Debug',['../classlogger.html#a92246e13cd3e43799f11c4126f15568faa603905470e2a5b8c13e96b579ef0dba',1,'logger::Debug()'],['../classuart__logger.html#ac00287bf9c1e96943dae533179f4e49b',1,'uart_logger::debug()'],['../classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893',1,'vga_logger::debug()'],['../classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7',1,'logger::debug()'],['../classlogger__backend.html#aa40ee9f8e7333a2baa33e30bc1a59d33',1,'logger_backend::debug()']]],
+  ['debug',['debug',['../classuart__logger.html#ac00287bf9c1e96943dae533179f4e49b',1,'uart_logger::debug()'],['../classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893',1,'vga_logger::debug()'],['../classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7',1,'logger::debug()'],['../classlogger__backend.html#aa40ee9f8e7333a2baa33e30bc1a59d33',1,'logger_backend::debug()'],['../classlogger.html#a92246e13cd3e43799f11c4126f15568faa603905470e2a5b8c13e96b579ef0dba',1,'logger::Debug()']]],
+  ['depth',['depth',['../structmultiboot__header__tag__framebuffer.html#a0d19797e8a049353c2ba98e04df089bc',1,'multiboot_header_tag_framebuffer']]],
   ['dequeue',['dequeue',['../classqueue.html#a103e30c8b600af138a2e0ae508b581b2',1,'queue']]],
+  ['descr_5fsize',['descr_size',['../structmultiboot__tag__efi__mmap.html#ae8b6f5a34f5da7fe1e6c95fd29db7bf2',1,'multiboot_tag_efi_mmap']]],
+  ['descr_5fvers',['descr_vers',['../structmultiboot__tag__efi__mmap.html#a97de90a9746c8897c27dc6776a99700b',1,'multiboot_tag_efi_mmap']]],
   ['descriptor_5fidx',['descriptor_idx',['../idt_8hpp.html#ae7706293a1d08686750abbbefadfc35d',1,'idt.hpp']]],
   ['descriptor_5ftype',['descriptor_type',['../gdt_8hpp.html#ab0cbd7bd2f55d27b7ae3e515cd850f15',1,'gdt.hpp']]],
+  ['dhcpack',['dhcpack',['../structmultiboot__tag__network.html#aade2dff510f8e32b462ec1037437d28c',1,'multiboot_tag_network']]],
   ['di_2ehpp',['di.hpp',['../di_8hpp.html',1,'']]],
   ['dir_5fconform',['dir_conform',['../gdt_8hpp.html#a144ee6c5268aca58ea00fde23b0b2653',1,'gdt.hpp']]],
   ['disable',['disable',['../classps2__controller.html#abdb5deb3a3638f47d6358941db271888',1,'ps2_controller']]],
@@ -13,7 +17,9 @@ var searchData=
   ['disable_5firq',['disable_irq',['../classpic.html#aac8d5d3a3384f922a2eb40f9a4c9c60f',1,'pic']]],
   ['dispatch_5finterrupt',['dispatch_interrupt',['../classcore.html#ae41913b48679209e17bb0fa96c939457',1,'core']]],
   ['dpl',['dpl',['../idt_8hpp.html#a750aac8d20e297eab80c7d338be6c7d6',1,'idt.hpp']]],
+  ['dseg',['dseg',['../structmultiboot__tag__apm.html#a0f8ff7cd97ae788d8afcd7dee881367a',1,'multiboot_tag_apm']]],
+  ['dseg_5flen',['dseg_len',['../structmultiboot__tag__apm.html#a8d82e38b5d8b110027acc7c21b4a853d',1,'multiboot_tag_apm']]],
   ['dso_5fhandle',['dso_handle',['../structatexit__entry.html#a4d52381fbf8c10d98a382632730be311',1,'atexit_entry']]],
-  ['dump',['dump',['../classinterrupt__frame.html#a0487d860c218f15c6358b0fc76286797',1,'interrupt_frame::dump()'],['../classgdt.html#aa4cba957a8145924084e5ff92e3ddef2',1,'gdt::dump()'],['../classtss.html#ae36eeac5719e37d6b555281d9140bb3b',1,'tss::dump()'],['../classqueue.html#a64d8c6c8eadb3516fb32cfb93238462c',1,'queue::dump()']]],
+  ['dump',['dump',['../classinterrupt__frame.html#a0487d860c218f15c6358b0fc76286797',1,'interrupt_frame::dump()'],['../classgdt.html#ad74c99c881ea1d9f64baf8b38b0b8d51',1,'gdt::dump()'],['../classtss.html#a3ee6b21afb74df4e58777cc4546079cc',1,'tss::dump()'],['../classboot__info.html#ab251539c266e0dc504145ba3df01489b',1,'boot_info::dump()'],['../classqueue.html#a64d8c6c8eadb3516fb32cfb93238462c',1,'queue::dump()']]],
   ['display_20components',['Display components',['../md_src_driver_cpu_x64_display__r_e_a_d_m_e.html',1,'']]]
 ];

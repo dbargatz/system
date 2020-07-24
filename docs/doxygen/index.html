@@ -64,14 +64,24 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>A hobby multikernel inspired by Barrelfish<sup><a href="#barrelfish">1</a></sup> and seL4<sup><a href="#seL4">2</a></sup>. It only supports x86_64 QEMU at the moment.</p>
+<h2>Project Layout</h2>
+<p>This project is being refactored to conform to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs">Pitchfork Layout</a>:</p>
+<ul>
+<li><code>build/</code>: not checked into the repository, but generated at build-time. Contains intermediate artifacts and final binaries, as well as the ISO file to launch QEMU with.</li>
+<li><code>docs/</code>: contains datasheets, technical documentation, and generated Doxygen documentation.</li>
+<li><code>src/</code>: follows the "merged header placement" and "merged test placement" paradigms, meaning all header, source, and unit test files are located in this directory. There is no separate <code>include/</code> directory for public API headers; these are contained within the <code>src/</code> directory as well. The directory structure within <code>src/</code> aligns perfectly with the namespaces of the code they contain.</li>
+<li><code>tests/</code>: contains the <code>run.sh</code> test script for running QEMU.</li>
+<li><code>tools/</code>: contains the build/test environment configure script, Dockerfile, and Doxygen configuration file.</li>
+</ul>
+<p>If you find something that doesn't conform yet, please point it out! It may have slipped notice.</p>
 <h2>Documentation</h2>
 <p>Doxygen-generated documentation is located at <a href="https://dbargatz.me/system">https://dbargatz.me/system</a>.</p>
 <h2>Environment</h2>
-<p>The <code>./configure</code> script will set up a complete build environment. It assumes the following:</p>
+<p>The <code>tools/configure</code> script will set up a complete build environment. It assumes the following:</p>
 <ul>
 <li>Debian-based Linux</li>
 </ul>
-<p>The <code>./configure</code> script will install or upgrade the following (along with any necessary dependencies) via apt-get:</p>
+<p>The <code>tools/configure</code> script will install or upgrade the following (along with any necessary dependencies) via apt-get:</p>
 <ul>
 <li>clang++ 7.0.1 or newer</li>
 <li>Doxygen 1.8.13 or newer</li>
@@ -91,12 +101,12 @@ $(function() {
 </ul>
 <h2>Building</h2>
 <p>Normal debug build:</p>
-<div class="fragment"><div class="line">&gt; meson build/artifacts</div><div class="line">&gt; ninja -C build/artifacts</div></div><!-- fragment --><p>Generating Doxygen documentation (output to <code>docs/</code>):</p>
-<div class="fragment"><div class="line">&gt; meson build/artifacts</div><div class="line">&gt; ninja -C build/artifacts docs</div></div><!-- fragment --><h2>Running</h2>
+<div class="fragment"><div class="line">&gt; meson build/</div><div class="line">&gt; ninja -C build/</div></div><!-- fragment --><p>Generating Doxygen documentation (output to <code>docs/doxygen</code>):</p>
+<div class="fragment"><div class="line">&gt; meson build/</div><div class="line">&gt; ninja -C build/ docs</div></div><!-- fragment --><h2>Running</h2>
 <p>Running QEMU with standard options and serial port output:</p>
-<div class="fragment"><div class="line">&gt; test/run.sh</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>test/artifacts/qemu.log</code>:</p>
-<div class="fragment"><div class="line">&gt; test/run.sh --debug</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>test/artifacts/qemu.log</code>, and GDB remote debugging:</p>
-<div class="fragment"><div class="line">&gt; test/run.sh --gdb</div><div class="line">&gt; gdb src/debug/gdb_pre_script</div><div class="line">(gdb) break core_entry</div><div class="line">(gdb) source src/debug/gdb_post_script</div><div class="line">(gdb) continue</div></div><!-- fragment --><p><b>NOTE:</b> GDB remote debugging will pause on startup. When you connect to QEMU via GDB, issue a <code>continue</code> at the GDB prompt to continue.</p>
+<div class="fragment"><div class="line">&gt; tests/run.sh</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>~/qemu.log</code>:</p>
+<div class="fragment"><div class="line">&gt; tests/run.sh --debug</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>~/qemu.log</code>, and GDB remote debugging:</p>
+<div class="fragment"><div class="line">&gt; tests/run.sh --gdb</div><div class="line">&gt; gdb src/debug/gdb_pre_script</div><div class="line">(gdb) break core_entry</div><div class="line">(gdb) source src/debug/gdb_post_script</div><div class="line">(gdb) continue</div></div><!-- fragment --><p><b>NOTE:</b> GDB remote debugging will pause on startup. When you connect to QEMU via GDB, issue a <code>continue</code> at the GDB prompt to continue.</p>
 <p><a class="anchor" id="barrelfish"></a>1: <a href="http://www.barrelfish.org">The Barrelfish Operating System</a><br />
  <a class="anchor" id="seL4"></a>2: <a href="https://sel4.systems">The seL4 Microkernel</a> </p>
 </div></div><!-- contents -->

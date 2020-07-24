@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['uint16_5ft',['uint16_t',['../stdint_8h.html#a273cf69d639a59973b6019625df33e30',1,'stdint.h']]],
-  ['uint32_5ft',['uint32_t',['../stdint_8h.html#a435d1572bf3f880d55459d9805097f62',1,'stdint.h']]],
-  ['uint64_5ft',['uint64_t',['../stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad',1,'stdint.h']]],
-  ['uint8_5ft',['uint8_t',['../stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5',1,'stdint.h']]]
+  ['multiboot_5fmemory_5fmap_5ft',['multiboot_memory_map_t',['../multiboot2_8h.html#a2aa16c58ceb6b9548aded205e46e8a3b',1,'multiboot2.h']]],
+  ['multiboot_5fuint16_5ft',['multiboot_uint16_t',['../multiboot2_8h.html#a3a11e3c2b5e0617736a05343aa5795b3',1,'multiboot2.h']]],
+  ['multiboot_5fuint32_5ft',['multiboot_uint32_t',['../multiboot2_8h.html#a009f355da41fed4badb8a52d432f5186',1,'multiboot2.h']]],
+  ['multiboot_5fuint64_5ft',['multiboot_uint64_t',['../multiboot2_8h.html#a8dfdd61648b48aa31845db590970e06a',1,'multiboot2.h']]],
+  ['multiboot_5fuint8_5ft',['multiboot_uint8_t',['../multiboot2_8h.html#a037f602538fccf97e90021c19fdfc047',1,'multiboot2.h']]]
 ];

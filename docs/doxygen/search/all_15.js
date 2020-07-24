@@ -1,6 +1,16 @@
 var searchData=
 [
-  ['warn',['warn',['../classuart__logger.html#a83faf65c756e4087fc4694e2f6acedc2',1,'uart_logger::warn()'],['../classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86',1,'vga_logger::warn()'],['../classlogger.html#a848acaf9856167efecab6007871a2fd5',1,'logger::warn()'],['../classlogger__backend.html#a825449193ed1fd420be923901a09c707',1,'logger_backend::warn()'],['../classlogger.html#a92246e13cd3e43799f11c4126f15568fa56525ae64d370c0b448ac0d60710ef17',1,'logger::Warn()']]],
-  ['white',['white',['../classvga.html#a42db10ff22958fe6b979dfeef8803353ad508fe45cecaf653904a0e774084bb5c',1,'vga']]],
-  ['write',['write',['../classuart.html#aaea6648aeb8d5530b614341571996e55',1,'uart::write()'],['../classvga.html#a602573835e9d04c1193a1b0f8509601b',1,'vga::write()'],['../classps2__controller.html#ad893133934f4c44a69df8c2bef6f682f',1,'ps2_controller::write()']]]
+  ['vbe_5fcontrol_5finfo',['vbe_control_info',['../structmultiboot__tag__vbe.html#a057304e943e881731680e06472c4bf1e',1,'multiboot_tag_vbe']]],
+  ['vbe_5finterface_5flen',['vbe_interface_len',['../structmultiboot__tag__vbe.html#a513fc2ea3224e91c0870165152d989e1',1,'multiboot_tag_vbe']]],
+  ['vbe_5finterface_5foff',['vbe_interface_off',['../structmultiboot__tag__vbe.html#a1370d764136d9cde9132c71ebf54bc3e',1,'multiboot_tag_vbe']]],
+  ['vbe_5finterface_5fseg',['vbe_interface_seg',['../structmultiboot__tag__vbe.html#a72d62afb2de739a3e651aac357069abe',1,'multiboot_tag_vbe']]],
+  ['vbe_5fmode',['vbe_mode',['../structmultiboot__tag__vbe.html#a3d8f77830f0e010b34939f4eeb24e64d',1,'multiboot_tag_vbe']]],
+  ['vbe_5fmode_5finfo',['vbe_mode_info',['../structmultiboot__tag__vbe.html#a386399d7efb3952f08693fb0f5242bd9',1,'multiboot_tag_vbe']]],
+  ['version',['version',['../structmultiboot__tag__apm.html#a9062cb77271b7ed69970ede5c90a50ad',1,'multiboot_tag_apm']]],
+  ['vga',['vga',['../classvga.html',1,'vga'],['../classvga.html#add0e8b0063f7565a6514ca6058fab919',1,'vga::vga()']]],
+  ['vga_2ecpp',['vga.cpp',['../vga_8cpp.html',1,'']]],
+  ['vga_2ehpp',['vga.hpp',['../vga_8hpp.html',1,'']]],
+  ['vga_5flogger',['vga_logger',['../classvga__logger.html',1,'vga_logger'],['../classvga__logger.html#a1defc6be3b7d91de679c317da7134f67',1,'vga_logger::vga_logger()']]],
+  ['vga_5flogger_2ecpp',['vga_logger.cpp',['../vga__logger_8cpp.html',1,'']]],
+  ['vga_5flogger_2ehpp',['vga_logger.hpp',['../vga__logger_8hpp.html',1,'']]]
 ];

@@ -1,0 +1,7 @@
+<map id="src/std/cstddef.hpp" name="src/std/cstddef.hpp">
+<area shape="rect" id="node2" href="$cstring_8hpp.html" title="Types and functions for working with C&#45;style null&#45;terminated byte strings in C++. ..." alt="" coords="209,80,351,107"/>
+<area shape="rect" id="node5" href="$string_8hpp.html" title="Implementations of the std::char_traits, std::basic_string, and std::string classes. " alt="" coords="375,80,510,107"/>
+<area shape="rect" id="node3" href="$boot__info_8cpp.html" title="src/driver/cpu/x64\l/multiboot/boot_info.cpp" alt="" coords="5,155,187,196"/>
+<area shape="rect" id="node4" href="$cstring_8cpp.html" title="src/std/cstring.cpp" alt="" coords="211,162,351,189"/>
+<area shape="rect" id="node6" href="$string_8cpp.html" title="src/std/string.cpp" alt="" coords="376,162,509,189"/>
+</map>

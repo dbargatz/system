@@ -1,6 +1,0 @@
-<map id="PIC::enable_irq" name="PIC::enable_irq">
-<area shape="rect" id="node2" href="$class_interrupt_manager.html#aef650220954fbe640c3e9a5e44faa95d" title="InterruptManager::register\l_handler" alt="" coords="172,5,364,47"/>
-<area shape="rect" id="node3" href="$class_interrupt_manager.html#ada1f48f42f1c9d1f74af497ad0d6b9b4" title="InterruptManager::temp\l_unmask" alt="" coords="180,71,356,112"/>
-<area shape="rect" id="node4" href="$class_core.html#adcc93b561dfefacfe2bcbd60604ea7a6" title="Core::run" alt="" coords="412,78,493,105"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="541,78,604,105"/>
-</map>

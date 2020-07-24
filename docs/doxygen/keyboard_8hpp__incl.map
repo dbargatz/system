@@ -1,11 +1,9 @@
 <map id="src/driver/cpu/x64/keyboard/keyboard.hpp" name="src/driver/cpu/x64/keyboard/keyboard.hpp">
-<area shape="rect" id="node2" href="$frame_8hpp.html" title="../interrupts/frame.hpp" alt="" coords="99,184,267,211"/>
-<area shape="rect" id="node8" href="$interrupt__manager_8hpp.html" title="../interrupts/interrupt\l_manager.hpp" alt="" coords="220,95,377,136"/>
-<area shape="rect" id="node3" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="171,259,298,285"/>
-<area shape="rect" id="node4" href="$text_8hpp.html" title="text.hpp" alt="" coords="253,408,329,435"/>
-<area shape="rect" id="node6" href="$serial_8hpp.html" title="../debug/serial.hpp" alt="" coords="129,333,271,360"/>
-<area shape="rect" id="node5" href="$stdint_8h.html" title="stdint.h" alt="" coords="187,483,258,509"/>
-<area shape="rect" id="node7" href="$io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="84,408,228,435"/>
-<area shape="rect" id="node9" href="$idt_8hpp.html" title="idt.hpp" alt="" coords="341,184,408,211"/>
-<area shape="rect" id="node10" href="$pic_8hpp.html" title="pic.hpp" alt="" coords="5,184,75,211"/>
+<area shape="rect" id="node2" href="$frame_8hpp.html" title="../interrupts/frame.hpp" alt="" coords="97,95,265,121"/>
+<area shape="rect" id="node3" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="118,169,245,196"/>
+<area shape="rect" id="node4" href="$assert_8h.html" title="assert.h" alt="" coords="5,244,80,271"/>
+<area shape="rect" id="node7" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="105,244,258,271"/>
+<area shape="rect" id="node8" href="$text_8hpp.html" title="text.hpp" alt="" coords="202,319,278,345"/>
+<area shape="rect" id="node5" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="41,319,111,345"/>
+<area shape="rect" id="node6" href="$stdint_8h.html" title="stdint.h" alt="" coords="129,393,199,420"/>
 </map>

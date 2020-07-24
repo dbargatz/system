@@ -2,6 +2,10 @@ var searchData=
 [
   ['accessed',['accessed',['../gdt_8hpp.html#a9acc33713771eb0f432069058ad82436',1,'gdt.hpp']]],
   ['add_5fbackend',['add_backend',['../classlogger.html#a398ec764b812f1be2ac88f143be796c1',1,'logger']]],
+  ['addr',['addr',['../structmultiboot__mmap__entry.html#a3f76a637264b83e30967bcd808ff403c',1,'multiboot_mmap_entry']]],
+  ['align',['align',['../structmultiboot__header__tag__relocatable.html#a7b9c2a0e45cfaa3f21a5494f64a75104',1,'multiboot_header_tag_relocatable']]],
+  ['align_5f8_5fbyte',['ALIGN_8_BYTE',['../boot__info_8cpp.html#a69776caec14968fbf4a5305d35b7c35a',1,'boot_info.cpp']]],
+  ['architecture',['architecture',['../structmultiboot__header.html#a116c9b57307b74f86920e14c9ec89575',1,'multiboot_header']]],
   ['arg',['arg',['../structatexit__entry.html#ac678ea339cec90dc13f527826e9b932c',1,'atexit_entry']]],
   ['array',['array',['../classstd_1_1array.html',1,'std']]],
   ['array_2ehpp',['array.hpp',['../array_8hpp.html',1,'']]],

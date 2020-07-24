@@ -1,5 +1,6 @@
 <map id="src/driver/cpu/x64/std/memcpy.hpp" name="src/driver/cpu/x64/std/memcpy.hpp">
 <area shape="rect" id="node2" href="$vga_8cpp.html" title="src/driver/cpu/x64\l/display/vga.cpp" alt="" coords="5,95,144,136"/>
-<area shape="rect" id="node3" href="$memcpy_8cpp.html" title="src/driver/cpu/x64\l/std/memcpy.cpp" alt="" coords="168,95,307,136"/>
-<area shape="rect" id="node4" href="$text_8cpp.html" title="src/driver/cpu/x64\l/std/text.cpp" alt="" coords="331,95,469,136"/>
+<area shape="rect" id="node3" href="$boot__info_8cpp.html" title="src/driver/cpu/x64\l/multiboot/boot_info.cpp" alt="" coords="168,95,349,136"/>
+<area shape="rect" id="node4" href="$memcpy_8cpp.html" title="src/driver/cpu/x64\l/std/memcpy.cpp" alt="" coords="373,95,512,136"/>
+<area shape="rect" id="node5" href="$text_8cpp.html" title="src/driver/cpu/x64\l/std/text.cpp" alt="" coords="536,95,675,136"/>
 </map>

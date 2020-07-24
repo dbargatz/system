@@ -1,14 +1,15 @@
 <map id="memcpy" name="memcpy">
-<area shape="rect" id="node2" href="$classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="151,68,241,95"/>
-<area shape="rect" id="node12" href="$classtext.html#a52e3276d09026f9a798a1347b7b57a10" title="text::text" alt="" coords="155,119,237,145"/>
-<area shape="rect" id="node13" href="$classtext.html#a9acc4e48a6c44d95977f1c12e52d8589" title="text::format_arg" alt="" coords="132,169,260,196"/>
-<area shape="rect" id="node3" href="$classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="308,107,395,133"/>
-<area shape="rect" id="node4" href="$classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="455,5,573,32"/>
-<area shape="rect" id="node7" href="$classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893" title="vga_logger::debug" alt="" coords="443,56,585,83"/>
-<area shape="rect" id="node8" href="$classvga__logger.html#a944df66c4b9b97781d57951d6afa7251" title="vga_logger::error" alt="" coords="447,107,581,133"/>
-<area shape="rect" id="node9" href="$classvga__logger.html#ace8f0b5a68a170bff1a31f0362ed3afb" title="vga_logger::info" alt="" coords="451,157,577,184"/>
-<area shape="rect" id="node10" href="$classvga__logger.html#a1a4b502fe5d8879c4f198ebdb4c5105a" title="vga_logger::panic" alt="" coords="445,208,583,235"/>
-<area shape="rect" id="node11" href="$classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86" title="vga_logger::warn" alt="" coords="447,259,581,285"/>
-<area shape="rect" id="node5" href="$classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="633,5,769,32"/>
-<area shape="rect" id="node6" href="$classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="817,5,896,32"/>
+<area shape="rect" id="node2" href="$classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="155,68,244,95"/>
+<area shape="rect" id="node12" href="$classboot__info.html#a3bdf7f216649a4a9f7bc919a41dc5786" title="boot_info::_dump" alt="" coords="132,119,267,145"/>
+<area shape="rect" id="node13" href="$classtext.html#a52e3276d09026f9a798a1347b7b57a10" title="text::text" alt="" coords="158,169,241,196"/>
+<area shape="rect" id="node14" href="$classtext.html#a9acc4e48a6c44d95977f1c12e52d8589" title="text::format_arg" alt="" coords="135,220,263,247"/>
+<area shape="rect" id="node3" href="$classvga.html#a602573835e9d04c1193a1b0f8509601b" title="vga::write" alt="" coords="315,107,401,133"/>
+<area shape="rect" id="node4" href="$classvga.html#a88cb78eb0d24ba38f86847694530430f" title="vga::clear_row" alt="" coords="462,5,579,32"/>
+<area shape="rect" id="node7" href="$classvga__logger.html#a02d4ca0aaaf6bf70783612a188659893" title="vga_logger::debug" alt="" coords="449,56,592,83"/>
+<area shape="rect" id="node8" href="$classvga__logger.html#a944df66c4b9b97781d57951d6afa7251" title="vga_logger::error" alt="" coords="454,107,587,133"/>
+<area shape="rect" id="node9" href="$classvga__logger.html#ace8f0b5a68a170bff1a31f0362ed3afb" title="vga_logger::info" alt="" coords="457,157,584,184"/>
+<area shape="rect" id="node10" href="$classvga__logger.html#a1a4b502fe5d8879c4f198ebdb4c5105a" title="vga_logger::panic" alt="" coords="452,208,589,235"/>
+<area shape="rect" id="node11" href="$classvga__logger.html#add1ab4e08f748b49e759fdb21856ab86" title="vga_logger::warn" alt="" coords="453,259,588,285"/>
+<area shape="rect" id="node5" href="$classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="640,5,776,32"/>
+<area shape="rect" id="node6" href="$classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="824,5,903,32"/>
 </map>

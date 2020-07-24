@@ -1,12 +1,17 @@
 var searchData=
 [
+  ['char_5ftraits',['char_traits',['../classstd_1_1char__traits.html',1,'std']]],
+  ['checksum',['checksum',['../structmultiboot__header.html#a17e73abddfe8264c254767a20099038d',1,'multiboot_header']]],
   ['clear_5frow',['clear_row',['../classvga.html#a88cb78eb0d24ba38f86847694530430f',1,'vga']]],
   ['clear_5fscreen',['clear_screen',['../classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8',1,'vga']]],
+  ['cmdline',['cmdline',['../structmultiboot__tag__module.html#ae28133d78349211f87ff9fcfb9ab3056',1,'multiboot_tag_module']]],
   ['color',['color',['../classvga.html#a42db10ff22958fe6b979dfeef8803353',1,'vga']]],
   ['column',['column',['../classkeycode.html#a3d5c9f8101782f43105da54ef9f028c4',1,'keycode']]],
+  ['common',['common',['../structmultiboot__tag__framebuffer.html#aa08ac999e6f190bc67387683f2d1ff76',1,'multiboot_tag_framebuffer']]],
+  ['console_5fflags',['console_flags',['../structmultiboot__header__tag__console__flags.html#a62da2cb6b784bde170b7928d79a44d18',1,'multiboot_header_tag_console_flags']]],
   ['controller',['CONTROLLER',['../ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9a42e074e8564dad9034ef033c6a6cf8b6',1,'ps2_controller.hpp']]],
   ['convert',['convert',['../classscancode__set.html#a41913d9916a789761657044db85d955c',1,'scancode_set::convert()'],['../classscancode__set__2.html#a57994ac471e5ad225119a0c5239d4591',1,'scancode_set_2::convert()']]],
-  ['core',['core',['../classcore.html',1,'core'],['../classcore.html#a271efc3abb5f226a392fd2a486151136',1,'core::core()']]],
+  ['core',['core',['../classcore.html',1,'core'],['../classcore.html#a7b9eae2cc0f69226ab4d5173bf704f96',1,'core::core()']]],
   ['core_2ecpp',['core.cpp',['../core_8cpp.html',1,'']]],
   ['core_2ehpp',['core.hpp',['../core_8hpp.html',1,'']]],
   ['core_5fentry',['core_entry',['../main_8cpp.html#a74570e5a6991fdfa8c53f94fbec87d84',1,'main.cpp']]],
@@ -14,5 +19,12 @@ var searchData=
   ['cpp_2ehpp',['cpp.hpp',['../cpp_8hpp.html',1,'']]],
   ['cpuid_2eh',['cpuid.h',['../cpuid_8h.html',1,'']]],
   ['cs',['cs',['../structinterrupt__frame_1_1__interrupt__frame.html#a8cbdd21378dd8a08afa0eb6a91b8d610',1,'interrupt_frame::_interrupt_frame::cs()'],['../frame_8hpp.html#aea3e8b50ef91f54dad11c01a77675324',1,'cs():&#160;frame.hpp']]],
+  ['cseg',['cseg',['../structmultiboot__tag__apm.html#ac2109f74c95e62b0c3e7b74f9e2e5725',1,'multiboot_tag_apm']]],
+  ['cseg_5f16',['cseg_16',['../structmultiboot__tag__apm.html#ae10031b73878b35c3fd332193293fd6d',1,'multiboot_tag_apm']]],
+  ['cseg_5f16_5flen',['cseg_16_len',['../structmultiboot__tag__apm.html#ac9ce4f6a6baa2cd0fea47ab1b4802e7b',1,'multiboot_tag_apm']]],
+  ['cseg_5flen',['cseg_len',['../structmultiboot__tag__apm.html#ab6707ad19a33da4a07b1e3a747c3da16',1,'multiboot_tag_apm']]],
+  ['cstddef_2ehpp',['cstddef.hpp',['../cstddef_8hpp.html',1,'']]],
+  ['cstring_2ecpp',['cstring.cpp',['../cstring_8cpp.html',1,'']]],
+  ['cstring_2ehpp',['cstring.hpp',['../cstring_8hpp.html',1,'']]],
   ['cyan',['cyan',['../classvga.html#a42db10ff22958fe6b979dfeef8803353a6411532ba4971f378391776a9db629d3',1,'vga']]]
 ];

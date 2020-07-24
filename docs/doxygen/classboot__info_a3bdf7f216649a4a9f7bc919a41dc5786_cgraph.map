@@ -1,0 +1,7 @@
+<map id="boot_info::_dump" name="boot_info::_dump">
+<area shape="rect" id="node2" href="$classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="188,5,299,32"/>
+<area shape="rect" id="node4" href="$cstring_8cpp.html#a077e657156343704362c0ef0e6df40b6" title="Returns the number of characters in the given byte string, up to but not including the first null cha..." alt="" coords="214,56,273,83"/>
+<area shape="rect" id="node5" href="$memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78" title="Copies the given number of bytes from the source to destination. " alt="" coords="204,107,283,133"/>
+<area shape="rect" id="node6" href="$memset_8cpp.html#abc7d9e97dce41b5780585e6f382dd701" title="Sets the given number of bytes at the given pointer to the given value. " alt="" coords="205,157,281,184"/>
+<area shape="rect" id="node3" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="347,5,424,32"/>
+</map>

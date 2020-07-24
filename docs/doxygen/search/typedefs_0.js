@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['float32_5ft',['float32_t',['../stdint_8h.html#a4611b605e45ab401f02cab15c5e38715',1,'stdint.h']]],
-  ['float64_5ft',['float64_t',['../stdint_8h.html#ac55f3ae81b5bc9053760baacf57e47f4',1,'stdint.h']]]
+  ['elf64_5faddr',['Elf64_Addr',['../elf64_8hpp.html#aeed51d08e3a950d637f8ec1f0cd4ef65',1,'elf64.hpp']]],
+  ['elf64_5foff',['Elf64_Off',['../elf64_8hpp.html#a6f7837bc80df7a68291fce54ff088849',1,'elf64.hpp']]]
 ];

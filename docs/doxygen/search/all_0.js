@@ -8,6 +8,7 @@ var searchData=
   ['_5f_5fnum_5fatexit_5ffuncs',['__num_atexit_funcs',['../cpp_8cpp.html#a016dff7425573c296870e079212f59f2',1,'cpp.cpp']]],
   ['_5fback',['_back',['../classqueue.html#a9b13b879ab480dda62afb9f123712765',1,'queue']]],
   ['_5fbuf',['_buf',['../classqueue.html#a4fa9b179529e7446635d27018e9d34cf',1,'queue']]],
+  ['_5fdump',['_dump',['../classboot__info.html#a8b36cdbeed2a4432c95e1e405c2647da',1,'boot_info::_dump(logger &amp;in_log, const multiboot_tag_bootloader *in_tag)'],['../classboot__info.html#abab2e3b07e47eeed4f0e2255f8240080',1,'boot_info::_dump(logger &amp;in_log, const multiboot_tag_cmdline *in_tag)'],['../classboot__info.html#a986ec066bf6698728443c16e04e6d3e1',1,'boot_info::_dump(logger &amp;in_log, const multiboot_tag_mmap *in_tag)'],['../classboot__info.html#a3bdf7f216649a4a9f7bc919a41dc5786',1,'boot_info::_dump(logger &amp;in_log, const multiboot_tag_elf_sections *in_tag)'],['../classboot__info.html#ac2b94f02b58e7bf48d18c2dd20c24192',1,'boot_info::_dump(logger &amp;in_log, const multiboot_tag_apm *in_tag)'],['../classboot__info.html#a2708339100cc94e3cacf4bc2b8024c42',1,'boot_info::_dump(logger &amp;in_log, const multiboot_tag_load_base_addr *in_tag)']]],
   ['_5ffront',['_front',['../classqueue.html#aae4a1134ebdd7a79d44740970021fa9d',1,'queue']]],
   ['_5finterrupt_5fframe',['_interrupt_frame',['../structinterrupt__frame_1_1__interrupt__frame.html',1,'interrupt_frame']]]
 ];

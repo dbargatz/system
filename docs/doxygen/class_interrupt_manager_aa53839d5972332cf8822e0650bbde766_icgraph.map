@@ -1,5 +1,0 @@
-<map id="InterruptManager::enable_interrupts" name="InterruptManager::enable_interrupts">
-<area shape="rect" id="node2" href="$class_core.html#adcc93b561dfefacfe2bcbd60604ea7a6" title="Core::run" alt="" coords="295,5,377,32"/>
-<area shape="rect" id="node4" href="$class_interrupt_manager.html#aef650220954fbe640c3e9a5e44faa95d" title="InterruptManager::register\l_handler" alt="" coords="240,57,432,98"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#acc8e91c290de513dc771fff2ece9d46a" title="kmain" alt="" coords="480,5,543,32"/>
-</map>

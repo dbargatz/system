@@ -71,8 +71,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a271efc3abb5f226a392fd2a486151136"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore.html#a271efc3abb5f226a392fd2a486151136">core</a> (<a class="el" href="classlogger.html">logger</a> &amp;in_log, <a class="el" href="classgdt.html">gdt</a> &amp;in_gdt, <a class="el" href="classidt.html">idt</a> &amp;in_idt, <a class="el" href="classpic.html">pic</a> &amp;in_pic, <a class="el" href="classtimer.html">timer</a> &amp;in_timer, <a class="el" href="classtss.html">tss</a> &amp;in_tss, <a class="el" href="classps2__controller.html">ps2_controller</a> &amp;in_ps2, <a class="el" href="classkeyboard.html">keyboard</a> &amp;in_kbd)</td></tr>
-<tr class="separator:a271efc3abb5f226a392fd2a486151136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b9eae2cc0f69226ab4d5173bf704f96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore.html#a7b9eae2cc0f69226ab4d5173bf704f96">core</a> (<a class="el" href="classlogger.html">logger</a> &amp;in_log, <a class="el" href="classboot__info.html">boot_info</a> &amp;in_boot, <a class="el" href="classgdt.html">gdt</a> &amp;in_gdt, <a class="el" href="classidt.html">idt</a> &amp;in_idt, <a class="el" href="classkeyboard.html">keyboard</a> &amp;in_kbd, <a class="el" href="classpic.html">pic</a> &amp;in_pic, <a class="el" href="classps2__controller.html">ps2_controller</a> &amp;in_ps2, <a class="el" href="classtimer.html">timer</a> &amp;in_timer, <a class="el" href="classtss.html">tss</a> &amp;in_tss)</td></tr>
+<tr class="separator:a7b9eae2cc0f69226ab4d5173bf704f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae41913b48679209e17bb0fa96c939457"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore.html#ae41913b48679209e17bb0fa96c939457">dispatch_interrupt</a> (const void *in_frame_ptr)</td></tr>
 <tr class="separator:ae41913b48679209e17bb0fa96c939457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9df34d400b0068d4815edf8f7ff7f47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore.html#aa9df34d400b0068d4815edf8f7ff7f47">panic_handler</a> (<a class="el" href="classinterrupt__frame.html">interrupt_frame</a> &amp;in_frame)</td></tr>
@@ -81,8 +81,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8e63c5bcd3acc2d1f07336cabcfaeb7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a271efc3abb5f226a392fd2a486151136"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a271efc3abb5f226a392fd2a486151136">&#9670;&nbsp;</a></span>core()</h2>
+<a id="a7b9eae2cc0f69226ab4d5173bf704f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b9eae2cc0f69226ab4d5173bf704f96">&#9670;&nbsp;</a></span>core()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -92,6 +92,12 @@ Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classlogger.html">logger</a> &amp;&#160;</td>
           <td class="paramname"><em>in_log</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classboot__info.html">boot_info</a> &amp;&#160;</td>
+          <td class="paramname"><em>in_boot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -108,8 +114,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classkeyboard.html">keyboard</a> &amp;&#160;</td>
+          <td class="paramname"><em>in_kbd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="classpic.html">pic</a> &amp;&#160;</td>
           <td class="paramname"><em>in_pic</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classps2__controller.html">ps2_controller</a> &amp;&#160;</td>
+          <td class="paramname"><em>in_ps2</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -121,19 +139,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classtss.html">tss</a> &amp;&#160;</td>
-          <td class="paramname"><em>in_tss</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classps2__controller.html">ps2_controller</a> &amp;&#160;</td>
-          <td class="paramname"><em>in_ps2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classkeyboard.html">keyboard</a> &amp;&#160;</td>
-          <td class="paramname"><em>in_kbd</em>&#160;</td>
+          <td class="paramname"><em>in_tss</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -245,8 +251,8 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="classcore_a8e63c5bcd3acc2d1f07336cabcfaeb7d_cgraph.png" border="0" usemap="#classcore_a8e63c5bcd3acc2d1f07336cabcfaeb7d_cgraph" alt=""/></div>
 <map name="classcore_a8e63c5bcd3acc2d1f07336cabcfaeb7d_cgraph" id="classcore_a8e63c5bcd3acc2d1f07336cabcfaeb7d_cgraph">
 <area shape="rect" id="node2" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="268,50,379,77"/>
-<area shape="rect" id="node4" href="classgdt.html#aa4cba957a8145924084e5ff92e3ddef2" title="gdt::dump" alt="" coords="132,25,220,51"/>
-<area shape="rect" id="node5" href="classtss.html#ae36eeac5719e37d6b555281d9140bb3b" title="tss::dump" alt="" coords="133,75,219,102"/>
+<area shape="rect" id="node4" href="classgdt.html#ad74c99c881ea1d9f64baf8b38b0b8d51" title="gdt::dump" alt="" coords="132,25,220,51"/>
+<area shape="rect" id="node5" href="classtss.html#a3ee6b21afb74df4e58777cc4546079cc" title="tss::dump" alt="" coords="133,75,219,102"/>
 <area shape="rect" id="node6" href="classidt.html#aa4da818a99459769411c6f6ab7148ba4" title="Loads this IDT into the core such that interrupts/exceptions will be handled by this IDT..." alt="" coords="133,126,219,153"/>
 <area shape="rect" id="node3" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="427,50,504,77"/>
 </map>

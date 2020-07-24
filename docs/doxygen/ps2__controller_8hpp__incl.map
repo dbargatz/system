@@ -1,7 +1,9 @@
 <map id="src/driver/cpu/x64/keyboard/ps2_controller.hpp" name="src/driver/cpu/x64/keyboard/ps2_controller.hpp">
-<area shape="rect" id="node2" href="$io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="97,244,241,271"/>
-<area shape="rect" id="node3" href="$stdint_8h.html" title="../std/stdint.h" alt="" coords="116,319,223,345"/>
-<area shape="rect" id="node4" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="157,95,283,121"/>
-<area shape="rect" id="node5" href="$text_8hpp.html" title="text.hpp" alt="" coords="266,244,342,271"/>
-<area shape="rect" id="node6" href="$serial_8hpp.html" title="../debug/serial.hpp" alt="" coords="149,169,291,196"/>
+<area shape="rect" id="node2" href="$io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="5,95,149,121"/>
+<area shape="rect" id="node3" href="$stdint_8h.html" title="../std/stdint.h" alt="" coords="207,319,313,345"/>
+<area shape="rect" id="node4" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="281,95,407,121"/>
+<area shape="rect" id="node5" href="$assert_8h.html" title="assert.h" alt="" coords="224,169,299,196"/>
+<area shape="rect" id="node7" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="323,169,477,196"/>
+<area shape="rect" id="node8" href="$text_8hpp.html" title="text.hpp" alt="" coords="370,244,446,271"/>
+<area shape="rect" id="node6" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="225,244,295,271"/>
 </map>
