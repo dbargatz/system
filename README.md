@@ -3,19 +3,41 @@
 A hobby multikernel inspired by Barrelfish<sup>[1](#barrelfish)</sup> and
 seL4<sup>[2](#seL4)</sup>. It only supports x86_64 QEMU at the moment.
 
+## Project Layout
+
+This project is being refactored to conform to the [Pitchfork Layout](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs):
+
++ `build/`: not checked into the repository, but generated at build-time.
+            Contains intermediate artifacts and final binaries, as well as the
+            ISO file to launch QEMU with.
++ `docs/`: contains datasheets, technical documentation, and generated Doxygen
+           documentation.
++ `src/`: follows the "merged header placement" and "merged test placement"
+          paradigms, meaning all header, source, and unit test files are located
+          in this directory. There is no separate `include/` directory for
+          public API headers; these are contained within the `src/` directory as
+          well. The directory structure within `src/` aligns perfectly with the
+          namespaces of the code they contain.
++ `tests/`: contains the `run.sh` test script for running QEMU.
++ `tools/`: contains the build/test environment configure script, Dockerfile,
+            and Doxygen configuration file.
+
+If you find something that doesn't conform yet, please point it out! It may have
+slipped notice.
+
 ## Documentation
 
 Doxygen-generated documentation is located at <https://dbargatz.me/system>.
 
 ## Environment
 
-The `./configure` script will set up a complete build environment. It assumes
-the following:
+The `tools/configure` script will set up a complete build environment. It
+assumes the following:
 
 + Debian-based Linux
 
-The `./configure` script will install or upgrade the following (along with any
-necessary dependencies) via apt-get:
+The `tools/configure` script will install or upgrade the following (along with
+any necessary dependencies) via apt-get:
 
 + clang++ 7.0.1 or newer
 + Doxygen 1.8.13 or newer
@@ -38,15 +60,15 @@ necessary dependencies) via apt-get:
 Normal debug build:
 
 ```bash
-> meson build/artifacts
-> ninja -C build/artifacts
+> meson build/
+> ninja -C build/
 ```
 
-Generating Doxygen documentation (output to `docs/`):
+Generating Doxygen documentation (output to `docs/doxygen`):
 
 ```bash
-> meson build/artifacts
-> ninja -C build/artifacts docs
+> meson build/
+> ninja -C build/ docs
 ```
 
 ## Running
@@ -54,21 +76,21 @@ Generating Doxygen documentation (output to `docs/`):
 Running QEMU with standard options and serial port output:
 
 ```bash
-> test/run.sh
+> tests/run.sh
 ```
 
 Running QEMU with interrupt debugging turned on and logged to
-`test/artifacts/qemu.log`:
+`~/qemu.log`:
 
 ```bash
-> test/run.sh --debug
+> tests/run.sh --debug
 ```
 
 Running QEMU with interrupt debugging turned on and logged to
-`test/artifacts/qemu.log`, and GDB remote debugging:
+`~/qemu.log`, and GDB remote debugging:
 
 ```bash
-> test/run.sh --gdb
+> tests/run.sh --gdb
 > gdb src/debug/gdb_pre_script
 (gdb) break core_entry
 (gdb) source src/debug/gdb_post_script
