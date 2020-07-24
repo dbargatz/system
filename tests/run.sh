@@ -5,9 +5,9 @@ USAGE="Usage: $0 [-d/--debug] [-g/--gdb] [additional QEMU args]"
 ROOT_DIR="$(realpath $(dirname $(readlink -f $0))/../)"
 DEBUG=
 GDB=
-ISO="${ROOT_DIR}/build/artifacts/system.iso"
-QEMU_LOG="-D ${ROOT_DIR}/test/artifacts/qemu.log"
-SERIAL_LOG="-serial file:${ROOT_DIR}/test/artifacts/os.log"
+ISO="${ROOT_DIR}/build/system.iso"
+QEMU_LOG="-D ${HOME}/qemu.log"
+SERIAL_LOG="-serial file:${HOME}/os.log"
 MEMORY=1G
 SMP=3
 QEMU_ARGS=()
@@ -37,9 +37,6 @@ case $key in
     ;;
 esac
 done
-
-# Create test/artifacts if it doesn't exist.
-mkdir -p ${ROOT_DIR}/test/artifacts
 
 # Note: ${QEMU_ARGS[@]} expands to all the members of QEMU_ARGS.
 qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} -display curses ${SERIAL_LOG} \
