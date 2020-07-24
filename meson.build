@@ -1,6 +1,7 @@
 project('system', 'cpp', version: '0.1.0')
 
 grub_cfg = '../src/grub.cfg'
+subdir('src/std')
 subdir('src/driver/cpu/x64')
 
 iso = custom_target('iso',
