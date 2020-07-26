@@ -5,6 +5,10 @@
 
 class boot_info {
 public:
+    void * monitor_start_addr;
+    void * monitor_end_addr;
+
+    boot_info() { monitor_start_addr = nullptr; monitor_end_addr = nullptr; }
     void dump(logger& in_log, const void * in_boot_info);
 
 private:

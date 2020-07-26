@@ -1,4 +1,7 @@
 #include "core.hpp"
+
+#include "../../../loader/binary.hpp"
+
 #include "std/assert.h"
 #include "std/cpuid.h"
 #include "std/halt.h"
@@ -133,22 +136,16 @@ void core::run(const void * in_boot_info) {
 
     _ps2.reset();
     _kbd.reset();
-    _enable_interrupts();
-    _pic.enable_irq(1);
-    _log.info("Testing keyboard (interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
-    uint32_t ct = 0x7FFFFFFF;
-    while(ct > 0) {
-        ct--;
-    }
-
     _timer.set_frequency(1000.0);
     _pic.enable_irq(0);
-    _log.info("Testing timer (interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
-    ct = 0x1FFFFFFF;
-    while(ct > 0) {
-        ct--;
-    }
+    _pic.enable_irq(1);
+    _enable_interrupts();
+    _log.info("Keyboard and timer interrupts unmasked, interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
 
-    _log.info("Testing ASSERT and PANIC (will halt)...");
-     ASSERT(0 == 1, "oh bother");
+    // Load the monitor binary.
+    auto monitor_bin = loader::binary();
+    monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
+
+    // Just spin!
+    while(true) {}
 }

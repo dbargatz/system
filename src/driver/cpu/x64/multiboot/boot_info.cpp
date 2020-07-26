@@ -57,6 +57,11 @@ void boot_info::_dump(logger& in_log, const multiboot_tag_module * in_tag) {
     in_log.debug("\tModule {}:", in_tag->cmdline);
     in_log.debug("\t\tStart physical address: {#016X}", in_tag->mod_start);
     in_log.debug("\t\tEnd physical address  : {#016X}", in_tag->mod_end);
+
+    // TODO: move this to a parser function.
+    // TODO: verify this is actually the "monitor" module.
+    monitor_start_addr = (void *)(std::uintptr_t)in_tag->mod_start;
+    monitor_end_addr = (void *)(std::uintptr_t)in_tag->mod_end;
 }
 
 template <>
