@@ -2,13 +2,14 @@ project('system', 'cpp', version: '0.1.0')
 
 grub_cfg = '../src/grub.cfg'
 subdir('src/std')
+subdir('src/monitor')
 subdir('src/driver/cpu/x64')
 
 iso = custom_target('iso',
-    input: core_x64_bin,
+    input: [core_x64_bin, monitor_bin],
     output: 'system.iso',
     command: ['mkdir', '-p', 'iso/boot/grub', '&&',
-              'cp', grub_cfg, 'iso/boot/grub', '&&', 
+              'cp', grub_cfg, 'iso/boot/grub', '&&',
               'cp', '@INPUT@', 'iso/boot', '&&',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
     install: true,
