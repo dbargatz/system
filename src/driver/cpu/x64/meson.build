@@ -9,7 +9,7 @@ driver_cpu_x64_asm_src = [
 ]
 nasm_objs = gen_nasm.process(driver_cpu_x64_asm_src)
 
-driver_cpu_x64_cpp_src = [
+driver_cpu_x64_src = [
     'debug/uart.cpp',
     'debug/uart_logger.cpp',
     'display/vga.cpp',
@@ -34,39 +34,9 @@ driver_cpu_x64_cpp_src = [
     'core.cpp',
     'main.cpp',
 ]
-clang_pp = find_program('clang++')
-gen_clang = generator(clang_pp,
-    output: '@BASENAME@.o',
-    arguments: [
-        '-include', '../src/driver/cpu/x64/std/cpp.hpp',
-        '-ffreestanding',
-        '-fno-builtin',
-        '-fno-exceptions',
-        '-fno-rtti',
-        '-fno-threadsafe-statics',
-        '-nostdlib',
-        '-nostdinc',
-        '-nostdinc++',
-        '-march=x86-64',
-        '-mcmodel=large',
-        '-g',
-        '-std=c++17',
-        '-Wall',
-        '-Werror',
-        '-c',
-        '@INPUT@',
-        '-o',
-        '@OUTPUT@'
-    ])
-clang_objs = gen_clang.process(driver_cpu_x64_cpp_src)
 
-core_x64_obj = custom_target('core_x64_obj',
-    input: [clang_objs, nasm_objs],
-    output: 'core_x64.o',
-    command: ['ld', '-r', '-o', '@OUTPUT@', '@INPUT@'])
-
-driver_cpu_x64_linker_src = '../src/driver/cpu/x64/linker.ld'
-core_x64_bin = custom_target('core_x64_bin',
-    input: [core_x64_obj, std_lib],
-    output: 'core_x64.bin',
-    command: ['ld', '-n', '--gc-sections', '-T', driver_cpu_x64_linker_src, '@INPUT@', '-o', '@OUTPUT@'])
+driver_cpu_x64_link_script = '../src/driver/cpu/x64/linker.ld'
+link_with_objs = [std_lib]
+core_x64_bin = executable('core_x64.bin', [driver_cpu_x64_src, nasm_objs],
+                          link_args: ['-Wl,-T' + driver_cpu_x64_link_script],
+                          link_with: link_with_objs)
