@@ -3,10 +3,8 @@
 #include "../std/assert.h"
 #include "../std/panic.h"
 
-scancode_set_2 ps2_keyboard::set2;
-
-ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2) :
-    _log(in_log), _ps2(in_ps2), _cur_scancode_set(*(&set2)) {
+ps2_keyboard::ps2_keyboard(logger& in_log, ps2_controller& in_ps2, scancode_set& in_scancode_set) :
+    _log(in_log), _ps2(in_ps2), _cur_scancode_set(in_scancode_set) {
     _cur_state = _state::IDLE;
 }
 

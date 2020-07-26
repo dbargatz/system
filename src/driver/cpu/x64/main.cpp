@@ -43,6 +43,7 @@ extern "C" int core_entry(const void * in_boot_info) {
     const auto core_injector = di::make_injector(
         di::bind<logger>().to(log),
         di::bind<keyboard>().to<ps2_keyboard>(),
+        di::bind<scancode_set>().to<scancode_set_2>(),
         di::bind<timer>().to<pit>()
     );
     auto bootstrap_core = core_injector.create<core>();

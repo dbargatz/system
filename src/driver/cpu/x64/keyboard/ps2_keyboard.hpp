@@ -12,13 +12,12 @@
 
 class ps2_keyboard : public keyboard {
 public:
-    ps2_keyboard(logger& in_log, ps2_controller& in_ps2);
+    ps2_keyboard(logger& in_log, ps2_controller& in_ps2, scancode_set& in_scancode_set);
     void interrupt_handler(interrupt_frame& in_frame) override;
     void reset() override;
 
 private:
     constexpr static const uint8_t MAX_RESENDS = 3;
-    static scancode_set_2 set2;
 
     enum class _command_byte : uint8_t {
         SET_LED            = 0xED,
