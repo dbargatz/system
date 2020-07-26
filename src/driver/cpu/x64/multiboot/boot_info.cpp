@@ -53,6 +53,13 @@ void boot_info::_dump(logger& in_log, const multiboot_tag_mmap * in_tag) {
 }
 
 template <>
+void boot_info::_dump(logger& in_log, const multiboot_tag_module * in_tag) {
+    in_log.debug("\tModule {}:", in_tag->cmdline);
+    in_log.debug("\t\tStart physical address: {#016X}", in_tag->mod_start);
+    in_log.debug("\t\tEnd physical address  : {#016X}", in_tag->mod_end);
+}
+
+template <>
 void boot_info::_dump(logger& in_log, const multiboot_tag_elf_sections * in_tag) {
     in_log.debug("\tELF Symbols ({} bytes, {} entries):", in_tag->size, in_tag->num);
     auto sections = (const struct Elf64_Shdr *)&in_tag->sections;
@@ -112,6 +119,9 @@ void boot_info::dump(logger& in_log, const void * in_boot_info) {
                 break;
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
                 _dump(in_log, (const multiboot_tag_bootloader *)cur_ptr);
+                break;
+            case MULTIBOOT_TAG_TYPE_MODULE:
+                _dump(in_log, (const multiboot_tag_module *)cur_ptr);
                 break;
             case MULTIBOOT_TAG_TYPE_MMAP:
                 _dump(in_log, (const multiboot_tag_mmap *)cur_ptr);
