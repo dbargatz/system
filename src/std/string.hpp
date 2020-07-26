@@ -10,8 +10,7 @@
 #ifndef _STD_STRING_HPP
 #define _STD_STRING_HPP
 
-// TODO: how to angle-bracket include cstddef (specify self as stdlib?)
-#include "cstddef.hpp"
+#include <cstddef.hpp>
 
 namespace std {
 

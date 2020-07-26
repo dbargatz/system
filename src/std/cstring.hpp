@@ -6,8 +6,7 @@
 #ifndef _STD_CSTRING_HPP
 #define _STD_CSTRING_HPP
 
-// TODO: how to angle-bracket include cstddef (specify self as stdlib?)
-#include "cstddef.hpp"
+#include <cstddef.hpp>
 
 /**
  * @brief Returns the number of characters in the given byte string, up to but

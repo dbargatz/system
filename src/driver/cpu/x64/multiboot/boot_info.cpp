@@ -1,9 +1,9 @@
 #include "boot_info.hpp"
+#include <cstring.hpp>
 #include "multiboot2.h"
 #include "../std/elf64.hpp"
 #include "../std/memcpy.hpp"
 #include "../std/memset.hpp"
-#include "../../../../std/cstring.hpp" // TODO: include with angle-brackets
 
 #define ALIGN_8_BYTE(x) (x + ((x % 8) ? (8 - (x % 8)) : 0))
 

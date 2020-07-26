@@ -1,4 +1,4 @@
-#include "cstring.hpp"
+#include <cstring.hpp>
 
 std::size_t strlen(const char * in_str) {
     const char * end = in_str;
