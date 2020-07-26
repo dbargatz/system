@@ -1,0 +1,6 @@
+#ifndef _LOGGING_LOGGER_HPP
+#define _LOGGING_LOGGER_HPP
+
+
+
+#endif // _LOGGING_LOGGER_HPP
