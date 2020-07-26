@@ -5,6 +5,7 @@
 
 class keyboard {
 public:
+    virtual ~keyboard() {};
     virtual void interrupt_handler(interrupt_frame& in_frame) = 0;
     virtual void reset() = 0;
 };

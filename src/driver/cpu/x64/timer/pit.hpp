@@ -51,6 +51,7 @@ private:
     uint16_t  _reload_value;
 
 public:
+    virtual ~pit() override {};
     pit(logger& in_log);
 
     float64_t get_frequency() override;

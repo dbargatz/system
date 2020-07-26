@@ -13,6 +13,8 @@
  */
 class timer {
 public:
+    virtual ~timer() {};
+
     virtual float64_t get_frequency() = 0;
     virtual void set_frequency(float64_t in_frequency_hz) = 0;
     virtual void interrupt_handler(interrupt_frame& in_frame) = 0;

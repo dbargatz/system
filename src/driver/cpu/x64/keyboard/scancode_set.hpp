@@ -39,6 +39,7 @@ struct scancode_to_keycode {
 
 class scancode_set {
 public:
+    virtual ~scancode_set() {};
     virtual keycode convert(scancode in_code)    = 0;
 };
 
