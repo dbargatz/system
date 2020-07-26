@@ -16,7 +16,7 @@ namespace __cxxabiv1 {
      * to be invoked directly.
      * @see https://stackoverflow.com/questions/920500
      */
-    extern "C" void __cxa_pure_virtual();
+    extern "C" [[noreturn]] void __cxa_pure_virtual();
 };
 
 #endif // __ABI_CXXABI_H
