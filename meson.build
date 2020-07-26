@@ -1,9 +1,14 @@
 project('system', 'cpp', version: '0.1.0')
 
 grub_cfg = '../src/grub.cfg'
+
+# Libraries
+subdir('src/abi')
 subdir('src/std')
-subdir('src/monitor')
+
+# Executables
 subdir('src/driver/cpu/x64')
+subdir('src/monitor')
 
 iso = custom_target('iso',
     input: [core_x64_bin, monitor_bin],
