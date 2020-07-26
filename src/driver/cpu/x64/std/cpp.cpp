@@ -1,4 +1,3 @@
-#include "cpp.hpp"
 #include "assert.h"
 #include "panic.h"
 
@@ -13,10 +12,6 @@ constexpr uint8_t ATEXIT_MAX_FUNCS = 128;
 void * __dso_handle = nullptr;
 uint8_t __num_atexit_funcs = 0;
 struct atexit_entry __atexit_funcs[ATEXIT_MAX_FUNCS] = {{0}};
-
-extern "C" void __cxa_pure_virtual() {
-    PANIC("Pure virtual function called!");
-}
 
 extern "C" int __cxa_atexit(void (*in_func)(void *), void * in_arg, void * in_dso_handle) {
     if(__num_atexit_funcs >= ATEXIT_MAX_FUNCS) {
