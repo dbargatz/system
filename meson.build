@@ -4,6 +4,7 @@ grub_cfg = '../src/grub.cfg'
 
 # Libraries
 subdir('src/abi')
+subdir('src/loader')
 subdir('src/std')
 
 # Executables
