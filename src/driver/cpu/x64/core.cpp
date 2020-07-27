@@ -143,7 +143,8 @@ void core::run(const void * in_boot_info) {
     _log.info("Keyboard and timer interrupts unmasked, interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
 
     // Load the monitor binary.
-    auto monitor_bin = loader::binary();
+    auto monitor_log = logging::logger();
+    auto monitor_bin = loader::binary(monitor_log);
     monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
 
     // Just spin!
