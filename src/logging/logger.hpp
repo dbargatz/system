@@ -2,6 +2,8 @@
 #define _LOGGING_LOGGER_HPP
 
 #include <cstdint.hpp>
+#include <format.hpp>
+#include <string.hpp>
 #include <utility.hpp>
 
 namespace logging {
@@ -21,8 +23,8 @@ public:
     logger() = default;
 
     template <typename... Args>
-    void debug(const char * in_fmt, Args&&... in_args) {
-        std::forward<Args>(in_args)
+    void debug(const char8_t * in_fmt, Args&&... in_args) {
+        std::format(std::string(in_fmt), std::forward<Args>(in_args)...);
     }
 };
 
