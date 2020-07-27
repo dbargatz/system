@@ -1,5 +1,5 @@
 logging_src = [
-    'binary.cpp',
+    'logger.cpp',
 ]
 
 logging_lib = static_library('logging', logging_src)
