@@ -19,6 +19,7 @@ bool loader::binary::init(const void * in_start_addr, const void * in_end_addr) 
     assert(file_hdr->e_type    == 0x02); // Verify ET_EXEC
     assert(file_hdr->e_machine == 0x3E); // Verify machine is AMD64
     assert(file_hdr->e_version == 0x01); // Verify ELF spec version
+    _log.debug(u8"Hello from binary");
 
     return true;
 }
