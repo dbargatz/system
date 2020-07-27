@@ -1,0 +1,71 @@
+#ifndef _STD_MEMORY_RESOURCE_HPP
+#define _STD_MEMORY_RESOURCE_HPP
+
+#include <cstddef.hpp>
+#include <cstdint.hpp>
+
+namespace std::pmr {
+
+class memory_resource {
+public:
+    virtual ~memory_resource()  = default;
+
+    void * allocate(std::size_t in_bytes, std::size_t in_alignment = alignof(std::max_align_t)) {
+        return do_allocate(in_bytes, in_alignment);
+    }
+
+    void deallocate(void * in_ptr, std::size_t in_bytes, std::size_t in_alignment = alignof(std::max_align_t)) {
+        return do_deallocate(in_ptr, in_bytes, in_alignment);
+    }
+
+    bool is_equal(memory_resource const& in_other) const noexcept {
+        return do_is_equal(in_other);
+    }
+
+protected:
+    virtual void * do_allocate(std::size_t in_bytes, std::size_t in_alignment) = 0;
+    virtual void do_deallocate(void * in_ptr, std::size_t in_bytes, std::size_t in_alignment) = 0;
+    virtual bool do_is_equal(memory_resource const& in_other) const noexcept = 0;
+};
+
+template <typename T = std::uint8_t>
+class polymorphic_allocator {
+public:
+    using value_type = T;
+
+    polymorphic_allocator() noexcept {
+        _resource = nullptr; //TODO: should be std::pmr::get_default_resource();
+    }
+
+    polymorphic_allocator(const polymorphic_allocator& in_other) = default;
+
+    template <typename U>
+    polymorphic_allocator(const polymorphic_allocator<U>& in_other) noexcept :
+        _resource(in_other.resource()) { }
+
+    polymorphic_allocator(memory_resource * in_resource) : _resource(in_resource) {}
+
+    [[nodiscard]] T* allocate(std::size_t in_num) {
+        return static_cast<T*>(resource()->allocate(in_num * sizeof(T), alignof(T)));
+    }
+
+    void deallocate(T* in_ptr, std::size_t in_num) {
+        resource()->deallocate(in_ptr, in_num * sizeof(T), alignof(T));
+    }
+
+    memory_resource * resource() const;
+
+private:
+    memory_resource * _resource;
+};
+
+template <typename T1, typename T2>
+bool operator== (const std::pmr::polymorphic_allocator<T1>& in_lhs,
+                 const std::pmr::polymorphic_allocator<T2>& in_rhs) noexcept {
+    return (*in_lhs.resource() == *in_rhs.resource());
+}
+
+
+}; // namespace std::pmr
+
+#endif // _STD_MEMORY_RESOURCE_HPP
