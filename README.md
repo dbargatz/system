@@ -60,14 +60,21 @@ any necessary dependencies) via apt-get:
 Normal debug build:
 
 ```bash
-> meson build/
+> meson build/ --buildtype debug --cross-file x64.ini
+> ninja -C build/
+```
+
+Release build:
+
+```bash
+> meson build/ --buildtype release --cross-file x64.ini
 > ninja -C build/
 ```
 
 Generating Doxygen documentation (output to `docs/doxygen`):
 
 ```bash
-> meson build/
+> meson build/ --cross-file x64.ini
 > ninja -C build/ docs
 ```
 
