@@ -1,0 +1,37 @@
+#ifndef _STD_UTILITY_HPP
+#define _STD_UTILITY_HPP
+
+#include <type_traits.hpp>
+
+namespace std {
+
+/**
+ * @brief Forwards lvalues as either lvalues or rvalues, depending on T. Used to
+ * implement perfect forwarding.
+ * 
+ * @tparam T type of object to forward
+ * @param in_obj object to be forwarded
+ * @return constexpr T&& object cast to the specified type
+ */
+template <typename T>
+constexpr T&& forward(std::remove_reference_t<T>& in_obj) noexcept {
+    return static_cast<T&&>(in_obj);
+}
+
+/**
+ * @brief Forwards rvalues as rvalues, preventing forwarding of lvalues. Used to
+ * implement perfect forwarding.
+ * 
+ * @tparam T type of object to forward
+ * @param in_obj object to be forwarded
+ * @return constexpr T&& object cast to the specified type
+ */
+template <typename T>
+constexpr T&& forward(std::remove_reference_t<T>&& in_obj) noexcept {
+    static_assert(!std::is_lvalue_reference<T>(), "cannot forward lvalue");
+    return static_cast<T&&>(in_obj);
+}
+
+}; // namespace std
+
+#endif // _STD_UTILITY_HPP
