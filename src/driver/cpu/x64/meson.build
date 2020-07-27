@@ -36,7 +36,7 @@ driver_cpu_x64_src = [
 ]
 
 driver_cpu_x64_link_script = '../src/driver/cpu/x64/linker.ld'
-link_with_objs = [abi_lib, loader_lib, std_lib]
+link_with_objs = [abi_lib, loader_lib, logging_lib, std_lib]
 core_x64_bin = executable('core_x64.bin', [driver_cpu_x64_src, nasm_objs],
                           link_args: ['-Wl,-T' + driver_cpu_x64_link_script],
                           link_with: link_with_objs)
