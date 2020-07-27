@@ -11,13 +11,14 @@
 #define _STD_STRING_HPP
 
 #include <cstddef.hpp>
+#include <memory_resource.hpp>
 
 namespace std {
 
 // TODO: class, typedef comments
 template <class CharT>
 class char_traits {
-
+public:
     typedef CharT char_type;
     typedef int   int_type;
     // TODO: off_type
@@ -123,30 +124,55 @@ class char_traits {
     // TODO: to_char_type()
     // TODO: to_int_type()
     // TODO: eq_int_type()
-    // TODO: eof()
+    
+    constexpr static inline int_type eof() noexcept {
+        return int_type('\0');
+    }
     // TODO: not_eof()
 };
 
 // TODO: comments
-template <class CharT, class Traits = std::char_traits<CharT> /* TODO: , class Allocator = std::polymorphic_allocator<CharT> */>
+template <class CharT, class Traits = std::char_traits<CharT>, class Allocator = std::pmr::polymorphic_allocator<CharT>>
 class basic_string {
-    typedef Traits traits_type;
-    typedef CharT value_type;
-    // TODO: allocator_type
-    // TODO: size_type
+public:
+    using traits_type     = Traits;
+    using value_type      = CharT;
+    using allocator_type  = Allocator;
+    // TODO: size_type via allocator_traits
+    using size_type       = std::size_t;
     // TODO: difference_type
-    typedef value_type& reference;
-    typedef const value_type& const_reference;
+    using reference       = value_type&;
+    using const_reference = const value_type&;
     // TODO: iterator
     // TODO: const_iterator
     // TODO: reverse_iterator
     // TODO: const_reverse_iterator
 
     // TODO: all the ctor/dtor/member functions
+
+    constexpr basic_string(const CharT * in_s, const Allocator& in_alloc = Allocator()) {
+        _length_in_chars = 0;
+        auto start = in_s;
+        while(*in_s != traits_type::eof()) {
+            _buf[_length_in_chars++] = *in_s;
+            in_s++;
+        }
+        _buf[_length_in_chars] = traits_type::eof();
+    }
+
+private:
+    constexpr static const std::uint16_t _MAX_LENGTH_BYTES = 256;
+
+    value_type _buf[_MAX_LENGTH_BYTES];
+    std::size_t _length_in_chars;
+
 };
 
 // TODO: npos
 // TODO: non-member basic_string operators
+
+using string = std::basic_string<char8_t>;
+using u8string = std::basic_string<char8_t>;
 
 }; // namespace std
 
