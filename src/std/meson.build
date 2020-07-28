@@ -1,5 +1,4 @@
 std_src = [
-    'cstring.cpp',
     'string.cpp',
 ]
 
