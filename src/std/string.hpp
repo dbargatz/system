@@ -121,14 +121,26 @@ public:
     // TODO: copy()
     // TODO: length()
     // TODO: find()
-    // TODO: to_char_type()
-    // TODO: to_int_type()
-    // TODO: eq_int_type()
-    
+
+    constexpr static inline char_type to_char_type(int_type in_i) noexcept {
+        return char_type(in_i);
+    }
+
+    constexpr static inline int_type to_int_type(char_type in_c) noexcept {
+        return int_type(in_c);
+    }
+
+    constexpr static inline bool eq_int_type(int_type in_a, int_type in_b) noexcept {
+        return in_a == in_b;
+    }
+
     constexpr static inline int_type eof() noexcept {
         return int_type('\0');
     }
-    // TODO: not_eof()
+
+    constexpr static inline int_type not_eof(int_type in_eof) noexcept {
+        return eq_int_type(in_eof, eof()) ? ~eof() : in_eof;
+    }
 };
 
 // TODO: comments
@@ -158,6 +170,28 @@ public:
             in_s++;
         }
         _buf[_length_in_chars] = traits_type::eof();
+    }
+
+    inline size_type size() const noexcept {
+        return _length_in_chars;
+    }
+
+    inline size_type length() const noexcept {
+        return size();
+    }
+
+    // TODO: max_size()
+
+    inline size_type capacity() const noexcept {
+        return _MAX_LENGTH_BYTES;
+    }
+
+    const value_type* data() const noexcept {
+        return _buf;
+    }
+
+    const value_type* c_str() const noexcept {
+        return _buf;
     }
 
 private:

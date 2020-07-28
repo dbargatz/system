@@ -6,8 +6,8 @@
 namespace std {
 
 template <typename... Args>
-std::string format(std::string in_fmt, const Args&... in_args) {
-    return in_fmt;
+std::string format(const std::string& in_fmt, const Args&... in_args) {
+    return std::string(in_fmt);
 }
 
 }; // namespace std

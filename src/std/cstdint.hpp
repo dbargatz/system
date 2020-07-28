@@ -35,4 +35,9 @@ using uintptr_t      = unsigned long long;
 
 }; // namespace std
 
+#define UINT8_MAX  ((std::uint8_t) 0xFFFFFFFFFFFFFFFF)
+#define UINT16_MAX ((std::uint16_t)0xFFFFFFFFFFFFFFFF)
+#define UINT32_MAX ((std::uint32_t)0xFFFFFFFFFFFFFFFF)
+#define UINT64_MAX ((std::uint64_t)0xFFFFFFFFFFFFFFFF)
+
 #endif // _STD_CSTDINT_HPP
