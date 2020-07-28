@@ -25,7 +25,6 @@ driver_cpu_x64_src = [
     'keyboard/scancode_set_2.cpp',
     'multiboot/boot_info.cpp',
     'ports/io_port.cpp',
-    'std/cpp.cpp',
     'std/text.cpp',
     'timer/pit.cpp',
     'core.cpp',
