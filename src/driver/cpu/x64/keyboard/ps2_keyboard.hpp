@@ -2,6 +2,7 @@
 #define _KEYBOARD_PS2_KEYBOARD_HPP
 
 #include <cstdint.hpp>
+#include <queue.hpp>
 #include <string.hpp>
 #include "../../../../logging/logger.hpp"
 #include "keyboard.hpp"
@@ -10,7 +11,6 @@
 #include "scancode_set.hpp"
 #include "scancode_set_2.hpp"
 #include "../interrupts/frame.hpp"
-#include "../std/queue.hpp"
 
 class ps2_keyboard : public keyboard {
 public:
@@ -99,7 +99,7 @@ private:
     std::uint8_t _resend_count;
     scancode _cur_scancode;
     scancode_set& _cur_scancode_set;
-    queue<struct _command, 16> _commands;
+    std::queue<struct _command, 16> _commands;
     keystate _keystate;
 };
 

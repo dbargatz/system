@@ -5,6 +5,8 @@
 #include <cstdint.hpp>
 #include <cstring.hpp>
 
+namespace std {
+
 /**
  * Simple queue based on a stack-allocated circular buffer.
  * 
@@ -37,15 +39,6 @@ public:
         T item = _buf[_front];
         _front = (_front + 1) % (N + 1);
         return item;
-    }
-
-    /**
-     * Write a representation of the queue state to the given log.
-     *
-     * @param in_log logger to use
-     */
-    void dump(logging::logger& in_log) {
-        in_log.debug(u8"Queue: {#016X} ({}/{} items)", (std::uint64_t)this, size(), N);
     }
 
     /**
@@ -101,5 +94,7 @@ protected:
     ///< item to be enqueued().
     std::size_t _back;
 };
+
+}; // namespace std
 
 #endif // _STD_QUEUE_HPP
