@@ -1,3 +1,4 @@
+#include "cxxabi.h"
 #include <cstdint.hpp>
 
 struct atexit_entry {

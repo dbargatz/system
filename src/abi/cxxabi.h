@@ -18,6 +18,10 @@ namespace __cxxabiv1 {
  */
 extern "C" [[noreturn]] void __cxa_pure_virtual();
 
+// TODO: comment
+extern "C" int __cxa_atexit(void (*in_func)(void *), void * in_arg,
+                            void * in_dso_handle);
+
 }; // namespace __cxxabiv1
 
 #endif // __ABI_CXXABI_H
