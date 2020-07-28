@@ -4,7 +4,6 @@
 #include "../../../loader/binary.hpp"
 
 #include "std/cpuid.h"
-#include "std/halt.h"
 #include "std/panic.h"
 
 #define HANDLERS \
@@ -65,7 +64,7 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
         default:                        // Unhandled interrupt
             _log.panic(u8"UNHANDLED INTERRUPT {#02X} ({})", int_num, int_num);
             frame.dump(_log);
-            halt();
+            asm volatile("hlt");
             break;
     }
 }
@@ -94,7 +93,7 @@ void core::panic_handler(interrupt_frame& in_frame) {
     // Regardless of cause, dump the interrupt stack frame with the register
     // contents at the time of the exception, then halt.
     in_frame.dump(_log);
-    halt();
+    asm volatile("hlt");
 }
 
 void core::run(const void * in_boot_info) {
