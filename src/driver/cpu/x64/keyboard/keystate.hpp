@@ -1,8 +1,8 @@
 #ifndef _KEYBOARD_KEYSTATE_HPP
 #define _KEYBOARD_KEYSTATE_HPP
 
-#include <cstdint.hpp>
-#include <string.hpp>
+#include <cstdint>
+#include <string>
 #include "scancode_set.hpp"
 
 class keystate {

@@ -1,7 +1,7 @@
 #ifndef _LOGGING_BACKEND_HPP
 #define _LOGGING_BACKEND_HPP
 
-#include <string.hpp>
+#include <string>
 
 namespace logging {
 

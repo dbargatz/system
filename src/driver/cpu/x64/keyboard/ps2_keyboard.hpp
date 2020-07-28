@@ -1,9 +1,9 @@
 #ifndef _KEYBOARD_PS2_KEYBOARD_HPP
 #define _KEYBOARD_PS2_KEYBOARD_HPP
 
-#include <cstdint.hpp>
-#include <queue.hpp>
-#include <string.hpp>
+#include <cstdint>
+#include <queue>
+#include <string>
 #include "../../../../logging/logger.hpp"
 #include "keyboard.hpp"
 #include "keystate.hpp"

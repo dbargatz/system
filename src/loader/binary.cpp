@@ -1,6 +1,6 @@
 #include "binary.hpp"
 
-#include <cassert.hpp>
+#include <cassert>
 
 #include "__elf.hpp"
 

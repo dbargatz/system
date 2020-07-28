@@ -1,5 +1,5 @@
 #include "idt.hpp"
-#include <cstring.hpp>
+#include <cstring>
 
 struct idtr {
     std::uint16_t limit;

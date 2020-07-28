@@ -1,8 +1,8 @@
 #ifndef _STD_TEXT_HPP
 #define _STD_TEXT_HPP
 
-#include <cstddef.hpp>
-#include <cstdint.hpp>
+#include <cstddef>
+#include <cstdint>
 
 
 class text {

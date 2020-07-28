@@ -1,8 +1,8 @@
 #ifndef _STD_MEMORY_RESOURCE_HPP
 #define _STD_MEMORY_RESOURCE_HPP
 
-#include <cstddef.hpp>
-#include <cstdint.hpp>
+#include <cstddef>
+#include <cstdint>
 
 namespace std::pmr {
 

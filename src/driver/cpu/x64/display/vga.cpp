@@ -1,5 +1,5 @@
 #include "vga.hpp"
-#include <cstring.hpp>
+#include <cstring>
 
 vga::vga() : _cur_column(0), _cur_row(0) {
     clear_screen(color::black);

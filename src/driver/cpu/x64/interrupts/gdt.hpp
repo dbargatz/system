@@ -1,7 +1,7 @@
 #ifndef _INTERRUPTS_GDT_HPP
 #define _INTERRUPTS_GDT_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../../logging/logger.hpp"
 
 class gdt {

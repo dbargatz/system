@@ -1,8 +1,8 @@
 #ifndef _KEYBOARD_PS2_CONTROLLER_HPP
 #define _KEYBOARD_PS2_CONTROLLER_HPP
 
-#include <cstdint.hpp>
-#include <string.hpp>
+#include <cstdint>
+#include <string>
 #include "../../../../logging/logger.hpp"
 #include "../ports/io_port.hpp"
 

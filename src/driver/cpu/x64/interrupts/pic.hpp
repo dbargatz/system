@@ -1,7 +1,7 @@
 #ifndef _INTERRUPTS_PIC_HPP
 #define _INTERRUPTS_PIC_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../../logging/logger.hpp"
 #include "../ports/io_port.hpp"
 

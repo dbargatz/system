@@ -5,7 +5,7 @@
 #ifndef _TIMER_TIMER_HPP
 #define _TIMER_TIMER_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../interrupts/frame.hpp"
 
 /**

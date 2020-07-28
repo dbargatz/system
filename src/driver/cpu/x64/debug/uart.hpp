@@ -1,9 +1,9 @@
 #ifndef _DEBUG_UART_HPP
 #define _DEBUG_UART_HPP
 
-#include <cstddef.hpp>
-#include <cstdint.hpp>
-#include <string.hpp>
+#include <cstddef>
+#include <cstdint>
+#include <string>
 #include "../ports/io_port.hpp"
 
 class uart {

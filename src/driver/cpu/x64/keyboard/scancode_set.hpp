@@ -1,9 +1,9 @@
 #ifndef _KEYBOARD_SCANCODE_SET_HPP
 #define _KEYBOARD_SCANCODE_SET_HPP
 
-#include <cstdint.hpp>
-#include <format.hpp>
-#include <string.hpp>
+#include <cstdint>
+#include <format>
+#include <string>
 
 using scancode = std::uint64_t;
 

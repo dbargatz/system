@@ -1,11 +1,11 @@
 #ifndef _LOGGING_LOGGER_HPP
 #define _LOGGING_LOGGER_HPP
 
-#include <cassert.hpp>
-#include <cstdint.hpp>
-#include <format.hpp>
-#include <string.hpp>
-#include <utility.hpp>
+#include <cassert>
+#include <cstdint>
+#include <format>
+#include <string>
+#include <utility>
 
 #include "backend.hpp"
 

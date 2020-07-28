@@ -5,7 +5,7 @@
 #ifndef _STD_PANIC_H
 #define _STD_PANIC_H
 
-#include <cstdint.hpp>
+#include <cstdint>
 
 ///< Encoding of the "ud2" Undefined Instruction. Used to trigger a PANIC().
 constexpr static const std::uint16_t UD2_ENCODING = 0x0F0B;

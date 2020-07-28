@@ -1,5 +1,5 @@
 #include "cxxabi.h"
-#include <cstdint.hpp>
+#include <cstdint>
 
 struct atexit_entry {
     void (*func)(void *);

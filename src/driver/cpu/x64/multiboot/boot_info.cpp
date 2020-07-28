@@ -1,5 +1,5 @@
 #include "boot_info.hpp"
-#include <cstring.hpp>
+#include <cstring>
 #include "../../../../loader/__elf.hpp" // TODO: fix include of private header
 #include "multiboot2.h"
 

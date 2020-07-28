@@ -1,8 +1,8 @@
 #ifndef _STD_ARRAY_HPP
 #define _STD_ARRAY_HPP
 
-#include <cassert.hpp>
-#include <cstdint.hpp>
+#include <cassert>
+#include <cstdint>
 
 namespace std {
 

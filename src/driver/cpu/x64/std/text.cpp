@@ -1,6 +1,6 @@
 #include "text.hpp"
-#include <cassert.hpp>
-#include <cstring.hpp>
+#include <cassert>
+#include <cstring>
 
 text::text(const char * in_str) : _length_in_chars(0) {
     format(in_str);

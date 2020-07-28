@@ -1,7 +1,7 @@
 #ifndef _INTERRUPTS_FRAME_HPP
 #define _INTERRUPTS_FRAME_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../../logging/logger.hpp"
 
 class interrupt_frame {

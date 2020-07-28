@@ -1,7 +1,7 @@
 #ifndef _STD_CPUID_H
 #define _STD_CPUID_H
 
-#include <cstdint.hpp>
+#include <cstdint>
 
 /**
  * @brief Executes the CPUID instruction with the given code, returning the

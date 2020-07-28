@@ -1,5 +1,5 @@
 #include "keystate.hpp"
-#include <cstring.hpp>
+#include <cstring>
 
 keystate::keystate() {
     std::memset(_state, 0, sizeof(_state));

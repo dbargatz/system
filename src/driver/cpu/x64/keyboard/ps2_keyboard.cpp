@@ -1,5 +1,5 @@
 #include "ps2_keyboard.hpp"
-#include <cassert.hpp>
+#include <cassert>
 #include "scancode_set_2.hpp"
 #include "../std/panic.h"
 

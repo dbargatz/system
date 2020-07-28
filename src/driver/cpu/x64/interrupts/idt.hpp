@@ -1,7 +1,7 @@
 #ifndef _INTERRUPTS_IDT_HPP
 #define _INTERRUPTS_IDT_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../../logging/logger.hpp"
 
 class idt {

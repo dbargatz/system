@@ -1,8 +1,8 @@
 #ifndef _DISPLAY_VGA_HPP
 #define _DISPLAY_VGA_HPP
 
-#include <cstdint.hpp>
-#include <string.hpp>
+#include <cstdint>
+#include <string>
 
 /**
  * Simple kernel-mode implementation of a standard VGA text-mode console with

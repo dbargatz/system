@@ -1,7 +1,7 @@
 #ifndef _DEBUG_UART_LOGGER_HPP
 #define _DEBUG_UART_LOGGER_HPP
 
-#include <string.hpp>
+#include <string>
 #include "../../../../logging/backend.hpp"
 #include "uart.hpp"
 

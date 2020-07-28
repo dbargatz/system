@@ -10,8 +10,8 @@
 #ifndef _STD_STRING_HPP
 #define _STD_STRING_HPP
 
-#include <cstddef.hpp>
-#include <memory_resource.hpp>
+#include <cstddef>
+#include <memory_resource>
 
 namespace std {
 

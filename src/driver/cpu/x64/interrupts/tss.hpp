@@ -1,7 +1,7 @@
 #ifndef _INTERRUPTS_TSS_HPP
 #define _INTERRUPTS_TSS_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../../logging/logger.hpp"
 #include "gdt.hpp"
 

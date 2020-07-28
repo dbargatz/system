@@ -1,9 +1,9 @@
 #ifndef _STD_QUEUE_HPP
 #define _STD_QUEUE_HPP
 
-#include <cassert.hpp>
-#include <cstdint.hpp>
-#include <cstring.hpp>
+#include <cassert>
+#include <cstdint>
+#include <cstring>
 
 namespace std {
 

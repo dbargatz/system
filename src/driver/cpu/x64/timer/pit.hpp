@@ -1,7 +1,7 @@
 #ifndef _TIMER_PIT_HPP
 #define _TIMER_PIT_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../../logging/logger.hpp"
 #include "timer.hpp"
 #include "../interrupts/frame.hpp"

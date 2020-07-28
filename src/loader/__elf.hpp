@@ -1,7 +1,7 @@
 #ifndef _LOADER_ELF_HPP
 #define _LOADER_ELF_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 
 namespace loader {
 

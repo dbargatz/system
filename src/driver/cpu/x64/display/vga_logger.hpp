@@ -1,7 +1,7 @@
 #ifndef _DISPLAY_VGA_LOGGER_HPP
 #define _DISPLAY_VGA_LOGGER_HPP
 
-#include <string.hpp>
+#include <string>
 #include "../../../../logging/backend.hpp"
 #include "vga.hpp"
 

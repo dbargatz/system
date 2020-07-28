@@ -1,6 +1,6 @@
 #include "core.hpp"
 
-#include <cassert.hpp>
+#include <cassert>
 #include "../../../loader/binary.hpp"
 
 #include "std/cpuid.h"

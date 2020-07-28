@@ -6,8 +6,8 @@
 #ifndef _STD_CSTRING_HPP
 #define _STD_CSTRING_HPP
 
-#include <cstddef.hpp>
-#include <cstdint.hpp>
+#include <cstddef>
+#include <cstdint>
 
 namespace std {
 

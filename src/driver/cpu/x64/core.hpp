@@ -1,7 +1,7 @@
 #ifndef _CORE_HPP
 #define _CORE_HPP
 
-#include <cstdint.hpp>
+#include <cstdint>
 #include "../../../logging/logger.hpp"
 
 #include "interrupts/gdt.hpp"
