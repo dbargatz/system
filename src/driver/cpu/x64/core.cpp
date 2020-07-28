@@ -6,7 +6,6 @@
 #include "std/cpuid.h"
 #include "std/halt.h"
 #include "std/panic.h"
-#include "std/queue.hpp"
 
 #define HANDLERS \
     X(0) X(10) X(20) X(30) X(40) X(50) X(60) X(70) X(80) X(90) X(100) X(110) X(120) X(130) X(140) X(150) X(160) X(170) X(180) X(190) X(200) X(210) X(220) X(230) X(240) X(250) \

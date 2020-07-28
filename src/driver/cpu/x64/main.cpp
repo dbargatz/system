@@ -1,6 +1,5 @@
 #include "../../../logging/logger.hpp"
 
-#include "std/array.hpp"
 #include "std/panic.h"
 #include "debug/uart_logger.hpp"
 #include "display/vga_logger.hpp"
