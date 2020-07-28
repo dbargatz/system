@@ -1,25 +1,27 @@
 #ifndef _KEYBOARD_PS2_KEYBOARD_HPP
 #define _KEYBOARD_PS2_KEYBOARD_HPP
 
+#include <cstdint.hpp>
+#include <string.hpp>
+#include "../../../../logging/logger.hpp"
 #include "keyboard.hpp"
 #include "keystate.hpp"
 #include "ps2_controller.hpp"
 #include "scancode_set.hpp"
 #include "scancode_set_2.hpp"
 #include "../interrupts/frame.hpp"
-#include "../std/logger.hpp"
 #include "../std/queue.hpp"
 
 class ps2_keyboard : public keyboard {
 public:
-    ps2_keyboard(logger& in_log, ps2_controller& in_ps2, scancode_set& in_scancode_set);
+    ps2_keyboard(logging::logger& in_log, ps2_controller& in_ps2, scancode_set& in_scancode_set);
     void interrupt_handler(interrupt_frame& in_frame) override;
     void reset() override;
 
 private:
-    constexpr static const uint8_t MAX_RESENDS = 3;
+    constexpr static const std::uint8_t MAX_RESENDS = 3;
 
-    enum class _command_byte : uint8_t {
+    enum class _command_byte : std::uint8_t {
         SET_LED            = 0xED,
         ECHO               = 0xEE,
         SCAN_CODE_SET      = 0xF0,
@@ -39,7 +41,7 @@ private:
         RESET              = 0xFF
     };
 
-    enum class _response_byte : uint8_t {
+    enum class _response_byte : std::uint8_t {
         INTERNAL_ERROR1   = 0x00,
         SELF_TEST_PASSED  = 0xAA,
         ECHO              = 0xEE,
@@ -50,20 +52,20 @@ private:
         INTERNAL_ERROR2   = 0xFF
     };
 
-    enum class _led_state : uint8_t {
+    enum class _led_state : std::uint8_t {
         SCROLL_LOCK = 0x00,
         NUM_LOCK    = 0x01,
         CAPS_LOCK   = 0x02
     };
 
-    enum class _scan_code_set : uint8_t {
+    enum class _scan_code_set : std::uint8_t {
         GET_CURRENT = 0x00,
         USE_SET_1   = 0x01,
         USE_SET_2   = 0x02,
         USE_SET_3   = 0x03
     };
 
-    enum class _state : uint8_t {
+    enum class _state : std::uint8_t {
         UNKNOWN = 0,
         IDLE,
         WAITING_FOR_ID,
@@ -77,24 +79,24 @@ private:
 
     struct _command {
         _command_byte cmd;
-        uint8_t num_args;
-        uint8_t args[8];
+        std::uint8_t num_args;
+        std::uint8_t args[8];
     };
 
     struct _response {
         _response_byte response;
-        uint8_t data[8];
+        std::uint8_t data[8];
     };
 
     void _complete_command();
     void _send_command();
 
-    logger& _log;
+    logging::logger& _log;
     ps2_port _port;
     ps2_controller& _ps2;
 
     _state _cur_state;
-    uint8_t _resend_count;
+    std::uint8_t _resend_count;
     scancode _cur_scancode;
     scancode_set& _cur_scancode_set;
     queue<struct _command, 16> _commands;

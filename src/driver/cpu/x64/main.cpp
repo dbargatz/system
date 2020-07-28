@@ -1,5 +1,6 @@
+#include "../../../logging/logger.hpp"
+
 #include "std/array.hpp"
-#include "std/logger.hpp"
 #include "std/panic.h"
 #include "debug/uart_logger.hpp"
 #include "display/vga_logger.hpp"
@@ -33,15 +34,15 @@ extern "C" int core_entry(const void * in_boot_info) {
     // injection technique), then register that logger as a singleton instance
     // with a separate core injector.
     const auto log_injector = di::make_injector();
-    auto vga_log = log_injector.create<vga_logger&>();
-    auto uart_log = log_injector.create<uart_logger&>();
-    auto log = log_injector.create<logger&>();
+    auto vga_log = log_injector.create<vga_backend&>();
+    auto uart_log = log_injector.create<uart_backend&>();
+    auto log = log_injector.create<logging::logger&>();
     log.add_backend(&vga_log);
     log.add_backend(&uart_log);
 
     // Bind abstract classes to implementations and create the bootstrap core.
     const auto core_injector = di::make_injector(
-        di::bind<logger>().to(log),
+        di::bind<logging::logger>().to(log),
         di::bind<keyboard>().to<ps2_keyboard>(),
         di::bind<scancode_set>().to<scancode_set_2>(),
         di::bind<timer>().to<pit>()
@@ -52,6 +53,6 @@ extern "C" int core_entry(const void * in_boot_info) {
     this_core = &bootstrap_core;
     this_core->run(in_boot_info);
 
-    PANIC("End of core_entry() reached!");
+    PANIC(u8"End of core_entry() reached!");
     return -1;
 }

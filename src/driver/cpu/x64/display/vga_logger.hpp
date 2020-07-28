@@ -1,18 +1,15 @@
 #ifndef _DISPLAY_VGA_LOGGER_HPP
 #define _DISPLAY_VGA_LOGGER_HPP
 
+#include <string.hpp>
+#include "../../../../logging/backend.hpp"
 #include "vga.hpp"
-#include "../std/logger_backend.hpp"
 
-class vga_logger : public logger_backend {
+class vga_backend : public logging::backend {
 public:
-    vga_logger(vga& in_vga);
+    vga_backend(vga& in_vga) : _vga(in_vga) {}
 
-    void debug(const text& in_msg) override;
-    void error(const text& in_msg) override;
-    void info(const text& in_msg) override;
-    void panic(const text& in_msg) override;
-    void warn(const text& in_msg) override;
+    void write(const std::string& in_str) override;
 
 private:
     vga& _vga;

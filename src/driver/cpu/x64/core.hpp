@@ -1,6 +1,9 @@
 #ifndef _CORE_HPP
 #define _CORE_HPP
 
+#include <cstdint.hpp>
+#include "../../../logging/logger.hpp"
+
 #include "interrupts/gdt.hpp"
 #include "interrupts/idt.hpp"
 #include "interrupts/pic.hpp"
@@ -8,18 +11,17 @@
 #include "keyboard/keyboard.hpp"
 #include "keyboard/ps2_controller.hpp"
 #include "multiboot/boot_info.hpp"
-#include "std/logger.hpp"
 #include "timer/timer.hpp"
 
 class core {
 private:
     ///< If bit 9 is set in CPUID:01H:EDX, a local APIC is present on this core.
-    static const uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
+    static const std::uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
 
     ///< If bit 9 (IF) is set in RFLAGS, interrupts are enabled on this core.
-    static const uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
+    static const std::uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
 
-    logger& _log;
+    logging::logger& _log;
     boot_info& _boot;
     gdt& _gdt;
     idt& _idt;
@@ -35,7 +37,7 @@ private:
 
 public:
 
-    core(logger& in_log,
+    core(logging::logger& in_log,
         boot_info& in_boot,
         gdt& in_gdt,
         idt& in_idt,

@@ -1,12 +1,12 @@
 #ifndef _STD_ARRAY_HPP
 #define _STD_ARRAY_HPP
 
-#include "assert.h"
-#include "stdint.h"
+#include <cassert.hpp>
+#include <cstdint.hpp>
 
 namespace std {
 
-template<typename T, size_t N>
+template<typename T, std::size_t N>
 class array {
 public:
     class iterator {
@@ -29,20 +29,20 @@ public:
         const T* _ptr;
     };
 
-    T& operator[](size_t in_idx) {
-        ASSERT(in_idx < N, "array index out-of-bounds");
+    T& operator[](std::size_t in_idx) {
+        assert(in_idx < N);
         return _buf[in_idx];
     }
 
-    constexpr const T& operator[](size_t in_idx) const noexcept {
+    constexpr const T& operator[](std::size_t in_idx) const noexcept {
         return _buf[in_idx];
     }
 
-    T& at(size_t in_idx) {
+    T& at(std::size_t in_idx) {
         return _buf[in_idx];
     }
 
-    constexpr const T& at(size_t in_idx) const noexcept {
+    constexpr const T& at(std::size_t in_idx) const noexcept {
         return _buf[in_idx];
     }
 
@@ -62,11 +62,11 @@ public:
         return N ? *(end() - 1) : *end();
     }
 
-    constexpr size_t size() const noexcept {
+    constexpr std::size_t size() const noexcept {
         return N;
     }
 
-    constexpr size_t max_size() const noexcept {
+    constexpr std::size_t max_size() const noexcept {
         return N;
     }
 

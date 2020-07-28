@@ -1,12 +1,14 @@
 #ifndef _DEBUG_UART_HPP
 #define _DEBUG_UART_HPP
 
+#include <cstddef.hpp>
+#include <cstdint.hpp>
+#include <string.hpp>
 #include "../ports/io_port.hpp"
-#include "../std/text.hpp"
 
 class uart {
 private:
-    constexpr static const uint16_t _COM1_IO_PORT = 0x03F8;
+    constexpr static const std::uint16_t _COM1_IO_PORT = 0x03F8;
 
     constexpr static const io_port _DATA             = io_port(_COM1_IO_PORT);
     constexpr static const io_port _INTERRUPT_ENABLE = io_port(_COM1_IO_PORT + 1);
@@ -22,7 +24,7 @@ private:
 public:
     uart();
 
-    void write(const text& in_text);
+    void write(const std::string& in_str);
 };
 
 #endif // _DEBUG_UART_HPP

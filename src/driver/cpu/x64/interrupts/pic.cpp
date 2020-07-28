@@ -1,10 +1,10 @@
 #include "pic.hpp"
 
-pic::pic(logger& in_log) : _log(in_log) {
-    _log.debug("Initialized PIC.");
+pic::pic(logging::logger& in_log) : _log(in_log) {
+    _log.debug(u8"Initialized PIC.");
 }
 
-void pic::send_eoi(const uint8_t in_irq_number) {
+void pic::send_eoi(const std::uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
 
     if(in_irq_number >= 8) {
@@ -13,12 +13,12 @@ void pic::send_eoi(const uint8_t in_irq_number) {
     PIC1_COMMAND_PORT.outb(EOI_COMMAND);
 }
 
-void pic::remap(const uint8_t in_pic1_interrupt_base,
-                const uint8_t in_pic2_interrupt_base) {
+void pic::remap(const std::uint8_t in_pic1_interrupt_base,
+                const std::uint8_t in_pic2_interrupt_base) {
 
     // Save off the current interrupt masks.
-    uint8_t pic1_mask = PIC1_DATA_PORT.inb();
-    uint8_t pic2_mask = PIC2_DATA_PORT.inb();
+    std::uint8_t pic1_mask = PIC1_DATA_PORT.inb();
+    std::uint8_t pic2_mask = PIC2_DATA_PORT.inb();
 
     // Start the initialization of both PICs. After this command is sent,
     // each PIC will expect three data bytes in sequence on their data port:
@@ -51,12 +51,12 @@ void pic::disable_all(void) {
     // Mask all interrupts on both the PICs.
     PIC2_DATA_PORT.outb(0xFF);
     PIC1_DATA_PORT.outb(0xFF);
-    _log.debug("Disabled all IRQ");
+    _log.debug(u8"Disabled all IRQ");
 }
 
-void pic::disable_irq(const uint8_t in_irq_number) {
+void pic::disable_irq(const std::uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
-    uint8_t mask;
+    std::uint8_t mask;
 
     if(in_irq_number < 8) {
         mask = PIC1_DATA_PORT.inb() | (1 << in_irq_number);
@@ -65,12 +65,12 @@ void pic::disable_irq(const uint8_t in_irq_number) {
         mask = PIC2_DATA_PORT.inb() | (1 << (in_irq_number - 8));
         PIC2_DATA_PORT.outb(mask);
     }
-    _log.debug("Disabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
+    _log.debug(u8"Disabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
 }
 
-void pic::enable_irq(const uint8_t in_irq_number) {
+void pic::enable_irq(const std::uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
-    uint8_t mask;
+    std::uint8_t mask;
 
     if(in_irq_number < 8) {
         mask = PIC1_DATA_PORT.inb() & ~(1 << in_irq_number);
@@ -79,5 +79,5 @@ void pic::enable_irq(const uint8_t in_irq_number) {
         mask = PIC2_DATA_PORT.inb() & ~(1 << (in_irq_number - 8));
         PIC2_DATA_PORT.outb(mask);
     }
-    _log.debug("Enabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
+    _log.debug(u8"Enabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
 }

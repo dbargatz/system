@@ -1,11 +1,11 @@
 #include "keystate.hpp"
-#include "../std/memset.hpp"
+#include <cstring.hpp>
 
 keystate::keystate() {
-    memset(_state, 0, sizeof(_state));
+    std::memset(_state, 0, sizeof(_state));
 }
 
-text keystate::set_key(keycode& in_code) {
+std::string keystate::set_key(keycode& in_code) {
     // Update the state array.
     auto col_major_idx = in_code.column / 64;
     auto col_minor_idx = in_code.column % 64;
@@ -36,96 +36,96 @@ text keystate::set_key(keycode& in_code) {
     // with the unicode; otherwise, return an empty text. Only generate unicode
     // on key press, not release.
     if(!in_code.pressed) {
-        return "";
+        return u8"";
     }
     switch(in_code.row) {
         case 2:
             switch(in_code.column) {
-                case 1:  return (_shift ? "~" : "`");
-                case 2:  return (_shift ? "!" : "1");
-                case 3:  return (_shift ? "@" : "2");
-                case 4:  return (_shift ? "#" : "3");
-                case 5:  return (_shift ? "$" : "4");
-                case 6:  return (_shift ? "%" : "5");
-                case 7:  return (_shift ? "^" : "6");
-                case 8:  return (_shift ? "&" : "7");
-                case 9:  return (_shift ? "*" : "8");
-                case 10: return (_shift ? "(" : "9");
-                case 11: return (_shift ? ")" : "0");
-                case 12: return (_shift ? "_" : "-");
-                case 13: return (_shift ? "+" : "=");
-                case 19: return "/";
-                case 20: return "*";
-                case 21: return "-";
-                default: return "";
+                case 1:  return (_shift ? u8"~" : u8"`");
+                case 2:  return (_shift ? u8"!" : u8"1");
+                case 3:  return (_shift ? u8"@" : u8"2");
+                case 4:  return (_shift ? u8"#" : u8"3");
+                case 5:  return (_shift ? u8"$" : u8"4");
+                case 6:  return (_shift ? u8"%" : u8"5");
+                case 7:  return (_shift ? u8"^" : u8"6");
+                case 8:  return (_shift ? u8"&" : u8"7");
+                case 9:  return (_shift ? u8"*" : u8"8");
+                case 10: return (_shift ? u8"(" : u8"9");
+                case 11: return (_shift ? u8")" : u8"0");
+                case 12: return (_shift ? u8"_" : u8"-");
+                case 13: return (_shift ? u8"+" : u8"=");
+                case 19: return u8"/";
+                case 20: return u8"*";
+                case 21: return u8"-";
+                default: return u8"";
             }
         case 3:
             switch(in_code.column) {
-                case 1:  return "\t";
-                case 2:  return (_shift ^ _caps_lock ? "Q" : "q");
-                case 3:  return (_shift ^ _caps_lock ? "W" : "w");
-                case 4:  return (_shift ^ _caps_lock ? "E" : "e");
-                case 5:  return (_shift ^ _caps_lock ? "R" : "r");
-                case 6:  return (_shift ^ _caps_lock ? "T" : "t");
-                case 7:  return (_shift ^ _caps_lock ? "Y" : "y");
-                case 8:  return (_shift ^ _caps_lock ? "U" : "u");
-                case 9:  return (_shift ^ _caps_lock ? "I" : "i");
-                case 10: return (_shift ^ _caps_lock ? "O" : "o");
-                case 11: return (_shift ^ _caps_lock ? "P" : "p");
-                case 12: return (_shift ^ _caps_lock ? "{" : "[");
-                case 13: return (_shift ^ _caps_lock ? "}" : "]");
-                case 14: return (_shift ^ _caps_lock ? "|" : "\\");
-                case 18: return (_num_lock ? "7" : "");
-                case 19: return (_num_lock ? "8" : "");
-                case 20: return (_num_lock ? "9" : "");
-                case 21: return "+";
-                default: return "";
+                case 1:  return u8"\t";
+                case 2:  return (_shift ^ _caps_lock ? u8"Q" : u8"q");
+                case 3:  return (_shift ^ _caps_lock ? u8"W" : u8"w");
+                case 4:  return (_shift ^ _caps_lock ? u8"E" : u8"e");
+                case 5:  return (_shift ^ _caps_lock ? u8"R" : u8"r");
+                case 6:  return (_shift ^ _caps_lock ? u8"T" : u8"t");
+                case 7:  return (_shift ^ _caps_lock ? u8"Y" : u8"y");
+                case 8:  return (_shift ^ _caps_lock ? u8"U" : u8"u");
+                case 9:  return (_shift ^ _caps_lock ? u8"I" : u8"i");
+                case 10: return (_shift ^ _caps_lock ? u8"O" : u8"o");
+                case 11: return (_shift ^ _caps_lock ? u8"P" : u8"p");
+                case 12: return (_shift ^ _caps_lock ? u8"{" : u8"[");
+                case 13: return (_shift ^ _caps_lock ? u8"}" : u8"]");
+                case 14: return (_shift ^ _caps_lock ? u8"|" : u8"\\");
+                case 18: return (_num_lock ? u8"7" : u8"");
+                case 19: return (_num_lock ? u8"8" : u8"");
+                case 20: return (_num_lock ? u8"9" : u8"");
+                case 21: return u8"+";
+                default: return u8"";
             }
         case 4:
             switch(in_code.column) {
-                case 2:  return (_shift ^ _caps_lock ? "A" : "a");
-                case 3:  return (_shift ^ _caps_lock ? "S" : "s");
-                case 4:  return (_shift ^ _caps_lock ? "D" : "d");
-                case 5:  return (_shift ^ _caps_lock ? "F" : "f");
-                case 6:  return (_shift ^ _caps_lock ? "G" : "g");
-                case 7:  return (_shift ^ _caps_lock ? "H" : "h");
-                case 8:  return (_shift ^ _caps_lock ? "J" : "j");
-                case 9:  return (_shift ^ _caps_lock ? "K" : "k");
-                case 10: return (_shift ^ _caps_lock ? "L" : "l");
-                case 11: return (_shift ^ _caps_lock ? ":" : ";");
-                case 12: return (_shift ^ _caps_lock ? "\"" : "'");
-                case 13: return "\n";
-                case 14: return (_num_lock ? "4" : "");
-                case 15: return (_num_lock ? "5" : "");
-                case 16: return (_num_lock ? "6" : "");
-                default: return "";
+                case 2:  return (_shift ^ _caps_lock ? u8"A"  : u8"a");
+                case 3:  return (_shift ^ _caps_lock ? u8"S"  : u8"s");
+                case 4:  return (_shift ^ _caps_lock ? u8"D"  : u8"d");
+                case 5:  return (_shift ^ _caps_lock ? u8"F"  : u8"f");
+                case 6:  return (_shift ^ _caps_lock ? u8"G"  : u8"g");
+                case 7:  return (_shift ^ _caps_lock ? u8"H"  : u8"h");
+                case 8:  return (_shift ^ _caps_lock ? u8"J"  : u8"j");
+                case 9:  return (_shift ^ _caps_lock ? u8"K"  : u8"k");
+                case 10: return (_shift ^ _caps_lock ? u8"L"  : u8"l");
+                case 11: return (_shift ^ _caps_lock ? u8":"  : u8";");
+                case 12: return (_shift ^ _caps_lock ? u8"\"" : u8"'");
+                case 13: return u8"\n";
+                case 14: return (_num_lock ? u8"4" : u8"");
+                case 15: return (_num_lock ? u8"5" : u8"");
+                case 16: return (_num_lock ? u8"6" : u8"");
+                default: return u8"";
             }
         case 5:
             switch(in_code.column) {
-                case 2:  return (_shift ^ _caps_lock ? "Z" : "z");
-                case 3:  return (_shift ^ _caps_lock ? "X" : "x");
-                case 4:  return (_shift ^ _caps_lock ? "C" : "c");
-                case 5:  return (_shift ^ _caps_lock ? "V" : "v");
-                case 6:  return (_shift ^ _caps_lock ? "B" : "b");
-                case 7:  return (_shift ^ _caps_lock ? "N" : "n");
-                case 8:  return (_shift ^ _caps_lock ? "M" : "m");
-                case 9:  return (_shift ^ _caps_lock ? "<" : ",");
-                case 10: return (_shift ^ _caps_lock ? ">" : ".");
-                case 11: return (_shift ^ _caps_lock ? "?" : "/");
-                case 14: return (_num_lock ? "1" : "");
-                case 15: return (_num_lock ? "2" : "");
-                case 16: return (_num_lock ? "3" : "");
-                case 17: return "\n";
-                default: return "";
+                case 2:  return (_shift ^ _caps_lock ? u8"Z" : u8"z");
+                case 3:  return (_shift ^ _caps_lock ? u8"X" : u8"x");
+                case 4:  return (_shift ^ _caps_lock ? u8"C" : u8"c");
+                case 5:  return (_shift ^ _caps_lock ? u8"V" : u8"v");
+                case 6:  return (_shift ^ _caps_lock ? u8"B" : u8"b");
+                case 7:  return (_shift ^ _caps_lock ? u8"N" : u8"n");
+                case 8:  return (_shift ^ _caps_lock ? u8"M" : u8"m");
+                case 9:  return (_shift ^ _caps_lock ? u8"<" : u8",");
+                case 10: return (_shift ^ _caps_lock ? u8">" : u8".");
+                case 11: return (_shift ^ _caps_lock ? u8"?" : u8"/");
+                case 14: return (_num_lock ? u8"1" : u8"");
+                case 15: return (_num_lock ? u8"2" : u8"");
+                case 16: return (_num_lock ? u8"3" : u8"");
+                case 17: return u8"\n";
+                default: return u8"";
             }
         case 6:
             switch(in_code.column) {
-                case 4:  return " ";
-                case 12: return (_num_lock ? "0" : "");
-                case 13: return (_num_lock ? "." : "");
-                default: return "";
+                case 4:  return u8" ";
+                case 12: return (_num_lock ? u8"0" : u8"");
+                case 13: return (_num_lock ? u8"." : u8"");
+                default: return u8"";
             }
         default:
-            return "";
+            return u8"";
     }
 }

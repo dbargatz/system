@@ -1,10 +1,11 @@
 #include "core.hpp"
 
+#include <cassert.hpp>
 #include "../../../loader/binary.hpp"
 
-#include "std/assert.h"
 #include "std/cpuid.h"
 #include "std/halt.h"
+#include "std/panic.h"
 #include "std/queue.hpp"
 
 #define HANDLERS \
@@ -36,12 +37,12 @@ bool core::_enable_interrupts() {
 }
 
 bool core::_interrupts_enabled() {
-    uint64_t rflags;
+    std::uint64_t rflags;
     asm volatile("pushf; pop %0" : "=g"(rflags));
     return (rflags & RFLAGS_INTERRUPTS_ENABLED_BIT);
 }
 
-core::core(logger& in_log, boot_info& in_boot, gdt& in_gdt, idt& in_idt,
+core::core(logging::logger& in_log, boot_info& in_boot, gdt& in_gdt, idt& in_idt,
     keyboard& in_kbd, pic& in_pic, ps2_controller& in_ps2, timer& in_timer,
     tss& in_tss) : _log(in_log), _boot(in_boot), _gdt(in_gdt), _idt(in_idt),
     _kbd(in_kbd), _pic(in_pic), _ps2(in_ps2), _timer(in_timer), _tss(in_tss) {}
@@ -63,7 +64,7 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
             _pic.send_eoi(1);
             break;
         default:                        // Unhandled interrupt
-            _log.panic("UNHANDLED INTERRUPT {#02X} ({})", int_num, int_num);
+            _log.panic(u8"UNHANDLED INTERRUPT {#02X} ({})", int_num, int_num);
             frame.dump(_log);
             halt();
             break;
@@ -73,21 +74,20 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
 void core::panic_handler(interrupt_frame& in_frame) {
     // Format the panic message appropriately based on the type of panic/invalid
     // opcode exception.
-    struct panic_data * d = (struct panic_data *)in_frame.frame->rip;
-    _log.panic("");
+    auto d = (struct panic_data *)in_frame.frame->rip;
+    _log.panic(u8"");
     switch(d->type) {
         case panic_type::GENERIC:
-            _log.panic("PANIC: {}", d->msg);
-            _log.panic("");
-            _log.panic("Source    : {}:{}", d->filename, d->lineNum);
+            _log.panic(u8"PANIC: {}", d->msg);
+            _log.panic(u8"");
+            _log.panic(u8"Source    : {}:{}", d->filename, d->lineNum);
             break;
         case panic_type::ASSERT_FAILED:
-            _log.panic("ASSERT FAILED: {}", d->msg);
-            _log.panic("");
-            _log.panic("Source    : {}:{}", d->filename, d->lineNum);
+            _log.panic(d->msg);
+            _log.panic(u8"");
             break;
         default:
-            _log.panic("INVALID OPCODE({04X}): {#016X}", d->instruction,
+            _log.panic(u8"INVALID OPCODE({04X}): {#016X}", d->instruction,
                 in_frame.frame->rip);
             break;
     }
@@ -101,11 +101,11 @@ void core::panic_handler(interrupt_frame& in_frame) {
 void core::run(const void * in_boot_info) {
     _disable_interrupts();
 
-    _log.debug("Core Config:");
-    _log.debug("    Interrupts   : {}abled", _interrupts_enabled() ? "en" : "dis");
-    _log.debug("    PIT          : present");
-    _log.debug("    Serial Port  : present");
-    _log.debug("    Keyboard     : present");
+    _log.debug(u8"Core Config:");
+    _log.debug(u8"    Interrupts   : {}abled", _interrupts_enabled() ? u8"en" : u8"dis");
+    _log.debug(u8"    PIT          : present");
+    _log.debug(u8"    Serial Port  : present");
+    _log.debug(u8"    Keyboard     : present");
     _gdt.dump(_log);
     _tss.dump(_log);
 
@@ -113,10 +113,10 @@ void core::run(const void * in_boot_info) {
     _idt.install();
 
     // Indicate whether a local APIC is present, just for diagnostics.
-    uint32_t eax, edx;
+    std::uint32_t eax, edx;
     cpuid(1, &eax, &edx);
-    _log.debug("This core {} a local APIC.",
-        (edx & CPUID_01_EDX_LOCAL_APIC_PRESENT) ? "has" : "doesn't have");
+    _log.debug(u8"This core {} a local APIC.",
+        (edx & CPUID_01_EDX_LOCAL_APIC_PRESENT) ? u8"has" : u8"doesn't have");
 
     // Remap IRQ 0-7 to IDT vectors 0x20-0x27 (32-39), and IRQ 8-15 to IDT
     // vectors 0x28-0x2F (40-47) to avoid conflicting with the Intel-reserved
@@ -140,7 +140,7 @@ void core::run(const void * in_boot_info) {
     _pic.enable_irq(0);
     _pic.enable_irq(1);
     _enable_interrupts();
-    _log.info("Keyboard and timer interrupts unmasked, interrupts: {}abled)...", _interrupts_enabled() ? "en" : "dis");
+    _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled)...", _interrupts_enabled() ? u8"en" : u8"dis");
 
     // Load the monitor binary.
     auto monitor_log = logging::logger();

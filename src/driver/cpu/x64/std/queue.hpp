@@ -1,10 +1,9 @@
 #ifndef _STD_QUEUE_HPP
 #define _STD_QUEUE_HPP
 
-#include "assert.h"
-#include "logger.hpp"
-#include "memset.hpp"
-#include "stdint.h"
+#include <cassert.hpp>
+#include <cstdint.hpp>
+#include <cstring.hpp>
 
 /**
  * Simple queue based on a stack-allocated circular buffer.
@@ -14,14 +13,14 @@
  * @note Internally, this queue allocates space for N+1 items on the stack to
  *       simplify size calculations
  */
-template <typename T, uint16_t N>
+template <typename T, std::uint16_t N>
 class queue {
 public:
     /**
      * Construct a new queue object with the backing store on the stack.
      */
     queue() : _front(0), _back(0) {
-        memset(_buf, 0, sizeof(T) * (N+1));
+        std::memset(_buf, 0, sizeof(T) * (N+1));
     }
 
     /**
@@ -31,7 +30,7 @@ public:
      * @warning Will panic if there are no items in the queue
      */
     T dequeue() {
-        ASSERT(size() > 0, "no items in queue");
+        assert(size() > 0);
 
         // Grab the item, then increment and wrap the index around the buffer if
         // necessary, taking into account the sentinel space (N+1).
@@ -45,8 +44,8 @@ public:
      *
      * @param in_log logger to use
      */
-    void dump(logger& in_log) {
-        in_log.debug("Queue: {#016X} ({}/{} items)", (uint64_t)this, size(), N);
+    void dump(logging::logger& in_log) {
+        in_log.debug(u8"Queue: {#016X} ({}/{} items)", (std::uint64_t)this, size(), N);
     }
 
     /**
@@ -56,7 +55,7 @@ public:
      * @warning Will panic if the queue is full
      */
     void enqueue(T in_item) {
-        ASSERT(size() < N, "queue is full");
+        assert(size() < N);
 
         // Store the item at the back of the queue, then increment and wrap the
         // index around the buffer if necessary, taking into account the
@@ -72,7 +71,7 @@ public:
      * @warning Will panic if there are no items in the queue
      */
     T& peek() {
-        ASSERT(size() > 0, "no items in queue");
+        assert(size() > 0);
         return _buf[_front];
     }
 
@@ -81,7 +80,7 @@ public:
      * 
      * @return size_t number of items in the queue
      */
-    size_t size() {
+    std::size_t size() {
         if(_back >= _front) {
             return (_back - _front);
         } else {
@@ -96,11 +95,11 @@ protected:
 
     ///< Index of the item at the front (head) of the queue. This was the first
     ///< item to be enqueued() that has not yet been dequeued().
-    size_t _front;
+    std::size_t _front;
 
     ///< Index of the item at the back (tail) of the queue. This was the last
     ///< item to be enqueued().
-    size_t _back;
+    std::size_t _back;
 };
 
 #endif // _STD_QUEUE_HPP

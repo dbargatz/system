@@ -1,7 +1,6 @@
 #include "scancode_set_2.hpp"
 
 keycode scancode_set_2::convert(scancode in_code) {
-    // TODO: implement
     switch(in_code) {
         case 0xE0:
         case 0xE1:

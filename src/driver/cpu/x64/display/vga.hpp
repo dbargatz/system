@@ -1,7 +1,8 @@
 #ifndef _DISPLAY_VGA_HPP
 #define _DISPLAY_VGA_HPP
 
-#include "../std/stdint.h"
+#include <cstdint.hpp>
+#include <string.hpp>
 
 /**
  * Simple kernel-mode implementation of a standard VGA text-mode console with
@@ -17,7 +18,7 @@ public:
     /**
      * Standard 16-color CGA palette of colors.
      */
-    enum class color : uint8_t {
+    enum class color : std::uint8_t {
         black          = 0x0,
         blue           = 0x1,
         green          = 0x2,
@@ -37,39 +38,39 @@ public:
     };
 
     vga();
-    void clear_row(const color in_color, const uint8_t in_row);
+    void clear_row(const color in_color, const std::uint8_t in_row);
     void clear_screen(const color in_color);
     void scroll();
-    void set_position(const uint8_t in_row, const uint8_t in_column);
-    void write(const void * in_string, const color in_text_color, 
+    void set_position(const std::uint8_t in_row, const std::uint8_t in_column);
+    void write(const std::string& in_string, const color in_fg_color,
         const color in_bg_color);
 
 private:
     ///< First physical memory address of video RAM.
     ///< @todo Represent with physical address type, not uint64_t.
-    constexpr static const uint64_t _START_ADDRESS = (uint64_t)0xB8000;
+    constexpr static const std::uint64_t _START_ADDRESS = (std::uint64_t)0xB8000;
 
     ///< Fixed number of rows that can be displayed at one time.
-    constexpr static const uint8_t _MAX_ROWS = 25;
+    constexpr static const std::uint8_t _MAX_ROWS = 25;
 
     ///< Fixed number of columns that can be displayed in a single row.
-    constexpr static const uint8_t _MAX_COLUMNS = 80;
+    constexpr static const std::uint8_t _MAX_COLUMNS = 80;
 
     ///< Length (in bytes) of a complete row of text in memory. Also known as
     ///< the stride.
-    constexpr static const uint8_t _ROW_LENGTH = _MAX_COLUMNS * sizeof(uint16_t);
+    constexpr static const std::uint8_t _ROW_LENGTH = _MAX_COLUMNS * sizeof(std::uint16_t);
 
     ///< Last valid physical memory address of video RAM.
     ///< @todo Represent with physical address type, not uint64_t.
-    constexpr static const uint64_t _END_ADDRESS = _START_ADDRESS + (_ROW_LENGTH * _MAX_ROWS);
+    constexpr static const std::uint64_t _END_ADDRESS = _START_ADDRESS + (_ROW_LENGTH * _MAX_ROWS);
 
     ///< The current horizontal position of the cursor on the screen. Column
     ///< numbers range from 0 to (MAX_COLUMNS - 1).
-    uint8_t _cur_column;
+    std::uint8_t _cur_column;
 
     ///< The current vertical position of the cursor on the screen. Row numbers
     ///< range from 0 to (MAX_ROWS - 1).
-    uint8_t _cur_row;
+    std::uint8_t _cur_row;
 };
 
 #endif // _DISPLAY_VGA_HPP

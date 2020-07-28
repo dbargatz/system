@@ -1,6 +1,8 @@
 #include "ps2_controller.hpp"
 #include "../std/panic.h"
 
+ps2_controller::ps2_controller(logging::logger& in_log) : _log(in_log) { }
+
 ps2_device_type ps2_controller::get_type(ps2_port in_port) {
     ps2_device_type type = ps2_device_type::INVALID;
 
@@ -24,7 +26,7 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
             // Start of a 2-byte response.
             break;
         default:
-            _log.warn("Invalid PS/2 device type {#02X} receive", response);
+            _log.warn(u8"Invalid PS/2 device type {#02X} receive", response);
             type = ps2_device_type::INVALID;
             break;
     }
@@ -41,7 +43,7 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
                 type = ps2_device_type::KEYBOARD_STANDARD;
                 break;
             default:
-                _log.warn("Invalid PS/2 device type (0xAB, {#02X}) received", response);
+                _log.warn(u8"Invalid PS/2 device type (0xAB, {#02X}) received", response);
                 type = ps2_device_type::INVALID;
                 break;
         }
@@ -52,26 +54,26 @@ ps2_device_type ps2_controller::get_type(ps2_port in_port) {
     return type;
 }
 
-const char * ps2_controller::get_type_str(ps2_device_type in_type) {
+const std::string ps2_controller::get_type_str(ps2_device_type in_type) {
     switch(in_type) {
         case ps2_device_type::INVALID:
-            return "invalid";
+            return u8"invalid";
         case ps2_device_type::MOUSE_STANDARD:
-            return "standard mouse";
+            return u8"standard mouse";
         case ps2_device_type::MOUSE_SCROLL:
-            return "mouse with scroll wheel";
+            return u8"mouse with scroll wheel";
         case ps2_device_type::MOUSE_5_BUTTON:
-            return "5-button mouse";
+            return u8"5-button mouse";
         case ps2_device_type::KEYBOARD_TRANSLATED:
-            return "keyboard (translation enabled)";
+            return u8"keyboard (translation enabled)";
         case ps2_device_type::KEYBOARD_STANDARD:
-            return "standard keyboard";
+            return u8"standard keyboard";
         default:
-            return "unknown type";
+            return u8"unknown type";
     }
 }
 
-const char * ps2_controller::get_type_str(ps2_port in_port) {
+const std::string ps2_controller::get_type_str(ps2_port in_port) {
     ps2_device_type type = get_type(in_port);
     return get_type_str(type);
 }
@@ -81,61 +83,61 @@ void ps2_controller::disable(ps2_port in_port) {
         case ps2_port::PORT1:
             _port_1_ok = false;
             _write_cmd(0xAD); // Disable port 1
-            _log.debug("Disabled PS/2 port 1.");
+            _log.debug(u8"Disabled PS/2 port 1.");
             return;
         case ps2_port::PORT2:
             _port_2_ok = false;
             _write_cmd(0xA7); // Disable port 2
-            _log.debug("Disabled PS/2 port 2.");
+            _log.debug(u8"Disabled PS/2 port 2.");
             return;
         case ps2_port::CONTROLLER:
             disable(ps2_port::PORT1);
             disable(ps2_port::PORT2);
-            _log.debug("Disabled both PS/2 ports.");
+            _log.debug(u8"Disabled both PS/2 ports.");
             return;
         default:
-            _log.warn("Invalid PS/2 device; cannot disable.");
+            _log.warn(u8"Invalid PS/2 device; cannot disable.");
             return;
     }
 }
 
 void ps2_controller::enable(ps2_port in_port) {
-    uint8_t config;
+    std::uint8_t config;
     switch(in_port) {
         case ps2_port::PORT1:
             if(!_port_1_ok) {
-                _log.warn("Cannot enable PS/2 port 1; in bad state.");
+                _log.warn(u8"Cannot enable PS/2 port 1; in bad state.");
                 return;
             }
             _write_cmd(0xAE);                          // Enable port 1
             config = _read_config();
             _write_config(config | 0b00000001);        // Enable port 1 interrupts
-            _log.debug("Enabled PS/2 port 1.");
+            _log.debug(u8"Enabled PS/2 port 1.");
             _port_1_ok = true;
             return;
         case ps2_port::PORT2:
             if(!_port_2_ok) {
-                _log.warn("Cannot enable PS/2 port 2; in bad state.");
+                _log.warn(u8"Cannot enable PS/2 port 2; in bad state.");
                 return;
             }
             _write_cmd(0xA8);                          // Enable port 2
             config = _read_config();
             _write_config(config | 0b00000010);        // Enable port 2 interrupts
-            _log.debug("Enabled PS/2 port 2.");
+            _log.debug(u8"Enabled PS/2 port 2.");
             _port_1_ok = true;
             return;
         case ps2_port::CONTROLLER:
             enable(ps2_port::PORT1);
             enable(ps2_port::PORT2);
-            _log.debug("Enabled both PS/2 ports.");
+            _log.debug(u8"Enabled both PS/2 ports.");
             return;
         default:
-            _log.warn("Invalid PS/2 device; cannot enable.");
+            _log.warn(u8"Invalid PS/2 device; cannot enable.");
             return;
     }
 }
 
-uint8_t ps2_controller::read(bool in_poll) {
+std::uint8_t ps2_controller::read(bool in_poll) {
     // Spin-wait until there's data available according to bit 0 of the 
     // controller's status register.
     while(in_poll && !(PS2_STATUS_CMD_REGISTER.inb() & 0x01));
@@ -151,7 +153,7 @@ void ps2_controller::reset() {
 
     // Flush the controller's output buffer to clear out any old data.
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x01) {
-        _log.debug("Old PS/2 data in buffer: {#02X", PS2_DATA_REGISTER.inb());
+        _log.debug(u8"Old PS/2 data in buffer: {#02X}", PS2_DATA_REGISTER.inb());
     }
 
     // Configure the controller to disable interrupts for ports 1 and 2, and
@@ -163,7 +165,7 @@ void ps2_controller::reset() {
     // it fails.
     auto response = _write_cmd(0xAA, true);
     if(response != 0x55) {
-        _log.error("PS/2 controller failed self-test (response: {#02X})");
+        _log.error(u8"PS/2 controller failed self-test (response: {#02X})");
         _port_1_ok = false;
         _port_2_ok = false;
         return;
@@ -190,7 +192,7 @@ void ps2_controller::reset() {
     _port_1_ok = true;
     response = _write_cmd(0xAB, true);
     if(response != 0x00) {
-        _log.error("PS/2 port 1 failed test (response {#02X})", response);
+        _log.error(u8"PS/2 port 1 failed test (response {#02X})", response);
         _port_1_ok = false;
     }
 
@@ -198,16 +200,18 @@ void ps2_controller::reset() {
     if(_port_2_ok) {
         response = _write_cmd(0xA9, true);
         if(response != 0x00) {
-            _log.error("PS/2 port 2 failed test (response {#02X})", response);
+            _log.error(u8"PS/2 port 2 failed test (response {#02X})", response);
             _port_2_ok = false;
         }
     }
 
-    _log.debug("PS/2 controller: reset, {}-channel", _port_2_ok ? "dual" : "single");
+    _log.debug(u8"PS/2 controller: reset, {}-channel", _port_2_ok ? u8"dual" : u8"single");
 }
 
-uint8_t ps2_controller::write(ps2_port in_port, uint8_t in_data, uint8_t in_resend, uint8_t in_ack, bool in_response) {
-    uint8_t response = 0;
+std::uint8_t ps2_controller::write(ps2_port in_port, std::uint8_t in_data,
+                                   std::uint8_t in_resend, std::uint8_t in_ack,
+                                   bool in_response) {
+    std::uint8_t response = 0;
 
     // TODO: Verify port is OK for writing (_port_1_ok/_port_2_ok/in_port not invalid)
 
@@ -240,13 +244,13 @@ uint8_t ps2_controller::write(ps2_port in_port, uint8_t in_data, uint8_t in_rese
     return response;
 }
 
-uint8_t ps2_controller::_read_config() {
+std::uint8_t ps2_controller::_read_config() {
     // Write the "read byte 0" command to the controller, wait, and return the
     // config byte.
     return _write_cmd(0x20, true);
 }
 
-uint8_t ps2_controller::_write_cmd(uint8_t in_data, bool in_response) {
+std::uint8_t ps2_controller::_write_cmd(std::uint8_t in_data, bool in_response) {
     // Spin-wait while the controller's command input buffer (data going to the
     // controller) is full according to the controller's status register bit 1.
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x02);
@@ -254,7 +258,7 @@ uint8_t ps2_controller::_write_cmd(uint8_t in_data, bool in_response) {
     return (in_response ? read(true) : 0);
 }
 
-void ps2_controller::_write_config(uint8_t in_config) {
+void ps2_controller::_write_config(std::uint8_t in_config) {
     // Write the "write byte 0" command to the controller.
     _write_cmd(0x60);
 
@@ -262,12 +266,10 @@ void ps2_controller::_write_config(uint8_t in_config) {
     _write_data(in_config);
 }
 
-void ps2_controller::_write_data(uint8_t in_data) {
+void ps2_controller::_write_data(std::uint8_t in_data) {
     // Spin-wait while the controller's data output buffer (data going to the
     // controller or a device) is full according to the controller's status
     // register bit 1.
     while(PS2_STATUS_CMD_REGISTER.inb() & 0x02);
     PS2_DATA_REGISTER.outb(in_data);
 }
-
-ps2_controller::ps2_controller(logger& in_log) : _log(in_log) { }

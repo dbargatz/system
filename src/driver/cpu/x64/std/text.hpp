@@ -1,7 +1,8 @@
 #ifndef _STD_TEXT_HPP
 #define _STD_TEXT_HPP
 
-#include "stdint.h"
+#include <cstddef.hpp>
+#include <cstdint.hpp>
 
 
 class text {
@@ -24,13 +25,13 @@ public:
      *       single character.
      * @return length of the text in characters
      */
-    const size_t length() const { return _length_in_chars; }
+    const std::size_t length() const { return _length_in_chars; }
 
 private:
-    constexpr static const uint16_t _MAX_LENGTH_BYTES = 256;
+    constexpr static const std::uint16_t _MAX_LENGTH_BYTES = 256;
 
     char _buf[_MAX_LENGTH_BYTES];
-    size_t _length_in_chars;
+    std::size_t _length_in_chars;
 
 
     bool _is_digit(char in_char, bool in_exclude_zero = false) {
@@ -58,7 +59,7 @@ private:
                 else if('{' != *in_format_str) {
                     char fill = ' ';
                     bool prepend_prefix = false;
-                    uint64_t min_width = 0;
+                    std::uint64_t min_width = 0;
 
                     // TODO: handle positional index (must be followed by 
                     //       colon if any of the below fields are specified)
@@ -158,10 +159,10 @@ private:
     // TODO: rename with underscore
     template<typename T>
     void format_arg(const T in_arg,
-                    uint8_t in_base,
+                    std::uint8_t in_base,
                     bool in_uppercase_digits,
                     bool in_prepend_prefix,
-                    uint64_t in_min_width,
+                    std::uint64_t in_min_width,
                     char in_fill_char);
 };
 
