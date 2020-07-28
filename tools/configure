@@ -2,26 +2,21 @@
 
 # Install the dependencies for compiling, debugging, and running.
 apt-get -y --no-install-recommends install \
-    clang                                  \
     doxygen                                \
     gdb                                    \
     git                                    \
+    gnupg2                                 \
     graphviz                               \
     grub-common                            \
     grub-pc-bin                            \
     less                                   \
+    lsb-release                            \
     meson                                  \
     nasm                                   \
     ninja-build                            \
     qemu-system                            \
+    software-properties-common             \
     xorriso
 
-# Add some common aliases to the .bashrc.
-echo "" >> /root/.bashrc
-echo "# Added by system's ./configure script" >> /root/.bashrc
-echo "export LS_OPTIONS='--color=auto'" >> /root/.bashrc
-echo "alias ls='ls \$LS_OPTIONS'" >> /root/.bashrc
-echo "alias ll='ls \$LS_OPTIONS -lA'" >> /root/.bashrc
-
-# Re-source the .bashrc.
-source /root/.bashrc
+# Get the latest stable version of LLVM/Clang and associated tools.
+bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
