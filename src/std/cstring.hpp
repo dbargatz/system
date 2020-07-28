@@ -20,7 +20,12 @@ namespace std {
  * @return void* in_destination
  */
 extern "C" inline void * memcpy(void * in_dest, const void * in_src, std::size_t in_count) {
-    return __builtin_memcpy(in_dest, in_src, in_count);
+    auto dest = (std::uint8_t *)in_dest;
+    auto src  = (std::uint8_t *)in_src;
+    for(auto i = 0; i < in_count; i++) {
+        dest[i] = src[i];
+    }
+    return in_dest;
 }
 
 /**
@@ -32,7 +37,10 @@ extern "C" inline void * memcpy(void * in_dest, const void * in_src, std::size_t
  * @param in_count number of bytes to overwrite
  */
 extern "C" inline void memset(void * in_dest, int in_char, std::size_t in_count) {
-    __builtin_memset(in_dest, in_char, in_count);
+    auto dest = (std::uint8_t *)in_dest;
+    for(auto i = 0; i < in_count; i++) {
+        dest[i] = (std::uint8_t)in_char;
+    }
 }
 
 /**
