@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Version of LLVM/Clang to download and install.
+LLVM_VERSION=10
+
 # Install the dependencies for compiling, debugging, and running.
 apt-get -y --no-install-recommends install \
     doxygen                                \
@@ -11,12 +14,22 @@ apt-get -y --no-install-recommends install \
     grub-pc-bin                            \
     less                                   \
     lsb-release                            \
-    meson                                  \
     nasm                                   \
-    ninja-build                            \
+    python3                                \
+    python3-pip                            \
     qemu-system                            \
     software-properties-common             \
     xorriso
 
-# Get the latest stable version of LLVM/Clang and associated tools.
-bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+# Install the latest versions of meson and ninja system-wide with pip.
+python3 -m pip install meson ninja
+
+# Download and install the latest version of LLVM/Clang and associated tools.
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+./llvm.sh $LLVM_VERSION
+
+# Symlink the current version of LLVM/Clang to versionless names.
+ln -s /usr/bin/clang-$LLVM_VERSION /usr/bin/clang
+ln -s /usr/bin/clang++-$LLVM_VERSION /usr/bin/clang++
+ln -s /usr/bin/ld.lld-$LLVM_VERSION /usr/bin/ld.lld
