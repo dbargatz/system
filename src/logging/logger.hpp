@@ -71,14 +71,7 @@ public:
     }
 
 private:
-    constexpr static char8_t _LEVEL_PREFIXES[] = {
-        [(std::uint8_t)level::Unknown] = '?',
-        [(std::uint8_t)level::Debug]   = ' ',
-        [(std::uint8_t)level::Info]    = '+',
-        [(std::uint8_t)level::Warn]    = '-',
-        [(std::uint8_t)level::Error]   = '!',
-        [(std::uint8_t)level::Panic]   = '*',
-    };
+    constexpr static char8_t _LEVEL_PREFIXES[] = { '?', ' ', '+', '-', '!', '*'};
 
     constexpr static std::uint8_t _MAX_BACKENDS = 2;
     backend* _backends[_MAX_BACKENDS] = {0};
