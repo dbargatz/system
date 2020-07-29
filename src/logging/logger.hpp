@@ -64,9 +64,10 @@ public:
     template <typename... Args>
     void write(level in_level, const std::string& in_fmt, Args&&... in_args) {
         auto str = std::format(in_fmt, std::forward<Args>(in_args)...);
-        auto final = std::format(u8"[{}] {}\n", _LEVEL_PREFIXES[(std::uint8_t)in_level], str);
+        //auto final = std::format(u8"[{}] {}\n", _LEVEL_PREFIXES[(std::uint8_t)in_level], str);
         for(auto i = 0; i < _num_backends; i++) {
-            _backends[i]->write(final);
+            _backends[i]->write(str);
+            _backends[i]->write(u8"\n");
         }
     }
 
