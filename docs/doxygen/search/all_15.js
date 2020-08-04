@@ -1,16 +1,7 @@
 var searchData=
 [
-  ['vbe_5fcontrol_5finfo',['vbe_control_info',['../structmultiboot__tag__vbe.html#a057304e943e881731680e06472c4bf1e',1,'multiboot_tag_vbe']]],
-  ['vbe_5finterface_5flen',['vbe_interface_len',['../structmultiboot__tag__vbe.html#a513fc2ea3224e91c0870165152d989e1',1,'multiboot_tag_vbe']]],
-  ['vbe_5finterface_5foff',['vbe_interface_off',['../structmultiboot__tag__vbe.html#a1370d764136d9cde9132c71ebf54bc3e',1,'multiboot_tag_vbe']]],
-  ['vbe_5finterface_5fseg',['vbe_interface_seg',['../structmultiboot__tag__vbe.html#a72d62afb2de739a3e651aac357069abe',1,'multiboot_tag_vbe']]],
-  ['vbe_5fmode',['vbe_mode',['../structmultiboot__tag__vbe.html#a3d8f77830f0e010b34939f4eeb24e64d',1,'multiboot_tag_vbe']]],
-  ['vbe_5fmode_5finfo',['vbe_mode_info',['../structmultiboot__tag__vbe.html#a386399d7efb3952f08693fb0f5242bd9',1,'multiboot_tag_vbe']]],
-  ['version',['version',['../structmultiboot__tag__apm.html#a9062cb77271b7ed69970ede5c90a50ad',1,'multiboot_tag_apm']]],
-  ['vga',['vga',['../classvga.html',1,'vga'],['../classvga.html#add0e8b0063f7565a6514ca6058fab919',1,'vga::vga()']]],
-  ['vga_2ecpp',['vga.cpp',['../vga_8cpp.html',1,'']]],
-  ['vga_2ehpp',['vga.hpp',['../vga_8hpp.html',1,'']]],
-  ['vga_5flogger',['vga_logger',['../classvga__logger.html',1,'vga_logger'],['../classvga__logger.html#a1defc6be3b7d91de679c317da7134f67',1,'vga_logger::vga_logger()']]],
-  ['vga_5flogger_2ecpp',['vga_logger.cpp',['../vga__logger_8cpp.html',1,'']]],
-  ['vga_5flogger_2ehpp',['vga_logger.hpp',['../vga__logger_8hpp.html',1,'']]]
+  ['warn',['warn',['../classlogging_1_1logger.html#a7fc0dcae5e74968a1c907498ec5314a2',1,'logging::logger::warn()'],['../namespacelogging.html#a761a90e9584fe62f65576bc5c0ea8b97a56525ae64d370c0b448ac0d60710ef17',1,'logging::Warn()']]],
+  ['white',['white',['../classvga.html#aab8cc525a8d2f7598660b5f70dc5e83dad508fe45cecaf653904a0e774084bb5c',1,'vga']]],
+  ['width',['width',['../structmultiboot__header__tag__framebuffer.html#a01f7fd9c4cbb8d58b155a50ff0e030d0',1,'multiboot_header_tag_framebuffer']]],
+  ['write',['write',['../classuart.html#ab9f67adb582d229b0bac7feab37fda71',1,'uart::write()'],['../classuart__backend.html#a0d2b05b92623396f1892a3d36018ff2b',1,'uart_backend::write()'],['../classvga.html#a315c1e143902c033a21aa4f94c6ea184',1,'vga::write()'],['../classvga__backend.html#a81b30d5903dc1a183da889ec5fd3e260',1,'vga_backend::write()'],['../classps2__controller.html#a0fb6ca81a5f5a3443725557e0eb39a0e',1,'ps2_controller::write()'],['../classlogging_1_1backend.html#acbdba7aa746e7fef64d5db92681bdbb8',1,'logging::backend::write()'],['../classlogging_1_1logger.html#af05c3404839d1134835dd077c09494c5',1,'logging::logger::write()']]]
 ];

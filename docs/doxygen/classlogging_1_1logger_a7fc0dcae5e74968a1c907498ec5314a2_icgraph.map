@@ -1,0 +1,7 @@
+<map id="logging::logger::warn" name="logging::logger::warn">
+<area shape="rect" id="node2" href="$classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="212,13,391,39"/>
+<area shape="rect" id="node5" href="$classps2__controller.html#abdb5deb3a3638f47d6358941db271888" title="ps2_controller::disable" alt="" coords="217,63,386,90"/>
+<area shape="rect" id="node6" href="$classps2__controller.html#afb127edcfd4aa8e128f8eddc6b8f0960" title="ps2_controller::enable" alt="" coords="218,114,385,141"/>
+<area shape="rect" id="node3" href="$classps2__controller.html#ad5ede2fd9d7dd6883563e3a6b5250c67" title="ps2_controller::get\l_type_str" alt="" coords="445,5,587,47"/>
+<area shape="rect" id="node4" href="$classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="439,93,593,119"/>
+</map>

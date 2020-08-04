@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['queue',['queue',['../classqueue.html',1,'']]],
-  ['queue_3c_20struct_20_5fcommand_2c_2016_20_3e',['queue&lt; struct _command, 16 &gt;',['../classqueue.html',1,'']]]
+  ['scancode_5fset',['scancode_set',['../classscancode__set.html',1,'']]],
+  ['scancode_5fset_5f2',['scancode_set_2',['../classscancode__set__2.html',1,'']]],
+  ['scancode_5fto_5fkeycode',['scancode_to_keycode',['../structscancode__to__keycode.html',1,'']]]
 ];

@@ -1,5 +1,4 @@
 <map id="ps2_controller::enable" name="ps2_controller::enable">
-<area shape="rect" id="node2" href="$classlogger.html#a848acaf9856167efecab6007871a2fd5" title="logger::warn" alt="" coords="224,5,327,32"/>
-<area shape="rect" id="node4" href="$classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="220,56,331,83"/>
-<area shape="rect" id="node3" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="379,31,456,57"/>
+<area shape="rect" id="node2" href="$classlogging_1_1logger.html#a7fc0dcae5e74968a1c907498ec5314a2" title="logging::logger::warn" alt="" coords="224,5,383,32"/>
+<area shape="rect" id="node3" href="$classlogging_1_1logger.html#adfe1276107aa16234d495e7b1bd5c808" title="logging::logger::debug" alt="" coords="220,56,387,83"/>
 </map>

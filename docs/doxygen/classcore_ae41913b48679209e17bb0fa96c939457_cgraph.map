@@ -1,10 +1,9 @@
 <map id="core::dispatch_interrupt" name="core::dispatch_interrupt">
 <area shape="rect" id="node2" href="$classcore.html#aa9df34d400b0068d4815edf8f7ff7f47" title="core::panic_handler" alt="" coords="243,5,393,32"/>
-<area shape="rect" id="node3" href="$classlogger.html#aa00da2c4e3c6f1aacee5a6a3c99a008d" title="logger::panic" alt="" coords="672,56,779,83"/>
-<area shape="rect" id="node5" href="$classinterrupt__frame.html#a0487d860c218f15c6358b0fc76286797" title="interrupt_frame::dump" alt="" coords="455,56,624,83"/>
-<area shape="rect" id="node6" href="$classtimer.html#ac9d12f2257d8124388bace6d2e97c15e" title="timer::interrupt_handler" alt="" coords="229,157,407,184"/>
-<area shape="rect" id="node7" href="$classpic.html#a908011c3396821a2be6ccb5d22d87070" title="pic::send_eoi" alt="" coords="265,208,371,235"/>
-<area shape="rect" id="node9" href="$classkeyboard.html#adb1ceaaa93ff5d73d2b4bfaa6607fccb" title="keyboard::interrupt\l_handler" alt="" coords="245,259,391,301"/>
-<area shape="rect" id="node4" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="827,56,904,83"/>
-<area shape="rect" id="node8" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="487,208,591,235"/>
+<area shape="rect" id="node3" href="$classlogging_1_1logger.html#a654526d6e50200a7b6339d8362ba30ab" title="logging::logger::panic" alt="" coords="672,56,835,83"/>
+<area shape="rect" id="node4" href="$classinterrupt__frame.html#a1ecb4ab2933880d28a89c953549d4ab3" title="interrupt_frame::dump" alt="" coords="455,56,624,83"/>
+<area shape="rect" id="node5" href="$classtimer.html#ac9d12f2257d8124388bace6d2e97c15e" title="timer::interrupt_handler" alt="" coords="229,157,407,184"/>
+<area shape="rect" id="node6" href="$classpic.html#a572de7ee99135894284d433e7048a8ed" title="pic::send_eoi" alt="" coords="265,208,371,235"/>
+<area shape="rect" id="node8" href="$classkeyboard.html#adb1ceaaa93ff5d73d2b4bfaa6607fccb" title="keyboard::interrupt\l_handler" alt="" coords="245,259,391,301"/>
+<area shape="rect" id="node7" href="$classio__port.html#a8340cf27181cbecee5724bb1097cd186" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="487,208,591,235"/>
 </map>

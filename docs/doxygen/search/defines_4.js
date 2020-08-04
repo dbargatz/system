@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['panic',['PANIC',['../panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1',1,'panic.h']]],
-  ['panic_5ftyped',['PANIC_TYPED',['../panic_8h.html#a799a9798d0821d6ded946af7b7df583f',1,'panic.h']]]
+  ['x',['X',['../core_8cpp.html#a2032936ed0c324b0f9cd2fbe117ffcbf',1,'X():&#160;core.cpp'],['../core_8cpp.html#a2032936ed0c324b0f9cd2fbe117ffcbf',1,'X():&#160;core.cpp']]]
 ];

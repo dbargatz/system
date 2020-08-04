@@ -70,18 +70,14 @@ $(function() {
 <div class="title">scancode_set.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="assert_8h_source.html">../std/assert.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="stdint_8h_source.html">../std/stdint.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="text_8hpp_source.html">../std/text.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;format&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for scancode_set.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="scancode__set_8hpp__incl.png" border="0" usemap="#src_2driver_2cpu_2x64_2keyboard_2scancode__set_8hpp" alt=""/></div>
 <map name="src_2driver_2cpu_2x64_2keyboard_2scancode__set_8hpp" id="src_2driver_2cpu_2x64_2keyboard_2scancode__set_8hpp">
-<area shape="rect" id="node2" href="assert_8h.html" title="../std/assert.h" alt="" coords="5,95,116,121"/>
-<area shape="rect" id="node4" href="stdint_8h.html" title="stdint.h" alt="" coords="119,244,189,271"/>
-<area shape="rect" id="node5" href="text_8hpp.html" title="../std/text.hpp" alt="" coords="191,169,303,196"/>
-<area shape="rect" id="node3" href="panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="37,169,106,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -94,7 +90,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" id="node7" href="scancode__set__2_8hpp.html" title="src/driver/cpu/x64\l/keyboard/scancode_set_2.hpp" alt="" coords="344,95,567,136"/>
 <area shape="rect" id="node3" href="keystate_8cpp.html" title="src/driver/cpu/x64\l/keyboard/keystate.cpp" alt="" coords="5,184,180,225"/>
 <area shape="rect" id="node5" href="ps2__keyboard_8cpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_keyboard.cpp" alt="" coords="349,273,559,315"/>
-<area shape="rect" id="node6" href="main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="186,273,325,315"/>
+<area shape="rect" id="node6" href="driver_2cpu_2x64_2main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="186,273,325,315"/>
 <area shape="rect" id="node8" href="scancode__set__2_8cpp.html" title="src/driver/cpu/x64\l/keyboard/scancode_set_2.cpp" alt="" coords="491,184,713,225"/>
 </map>
 </div>
@@ -112,18 +108,18 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a507e191f3b21b7e758b9cee6be30fc5e"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scancode__set_8hpp.html#a507e191f3b21b7e758b9cee6be30fc5e">scancode</a></td></tr>
-<tr class="separator:a507e191f3b21b7e758b9cee6be30fc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade6c03988884c358ba4bd2e2bc3d35f7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scancode__set_8hpp.html#ade6c03988884c358ba4bd2e2bc3d35f7">scancode</a> = std::uint64_t</td></tr>
+<tr class="separator:ade6c03988884c358ba4bd2e2bc3d35f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="a507e191f3b21b7e758b9cee6be30fc5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a507e191f3b21b7e758b9cee6be30fc5e">&#9670;&nbsp;</a></span>scancode</h2>
+<a id="ade6c03988884c358ba4bd2e2bc3d35f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade6c03988884c358ba4bd2e2bc3d35f7">&#9670;&nbsp;</a></span>scancode</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> <a class="el" href="scancode__set_8hpp.html#a507e191f3b21b7e758b9cee6be30fc5e">scancode</a></td>
+          <td class="memname">using <a class="el" href="scancode__set_8hpp.html#ade6c03988884c358ba4bd2e2bc3d35f7">scancode</a> =  std::uint64_t</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -70,21 +70,18 @@ $(function() {
 <div class="title">ps2_controller.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="io__port_8hpp_source.html">../ports/io_port.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="logger_8hpp_source.html">../std/logger.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="stdint_8h_source.html">../std/stdint.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="logger_8hpp_source.html">../../../../logging/logger.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="io__port_8hpp_source.html">../ports/io_port.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ps2_controller.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="ps2__controller_8hpp__incl.png" border="0" usemap="#src_2driver_2cpu_2x64_2keyboard_2ps2__controller_8hpp" alt=""/></div>
 <map name="src_2driver_2cpu_2x64_2keyboard_2ps2__controller_8hpp" id="src_2driver_2cpu_2x64_2keyboard_2ps2__controller_8hpp">
-<area shape="rect" id="node2" href="io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="5,95,149,121"/>
-<area shape="rect" id="node3" href="stdint_8h.html" title="../std/stdint.h" alt="" coords="207,319,313,345"/>
-<area shape="rect" id="node4" href="logger_8hpp.html" title="../std/logger.hpp" alt="" coords="281,95,407,121"/>
-<area shape="rect" id="node5" href="assert_8h.html" title="assert.h" alt="" coords="224,169,299,196"/>
-<area shape="rect" id="node7" href="logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="323,169,477,196"/>
-<area shape="rect" id="node8" href="text_8hpp.html" title="text.hpp" alt="" coords="370,244,446,271"/>
-<area shape="rect" id="node6" href="panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="225,244,295,271"/>
+<area shape="rect" id="node4" href="logger_8hpp.html" title="../../../../logging\l/logger.hpp" alt="" coords="262,95,381,136"/>
+<area shape="rect" id="node9" href="io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="93,102,237,129"/>
+<area shape="rect" id="node8" href="backend_8hpp.html" title="backend.hpp" alt="" coords="463,184,569,211"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -93,7 +90,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="ps2__controller_8hpp__dep__incl.png" border="0" usemap="#src_2driver_2cpu_2x64_2keyboard_2ps2__controller_8hppdep" alt=""/></div>
 <map name="src_2driver_2cpu_2x64_2keyboard_2ps2__controller_8hppdep" id="src_2driver_2cpu_2x64_2keyboard_2ps2__controller_8hppdep">
 <area shape="rect" id="node2" href="core_8hpp.html" title="src/driver/cpu/x64\l/core.hpp" alt="" coords="193,95,332,136"/>
-<area shape="rect" id="node4" href="main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="325,273,464,315"/>
+<area shape="rect" id="node4" href="driver_2cpu_2x64_2main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="325,273,464,315"/>
 <area shape="rect" id="node7" href="ps2__controller_8cpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_controller.cpp" alt="" coords="433,95,642,136"/>
 <area shape="rect" id="node8" href="ps2__keyboard_8hpp.html" title="src/driver/cpu/x64\l/keyboard/ps2_keyboard.hpp" alt="" coords="667,95,877,136"/>
 <area shape="rect" id="node3" href="core_8cpp.html" title="src/driver/cpu/x64\l/core.cpp" alt="" coords="5,184,144,225"/>
@@ -112,27 +109,27 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a2e668a263a7c241c08837ecfbfeb7ad9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9">ps2_port</a> : uint8_t { <a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9accc0377a8afbf50e7094f5c23a8af223">ps2_port::INVALID</a> = 0, 
-<a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9ac455d7a285f95e8dd4ea3327006d91b7">ps2_port::PORT1</a>, 
-<a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9afb973c23511de656a94e22abf746e434">ps2_port::PORT2</a>, 
-<a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9a42e074e8564dad9034ef033c6a6cf8b6">ps2_port::CONTROLLER</a>
+<tr class="memitem:ae3cded804eb4bf2887474ca709bc2b84"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ps2__controller_8hpp.html#ae3cded804eb4bf2887474ca709bc2b84">ps2_port</a> : std::uint8_t { <a class="el" href="ps2__controller_8hpp.html#ae3cded804eb4bf2887474ca709bc2b84accc0377a8afbf50e7094f5c23a8af223">ps2_port::INVALID</a> = 0, 
+<a class="el" href="ps2__controller_8hpp.html#ae3cded804eb4bf2887474ca709bc2b84ac455d7a285f95e8dd4ea3327006d91b7">ps2_port::PORT1</a>, 
+<a class="el" href="ps2__controller_8hpp.html#ae3cded804eb4bf2887474ca709bc2b84afb973c23511de656a94e22abf746e434">ps2_port::PORT2</a>, 
+<a class="el" href="ps2__controller_8hpp.html#ae3cded804eb4bf2887474ca709bc2b84a42e074e8564dad9034ef033c6a6cf8b6">ps2_port::CONTROLLER</a>
  }</td></tr>
-<tr class="separator:a2e668a263a7c241c08837ecfbfeb7ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39d3484953de0bdf2896d1114a115db5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5">ps2_device_type</a> : uint8_t { <br />
-&#160;&#160;<a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5accc0377a8afbf50e7094f5c23a8af223">ps2_device_type::INVALID</a> = 0, 
-<a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a2c5c1c5268a6b9a7be1850798933b6c4">ps2_device_type::MOUSE_STANDARD</a>, 
-<a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a8d39183657ef1c142f973da7bf626a76">ps2_device_type::MOUSE_SCROLL</a>, 
-<a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5a8905ceddbf6834c0fad009d95f1a3405">ps2_device_type::MOUSE_5_BUTTON</a>, 
+<tr class="separator:ae3cded804eb4bf2887474ca709bc2b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a845c2bc6bab613c6fe2538dc01ba2acc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2acc">ps2_device_type</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2accaccc0377a8afbf50e7094f5c23a8af223">ps2_device_type::INVALID</a> = 0, 
+<a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2acca2c5c1c5268a6b9a7be1850798933b6c4">ps2_device_type::MOUSE_STANDARD</a>, 
+<a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2acca8d39183657ef1c142f973da7bf626a76">ps2_device_type::MOUSE_SCROLL</a>, 
+<a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2acca8905ceddbf6834c0fad009d95f1a3405">ps2_device_type::MOUSE_5_BUTTON</a>, 
 <br />
-&#160;&#160;<a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5aaa2546c429cc79a8f3a1b8a19ce2f16d">ps2_device_type::KEYBOARD_TRANSLATED</a>, 
-<a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5adaee620caa502607f1c082d69d0616b2">ps2_device_type::KEYBOARD_STANDARD</a>
+&#160;&#160;<a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2accaaa2546c429cc79a8f3a1b8a19ce2f16d">ps2_device_type::KEYBOARD_TRANSLATED</a>, 
+<a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2accadaee620caa502607f1c082d69d0616b2">ps2_device_type::KEYBOARD_STANDARD</a>
 <br />
  }</td></tr>
-<tr class="separator:a39d3484953de0bdf2896d1114a115db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a845c2bc6bab613c6fe2538dc01ba2acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a39d3484953de0bdf2896d1114a115db5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39d3484953de0bdf2896d1114a115db5">&#9670;&nbsp;</a></span>ps2_device_type</h2>
+<a id="a845c2bc6bab613c6fe2538dc01ba2acc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a845c2bc6bab613c6fe2538dc01ba2acc">&#9670;&nbsp;</a></span>ps2_device_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -141,7 +138,7 @@ Enumerations</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="ps2__controller_8hpp.html#a39d3484953de0bdf2896d1114a115db5">ps2_device_type</a> : <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a></td>
+          <td class="memname">enum <a class="el" href="ps2__controller_8hpp.html#a845c2bc6bab613c6fe2538dc01ba2acc">ps2_device_type</a> : std::uint8_t</td>
         </tr>
       </table>
   </td>
@@ -151,18 +148,18 @@ Enumerations</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a39d3484953de0bdf2896d1114a115db5accc0377a8afbf50e7094f5c23a8af223"></a>INVALID&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a39d3484953de0bdf2896d1114a115db5a2c5c1c5268a6b9a7be1850798933b6c4"></a>MOUSE_STANDARD&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a39d3484953de0bdf2896d1114a115db5a8d39183657ef1c142f973da7bf626a76"></a>MOUSE_SCROLL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a39d3484953de0bdf2896d1114a115db5a8905ceddbf6834c0fad009d95f1a3405"></a>MOUSE_5_BUTTON&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a39d3484953de0bdf2896d1114a115db5aaa2546c429cc79a8f3a1b8a19ce2f16d"></a>KEYBOARD_TRANSLATED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a39d3484953de0bdf2896d1114a115db5adaee620caa502607f1c082d69d0616b2"></a>KEYBOARD_STANDARD&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a845c2bc6bab613c6fe2538dc01ba2accaccc0377a8afbf50e7094f5c23a8af223"></a>INVALID&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a845c2bc6bab613c6fe2538dc01ba2acca2c5c1c5268a6b9a7be1850798933b6c4"></a>MOUSE_STANDARD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a845c2bc6bab613c6fe2538dc01ba2acca8d39183657ef1c142f973da7bf626a76"></a>MOUSE_SCROLL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a845c2bc6bab613c6fe2538dc01ba2acca8905ceddbf6834c0fad009d95f1a3405"></a>MOUSE_5_BUTTON&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a845c2bc6bab613c6fe2538dc01ba2accaaa2546c429cc79a8f3a1b8a19ce2f16d"></a>KEYBOARD_TRANSLATED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a845c2bc6bab613c6fe2538dc01ba2accadaee620caa502607f1c082d69d0616b2"></a>KEYBOARD_STANDARD&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
 </div>
-<a id="a2e668a263a7c241c08837ecfbfeb7ad9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e668a263a7c241c08837ecfbfeb7ad9">&#9670;&nbsp;</a></span>ps2_port</h2>
+<a id="ae3cded804eb4bf2887474ca709bc2b84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3cded804eb4bf2887474ca709bc2b84">&#9670;&nbsp;</a></span>ps2_port</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +168,7 @@ Enumerations</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="ps2__controller_8hpp.html#a2e668a263a7c241c08837ecfbfeb7ad9">ps2_port</a> : <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a></td>
+          <td class="memname">enum <a class="el" href="ps2__controller_8hpp.html#ae3cded804eb4bf2887474ca709bc2b84">ps2_port</a> : std::uint8_t</td>
         </tr>
       </table>
   </td>
@@ -181,10 +178,10 @@ Enumerations</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2e668a263a7c241c08837ecfbfeb7ad9accc0377a8afbf50e7094f5c23a8af223"></a>INVALID&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2e668a263a7c241c08837ecfbfeb7ad9ac455d7a285f95e8dd4ea3327006d91b7"></a>PORT1&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2e668a263a7c241c08837ecfbfeb7ad9afb973c23511de656a94e22abf746e434"></a>PORT2&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2e668a263a7c241c08837ecfbfeb7ad9a42e074e8564dad9034ef033c6a6cf8b6"></a>CONTROLLER&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae3cded804eb4bf2887474ca709bc2b84accc0377a8afbf50e7094f5c23a8af223"></a>INVALID&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae3cded804eb4bf2887474ca709bc2b84ac455d7a285f95e8dd4ea3327006d91b7"></a>PORT1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae3cded804eb4bf2887474ca709bc2b84afb973c23511de656a94e22abf746e434"></a>PORT2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae3cded804eb4bf2887474ca709bc2b84a42e074e8564dad9034ef033c6a6cf8b6"></a>CONTROLLER&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>

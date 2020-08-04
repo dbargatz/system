@@ -1,8 +1,4 @@
 <map id="src/driver/cpu/x64/interrupts/gdt.hpp" name="src/driver/cpu/x64/interrupts/gdt.hpp">
-<area shape="rect" id="node2" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="150,95,277,121"/>
-<area shape="rect" id="node5" href="$stdint_8h.html" title="stdint.h" alt="" coords="203,319,274,345"/>
-<area shape="rect" id="node7" href="$text_8hpp.html" title="text.hpp" alt="" coords="239,244,315,271"/>
-<area shape="rect" id="node3" href="$assert_8h.html" title="assert.h" alt="" coords="5,169,80,196"/>
-<area shape="rect" id="node6" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="105,169,258,196"/>
-<area shape="rect" id="node4" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="51,244,120,271"/>
+<area shape="rect" id="node3" href="$logger_8hpp.html" title="../../../../logging\l/logger.hpp" alt="" coords="163,95,282,136"/>
+<area shape="rect" id="node8" href="$backend_8hpp.html" title="backend.hpp" alt="" coords="415,184,521,211"/>
 </map>

@@ -1,0 +1,8 @@
+<map id="pit::~pit" name="pit::~pit">
+<area shape="rect" id="node2" href="$classpit.html#a27af7bb38c9059493eecc9c182d5a9bb" title="pit::pit" alt="" coords="175,5,239,32"/>
+<area shape="rect" id="node3" href="$classpit.html#a0e8ebafb44d385cd534ec0864f8f7a9b" title="pit::get_frequency" alt="" coords="137,56,277,83"/>
+<area shape="rect" id="node4" href="$classpit.html#adbde59d40ecc6c4e73155aed60d08483" title="pit::set_frequency" alt="" coords="138,107,277,133"/>
+<area shape="rect" id="node7" href="$classpit.html#a8d98f9029ed375650fba6cc2b8bb730d" title="pit::interrupt_handler" alt="" coords="128,157,287,184"/>
+<area shape="rect" id="node5" href="$classio__port.html#a8340cf27181cbecee5724bb1097cd186" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="366,107,470,133"/>
+<area shape="rect" id="node6" href="$classlogging_1_1logger.html#adfe1276107aa16234d495e7b1bd5c808" title="logging::logger::debug" alt="" coords="335,157,501,184"/>
+</map>

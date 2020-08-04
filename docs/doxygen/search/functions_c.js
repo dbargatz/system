@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['max_5fsize',['max_size',['../classstd_1_1array.html#a0b7dfa82493e158999e555ad280e1d99',1,'std::array']]],
-  ['memcpy',['memcpy',['../memcpy_8cpp.html#a97c133e4f136dd16c3c948f32c019f78',1,'memcpy(void *in_destination, const void *in_source, size_t in_num):&#160;memcpy.cpp'],['../memcpy_8hpp.html#a97c133e4f136dd16c3c948f32c019f78',1,'memcpy(void *in_destination, const void *in_source, size_t in_num):&#160;memcpy.cpp']]],
-  ['memset',['memset',['../memset_8cpp.html#abc7d9e97dce41b5780585e6f382dd701',1,'memset(void *inPtr, uint8_t inValue, size_t inNum):&#160;memset.cpp'],['../memset_8hpp.html#abc7d9e97dce41b5780585e6f382dd701',1,'memset(void *inPtr, uint8_t inValue, size_t inNum):&#160;memset.cpp']]]
+  ['operator_20delete',['operator delete',['../driver_2cpu_2x64_2main_8cpp.html#a94e12500724eed82b981f92721155c12',1,'main.cpp']]],
+  ['operator_3d_3d',['operator==',['../classkeycode.html#a342da9aa5c34ee6397085d1c4637367d',1,'keycode']]],
+  ['outb',['outb',['../classio__port.html#a8340cf27181cbecee5724bb1097cd186',1,'io_port']]],
+  ['outl',['outl',['../classio__port.html#aabbe98c30ab2d457ff216af2f0f04b76',1,'io_port']]],
+  ['outw',['outw',['../classio__port.html#aac3b78a8897e48a2e7dd83e33007176d',1,'io_port']]]
 ];

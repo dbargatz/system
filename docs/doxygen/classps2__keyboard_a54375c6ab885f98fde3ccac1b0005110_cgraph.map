@@ -1,9 +1,6 @@
 <map id="ps2_keyboard::interrupt_handler" name="ps2_keyboard::interrupt_handler">
-<area shape="rect" id="node2" href="$classps2__controller.html#a7c776265e62c1e906ae271d6e4e18889" title="ps2_controller::read" alt="" coords="239,5,389,32"/>
-<area shape="rect" id="node4" href="$classqueue.html#a7da3328f11e0c8a905bbc06fe3712fbc" title="queue::size" alt="" coords="266,56,362,83"/>
-<area shape="rect" id="node5" href="$classqueue.html#a1ca1e27e0997ac14cadefb23410c453d" title="queue::peek" alt="" coords="263,107,365,133"/>
-<area shape="rect" id="node6" href="$classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="259,157,369,184"/>
-<area shape="rect" id="node8" href="$classscancode__set.html#a41913d9916a789761657044db85d955c" title="scancode_set::convert" alt="" coords="231,208,397,235"/>
-<area shape="rect" id="node3" href="$classio__port.html#a06b8af80e4822971a779e4ec95cebeb9" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="445,5,540,32"/>
-<area shape="rect" id="node7" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="454,157,531,184"/>
+<area shape="rect" id="node2" href="$classps2__controller.html#a476e4394c493f5060c47fed2d01371bc" title="ps2_controller::read" alt="" coords="239,5,389,32"/>
+<area shape="rect" id="node4" href="$classlogging_1_1logger.html#adfe1276107aa16234d495e7b1bd5c808" title="logging::logger::debug" alt="" coords="231,56,397,83"/>
+<area shape="rect" id="node5" href="$classscancode__set.html#a41913d9916a789761657044db85d955c" title="scancode_set::convert" alt="" coords="231,107,397,133"/>
+<area shape="rect" id="node3" href="$classio__port.html#a3a54ba1f189944a36d25eaf37bb8b0ac" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="445,5,540,32"/>
 </map>

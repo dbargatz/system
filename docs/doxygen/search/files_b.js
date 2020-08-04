@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]],
-  ['memcpy_2ecpp',['memcpy.cpp',['../memcpy_8cpp.html',1,'']]],
-  ['memcpy_2ehpp',['memcpy.hpp',['../memcpy_8hpp.html',1,'']]],
-  ['memset_2ecpp',['memset.cpp',['../memset_8cpp.html',1,'']]],
-  ['memset_2ehpp',['memset.hpp',['../memset_8hpp.html',1,'']]],
-  ['multiboot2_2eh',['multiboot2.h',['../multiboot2_8h.html',1,'']]],
-  ['multiboot2_5fheader_2easm',['multiboot2_header.asm',['../multiboot2__header_8asm.html',1,'']]]
+  ['panic_2eh',['panic.h',['../panic_8h.html',1,'']]],
+  ['pic_2ecpp',['pic.cpp',['../pic_8cpp.html',1,'']]],
+  ['pic_2ehpp',['pic.hpp',['../pic_8hpp.html',1,'']]],
+  ['pit_2ecpp',['pit.cpp',['../pit_8cpp.html',1,'']]],
+  ['pit_2ehpp',['pit.hpp',['../pit_8hpp.html',1,'']]],
+  ['ps2_5fcontroller_2ecpp',['ps2_controller.cpp',['../ps2__controller_8cpp.html',1,'']]],
+  ['ps2_5fcontroller_2ehpp',['ps2_controller.hpp',['../ps2__controller_8hpp.html',1,'']]],
+  ['ps2_5fkeyboard_2ecpp',['ps2_keyboard.cpp',['../ps2__keyboard_8cpp.html',1,'']]],
+  ['ps2_5fkeyboard_2ehpp',['ps2_keyboard.hpp',['../ps2__keyboard_8hpp.html',1,'']]]
 ];

@@ -1,0 +1,27 @@
+<map id="logging::logger::debug" name="logging::logger::debug">
+<area shape="rect" id="node2" href="$classcore.html#a8e63c5bcd3acc2d1f07336cabcfaeb7d" title="core::run" alt="" coords="486,70,565,97"/>
+<area shape="rect" id="node4" href="$classgdt.html#a675c61ef4b200c003d6745b363d88462" title="gdt::dump" alt="" coords="265,45,353,72"/>
+<area shape="rect" id="node5" href="$classgdt.html#af612d7012e8d54a404e234793afcaae9" title="gdt::install" alt="" coords="263,450,354,477"/>
+<area shape="rect" id="node7" href="$classidt.html#abf26825b2505ebcfc1cba77883746b32" title="Construct a new Interrupt Descriptor Table (IDT) object. " alt="" coords="277,146,341,173"/>
+<area shape="rect" id="node8" href="$classidt.html#aa4da818a99459769411c6f6ab7148ba4" title="Loads this IDT into the core such that interrupts/exceptions will be handled by this IDT..." alt="" coords="265,96,352,122"/>
+<area shape="rect" id="node9" href="$classpic.html#afca0851c222dda4b504a63fd98fab9a6" title="Construct a new Programmable Interrupt Controller (PIC) object. " alt="" coords="275,248,343,274"/>
+<area shape="rect" id="node10" href="$classpic.html#ab9f771b49b83e9fe18419d792c67a253" title="pic::disable_all" alt="" coords="249,298,368,325"/>
+<area shape="rect" id="node11" href="$classpic.html#ac2cf6b446df62594dcc168215ef8654b" title="pic::disable_irq" alt="" coords="249,349,369,376"/>
+<area shape="rect" id="node12" href="$classpic.html#a176f249592fbbadef95e31ac8b134183" title="pic::enable_irq" alt="" coords="250,400,367,426"/>
+<area shape="rect" id="node13" href="$classtss.html#a591398847e8352453e5b9262291818a7" title="tss::dump" alt="" coords="265,197,352,224"/>
+<area shape="rect" id="node14" href="$classps2__controller.html#abdb5deb3a3638f47d6358941db271888" title="ps2_controller::disable" alt="" coords="224,501,393,528"/>
+<area shape="rect" id="node15" href="$classps2__controller.html#afb127edcfd4aa8e128f8eddc6b8f0960" title="ps2_controller::enable" alt="" coords="225,552,392,578"/>
+<area shape="rect" id="node16" href="$classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="448,577,603,604"/>
+<area shape="rect" id="node17" href="$classps2__controller.html#a98f1c6a2bd32d87d431b235b49a499df" title="ps2_controller::reset" alt="" coords="231,653,386,680"/>
+<area shape="rect" id="node18" href="$classps2__keyboard.html#a54375c6ab885f98fde3ccac1b0005110" title="ps2_keyboard::interrupt\l_handler" alt="" coords="220,704,397,746"/>
+<area shape="rect" id="node19" href="$classboot__info.html#aea467db3bdbd1e51a27db6968d4cb4a9" title="boot_info::_dump" alt="" coords="241,770,376,797"/>
+<area shape="rect" id="node20" href="$classboot__info.html#ab9d9c293461ec05b8d4de2bff3ce5663" title="boot_info::dump" alt="" coords="245,821,373,848"/>
+<area shape="rect" id="node22" href="$classpit.html#adbde59d40ecc6c4e73155aed60d08483" title="pit::set_frequency" alt="" coords="239,872,378,898"/>
+<area shape="rect" id="node24" href="$classpit.html#a8d98f9029ed375650fba6cc2b8bb730d" title="pit::interrupt_handler" alt="" coords="229,922,388,949"/>
+<area shape="rect" id="node25" href="$classloader_1_1binary.html#a2d8cb08d21910903e8448685b7555e17" title="loader::binary::init" alt="" coords="239,973,379,1000"/>
+<area shape="rect" id="node3" href="$driver_2cpu_2x64_2main_8cpp.html#a74570e5a6991fdfa8c53f94fbec87d84" title="core_entry" alt="" coords="653,70,744,97"/>
+<area shape="rect" id="node6" href="$classtss.html#a03bc3fe6331d9428185225b9d5b2078e" title="tss::tss" alt="" coords="491,450,559,477"/>
+<area shape="rect" id="node21" href="$classboot__info.html#ac348600c65c07d5661940998a4d82a5a" title="boot_info::boot_info" alt="" coords="449,821,601,848"/>
+<area shape="rect" id="node23" href="$classpit.html#a27b79840cca5946bfcee16addaa55961" title="pit::~pit" alt="" coords="488,897,563,924"/>
+<area shape="rect" id="node26" href="$classloader_1_1binary.html#a71b69c977904968d7e736d7fa6c98ec7" title="loader::binary::binary" alt="" coords="445,973,605,1000"/>
+</map>

@@ -1,9 +1,8 @@
 <map id="src/driver/cpu/x64/debug" name="src/driver/cpu/x64/debug">
-<area shape="rect" id="node1" href="dir_ae8205273ee5cabeac846ac58f1d5faf.html" title="debug" alt="" coords="27,52,99,100"/>
-<area shape="rect" id="node2" href="dir_ced1d35527e1b6aa572d5ca5c98a5ac6.html" title="std" alt="" coords="25,244,97,292"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000005_000011.html" title="2" alt="" coords="58,217,67,232"/>
-<area shape="rect" id="node3" href="dir_ed0bf6220ae37bb5b220ab99855b9c5c.html" title="ports" alt="" coords="63,148,135,196"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000005_000010.html" title="1" alt="" coords="86,120,96,135"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000010_000011.html" title="1" alt="" coords="81,222,90,237"/>
-<area shape="rect" id="clust1" href="dir_794d18a66b913b0e55da7d8324c67464.html" title="x64" alt="" coords="16,16,109,111"/>
+<area shape="rect" id="node1" href="dir_ae8205273ee5cabeac846ac58f1d5faf.html" title="debug" alt="" coords="53,52,125,100"/>
+<area shape="rect" id="node2" href="dir_ed0bf6220ae37bb5b220ab99855b9c5c.html" title="ports" alt="" coords="5,148,77,196"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000006_000012.html" title="1" alt="" coords="65,128,74,142"/>
+<area shape="rect" id="node3" href="dir_b3320b59a4aa4a7431bc8488b87009bf.html" title="logging" alt="" coords="101,148,173,196"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000006_000016.html" title="1" alt="" coords="120,120,129,135"/>
+<area shape="rect" id="clust1" href="dir_794d18a66b913b0e55da7d8324c67464.html" title="x64" alt="" coords="43,16,136,111"/>
 </map>

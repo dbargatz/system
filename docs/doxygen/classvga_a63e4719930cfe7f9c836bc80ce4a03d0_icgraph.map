@@ -1,0 +1,8 @@
+<map id="vga::clear_row" name="vga::clear_row">
+<area shape="rect" id="node2" href="$classvga.html#a6e9c8d01e6e926e417a7680ab738c7b8" title="vga::clear_screen" alt="" coords="171,5,307,32"/>
+<area shape="rect" id="node4" href="$classvga.html#a2cb814a16a5962da514caed1db2d6e40" title="vga::scroll" alt="" coords="194,56,283,83"/>
+<area shape="rect" id="node3" href="$classvga.html#add0e8b0063f7565a6514ca6058fab919" title="vga::vga" alt="" coords="359,5,437,32"/>
+<area shape="rect" id="node5" href="$classvga.html#a315c1e143902c033a21aa4f94c6ea184" title="vga::write" alt="" coords="355,81,441,108"/>
+<area shape="rect" id="node6" href="$classvga__backend.html#a81b30d5903dc1a183da889ec5fd3e260" title="vga_backend::write" alt="" coords="489,81,639,108"/>
+<area shape="rect" id="node7" href="$classvga__backend.html#aebf1cfad7c49d12353bc53e6f4d4656d" title="vga_backend::vga_backend" alt="" coords="687,81,889,108"/>
+</map>

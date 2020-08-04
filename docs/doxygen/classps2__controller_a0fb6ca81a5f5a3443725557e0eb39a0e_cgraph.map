@@ -1,0 +1,5 @@
+<map id="ps2_controller::write" name="ps2_controller::write">
+<area shape="rect" id="node2" href="$classps2__controller.html#a476e4394c493f5060c47fed2d01371bc" title="ps2_controller::read" alt="" coords="208,5,359,32"/>
+<area shape="rect" id="node3" href="$classio__port.html#a3a54ba1f189944a36d25eaf37bb8b0ac" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="407,31,501,57"/>
+<area shape="rect" id="node4" href="$classio__port.html#a8340cf27181cbecee5724bb1097cd186" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="231,107,335,133"/>
+</map>

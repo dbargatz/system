@@ -82,18 +82,20 @@ Inheritance diagram for timer:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a50dc877d64bc80cc5772c9ab1ab978d8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="stdint_8h.html#ac55f3ae81b5bc9053760baacf57e47f4">float64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtimer.html#a50dc877d64bc80cc5772c9ab1ab978d8">get_frequency</a> ()=0</td></tr>
-<tr class="separator:a50dc877d64bc80cc5772c9ab1ab978d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8275f469a670394ee7833b65da46658c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtimer.html#a8275f469a670394ee7833b65da46658c">set_frequency</a> (<a class="el" href="stdint_8h.html#ac55f3ae81b5bc9053760baacf57e47f4">float64_t</a> in_frequency_hz)=0</td></tr>
-<tr class="separator:a8275f469a670394ee7833b65da46658c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f0759bfd6594864d6262c6aa5fc1b0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtimer.html#ae5f0759bfd6594864d6262c6aa5fc1b0">~timer</a> ()</td></tr>
+<tr class="separator:ae5f0759bfd6594864d6262c6aa5fc1b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1b13ea7ddf02ae99d69aa63b4ecd64f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtimer.html#af1b13ea7ddf02ae99d69aa63b4ecd64f">get_frequency</a> ()=0</td></tr>
+<tr class="separator:af1b13ea7ddf02ae99d69aa63b4ecd64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a151b6a54896d724a2bce2ac4701b8701"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtimer.html#a151b6a54896d724a2bce2ac4701b8701">set_frequency</a> (double in_frequency_hz)=0</td></tr>
+<tr class="separator:a151b6a54896d724a2bce2ac4701b8701"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9d12f2257d8124388bace6d2e97c15e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtimer.html#ac9d12f2257d8124388bace6d2e97c15e">interrupt_handler</a> (<a class="el" href="classinterrupt__frame.html">interrupt_frame</a> &amp;in_frame)=0</td></tr>
 <tr class="separator:ac9d12f2257d8124388bace6d2e97c15e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract representation of timer hardware. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a50dc877d64bc80cc5772c9ab1ab978d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50dc877d64bc80cc5772c9ab1ab978d8">&#9670;&nbsp;</a></span>get_frequency()</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae5f0759bfd6594864d6262c6aa5fc1b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5f0759bfd6594864d6262c6aa5fc1b0">&#9670;&nbsp;</a></span>~timer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -102,7 +104,43 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="stdint_8h.html#ac55f3ae81b5bc9053760baacf57e47f4">float64_t</a> timer::get_frequency </td>
+          <td class="memname">virtual timer::~timer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtimer_ae5f0759bfd6594864d6262c6aa5fc1b0_cgraph.png" border="0" usemap="#classtimer_ae5f0759bfd6594864d6262c6aa5fc1b0_cgraph" alt=""/></div>
+<map name="classtimer_ae5f0759bfd6594864d6262c6aa5fc1b0_cgraph" id="classtimer_ae5f0759bfd6594864d6262c6aa5fc1b0_cgraph">
+<area shape="rect" id="node2" href="classtimer.html#af1b13ea7ddf02ae99d69aa63b4ecd64f" title="timer::get_frequency" alt="" coords="173,5,332,32"/>
+<area shape="rect" id="node3" href="classtimer.html#a151b6a54896d724a2bce2ac4701b8701" title="timer::set_frequency" alt="" coords="174,56,331,83"/>
+<area shape="rect" id="node4" href="classtimer.html#ac9d12f2257d8124388bace6d2e97c15e" title="timer::interrupt_handler" alt="" coords="164,107,341,133"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af1b13ea7ddf02ae99d69aa63b4ecd64f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1b13ea7ddf02ae99d69aa63b4ecd64f">&#9670;&nbsp;</a></span>get_frequency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double timer::get_frequency </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -115,7 +153,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classpit.html#a96febee49a389c829c3329a022929e8b">pit</a>.</p>
+<p>Implemented in <a class="el" href="classpit.html#a0e8ebafb44d385cd534ec0864f8f7a9b">pit</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtimer_af1b13ea7ddf02ae99d69aa63b4ecd64f_icgraph.png" border="0" usemap="#classtimer_af1b13ea7ddf02ae99d69aa63b4ecd64f_icgraph" alt=""/></div>
+<map name="classtimer_af1b13ea7ddf02ae99d69aa63b4ecd64f_icgraph" id="classtimer_af1b13ea7ddf02ae99d69aa63b4ecd64f_icgraph">
+<area shape="rect" id="node2" href="classtimer.html#ae5f0759bfd6594864d6262c6aa5fc1b0" title="timer::~timer" alt="" coords="212,5,323,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -150,14 +196,15 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="classtimer_ac9d12f2257d8124388bace6d2e97c15e_icgraph.png" border="0" usemap="#classtimer_ac9d12f2257d8124388bace6d2e97c15e_icgraph" alt=""/></div>
 <map name="classtimer_ac9d12f2257d8124388bace6d2e97c15e_icgraph" id="classtimer_ac9d12f2257d8124388bace6d2e97c15e_icgraph">
 <area shape="rect" id="node2" href="classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="231,5,407,32"/>
-<area shape="rect" id="node3" href="main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="455,5,573,32"/>
+<area shape="rect" id="node4" href="classtimer.html#ae5f0759bfd6594864d6262c6aa5fc1b0" title="timer::~timer" alt="" coords="263,56,374,83"/>
+<area shape="rect" id="node3" href="driver_2cpu_2x64_2main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="455,5,573,32"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a8275f469a670394ee7833b65da46658c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8275f469a670394ee7833b65da46658c">&#9670;&nbsp;</a></span>set_frequency()</h2>
+<a id="a151b6a54896d724a2bce2ac4701b8701"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a151b6a54896d724a2bce2ac4701b8701">&#9670;&nbsp;</a></span>set_frequency()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,7 +215,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual void timer::set_frequency </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#ac55f3ae81b5bc9053760baacf57e47f4">float64_t</a>&#160;</td>
+          <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>in_frequency_hz</em></td><td>)</td>
           <td></td>
         </tr>
@@ -180,7 +227,15 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classpit.html#a09eeaabc3ea4389bf004a6ce64447a9e">pit</a>.</p>
+<p>Implemented in <a class="el" href="classpit.html#adbde59d40ecc6c4e73155aed60d08483">pit</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classtimer_a151b6a54896d724a2bce2ac4701b8701_icgraph.png" border="0" usemap="#classtimer_a151b6a54896d724a2bce2ac4701b8701_icgraph" alt=""/></div>
+<map name="classtimer_a151b6a54896d724a2bce2ac4701b8701_icgraph" id="classtimer_a151b6a54896d724a2bce2ac4701b8701_icgraph">
+<area shape="rect" id="node2" href="classtimer.html#ae5f0759bfd6594864d6262c6aa5fc1b0" title="timer::~timer" alt="" coords="211,5,321,32"/>
+</map>
+</div>
 
 </div>
 </div>

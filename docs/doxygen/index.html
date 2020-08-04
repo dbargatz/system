@@ -101,8 +101,9 @@ $(function() {
 </ul>
 <h2>Building</h2>
 <p>Normal debug build:</p>
-<div class="fragment"><div class="line">&gt; meson build/</div><div class="line">&gt; ninja -C build/</div></div><!-- fragment --><p>Generating Doxygen documentation (output to <code>docs/doxygen</code>):</p>
-<div class="fragment"><div class="line">&gt; meson build/</div><div class="line">&gt; ninja -C build/ docs</div></div><!-- fragment --><h2>Running</h2>
+<div class="fragment"><div class="line">&gt; meson build/ --buildtype debug --cross-file x64.ini</div><div class="line">&gt; ninja -C build/</div></div><!-- fragment --><p>Release build:</p>
+<div class="fragment"><div class="line">&gt; meson build/ --buildtype release --cross-file x64.ini</div><div class="line">&gt; ninja -C build/</div></div><!-- fragment --><p>Generating Doxygen documentation (output to <code>docs/doxygen</code>):</p>
+<div class="fragment"><div class="line">&gt; meson build/ --cross-file x64.ini</div><div class="line">&gt; ninja -C build/ docs</div></div><!-- fragment --><h2>Running</h2>
 <p>Running QEMU with standard options and serial port output:</p>
 <div class="fragment"><div class="line">&gt; tests/run.sh</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>~/qemu.log</code>:</p>
 <div class="fragment"><div class="line">&gt; tests/run.sh --debug</div></div><!-- fragment --><p>Running QEMU with interrupt debugging turned on and logged to <code>~/qemu.log</code>, and GDB remote debugging:</p>

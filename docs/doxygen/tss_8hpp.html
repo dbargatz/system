@@ -70,21 +70,17 @@ $(function() {
 <div class="title">tss.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="logger_8hpp_source.html">../std/logger.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="stdint_8h_source.html">../std/stdint.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="logger_8hpp_source.html">../../../../logging/logger.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="gdt_8hpp_source.html">gdt.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for tss.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="tss_8hpp__incl.png" border="0" usemap="#src_2driver_2cpu_2x64_2interrupts_2tss_8hpp" alt=""/></div>
 <map name="src_2driver_2cpu_2x64_2interrupts_2tss_8hpp" id="src_2driver_2cpu_2x64_2interrupts_2tss_8hpp">
-<area shape="rect" id="node2" href="logger_8hpp.html" title="../std/logger.hpp" alt="" coords="182,169,309,196"/>
-<area shape="rect" id="node5" href="stdint_8h.html" title="stdint.h" alt="" coords="261,393,331,420"/>
-<area shape="rect" id="node8" href="gdt_8hpp.html" title="gdt.hpp" alt="" coords="311,95,382,121"/>
-<area shape="rect" id="node3" href="assert_8h.html" title="assert.h" alt="" coords="5,244,80,271"/>
-<area shape="rect" id="node6" href="logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="105,244,258,271"/>
-<area shape="rect" id="node7" href="text_8hpp.html" title="text.hpp" alt="" coords="258,319,334,345"/>
-<area shape="rect" id="node4" href="panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="43,319,112,345"/>
+<area shape="rect" id="node3" href="logger_8hpp.html" title="../../../../logging\l/logger.hpp" alt="" coords="158,169,277,211"/>
+<area shape="rect" id="node9" href="gdt_8hpp.html" title="gdt.hpp" alt="" coords="94,95,165,121"/>
+<area shape="rect" id="node8" href="backend_8hpp.html" title="backend.hpp" alt="" coords="415,259,521,285"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -93,7 +89,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="tss_8hpp__dep__incl.png" border="0" usemap="#src_2driver_2cpu_2x64_2interrupts_2tss_8hppdep" alt=""/></div>
 <map name="src_2driver_2cpu_2x64_2interrupts_2tss_8hppdep" id="src_2driver_2cpu_2x64_2interrupts_2tss_8hppdep">
 <area shape="rect" id="node2" href="core_8hpp.html" title="src/driver/cpu/x64\l/core.hpp" alt="" coords="87,95,225,136"/>
-<area shape="rect" id="node4" href="main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="5,273,144,315"/>
+<area shape="rect" id="node4" href="driver_2cpu_2x64_2main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="5,273,144,315"/>
 <area shape="rect" id="node7" href="tss_8cpp.html" title="src/driver/cpu/x64\l/interrupts/tss.cpp" alt="" coords="249,95,388,136"/>
 <area shape="rect" id="node3" href="core_8cpp.html" title="src/driver/cpu/x64\l/core.cpp" alt="" coords="112,184,251,225"/>
 <area shape="rect" id="node5" href="pit_8hpp.html" title="src/driver/cpu/x64\l/timer/pit.hpp" alt="" coords="275,184,413,225"/>
@@ -110,91 +106,91 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aef9bb556c1530f5d648fd57e73b9a105"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#aef9bb556c1530f5d648fd57e73b9a105">reserved1</a></td></tr>
-<tr class="memdesc:aef9bb556c1530f5d648fd57e73b9a105"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#aef9bb556c1530f5d648fd57e73b9a105">More...</a><br /></td></tr>
-<tr class="separator:aef9bb556c1530f5d648fd57e73b9a105"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75ec887cd54e3e799d958976ee51557c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a75ec887cd54e3e799d958976ee51557c">rsp0_low</a></td></tr>
-<tr class="memdesc:a75ec887cd54e3e799d958976ee51557c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 0.  <a href="#a75ec887cd54e3e799d958976ee51557c">More...</a><br /></td></tr>
-<tr class="separator:a75ec887cd54e3e799d958976ee51557c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab32b8e28b00b33c3e5ea5a75cd4b857c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ab32b8e28b00b33c3e5ea5a75cd4b857c">rsp0_high</a></td></tr>
-<tr class="memdesc:ab32b8e28b00b33c3e5ea5a75cd4b857c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 0.  <a href="#ab32b8e28b00b33c3e5ea5a75cd4b857c">More...</a><br /></td></tr>
-<tr class="separator:ab32b8e28b00b33c3e5ea5a75cd4b857c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a343166d6fb064e1c914ecc2bdb6b2a6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a343166d6fb064e1c914ecc2bdb6b2a6d">rsp1_low</a></td></tr>
-<tr class="memdesc:a343166d6fb064e1c914ecc2bdb6b2a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 1.  <a href="#a343166d6fb064e1c914ecc2bdb6b2a6d">More...</a><br /></td></tr>
-<tr class="separator:a343166d6fb064e1c914ecc2bdb6b2a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf4e08e6481970828ee0706275030d04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#abf4e08e6481970828ee0706275030d04">rsp1_high</a></td></tr>
-<tr class="memdesc:abf4e08e6481970828ee0706275030d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 1.  <a href="#abf4e08e6481970828ee0706275030d04">More...</a><br /></td></tr>
-<tr class="separator:abf4e08e6481970828ee0706275030d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a981c19809a707bee975fa7022e929b27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a981c19809a707bee975fa7022e929b27">rsp2_low</a></td></tr>
-<tr class="memdesc:a981c19809a707bee975fa7022e929b27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 2.  <a href="#a981c19809a707bee975fa7022e929b27">More...</a><br /></td></tr>
-<tr class="separator:a981c19809a707bee975fa7022e929b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14bb07ac920b984c3421bb643e82d4df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a14bb07ac920b984c3421bb643e82d4df">rsp2_high</a></td></tr>
-<tr class="memdesc:a14bb07ac920b984c3421bb643e82d4df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 2.  <a href="#a14bb07ac920b984c3421bb643e82d4df">More...</a><br /></td></tr>
-<tr class="separator:a14bb07ac920b984c3421bb643e82d4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43927117f60a83134aaf449767b87b6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a43927117f60a83134aaf449767b87b6c">reserved2</a></td></tr>
-<tr class="memdesc:a43927117f60a83134aaf449767b87b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#a43927117f60a83134aaf449767b87b6c">More...</a><br /></td></tr>
-<tr class="separator:a43927117f60a83134aaf449767b87b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac179b8cead8ad1e54a57e3584a853d5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ac179b8cead8ad1e54a57e3584a853d5d">ist1_low</a></td></tr>
-<tr class="memdesc:ac179b8cead8ad1e54a57e3584a853d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, <a class="el" href="assert_8h.html#ac6c818ab7aca2e521c97eee817f99f91">ASSERT()</a>, undefined opcode.  <a href="#ac179b8cead8ad1e54a57e3584a853d5d">More...</a><br /></td></tr>
-<tr class="separator:ac179b8cead8ad1e54a57e3584a853d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf06f6cbc68f1eb245296f0d91f44ffc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#adf06f6cbc68f1eb245296f0d91f44ffc">ist1_high</a></td></tr>
-<tr class="memdesc:adf06f6cbc68f1eb245296f0d91f44ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, <a class="el" href="assert_8h.html#ac6c818ab7aca2e521c97eee817f99f91">ASSERT()</a>, undefined opcode.  <a href="#adf06f6cbc68f1eb245296f0d91f44ffc">More...</a><br /></td></tr>
-<tr class="separator:adf06f6cbc68f1eb245296f0d91f44ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4845f28a1d8f27b760c6c98a152942a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ab4845f28a1d8f27b760c6c98a152942a">ist2_low</a></td></tr>
-<tr class="memdesc:ab4845f28a1d8f27b760c6c98a152942a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 2; used for unhandled interrupts vectors.  <a href="#ab4845f28a1d8f27b760c6c98a152942a">More...</a><br /></td></tr>
-<tr class="separator:ab4845f28a1d8f27b760c6c98a152942a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fc4012741ae5cfa5790cad46937f6e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a1fc4012741ae5cfa5790cad46937f6e2">ist2_high</a></td></tr>
-<tr class="memdesc:a1fc4012741ae5cfa5790cad46937f6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 2; used for unhandled interrupts vectors.  <a href="#a1fc4012741ae5cfa5790cad46937f6e2">More...</a><br /></td></tr>
-<tr class="separator:a1fc4012741ae5cfa5790cad46937f6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ae5ff9e7b32e2832af203e379108650"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a5ae5ff9e7b32e2832af203e379108650">ist3_low</a></td></tr>
-<tr class="memdesc:a5ae5ff9e7b32e2832af203e379108650"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 3; unused.  <a href="#a5ae5ff9e7b32e2832af203e379108650">More...</a><br /></td></tr>
-<tr class="separator:a5ae5ff9e7b32e2832af203e379108650"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cb68037c29d1f7fe9d67cf038611131"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a0cb68037c29d1f7fe9d67cf038611131">ist3_high</a></td></tr>
-<tr class="memdesc:a0cb68037c29d1f7fe9d67cf038611131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 3; unused.  <a href="#a0cb68037c29d1f7fe9d67cf038611131">More...</a><br /></td></tr>
-<tr class="separator:a0cb68037c29d1f7fe9d67cf038611131"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a408c19dc5dd37120c9c5ad6b81f41550"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a408c19dc5dd37120c9c5ad6b81f41550">ist4_low</a></td></tr>
-<tr class="memdesc:a408c19dc5dd37120c9c5ad6b81f41550"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 4; unused.  <a href="#a408c19dc5dd37120c9c5ad6b81f41550">More...</a><br /></td></tr>
-<tr class="separator:a408c19dc5dd37120c9c5ad6b81f41550"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a740173040d6539f4d8ba2c92286d2ee1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a740173040d6539f4d8ba2c92286d2ee1">ist4_high</a></td></tr>
-<tr class="memdesc:a740173040d6539f4d8ba2c92286d2ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 4; unused.  <a href="#a740173040d6539f4d8ba2c92286d2ee1">More...</a><br /></td></tr>
-<tr class="separator:a740173040d6539f4d8ba2c92286d2ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49d51df5e68a3ca71f2a6b9a7b748d9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a49d51df5e68a3ca71f2a6b9a7b748d9f">ist5_low</a></td></tr>
-<tr class="memdesc:a49d51df5e68a3ca71f2a6b9a7b748d9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 5; unused.  <a href="#a49d51df5e68a3ca71f2a6b9a7b748d9f">More...</a><br /></td></tr>
-<tr class="separator:a49d51df5e68a3ca71f2a6b9a7b748d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1ee1b38db504d502cfe6dd7b4fed051"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#af1ee1b38db504d502cfe6dd7b4fed051">ist5_high</a></td></tr>
-<tr class="memdesc:af1ee1b38db504d502cfe6dd7b4fed051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 5; unused.  <a href="#af1ee1b38db504d502cfe6dd7b4fed051">More...</a><br /></td></tr>
-<tr class="separator:af1ee1b38db504d502cfe6dd7b4fed051"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7837141902648257ebd0fe6fed3ee6d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a7837141902648257ebd0fe6fed3ee6d3">ist6_low</a></td></tr>
-<tr class="memdesc:a7837141902648257ebd0fe6fed3ee6d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 6; unused.  <a href="#a7837141902648257ebd0fe6fed3ee6d3">More...</a><br /></td></tr>
-<tr class="separator:a7837141902648257ebd0fe6fed3ee6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1fb40313175b4c3778ac9a1798d0ea4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ab1fb40313175b4c3778ac9a1798d0ea4">ist6_high</a></td></tr>
-<tr class="memdesc:ab1fb40313175b4c3778ac9a1798d0ea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 6; unused.  <a href="#ab1fb40313175b4c3778ac9a1798d0ea4">More...</a><br /></td></tr>
-<tr class="separator:ab1fb40313175b4c3778ac9a1798d0ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84c38ca689ec4965cec47fbe2f75dc75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a84c38ca689ec4965cec47fbe2f75dc75">ist7_low</a></td></tr>
-<tr class="memdesc:a84c38ca689ec4965cec47fbe2f75dc75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 7; unused.  <a href="#a84c38ca689ec4965cec47fbe2f75dc75">More...</a><br /></td></tr>
-<tr class="separator:a84c38ca689ec4965cec47fbe2f75dc75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c3de2abd71b781b65871a19adb29687"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a6c3de2abd71b781b65871a19adb29687">ist7_high</a></td></tr>
-<tr class="memdesc:a6c3de2abd71b781b65871a19adb29687"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 7; unused.  <a href="#a6c3de2abd71b781b65871a19adb29687">More...</a><br /></td></tr>
-<tr class="separator:a6c3de2abd71b781b65871a19adb29687"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0c86982c9eef8033adb225c9f4c0458"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#aa0c86982c9eef8033adb225c9f4c0458">reserved3</a></td></tr>
-<tr class="memdesc:aa0c86982c9eef8033adb225c9f4c0458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#aa0c86982c9eef8033adb225c9f4c0458">More...</a><br /></td></tr>
-<tr class="separator:aa0c86982c9eef8033adb225c9f4c0458"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9c80382144c72c09f80eb6458d5238e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#af9c80382144c72c09f80eb6458d5238e">reserved4</a></td></tr>
-<tr class="memdesc:af9c80382144c72c09f80eb6458d5238e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#af9c80382144c72c09f80eb6458d5238e">More...</a><br /></td></tr>
-<tr class="separator:af9c80382144c72c09f80eb6458d5238e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42218cbc473a16eb991576f262463ae9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a42218cbc473a16eb991576f262463ae9">iopb_offset</a></td></tr>
-<tr class="memdesc:a42218cbc473a16eb991576f262463ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O Port Bitmap; unused, must be sizeof(struct _tss).  <a href="#a42218cbc473a16eb991576f262463ae9">More...</a><br /></td></tr>
-<tr class="separator:a42218cbc473a16eb991576f262463ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad410a7b151ed543e8b3f6a62bc4f194f"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ad410a7b151ed543e8b3f6a62bc4f194f">reserved1</a></td></tr>
+<tr class="memdesc:ad410a7b151ed543e8b3f6a62bc4f194f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#ad410a7b151ed543e8b3f6a62bc4f194f">More...</a><br /></td></tr>
+<tr class="separator:ad410a7b151ed543e8b3f6a62bc4f194f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3561027ba189dcf6880384323bd25e7b"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a3561027ba189dcf6880384323bd25e7b">rsp0_low</a></td></tr>
+<tr class="memdesc:a3561027ba189dcf6880384323bd25e7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 0.  <a href="#a3561027ba189dcf6880384323bd25e7b">More...</a><br /></td></tr>
+<tr class="separator:a3561027ba189dcf6880384323bd25e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87073b41f885e76ec5d4a7b835cf6442"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a87073b41f885e76ec5d4a7b835cf6442">rsp0_high</a></td></tr>
+<tr class="memdesc:a87073b41f885e76ec5d4a7b835cf6442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 0.  <a href="#a87073b41f885e76ec5d4a7b835cf6442">More...</a><br /></td></tr>
+<tr class="separator:a87073b41f885e76ec5d4a7b835cf6442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafdcf262b0fb2d2dc00502523d1b5bf2"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#aafdcf262b0fb2d2dc00502523d1b5bf2">rsp1_low</a></td></tr>
+<tr class="memdesc:aafdcf262b0fb2d2dc00502523d1b5bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 1.  <a href="#aafdcf262b0fb2d2dc00502523d1b5bf2">More...</a><br /></td></tr>
+<tr class="separator:aafdcf262b0fb2d2dc00502523d1b5bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2dfba2569ee2b32a3a61dc23987191f"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ae2dfba2569ee2b32a3a61dc23987191f">rsp1_high</a></td></tr>
+<tr class="memdesc:ae2dfba2569ee2b32a3a61dc23987191f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 1.  <a href="#ae2dfba2569ee2b32a3a61dc23987191f">More...</a><br /></td></tr>
+<tr class="separator:ae2dfba2569ee2b32a3a61dc23987191f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d06c49a314b4eaaf1317d2b65a5d6c8"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a7d06c49a314b4eaaf1317d2b65a5d6c8">rsp2_low</a></td></tr>
+<tr class="memdesc:a7d06c49a314b4eaaf1317d2b65a5d6c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 2.  <a href="#a7d06c49a314b4eaaf1317d2b65a5d6c8">More...</a><br /></td></tr>
+<tr class="separator:a7d06c49a314b4eaaf1317d2b65a5d6c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9da0dc1cc968865e1a3de9cf02afbd9d"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a9da0dc1cc968865e1a3de9cf02afbd9d">rsp2_high</a></td></tr>
+<tr class="memdesc:a9da0dc1cc968865e1a3de9cf02afbd9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default stack; used when IST index is zero and privilege level changes to 2.  <a href="#a9da0dc1cc968865e1a3de9cf02afbd9d">More...</a><br /></td></tr>
+<tr class="separator:a9da0dc1cc968865e1a3de9cf02afbd9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7078ee6f58cc7dfade5ef628e42f265"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ae7078ee6f58cc7dfade5ef628e42f265">reserved2</a></td></tr>
+<tr class="memdesc:ae7078ee6f58cc7dfade5ef628e42f265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#ae7078ee6f58cc7dfade5ef628e42f265">More...</a><br /></td></tr>
+<tr class="separator:ae7078ee6f58cc7dfade5ef628e42f265"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6eefaaf1771ce9cb0008185991c4e285"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a6eefaaf1771ce9cb0008185991c4e285">ist1_low</a></td></tr>
+<tr class="memdesc:a6eefaaf1771ce9cb0008185991c4e285"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, ASSERT(), undefined opcode.  <a href="#a6eefaaf1771ce9cb0008185991c4e285">More...</a><br /></td></tr>
+<tr class="separator:a6eefaaf1771ce9cb0008185991c4e285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab90e435d1c01309b61ca9bf8496660d3"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ab90e435d1c01309b61ca9bf8496660d3">ist1_high</a></td></tr>
+<tr class="memdesc:ab90e435d1c01309b61ca9bf8496660d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, ASSERT(), undefined opcode.  <a href="#ab90e435d1c01309b61ca9bf8496660d3">More...</a><br /></td></tr>
+<tr class="separator:ab90e435d1c01309b61ca9bf8496660d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43d4a282255d9eec26378cf6734e571d"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a43d4a282255d9eec26378cf6734e571d">ist2_low</a></td></tr>
+<tr class="memdesc:a43d4a282255d9eec26378cf6734e571d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 2; used for unhandled interrupts vectors.  <a href="#a43d4a282255d9eec26378cf6734e571d">More...</a><br /></td></tr>
+<tr class="separator:a43d4a282255d9eec26378cf6734e571d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bef31f6c6829bc98e78a022d2013698"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a8bef31f6c6829bc98e78a022d2013698">ist2_high</a></td></tr>
+<tr class="memdesc:a8bef31f6c6829bc98e78a022d2013698"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 2; used for unhandled interrupts vectors.  <a href="#a8bef31f6c6829bc98e78a022d2013698">More...</a><br /></td></tr>
+<tr class="separator:a8bef31f6c6829bc98e78a022d2013698"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa72b3e6e91913c9da7599f6a8f0525d9"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#aa72b3e6e91913c9da7599f6a8f0525d9">ist3_low</a></td></tr>
+<tr class="memdesc:aa72b3e6e91913c9da7599f6a8f0525d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 3; unused.  <a href="#aa72b3e6e91913c9da7599f6a8f0525d9">More...</a><br /></td></tr>
+<tr class="separator:aa72b3e6e91913c9da7599f6a8f0525d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd8ba6d22ccd55ce440f784fe161f669"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#afd8ba6d22ccd55ce440f784fe161f669">ist3_high</a></td></tr>
+<tr class="memdesc:afd8ba6d22ccd55ce440f784fe161f669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 3; unused.  <a href="#afd8ba6d22ccd55ce440f784fe161f669">More...</a><br /></td></tr>
+<tr class="separator:afd8ba6d22ccd55ce440f784fe161f669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae33cbd19079c183fad9ff21f158fdb97"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ae33cbd19079c183fad9ff21f158fdb97">ist4_low</a></td></tr>
+<tr class="memdesc:ae33cbd19079c183fad9ff21f158fdb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 4; unused.  <a href="#ae33cbd19079c183fad9ff21f158fdb97">More...</a><br /></td></tr>
+<tr class="separator:ae33cbd19079c183fad9ff21f158fdb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1f6b77346110d95125df8c1971d2483"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ae1f6b77346110d95125df8c1971d2483">ist4_high</a></td></tr>
+<tr class="memdesc:ae1f6b77346110d95125df8c1971d2483"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 4; unused.  <a href="#ae1f6b77346110d95125df8c1971d2483">More...</a><br /></td></tr>
+<tr class="separator:ae1f6b77346110d95125df8c1971d2483"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a017a543b8a03a2416fa6aea2c81b2196"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a017a543b8a03a2416fa6aea2c81b2196">ist5_low</a></td></tr>
+<tr class="memdesc:a017a543b8a03a2416fa6aea2c81b2196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 5; unused.  <a href="#a017a543b8a03a2416fa6aea2c81b2196">More...</a><br /></td></tr>
+<tr class="separator:a017a543b8a03a2416fa6aea2c81b2196"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae735f6acc3aa25364802006e674ed1b8"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ae735f6acc3aa25364802006e674ed1b8">ist5_high</a></td></tr>
+<tr class="memdesc:ae735f6acc3aa25364802006e674ed1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 5; unused.  <a href="#ae735f6acc3aa25364802006e674ed1b8">More...</a><br /></td></tr>
+<tr class="separator:ae735f6acc3aa25364802006e674ed1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4a1d7399722d76a46d4faf4a6ee31cc"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#ad4a1d7399722d76a46d4faf4a6ee31cc">ist6_low</a></td></tr>
+<tr class="memdesc:ad4a1d7399722d76a46d4faf4a6ee31cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 6; unused.  <a href="#ad4a1d7399722d76a46d4faf4a6ee31cc">More...</a><br /></td></tr>
+<tr class="separator:ad4a1d7399722d76a46d4faf4a6ee31cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff07ce03ac4f2788025cd7c5acc8852e"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#aff07ce03ac4f2788025cd7c5acc8852e">ist6_high</a></td></tr>
+<tr class="memdesc:aff07ce03ac4f2788025cd7c5acc8852e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 6; unused.  <a href="#aff07ce03ac4f2788025cd7c5acc8852e">More...</a><br /></td></tr>
+<tr class="separator:aff07ce03ac4f2788025cd7c5acc8852e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af76a8f57733d9608516a92eabdb4cb9c"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#af76a8f57733d9608516a92eabdb4cb9c">ist7_low</a></td></tr>
+<tr class="memdesc:af76a8f57733d9608516a92eabdb4cb9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 7; unused.  <a href="#af76a8f57733d9608516a92eabdb4cb9c">More...</a><br /></td></tr>
+<tr class="separator:af76a8f57733d9608516a92eabdb4cb9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73edad7475285ddf50dcde9a39dba68d"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a73edad7475285ddf50dcde9a39dba68d">ist7_high</a></td></tr>
+<tr class="memdesc:a73edad7475285ddf50dcde9a39dba68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Stack Table 7; unused.  <a href="#a73edad7475285ddf50dcde9a39dba68d">More...</a><br /></td></tr>
+<tr class="separator:a73edad7475285ddf50dcde9a39dba68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04fc0af1f497682ca0f13b92da870af2"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a04fc0af1f497682ca0f13b92da870af2">reserved3</a></td></tr>
+<tr class="memdesc:a04fc0af1f497682ca0f13b92da870af2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#a04fc0af1f497682ca0f13b92da870af2">More...</a><br /></td></tr>
+<tr class="separator:a04fc0af1f497682ca0f13b92da870af2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af845ef630bc5ecf3155d0f9ae08c5282"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#af845ef630bc5ecf3155d0f9ae08c5282">reserved4</a></td></tr>
+<tr class="memdesc:af845ef630bc5ecf3155d0f9ae08c5282"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved; must be zero.  <a href="#af845ef630bc5ecf3155d0f9ae08c5282">More...</a><br /></td></tr>
+<tr class="separator:af845ef630bc5ecf3155d0f9ae08c5282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1abd19df0f852a50cb0f7bf3d6fa6199"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tss_8hpp.html#a1abd19df0f852a50cb0f7bf3d6fa6199">iopb_offset</a></td></tr>
+<tr class="memdesc:a1abd19df0f852a50cb0f7bf3d6fa6199"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O Port Bitmap; unused, must be sizeof(struct _tss).  <a href="#a1abd19df0f852a50cb0f7bf3d6fa6199">More...</a><br /></td></tr>
+<tr class="separator:a1abd19df0f852a50cb0f7bf3d6fa6199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a42218cbc473a16eb991576f262463ae9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42218cbc473a16eb991576f262463ae9">&#9670;&nbsp;</a></span>iopb_offset</h2>
+<a id="a1abd19df0f852a50cb0f7bf3d6fa6199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1abd19df0f852a50cb0f7bf3d6fa6199">&#9670;&nbsp;</a></span>iopb_offset</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> iopb_offset</td>
+          <td class="memname">std::uint16_t iopb_offset</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -203,62 +199,46 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="adf06f6cbc68f1eb245296f0d91f44ffc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf06f6cbc68f1eb245296f0d91f44ffc">&#9670;&nbsp;</a></span>ist1_high</h2>
+<a id="ab90e435d1c01309b61ca9bf8496660d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90e435d1c01309b61ca9bf8496660d3">&#9670;&nbsp;</a></span>ist1_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist1_high</td>
+          <td class="memname">std::uint32_t ist1_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, <a class="el" href="assert_8h.html#ac6c818ab7aca2e521c97eee817f99f91">ASSERT()</a>, undefined opcode. </p>
+<p>Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, ASSERT(), undefined opcode. </p>
 
 </div>
 </div>
-<a id="ac179b8cead8ad1e54a57e3584a853d5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac179b8cead8ad1e54a57e3584a853d5d">&#9670;&nbsp;</a></span>ist1_low</h2>
+<a id="a6eefaaf1771ce9cb0008185991c4e285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6eefaaf1771ce9cb0008185991c4e285">&#9670;&nbsp;</a></span>ist1_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist1_low</td>
+          <td class="memname">std::uint32_t ist1_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, <a class="el" href="assert_8h.html#ac6c818ab7aca2e521c97eee817f99f91">ASSERT()</a>, undefined opcode. </p>
+<p>Interrupt Stack Table 1; used for <a class="el" href="panic_8h.html#ae3c0c6fb5e69bb687e787ec5c487afa1">PANIC()</a>, ASSERT(), undefined opcode. </p>
 
 </div>
 </div>
-<a id="a1fc4012741ae5cfa5790cad46937f6e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fc4012741ae5cfa5790cad46937f6e2">&#9670;&nbsp;</a></span>ist2_high</h2>
+<a id="a8bef31f6c6829bc98e78a022d2013698"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bef31f6c6829bc98e78a022d2013698">&#9670;&nbsp;</a></span>ist2_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist2_high</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Interrupt Stack Table 2; used for unhandled interrupts vectors. </p>
-
-</div>
-</div>
-<a id="ab4845f28a1d8f27b760c6c98a152942a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4845f28a1d8f27b760c6c98a152942a">&#9670;&nbsp;</a></span>ist2_low</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist2_low</td>
+          <td class="memname">std::uint32_t ist2_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -267,14 +247,30 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a0cb68037c29d1f7fe9d67cf038611131"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cb68037c29d1f7fe9d67cf038611131">&#9670;&nbsp;</a></span>ist3_high</h2>
+<a id="a43d4a282255d9eec26378cf6734e571d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43d4a282255d9eec26378cf6734e571d">&#9670;&nbsp;</a></span>ist2_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist3_high</td>
+          <td class="memname">std::uint32_t ist2_low</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interrupt Stack Table 2; used for unhandled interrupts vectors. </p>
+
+</div>
+</div>
+<a id="afd8ba6d22ccd55ce440f784fe161f669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd8ba6d22ccd55ce440f784fe161f669">&#9670;&nbsp;</a></span>ist3_high</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t ist3_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -283,14 +279,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a5ae5ff9e7b32e2832af203e379108650"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ae5ff9e7b32e2832af203e379108650">&#9670;&nbsp;</a></span>ist3_low</h2>
+<a id="aa72b3e6e91913c9da7599f6a8f0525d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa72b3e6e91913c9da7599f6a8f0525d9">&#9670;&nbsp;</a></span>ist3_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist3_low</td>
+          <td class="memname">std::uint32_t ist3_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -299,14 +295,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a740173040d6539f4d8ba2c92286d2ee1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a740173040d6539f4d8ba2c92286d2ee1">&#9670;&nbsp;</a></span>ist4_high</h2>
+<a id="ae1f6b77346110d95125df8c1971d2483"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1f6b77346110d95125df8c1971d2483">&#9670;&nbsp;</a></span>ist4_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist4_high</td>
+          <td class="memname">std::uint32_t ist4_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -315,14 +311,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a408c19dc5dd37120c9c5ad6b81f41550"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a408c19dc5dd37120c9c5ad6b81f41550">&#9670;&nbsp;</a></span>ist4_low</h2>
+<a id="ae33cbd19079c183fad9ff21f158fdb97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae33cbd19079c183fad9ff21f158fdb97">&#9670;&nbsp;</a></span>ist4_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist4_low</td>
+          <td class="memname">std::uint32_t ist4_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -331,14 +327,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="af1ee1b38db504d502cfe6dd7b4fed051"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1ee1b38db504d502cfe6dd7b4fed051">&#9670;&nbsp;</a></span>ist5_high</h2>
+<a id="ae735f6acc3aa25364802006e674ed1b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae735f6acc3aa25364802006e674ed1b8">&#9670;&nbsp;</a></span>ist5_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist5_high</td>
+          <td class="memname">std::uint32_t ist5_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -347,14 +343,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a49d51df5e68a3ca71f2a6b9a7b748d9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49d51df5e68a3ca71f2a6b9a7b748d9f">&#9670;&nbsp;</a></span>ist5_low</h2>
+<a id="a017a543b8a03a2416fa6aea2c81b2196"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a017a543b8a03a2416fa6aea2c81b2196">&#9670;&nbsp;</a></span>ist5_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist5_low</td>
+          <td class="memname">std::uint32_t ist5_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -363,14 +359,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ab1fb40313175b4c3778ac9a1798d0ea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1fb40313175b4c3778ac9a1798d0ea4">&#9670;&nbsp;</a></span>ist6_high</h2>
+<a id="aff07ce03ac4f2788025cd7c5acc8852e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff07ce03ac4f2788025cd7c5acc8852e">&#9670;&nbsp;</a></span>ist6_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist6_high</td>
+          <td class="memname">std::uint32_t ist6_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -379,14 +375,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a7837141902648257ebd0fe6fed3ee6d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7837141902648257ebd0fe6fed3ee6d3">&#9670;&nbsp;</a></span>ist6_low</h2>
+<a id="ad4a1d7399722d76a46d4faf4a6ee31cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4a1d7399722d76a46d4faf4a6ee31cc">&#9670;&nbsp;</a></span>ist6_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist6_low</td>
+          <td class="memname">std::uint32_t ist6_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -395,14 +391,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a6c3de2abd71b781b65871a19adb29687"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c3de2abd71b781b65871a19adb29687">&#9670;&nbsp;</a></span>ist7_high</h2>
+<a id="a73edad7475285ddf50dcde9a39dba68d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73edad7475285ddf50dcde9a39dba68d">&#9670;&nbsp;</a></span>ist7_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist7_high</td>
+          <td class="memname">std::uint32_t ist7_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -411,14 +407,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a84c38ca689ec4965cec47fbe2f75dc75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84c38ca689ec4965cec47fbe2f75dc75">&#9670;&nbsp;</a></span>ist7_low</h2>
+<a id="af76a8f57733d9608516a92eabdb4cb9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af76a8f57733d9608516a92eabdb4cb9c">&#9670;&nbsp;</a></span>ist7_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> ist7_low</td>
+          <td class="memname">std::uint32_t ist7_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -427,14 +423,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aef9bb556c1530f5d648fd57e73b9a105"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef9bb556c1530f5d648fd57e73b9a105">&#9670;&nbsp;</a></span>reserved1</h2>
+<a id="ad410a7b151ed543e8b3f6a62bc4f194f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad410a7b151ed543e8b3f6a62bc4f194f">&#9670;&nbsp;</a></span>reserved1</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> reserved1</td>
+          <td class="memname">std::uint32_t reserved1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -443,14 +439,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a43927117f60a83134aaf449767b87b6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43927117f60a83134aaf449767b87b6c">&#9670;&nbsp;</a></span>reserved2</h2>
+<a id="ae7078ee6f58cc7dfade5ef628e42f265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7078ee6f58cc7dfade5ef628e42f265">&#9670;&nbsp;</a></span>reserved2</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> reserved2</td>
+          <td class="memname">std::uint64_t reserved2</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -459,14 +455,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aa0c86982c9eef8033adb225c9f4c0458"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0c86982c9eef8033adb225c9f4c0458">&#9670;&nbsp;</a></span>reserved3</h2>
+<a id="a04fc0af1f497682ca0f13b92da870af2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04fc0af1f497682ca0f13b92da870af2">&#9670;&nbsp;</a></span>reserved3</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a> reserved3</td>
+          <td class="memname">std::uint64_t reserved3</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -475,14 +471,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="af9c80382144c72c09f80eb6458d5238e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9c80382144c72c09f80eb6458d5238e">&#9670;&nbsp;</a></span>reserved4</h2>
+<a id="af845ef630bc5ecf3155d0f9ae08c5282"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af845ef630bc5ecf3155d0f9ae08c5282">&#9670;&nbsp;</a></span>reserved4</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> reserved4</td>
+          <td class="memname">std::uint16_t reserved4</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -491,14 +487,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ab32b8e28b00b33c3e5ea5a75cd4b857c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab32b8e28b00b33c3e5ea5a75cd4b857c">&#9670;&nbsp;</a></span>rsp0_high</h2>
+<a id="a87073b41f885e76ec5d4a7b835cf6442"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87073b41f885e76ec5d4a7b835cf6442">&#9670;&nbsp;</a></span>rsp0_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> rsp0_high</td>
+          <td class="memname">std::uint32_t rsp0_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -507,14 +503,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a75ec887cd54e3e799d958976ee51557c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75ec887cd54e3e799d958976ee51557c">&#9670;&nbsp;</a></span>rsp0_low</h2>
+<a id="a3561027ba189dcf6880384323bd25e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3561027ba189dcf6880384323bd25e7b">&#9670;&nbsp;</a></span>rsp0_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> rsp0_low</td>
+          <td class="memname">std::uint32_t rsp0_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -523,14 +519,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="abf4e08e6481970828ee0706275030d04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf4e08e6481970828ee0706275030d04">&#9670;&nbsp;</a></span>rsp1_high</h2>
+<a id="ae2dfba2569ee2b32a3a61dc23987191f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2dfba2569ee2b32a3a61dc23987191f">&#9670;&nbsp;</a></span>rsp1_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> rsp1_high</td>
+          <td class="memname">std::uint32_t rsp1_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -539,14 +535,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a343166d6fb064e1c914ecc2bdb6b2a6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a343166d6fb064e1c914ecc2bdb6b2a6d">&#9670;&nbsp;</a></span>rsp1_low</h2>
+<a id="aafdcf262b0fb2d2dc00502523d1b5bf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafdcf262b0fb2d2dc00502523d1b5bf2">&#9670;&nbsp;</a></span>rsp1_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> rsp1_low</td>
+          <td class="memname">std::uint32_t rsp1_low</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -555,14 +551,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a14bb07ac920b984c3421bb643e82d4df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14bb07ac920b984c3421bb643e82d4df">&#9670;&nbsp;</a></span>rsp2_high</h2>
+<a id="a9da0dc1cc968865e1a3de9cf02afbd9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9da0dc1cc968865e1a3de9cf02afbd9d">&#9670;&nbsp;</a></span>rsp2_high</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> rsp2_high</td>
+          <td class="memname">std::uint32_t rsp2_high</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -571,14 +567,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a981c19809a707bee975fa7022e929b27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a981c19809a707bee975fa7022e929b27">&#9670;&nbsp;</a></span>rsp2_low</h2>
+<a id="a7d06c49a314b4eaaf1317d2b65a5d6c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d06c49a314b4eaaf1317d2b65a5d6c8">&#9670;&nbsp;</a></span>rsp2_low</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> rsp2_low</td>
+          <td class="memname">std::uint32_t rsp2_low</td>
         </tr>
       </table>
 </div><div class="memdoc">

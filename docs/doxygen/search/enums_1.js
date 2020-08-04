@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['level',['level',['../classlogger.html#a92246e13cd3e43799f11c4126f15568f',1,'logger']]]
+  ['elf_5fident',['Elf_Ident',['../namespaceloader.html#a84e64e0a605c55e755814ffb561ed078',1,'loader']]]
 ];

@@ -1,9 +1,5 @@
 <map id="src/driver/cpu/x64/interrupts/tss.hpp" name="src/driver/cpu/x64/interrupts/tss.hpp">
-<area shape="rect" id="node2" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="182,169,309,196"/>
-<area shape="rect" id="node5" href="$stdint_8h.html" title="stdint.h" alt="" coords="261,393,331,420"/>
-<area shape="rect" id="node8" href="$gdt_8hpp.html" title="gdt.hpp" alt="" coords="311,95,382,121"/>
-<area shape="rect" id="node3" href="$assert_8h.html" title="assert.h" alt="" coords="5,244,80,271"/>
-<area shape="rect" id="node6" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="105,244,258,271"/>
-<area shape="rect" id="node7" href="$text_8hpp.html" title="text.hpp" alt="" coords="258,319,334,345"/>
-<area shape="rect" id="node4" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="43,319,112,345"/>
+<area shape="rect" id="node3" href="$logger_8hpp.html" title="../../../../logging\l/logger.hpp" alt="" coords="158,169,277,211"/>
+<area shape="rect" id="node9" href="$gdt_8hpp.html" title="gdt.hpp" alt="" coords="94,95,165,121"/>
+<area shape="rect" id="node8" href="$backend_8hpp.html" title="backend.hpp" alt="" coords="415,259,521,285"/>
 </map>

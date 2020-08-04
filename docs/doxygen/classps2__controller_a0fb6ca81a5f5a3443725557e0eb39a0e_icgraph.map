@@ -1,0 +1,5 @@
+<map id="ps2_controller::write" name="ps2_controller::write">
+<area shape="rect" id="node2" href="$classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="208,21,387,47"/>
+<area shape="rect" id="node4" href="$classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="435,71,589,98"/>
+<area shape="rect" id="node3" href="$classps2__controller.html#ad5ede2fd9d7dd6883563e3a6b5250c67" title="ps2_controller::get\l_type_str" alt="" coords="441,5,583,47"/>
+</map>

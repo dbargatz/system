@@ -79,11 +79,48 @@ Inheritance diagram for keyboard:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a15d8d470593f127ab9512349aff1849b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkeyboard.html#a15d8d470593f127ab9512349aff1849b">~keyboard</a> ()</td></tr>
+<tr class="separator:a15d8d470593f127ab9512349aff1849b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb1ceaaa93ff5d73d2b4bfaa6607fccb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkeyboard.html#adb1ceaaa93ff5d73d2b4bfaa6607fccb">interrupt_handler</a> (<a class="el" href="classinterrupt__frame.html">interrupt_frame</a> &amp;in_frame)=0</td></tr>
 <tr class="separator:adb1ceaaa93ff5d73d2b4bfaa6607fccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44d88d3e802f26b6862e4ba0de6b76d1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkeyboard.html#a44d88d3e802f26b6862e4ba0de6b76d1">reset</a> ()=0</td></tr>
 <tr class="separator:a44d88d3e802f26b6862e4ba0de6b76d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a15d8d470593f127ab9512349aff1849b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15d8d470593f127ab9512349aff1849b">&#9670;&nbsp;</a></span>~keyboard()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual keyboard::~keyboard </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classkeyboard_a15d8d470593f127ab9512349aff1849b_cgraph.png" border="0" usemap="#classkeyboard_a15d8d470593f127ab9512349aff1849b_cgraph" alt=""/></div>
+<map name="classkeyboard_a15d8d470593f127ab9512349aff1849b_cgraph" id="classkeyboard_a15d8d470593f127ab9512349aff1849b_cgraph">
+<area shape="rect" id="node2" href="classkeyboard.html#adb1ceaaa93ff5d73d2b4bfaa6607fccb" title="keyboard::interrupt\l_handler" alt="" coords="216,5,363,47"/>
+<area shape="rect" id="node3" href="classkeyboard.html#a44d88d3e802f26b6862e4ba0de6b76d1" title="keyboard::reset" alt="" coords="227,71,351,98"/>
+</map>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="adb1ceaaa93ff5d73d2b4bfaa6607fccb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb1ceaaa93ff5d73d2b4bfaa6607fccb">&#9670;&nbsp;</a></span>interrupt_handler()</h2>
@@ -115,8 +152,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classkeyboard_adb1ceaaa93ff5d73d2b4bfaa6607fccb_icgraph.png" border="0" usemap="#classkeyboard_adb1ceaaa93ff5d73d2b4bfaa6607fccb_icgraph" alt=""/></div>
 <map name="classkeyboard_adb1ceaaa93ff5d73d2b4bfaa6607fccb_icgraph" id="classkeyboard_adb1ceaaa93ff5d73d2b4bfaa6607fccb_icgraph">
-<area shape="rect" id="node2" href="classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="200,13,376,39"/>
-<area shape="rect" id="node3" href="main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="424,13,543,39"/>
+<area shape="rect" id="node2" href="classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="200,5,376,32"/>
+<area shape="rect" id="node4" href="classkeyboard.html#a15d8d470593f127ab9512349aff1849b" title="keyboard::~keyboard" alt="" coords="207,56,369,83"/>
+<area shape="rect" id="node3" href="driver_2cpu_2x64_2main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="424,5,543,32"/>
 </map>
 </div>
 
@@ -146,6 +184,14 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3">ps2_keyboard</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classkeyboard_a44d88d3e802f26b6862e4ba0de6b76d1_icgraph.png" border="0" usemap="#classkeyboard_a44d88d3e802f26b6862e4ba0de6b76d1_icgraph" alt=""/></div>
+<map name="classkeyboard_a44d88d3e802f26b6862e4ba0de6b76d1_icgraph" id="classkeyboard_a44d88d3e802f26b6862e4ba0de6b76d1_icgraph">
+<area shape="rect" id="node2" href="classkeyboard.html#a15d8d470593f127ab9512349aff1849b" title="keyboard::~keyboard" alt="" coords="177,5,340,32"/>
+</map>
+</div>
 
 </div>
 </div>

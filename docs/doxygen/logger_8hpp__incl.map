@@ -1,7 +1,3 @@
-<map id="src/driver/cpu/x64/std/logger.hpp" name="src/driver/cpu/x64/std/logger.hpp">
-<area shape="rect" id="node2" href="$assert_8h.html" title="assert.h" alt="" coords="5,95,80,121"/>
-<area shape="rect" id="node5" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="105,95,258,121"/>
-<area shape="rect" id="node6" href="$text_8hpp.html" title="text.hpp" alt="" coords="202,169,278,196"/>
-<area shape="rect" id="node3" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="41,169,111,196"/>
-<area shape="rect" id="node4" href="$stdint_8h.html" title="stdint.h" alt="" coords="129,244,199,271"/>
+<map id="src/logging/logger.hpp" name="src/logging/logger.hpp">
+<area shape="rect" id="node7" href="$backend_8hpp.html" title="backend.hpp" alt="" coords="415,80,521,107"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="core::panic_handler" name="core::panic_handler">
 <area shape="rect" id="node2" href="$classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="203,5,379,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="427,5,545,32"/>
+<area shape="rect" id="node3" href="$driver_2cpu_2x64_2main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="427,5,545,32"/>
 </map>

@@ -1,7 +1,3 @@
 <map id="src/driver/cpu/x64/keyboard/scancode_set_2.hpp" name="src/driver/cpu/x64/keyboard/scancode_set_2.hpp">
-<area shape="rect" id="node2" href="$scancode__set_8hpp.html" title="scancode_set.hpp" alt="" coords="85,95,223,121"/>
-<area shape="rect" id="node3" href="$assert_8h.html" title="../std/assert.h" alt="" coords="5,169,116,196"/>
-<area shape="rect" id="node5" href="$stdint_8h.html" title="stdint.h" alt="" coords="119,319,189,345"/>
-<area shape="rect" id="node6" href="$text_8hpp.html" title="../std/text.hpp" alt="" coords="191,244,303,271"/>
-<area shape="rect" id="node4" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="37,244,106,271"/>
+<area shape="rect" id="node2" href="$scancode__set_8hpp.html" title="scancode_set.hpp" alt="" coords="60,95,199,121"/>
 </map>

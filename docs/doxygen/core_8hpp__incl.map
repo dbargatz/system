@@ -1,18 +1,14 @@
 <map id="src/driver/cpu/x64/core.hpp" name="src/driver/cpu/x64/core.hpp">
-<area shape="rect" id="node2" href="$gdt_8hpp.html" title="interrupts/gdt.hpp" alt="" coords="215,169,354,196"/>
-<area shape="rect" id="node3" href="$logger_8hpp.html" title="../std/logger.hpp" alt="" coords="429,244,556,271"/>
-<area shape="rect" id="node9" href="$idt_8hpp.html" title="interrupts/idt.hpp" alt="" coords="5,169,140,196"/>
-<area shape="rect" id="node10" href="$pic_8hpp.html" title="interrupts/pic.hpp" alt="" coords="722,169,858,196"/>
-<area shape="rect" id="node12" href="$tss_8hpp.html" title="interrupts/tss.hpp" alt="" coords="161,95,297,121"/>
-<area shape="rect" id="node13" href="$keyboard_8hpp.html" title="keyboard/keyboard.hpp" alt="" coords="574,95,750,121"/>
-<area shape="rect" id="node15" href="$ps2__controller_8hpp.html" title="keyboard/ps2_controller.hpp" alt="" coords="883,169,1089,196"/>
-<area shape="rect" id="node16" href="$boot__info_8hpp.html" title="multiboot/boot_info.hpp" alt="" coords="321,95,499,121"/>
-<area shape="rect" id="node17" href="$timer_8hpp.html" title="Contains interface that all timer hardware must implement. " alt="" coords="875,95,998,121"/>
-<area shape="rect" id="node6" href="$stdint_8h.html" title="stdint.h" alt="" coords="547,468,617,495"/>
-<area shape="rect" id="node8" href="$text_8hpp.html" title="text.hpp" alt="" coords="371,393,447,420"/>
-<area shape="rect" id="node4" href="$assert_8h.html" title="assert.h" alt="" coords="598,319,673,345"/>
-<area shape="rect" id="node7" href="$logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="420,319,573,345"/>
-<area shape="rect" id="node5" href="$panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="567,393,637,420"/>
-<area shape="rect" id="node11" href="$io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="747,244,891,271"/>
-<area shape="rect" id="node14" href="$frame_8hpp.html" title="../interrupts/frame.hpp" alt="" coords="530,169,698,196"/>
+<area shape="rect" id="node3" href="$logger_8hpp.html" title="../../../logging/logger.hpp" alt="" coords="357,244,536,271"/>
+<area shape="rect" id="node9" href="$gdt_8hpp.html" title="interrupts/gdt.hpp" alt="" coords="763,169,901,196"/>
+<area shape="rect" id="node10" href="$idt_8hpp.html" title="interrupts/idt.hpp" alt="" coords="259,169,394,196"/>
+<area shape="rect" id="node11" href="$pic_8hpp.html" title="interrupts/pic.hpp" alt="" coords="925,169,1061,196"/>
+<area shape="rect" id="node13" href="$tss_8hpp.html" title="interrupts/tss.hpp" alt="" coords="709,95,845,121"/>
+<area shape="rect" id="node14" href="$keyboard_8hpp.html" title="keyboard/keyboard.hpp" alt="" coords="363,95,539,121"/>
+<area shape="rect" id="node16" href="$ps2__controller_8hpp.html" title="keyboard/ps2_controller.hpp" alt="" coords="1086,169,1293,196"/>
+<area shape="rect" id="node17" href="$boot__info_8hpp.html" title="multiboot/boot_info.hpp" alt="" coords="5,95,184,121"/>
+<area shape="rect" id="node18" href="$timer_8hpp.html" title="Contains interface that all timer hardware must implement. " alt="" coords="563,95,685,121"/>
+<area shape="rect" id="node8" href="$backend_8hpp.html" title="backend.hpp" alt="" coords="551,319,657,345"/>
+<area shape="rect" id="node12" href="$io__port_8hpp.html" title="../ports/io_port.hpp" alt="" coords="921,244,1065,271"/>
+<area shape="rect" id="node15" href="$frame_8hpp.html" title="../interrupts/frame.hpp" alt="" coords="419,169,587,196"/>
 </map>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['logger',['logger',['../classlogger.html',1,'']]],
-  ['logger_5fbackend',['logger_backend',['../classlogger__backend.html',1,'']]]
+  ['logger',['logger',['../classlogging_1_1logger.html',1,'logging']]]
 ];

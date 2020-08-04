@@ -70,19 +70,15 @@ $(function() {
 <div class="title">idt.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="stdint_8h_source.html">../std/stdint.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="logger_8hpp_source.html">../std/logger.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="logger_8hpp_source.html">../../../../logging/logger.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for idt.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="idt_8hpp__incl.png" border="0" usemap="#src_2driver_2cpu_2x64_2interrupts_2idt_8hpp" alt=""/></div>
 <map name="src_2driver_2cpu_2x64_2interrupts_2idt_8hpp" id="src_2driver_2cpu_2x64_2interrupts_2idt_8hpp">
-<area shape="rect" id="node2" href="stdint_8h.html" title="../std/stdint.h" alt="" coords="81,319,188,345"/>
-<area shape="rect" id="node3" href="logger_8hpp.html" title="../std/logger.hpp" alt="" coords="118,95,245,121"/>
-<area shape="rect" id="node4" href="assert_8h.html" title="assert.h" alt="" coords="61,169,136,196"/>
-<area shape="rect" id="node6" href="logger__backend_8hpp.html" title="logger_backend.hpp" alt="" coords="161,169,314,196"/>
-<area shape="rect" id="node7" href="text_8hpp.html" title="text.hpp" alt="" coords="209,244,285,271"/>
-<area shape="rect" id="node5" href="panic_8h.html" title="Contains invalid opcode&#45;based implementation of PANIC(). " alt="" coords="64,244,133,271"/>
+<area shape="rect" id="node3" href="logger_8hpp.html" title="../../../../logging\l/logger.hpp" alt="" coords="163,95,282,136"/>
+<area shape="rect" id="node8" href="backend_8hpp.html" title="backend.hpp" alt="" coords="415,184,521,211"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -93,7 +89,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" id="node2" href="core_8hpp.html" title="src/driver/cpu/x64\l/core.hpp" alt="" coords="112,95,251,136"/>
 <area shape="rect" id="node7" href="idt_8cpp.html" title="src/driver/cpu/x64\l/interrupts/idt.cpp" alt="" coords="275,95,413,136"/>
 <area shape="rect" id="node3" href="core_8cpp.html" title="src/driver/cpu/x64\l/core.cpp" alt="" coords="5,184,144,225"/>
-<area shape="rect" id="node4" href="main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="112,273,251,315"/>
+<area shape="rect" id="node4" href="driver_2cpu_2x64_2main_8cpp.html" title="src/driver/cpu/x64\l/main.cpp" alt="" coords="112,273,251,315"/>
 <area shape="rect" id="node5" href="pit_8hpp.html" title="src/driver/cpu/x64\l/timer/pit.hpp" alt="" coords="219,184,357,225"/>
 <area shape="rect" id="node6" href="pit_8cpp.html" title="src/driver/cpu/x64\l/timer/pit.cpp" alt="" coords="275,273,413,315"/>
 </map>
@@ -108,34 +104,34 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a45c751266439c7ab040963c53fadbd04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a45c751266439c7ab040963c53fadbd04">rpl</a></td></tr>
-<tr class="separator:a45c751266439c7ab040963c53fadbd04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0751d9b0458aaecbbe132c2b3f16bcd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a0751d9b0458aaecbbe132c2b3f16bcd6">table_idx</a></td></tr>
-<tr class="separator:a0751d9b0458aaecbbe132c2b3f16bcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7706293a1d08686750abbbefadfc35d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#ae7706293a1d08686750abbbefadfc35d">descriptor_idx</a></td></tr>
-<tr class="separator:ae7706293a1d08686750abbbefadfc35d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f6f16c03242cf851a36307e76cfc0c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a7f6f16c03242cf851a36307e76cfc0c4">gate_type</a></td></tr>
-<tr class="separator:a7f6f16c03242cf851a36307e76cfc0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65f03e29a0bf43a6d45e39d617a71972"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a65f03e29a0bf43a6d45e39d617a71972">segment_type</a></td></tr>
-<tr class="separator:a65f03e29a0bf43a6d45e39d617a71972"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a750aac8d20e297eab80c7d338be6c7d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a750aac8d20e297eab80c7d338be6c7d6">dpl</a></td></tr>
-<tr class="separator:a750aac8d20e297eab80c7d338be6c7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9e8a02dc01567271fa1f76f181e2074"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#ab9e8a02dc01567271fa1f76f181e2074">present</a></td></tr>
-<tr class="separator:ab9e8a02dc01567271fa1f76f181e2074"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5089b439ea7063b3d440fb68d418b3ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a5089b439ea7063b3d440fb68d418b3ef">offset_0_15</a></td></tr>
-<tr class="separator:a5089b439ea7063b3d440fb68d418b3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221e15b356bca627a43d1d4ce4b71cf0"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a221e15b356bca627a43d1d4ce4b71cf0">rpl</a></td></tr>
+<tr class="separator:a221e15b356bca627a43d1d4ce4b71cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad47df74050d38d1e08e1a62ed8db5246"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#ad47df74050d38d1e08e1a62ed8db5246">table_idx</a></td></tr>
+<tr class="separator:ad47df74050d38d1e08e1a62ed8db5246"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e7096a75f885b89fd4b054655612b47"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a6e7096a75f885b89fd4b054655612b47">descriptor_idx</a></td></tr>
+<tr class="separator:a6e7096a75f885b89fd4b054655612b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6037cb22605ac257bf8ec0e3a75d12c"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#aa6037cb22605ac257bf8ec0e3a75d12c">gate_type</a></td></tr>
+<tr class="separator:aa6037cb22605ac257bf8ec0e3a75d12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60a3c98cc35a76c52595c0246015a21d"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a60a3c98cc35a76c52595c0246015a21d">segment_type</a></td></tr>
+<tr class="separator:a60a3c98cc35a76c52595c0246015a21d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfbb2fd347dc930368403f4e65372ef5"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#adfbb2fd347dc930368403f4e65372ef5">dpl</a></td></tr>
+<tr class="separator:adfbb2fd347dc930368403f4e65372ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa726e5672983852f1e2fcd2b073ea171"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#aa726e5672983852f1e2fcd2b073ea171">present</a></td></tr>
+<tr class="separator:aa726e5672983852f1e2fcd2b073ea171"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfbcfcea86ae68dbc1f7a315fb2c0bd6"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#abfbcfcea86ae68dbc1f7a315fb2c0bd6">offset_0_15</a></td></tr>
+<tr class="separator:abfbcfcea86ae68dbc1f7a315fb2c0bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0777492917a8342843d4a3dcab39d86f"><td class="memItemLeft" align="right" valign="top">struct segment_selector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a0777492917a8342843d4a3dcab39d86f">seg_selector</a></td></tr>
 <tr class="separator:a0777492917a8342843d4a3dcab39d86f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af25f695ccd0c724f7249a92d4e8db34f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#af25f695ccd0c724f7249a92d4e8db34f">ist_index</a></td></tr>
-<tr class="separator:af25f695ccd0c724f7249a92d4e8db34f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e649233a227563d81f8d204fbfdae6d"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a7e649233a227563d81f8d204fbfdae6d">ist_index</a></td></tr>
+<tr class="separator:a7e649233a227563d81f8d204fbfdae6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc052186019a88f83e33dcc316506ea2"><td class="memItemLeft" align="right" valign="top">struct descriptor_attrs&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#adc052186019a88f83e33dcc316506ea2">type</a></td></tr>
 <tr class="separator:adc052186019a88f83e33dcc316506ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad47507dc59d89d6968f6e0213439e526"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#ad47507dc59d89d6968f6e0213439e526">offset_16_31</a></td></tr>
-<tr class="separator:ad47507dc59d89d6968f6e0213439e526"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bf6b40791bb4f0ea0084d6b5fb2866f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a5bf6b40791bb4f0ea0084d6b5fb2866f">offset_32_63</a></td></tr>
-<tr class="separator:a5bf6b40791bb4f0ea0084d6b5fb2866f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa43c4c21b173ada1b6b7568956f0d650"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#aa43c4c21b173ada1b6b7568956f0d650">reserved</a></td></tr>
-<tr class="separator:aa43c4c21b173ada1b6b7568956f0d650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1390aedda03f9a4d732420401518d8b"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#aa1390aedda03f9a4d732420401518d8b">offset_16_31</a></td></tr>
+<tr class="separator:aa1390aedda03f9a4d732420401518d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aada3633f6098c5a18b24b446748197b4"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#aada3633f6098c5a18b24b446748197b4">offset_32_63</a></td></tr>
+<tr class="separator:aada3633f6098c5a18b24b446748197b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63ef510a0b3285c4c0fae08005999708"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a63ef510a0b3285c4c0fae08005999708">reserved</a></td></tr>
+<tr class="separator:a63ef510a0b3285c4c0fae08005999708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d5b0d3db0f484c4d07a27788ff667e5"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="classidt.html">idt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="idt_8hpp.html#a9d5b0d3db0f484c4d07a27788ff667e5">__attribute__</a></td></tr>
 <tr class="separator:a9d5b0d3db0f484c4d07a27788ff667e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -154,140 +150,140 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ae7706293a1d08686750abbbefadfc35d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7706293a1d08686750abbbefadfc35d">&#9670;&nbsp;</a></span>descriptor_idx</h2>
+<a id="a6e7096a75f885b89fd4b054655612b47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e7096a75f885b89fd4b054655612b47">&#9670;&nbsp;</a></span>descriptor_idx</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> descriptor_idx</td>
+          <td class="memname">std::uint16_t descriptor_idx</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a750aac8d20e297eab80c7d338be6c7d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a750aac8d20e297eab80c7d338be6c7d6">&#9670;&nbsp;</a></span>dpl</h2>
+<a id="adfbb2fd347dc930368403f4e65372ef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfbb2fd347dc930368403f4e65372ef5">&#9670;&nbsp;</a></span>dpl</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> dpl</td>
+          <td class="memname">std::uint8_t dpl</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a7f6f16c03242cf851a36307e76cfc0c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f6f16c03242cf851a36307e76cfc0c4">&#9670;&nbsp;</a></span>gate_type</h2>
+<a id="aa6037cb22605ac257bf8ec0e3a75d12c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6037cb22605ac257bf8ec0e3a75d12c">&#9670;&nbsp;</a></span>gate_type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> gate_type</td>
+          <td class="memname">std::uint8_t gate_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="af25f695ccd0c724f7249a92d4e8db34f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af25f695ccd0c724f7249a92d4e8db34f">&#9670;&nbsp;</a></span>ist_index</h2>
+<a id="a7e649233a227563d81f8d204fbfdae6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e649233a227563d81f8d204fbfdae6d">&#9670;&nbsp;</a></span>ist_index</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> ist_index</td>
+          <td class="memname">std::uint8_t ist_index</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a5089b439ea7063b3d440fb68d418b3ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5089b439ea7063b3d440fb68d418b3ef">&#9670;&nbsp;</a></span>offset_0_15</h2>
+<a id="abfbcfcea86ae68dbc1f7a315fb2c0bd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfbcfcea86ae68dbc1f7a315fb2c0bd6">&#9670;&nbsp;</a></span>offset_0_15</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> offset_0_15</td>
+          <td class="memname">std::uint16_t offset_0_15</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ad47507dc59d89d6968f6e0213439e526"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad47507dc59d89d6968f6e0213439e526">&#9670;&nbsp;</a></span>offset_16_31</h2>
+<a id="aa1390aedda03f9a4d732420401518d8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1390aedda03f9a4d732420401518d8b">&#9670;&nbsp;</a></span>offset_16_31</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> offset_16_31</td>
+          <td class="memname">std::uint16_t offset_16_31</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a5bf6b40791bb4f0ea0084d6b5fb2866f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bf6b40791bb4f0ea0084d6b5fb2866f">&#9670;&nbsp;</a></span>offset_32_63</h2>
+<a id="aada3633f6098c5a18b24b446748197b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aada3633f6098c5a18b24b446748197b4">&#9670;&nbsp;</a></span>offset_32_63</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> offset_32_63</td>
+          <td class="memname">std::uint32_t offset_32_63</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ab9e8a02dc01567271fa1f76f181e2074"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9e8a02dc01567271fa1f76f181e2074">&#9670;&nbsp;</a></span>present</h2>
+<a id="aa726e5672983852f1e2fcd2b073ea171"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa726e5672983852f1e2fcd2b073ea171">&#9670;&nbsp;</a></span>present</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> present</td>
+          <td class="memname">std::uint8_t present</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa43c4c21b173ada1b6b7568956f0d650"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa43c4c21b173ada1b6b7568956f0d650">&#9670;&nbsp;</a></span>reserved</h2>
+<a id="a63ef510a0b3285c4c0fae08005999708"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ef510a0b3285c4c0fae08005999708">&#9670;&nbsp;</a></span>reserved</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> reserved</td>
+          <td class="memname">std::uint32_t reserved</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a45c751266439c7ab040963c53fadbd04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45c751266439c7ab040963c53fadbd04">&#9670;&nbsp;</a></span>rpl</h2>
+<a id="a221e15b356bca627a43d1d4ce4b71cf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a221e15b356bca627a43d1d4ce4b71cf0">&#9670;&nbsp;</a></span>rpl</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> rpl</td>
+          <td class="memname">std::uint16_t rpl</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -308,28 +304,28 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a65f03e29a0bf43a6d45e39d617a71972"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65f03e29a0bf43a6d45e39d617a71972">&#9670;&nbsp;</a></span>segment_type</h2>
+<a id="a60a3c98cc35a76c52595c0246015a21d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60a3c98cc35a76c52595c0246015a21d">&#9670;&nbsp;</a></span>segment_type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> segment_type</td>
+          <td class="memname">std::uint8_t segment_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0751d9b0458aaecbbe132c2b3f16bcd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0751d9b0458aaecbbe132c2b3f16bcd6">&#9670;&nbsp;</a></span>table_idx</h2>
+<a id="ad47df74050d38d1e08e1a62ed8db5246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad47df74050d38d1e08e1a62ed8db5246">&#9670;&nbsp;</a></span>table_idx</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="stdint_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a> table_idx</td>
+          <td class="memname">std::uint16_t table_idx</td>
         </tr>
       </table>
 </div><div class="memdoc">

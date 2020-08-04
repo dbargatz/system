@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['warn',['Warn',['../classlogger.html#a92246e13cd3e43799f11c4126f15568fa56525ae64d370c0b448ac0d60710ef17',1,'logger']]],
-  ['white',['white',['../classvga.html#a42db10ff22958fe6b979dfeef8803353ad508fe45cecaf653904a0e774084bb5c',1,'vga']]]
+  ['unknown',['Unknown',['../namespacelogging.html#a761a90e9584fe62f65576bc5c0ea8b97a88183b946cc5f0e8c96b2e66e1c74a7e',1,'logging']]]
 ];

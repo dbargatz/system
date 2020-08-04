@@ -1,0 +1,4 @@
+<map id="logging::backend" name="logging::backend">
+<area shape="rect" id="node2" href="$classuart__backend.html" title="uart_backend" alt="" coords="5,80,116,107"/>
+<area shape="rect" id="node3" href="$classvga__backend.html" title="vga_backend" alt="" coords="140,80,248,107"/>
+</map>

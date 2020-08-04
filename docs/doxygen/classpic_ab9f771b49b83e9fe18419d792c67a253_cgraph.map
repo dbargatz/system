@@ -1,5 +1,4 @@
 <map id="pic::disable_all" name="pic::disable_all">
-<area shape="rect" id="node2" href="$classio__port.html#a8447a28d31fc4fdbc7cb78c43ea54bc3" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="175,5,279,32"/>
-<area shape="rect" id="node3" href="$classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="172,56,283,83"/>
-<area shape="rect" id="node4" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="331,56,408,83"/>
+<area shape="rect" id="node2" href="$classio__port.html#a8340cf27181cbecee5724bb1097cd186" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="203,5,307,32"/>
+<area shape="rect" id="node3" href="$classlogging_1_1logger.html#adfe1276107aa16234d495e7b1bd5c808" title="logging::logger::debug" alt="" coords="172,56,339,83"/>
 </map>

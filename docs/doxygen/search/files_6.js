@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['gdt_2ecpp',['gdt.cpp',['../gdt_8cpp.html',1,'']]],
-  ['gdt_2ehpp',['gdt.hpp',['../gdt_8hpp.html',1,'']]]
+  ['handlers_2easm',['handlers.asm',['../handlers_8asm.html',1,'']]]
 ];

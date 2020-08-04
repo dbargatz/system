@@ -1,0 +1,16 @@
+<map id="io_port::inb" name="io_port::inb">
+<area shape="rect" id="node2" href="$classuart.html#ab9f67adb582d229b0bac7feab37fda71" title="uart::write" alt="" coords="181,13,270,39"/>
+<area shape="rect" id="node5" href="$classpic.html#a460fd73e4c0bc092ee8ae90e647d33b5" title="pic::remap" alt="" coords="180,63,271,90"/>
+<area shape="rect" id="node6" href="$classpic.html#ac2cf6b446df62594dcc168215ef8654b" title="pic::disable_irq" alt="" coords="165,114,285,141"/>
+<area shape="rect" id="node7" href="$classpic.html#a176f249592fbbadef95e31ac8b134183" title="pic::enable_irq" alt="" coords="167,165,284,191"/>
+<area shape="rect" id="node8" href="$classps2__controller.html#a476e4394c493f5060c47fed2d01371bc" title="ps2_controller::read" alt="" coords="150,215,301,242"/>
+<area shape="rect" id="node12" href="$classps2__controller.html#a0fb6ca81a5f5a3443725557e0eb39a0e" title="ps2_controller::write" alt="" coords="362,270,517,297"/>
+<area shape="rect" id="node14" href="$classps2__controller.html#a98f1c6a2bd32d87d431b235b49a499df" title="ps2_controller::reset" alt="" coords="148,317,303,343"/>
+<area shape="rect" id="node15" href="$classio__port.html#aa9f0562650342a84647ed900bb44bcc8" title="Construct a new I/O port at the given port address. " alt="" coords="165,367,285,394"/>
+<area shape="rect" id="node3" href="$classuart__backend.html#a0d2b05b92623396f1892a3d36018ff2b" title="uart_backend::write" alt="" coords="364,13,515,39"/>
+<area shape="rect" id="node4" href="$classuart__backend.html#a3d0b4d06b7204688ca4fbcaa5a60486d" title="uart_backend::uart\l_backend" alt="" coords="593,5,737,47"/>
+<area shape="rect" id="node9" href="$classps2__controller.html#a9b63acecd0672277e4e1705cdf67ecac" title="ps2_controller::get_type" alt="" coords="576,215,755,242"/>
+<area shape="rect" id="node13" href="$classps2__keyboard.html#a54375c6ab885f98fde3ccac1b0005110" title="ps2_keyboard::interrupt\l_handler" alt="" coords="351,204,528,245"/>
+<area shape="rect" id="node10" href="$classps2__controller.html#ad5ede2fd9d7dd6883563e3a6b5250c67" title="ps2_controller::get\l_type_str" alt="" coords="809,204,951,245"/>
+<area shape="rect" id="node11" href="$classps2__keyboard.html#a3125b2a1ba1712ec3f0bbf0e3451b3f3" title="ps2_keyboard::reset" alt="" coords="803,270,957,297"/>
+</map>

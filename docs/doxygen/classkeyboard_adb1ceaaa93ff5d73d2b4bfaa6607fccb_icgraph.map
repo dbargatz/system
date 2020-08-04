@@ -1,4 +1,5 @@
 <map id="keyboard::interrupt_handler" name="keyboard::interrupt_handler">
-<area shape="rect" id="node2" href="$classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="200,13,376,39"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="424,13,543,39"/>
+<area shape="rect" id="node2" href="$classcore.html#ae41913b48679209e17bb0fa96c939457" title="core::dispatch_interrupt" alt="" coords="200,5,376,32"/>
+<area shape="rect" id="node4" href="$classkeyboard.html#a15d8d470593f127ab9512349aff1849b" title="keyboard::~keyboard" alt="" coords="207,56,369,83"/>
+<area shape="rect" id="node3" href="$driver_2cpu_2x64_2main_8cpp.html#a4ea4b14e129430e2e58230f789bf9f09" title="interrupt_entry" alt="" coords="424,5,543,32"/>
 </map>

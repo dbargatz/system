@@ -72,19 +72,19 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2170970e7afe5c590add85c21c94dfc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classidt.html#a2170970e7afe5c590add85c21c94dfc8">idt</a> (<a class="el" href="classlogger.html">logger</a> &amp;in_log)</td></tr>
-<tr class="memdesc:a2170970e7afe5c590add85c21c94dfc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Interrupt Descriptor Table (IDT) object.  <a href="#a2170970e7afe5c590add85c21c94dfc8">More...</a><br /></td></tr>
-<tr class="separator:a2170970e7afe5c590add85c21c94dfc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0de8c90c46d650f284c6d68d2e0abfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classidt.html#aa0de8c90c46d650f284c6d68d2e0abfd">register_handler</a> (<a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> in_index, const void *in_handler, <a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a> in_ist_index=0)</td></tr>
-<tr class="memdesc:aa0de8c90c46d650f284c6d68d2e0abfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts the given handler at the given index in the IDT, such that when the interrupt/exception of that index (vector) occurs, the handler is invoked.  <a href="#aa0de8c90c46d650f284c6d68d2e0abfd">More...</a><br /></td></tr>
-<tr class="separator:aa0de8c90c46d650f284c6d68d2e0abfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf26825b2505ebcfc1cba77883746b32"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classidt.html#abf26825b2505ebcfc1cba77883746b32">idt</a> (<a class="el" href="classlogging_1_1logger.html">logging::logger</a> &amp;in_log)</td></tr>
+<tr class="memdesc:abf26825b2505ebcfc1cba77883746b32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Interrupt Descriptor Table (IDT) object.  <a href="#abf26825b2505ebcfc1cba77883746b32">More...</a><br /></td></tr>
+<tr class="separator:abf26825b2505ebcfc1cba77883746b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1543055a4d2af72500e617c3e417b093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classidt.html#a1543055a4d2af72500e617c3e417b093">register_handler</a> (std::uint8_t in_index, const void *in_handler, std::uint8_t in_ist_index=0)</td></tr>
+<tr class="memdesc:a1543055a4d2af72500e617c3e417b093"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts the given handler at the given index in the IDT, such that when the interrupt/exception of that index (vector) occurs, the handler is invoked.  <a href="#a1543055a4d2af72500e617c3e417b093">More...</a><br /></td></tr>
+<tr class="separator:a1543055a4d2af72500e617c3e417b093"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4da818a99459769411c6f6ab7148ba4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classidt.html#aa4da818a99459769411c6f6ab7148ba4">install</a> ()</td></tr>
 <tr class="memdesc:aa4da818a99459769411c6f6ab7148ba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads this IDT into the core such that interrupts/exceptions will be handled by this IDT.  <a href="#aa4da818a99459769411c6f6ab7148ba4">More...</a><br /></td></tr>
 <tr class="separator:aa4da818a99459769411c6f6ab7148ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2170970e7afe5c590add85c21c94dfc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2170970e7afe5c590add85c21c94dfc8">&#9670;&nbsp;</a></span>idt()</h2>
+<a id="abf26825b2505ebcfc1cba77883746b32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf26825b2505ebcfc1cba77883746b32">&#9670;&nbsp;</a></span>idt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -92,7 +92,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">idt::idt </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classlogger.html">logger</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classlogging_1_1logger.html">logging::logger</a> &amp;&#160;</td>
           <td class="paramname"><em>in_log</em></td><td>)</td>
           <td></td>
         </tr>
@@ -109,11 +109,9 @@ Public Member Functions</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classidt_a2170970e7afe5c590add85c21c94dfc8_cgraph.png" border="0" usemap="#classidt_a2170970e7afe5c590add85c21c94dfc8_cgraph" alt=""/></div>
-<map name="classidt_a2170970e7afe5c590add85c21c94dfc8_cgraph" id="classidt_a2170970e7afe5c590add85c21c94dfc8_cgraph">
-<area shape="rect" id="node2" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="117,5,228,32"/>
-<area shape="rect" id="node4" href="memset_8cpp.html#abc7d9e97dce41b5780585e6f382dd701" title="Sets the given number of bytes at the given pointer to the given value. " alt="" coords="135,56,211,83"/>
-<area shape="rect" id="node3" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="276,5,353,32"/>
+<div class="center"><img src="classidt_abf26825b2505ebcfc1cba77883746b32_cgraph.png" border="0" usemap="#classidt_abf26825b2505ebcfc1cba77883746b32_cgraph" alt=""/></div>
+<map name="classidt_abf26825b2505ebcfc1cba77883746b32_cgraph" id="classidt_abf26825b2505ebcfc1cba77883746b32_cgraph">
+<area shape="rect" id="node2" href="classlogging_1_1logger.html#adfe1276107aa16234d495e7b1bd5c808" title="logging::logger::debug" alt="" coords="117,5,284,32"/>
 </map>
 </div>
 
@@ -142,8 +140,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classidt_aa4da818a99459769411c6f6ab7148ba4_cgraph.png" border="0" usemap="#classidt_aa4da818a99459769411c6f6ab7148ba4_cgraph" alt=""/></div>
 <map name="classidt_aa4da818a99459769411c6f6ab7148ba4_cgraph" id="classidt_aa4da818a99459769411c6f6ab7148ba4_cgraph">
-<area shape="rect" id="node2" href="classlogger.html#a46d7ad6f27d92785e6ce6d883ba14fe7" title="logger::debug" alt="" coords="140,5,251,32"/>
-<area shape="rect" id="node3" href="classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="299,5,376,32"/>
+<area shape="rect" id="node2" href="classlogging_1_1logger.html#adfe1276107aa16234d495e7b1bd5c808" title="logging::logger::debug" alt="" coords="140,5,307,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -152,14 +149,14 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="classidt_aa4da818a99459769411c6f6ab7148ba4_icgraph.png" border="0" usemap="#classidt_aa4da818a99459769411c6f6ab7148ba4_icgraph" alt=""/></div>
 <map name="classidt_aa4da818a99459769411c6f6ab7148ba4_icgraph" id="classidt_aa4da818a99459769411c6f6ab7148ba4_icgraph">
 <area shape="rect" id="node2" href="classcore.html#a8e63c5bcd3acc2d1f07336cabcfaeb7d" title="core::run" alt="" coords="140,5,219,32"/>
-<area shape="rect" id="node3" href="main_8cpp.html#a74570e5a6991fdfa8c53f94fbec87d84" title="core_entry" alt="" coords="267,5,357,32"/>
+<area shape="rect" id="node3" href="driver_2cpu_2x64_2main_8cpp.html#a74570e5a6991fdfa8c53f94fbec87d84" title="core_entry" alt="" coords="267,5,357,32"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="aa0de8c90c46d650f284c6d68d2e0abfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0de8c90c46d650f284c6d68d2e0abfd">&#9670;&nbsp;</a></span>register_handler()</h2>
+<a id="a1543055a4d2af72500e617c3e417b093"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1543055a4d2af72500e617c3e417b093">&#9670;&nbsp;</a></span>register_handler()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +164,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void idt::register_handler </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramtype">std::uint8_t&#160;</td>
           <td class="paramname"><em>in_index</em>, </td>
         </tr>
         <tr>
@@ -179,7 +176,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="stdint_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>&#160;</td>
+          <td class="paramtype">std::uint8_t&#160;</td>
           <td class="paramname"><em>in_ist_index</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>

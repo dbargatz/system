@@ -1,0 +1,4 @@
+<map id="pic::remap" name="pic::remap">
+<area shape="rect" id="node2" href="$classio__port.html#a3a54ba1f189944a36d25eaf37bb8b0ac" title="Read an 8&#45;bit byte from this I/O port. " alt="" coords="149,5,243,32"/>
+<area shape="rect" id="node3" href="$classio__port.html#a8340cf27181cbecee5724bb1097cd186" title="Write the given 8&#45;bit byte to this I/O port. " alt="" coords="144,56,248,83"/>
+</map>

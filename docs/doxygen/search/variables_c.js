@@ -10,5 +10,7 @@ var searchData=
   ['minor',['minor',['../structmultiboot__tag__smbios.html#abe83621d3f54ab2868c75a6396b25729',1,'multiboot_tag_smbios']]],
   ['mod_5fend',['mod_end',['../structmultiboot__tag__module.html#ae0a4f42952619e0807cbb5debbf6e5af',1,'multiboot_tag_module']]],
   ['mod_5fstart',['mod_start',['../structmultiboot__tag__module.html#af2870ead515a1c38d4484645ab54fb03',1,'multiboot_tag_module']]],
-  ['msg',['msg',['../structpanic__data.html#aa161732a1b338a7f6644331aac9b3544',1,'panic_data::msg()'],['../panic_8h.html#a2c3cb87d009c003069b9a90f020f8a9f',1,'msg():&#160;panic.h']]]
+  ['monitor_5fend_5faddr',['monitor_end_addr',['../classboot__info.html#a7f1bcb058e415c1fef879617d17cb929',1,'boot_info']]],
+  ['monitor_5fstart_5faddr',['monitor_start_addr',['../classboot__info.html#af96da666b5d1266c9b9853ff3dd3a797',1,'boot_info']]],
+  ['msg',['msg',['../structpanic__data.html#a18d1aa259d5f57f3c8b4eb9295410377',1,'panic_data::msg()'],['../panic_8h.html#a7b5b3247bcfba617e0f1c3177d7c907b',1,'msg():&#160;panic.h']]]
 ];

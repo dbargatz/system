@@ -1,5 +1,4 @@
 <map id="core::panic_handler" name="core::panic_handler">
-<area shape="rect" id="node2" href="$classlogger.html#aa00da2c4e3c6f1aacee5a6a3c99a008d" title="logger::panic" alt="" coords="420,5,527,32"/>
-<area shape="rect" id="node4" href="$classinterrupt__frame.html#a0487d860c218f15c6358b0fc76286797" title="interrupt_frame::dump" alt="" coords="203,31,372,57"/>
-<area shape="rect" id="node3" href="$classtext.html#a040258e31c0b6d66245e53ad780f0551" title="text::get" alt="" coords="575,5,652,32"/>
+<area shape="rect" id="node2" href="$classlogging_1_1logger.html#a654526d6e50200a7b6339d8362ba30ab" title="logging::logger::panic" alt="" coords="420,5,583,32"/>
+<area shape="rect" id="node3" href="$classinterrupt__frame.html#a1ecb4ab2933880d28a89c953549d4ab3" title="interrupt_frame::dump" alt="" coords="203,31,372,57"/>
 </map>

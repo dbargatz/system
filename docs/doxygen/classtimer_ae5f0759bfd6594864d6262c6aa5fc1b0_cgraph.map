@@ -1,0 +1,5 @@
+<map id="timer::~timer" name="timer::~timer">
+<area shape="rect" id="node2" href="$classtimer.html#af1b13ea7ddf02ae99d69aa63b4ecd64f" title="timer::get_frequency" alt="" coords="173,5,332,32"/>
+<area shape="rect" id="node3" href="$classtimer.html#a151b6a54896d724a2bce2ac4701b8701" title="timer::set_frequency" alt="" coords="174,56,331,83"/>
+<area shape="rect" id="node4" href="$classtimer.html#ac9d12f2257d8124388bace6d2e97c15e" title="timer::interrupt_handler" alt="" coords="164,107,341,133"/>
+</map>

@@ -1,6 +1,4 @@
 <map id="src/driver/cpu/x64/display/vga_logger.hpp" name="src/driver/cpu/x64/display/vga_logger.hpp">
-<area shape="rect" id="node2" href="$vga_8hpp.html" title="vga.hpp" alt="" coords="5,169,80,196"/>
-<area shape="rect" id="node4" href="$logger__backend_8hpp.html" title="../std/logger_backend.hpp" alt="" coords="80,95,269,121"/>
-<area shape="rect" id="node3" href="$stdint_8h.html" title="../std/stdint.h" alt="" coords="64,244,171,271"/>
-<area shape="rect" id="node5" href="$text_8hpp.html" title="text.hpp" alt="" coords="155,169,231,196"/>
+<area shape="rect" id="node3" href="$backend_8hpp.html" title="../../../../logging\l/backend.hpp" alt="" coords="34,95,153,136"/>
+<area shape="rect" id="node4" href="$vga_8hpp.html" title="vga.hpp" alt="" coords="176,102,251,129"/>
 </map>
