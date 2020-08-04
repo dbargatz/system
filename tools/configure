@@ -14,15 +14,13 @@ apt-get -y --no-install-recommends install \
     grub-pc-bin                            \
     less                                   \
     lsb-release                            \
+    meson                                  \
     nasm                                   \
     python3                                \
     python3-pip                            \
     qemu-system                            \
     software-properties-common             \
     xorriso
-
-# Install the latest versions of meson and ninja system-wide with pip.
-python3 -m pip install meson ninja
 
 # Download and install the latest version of LLVM/Clang and associated tools.
 wget https://apt.llvm.org/llvm.sh
