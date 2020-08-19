@@ -32,27 +32,27 @@ public:
 
     template <typename... Args>
     void debug(const std::string& in_fmt, Args&&... in_args) {
-        write(level::Debug, in_fmt, std::forward<Args>(in_args)...);
+        write(level::Debug, in_fmt, in_args...);
     }
 
     template <typename... Args>
     void error(const std::string& in_fmt, Args&&... in_args) {
-        write(level::Error, in_fmt, std::forward<Args>(in_args)...);
+        write(level::Error, in_fmt, in_args...);
     }
 
     template <typename... Args>
     void info(const std::string& in_fmt, Args&&... in_args) {
-        write(level::Info, in_fmt, std::forward<Args>(in_args)...);
+        write(level::Info, in_fmt, in_args...);
     }
 
     template <typename... Args>
     void panic(const std::string& in_fmt, Args&&... in_args) {
-        write(level::Panic, in_fmt, std::forward<Args>(in_args)...);
+        write(level::Panic, in_fmt, in_args...);
     }
 
     template <typename... Args>
     void warn(const std::string& in_fmt, Args&&... in_args) {
-        write(level::Warn, in_fmt, std::forward<Args>(in_args)...);
+        write(level::Warn, in_fmt, in_args...);
     }
 
     // TODO: This is dangerous for a few reasons, security-wise:
@@ -63,7 +63,7 @@ public:
     // to be corrected.
     template <typename... Args>
     void write(level in_level, const std::string& in_fmt, Args&&... in_args) {
-        auto str = std::format(in_fmt, std::forward<Args>(in_args)...);
+        auto str = std::format(in_fmt, in_args...);
         //auto final = std::format(u8"[{}] {}\n", _LEVEL_PREFIXES[(std::uint8_t)in_level], str);
         for(auto i = 0; i < _num_backends; i++) {
             _backends[i]->write(str);

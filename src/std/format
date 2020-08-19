@@ -1,13 +1,226 @@
 #ifndef _STD_FORMAT_HPP
 #define _STD_FORMAT_HPP
 
+#include <cassert>
+#include <cstdint>
 #include <string>
+#include <utility>
 
 namespace std {
 
+template <typename T>
+struct formatter {
+    formatter() = delete;
+};
+
+template <>
+struct formatter<std::uint64_t> {
+public:
+    formatter() { }
+
+    void parse(const std::string::value_type* in_open_brace,
+               const std::string::value_type* in_close_brace) {
+        // TODO: choose all these based on parsed spec
+        _base = 16;
+        _digits = _hex_upper;
+        _fill_char = u8"0";
+        _min_width = 16;
+        _prefix = u8"0x";
+    }
+
+    std::string format(const std::uint64_t& in_arg) {
+        auto str = std::string(u8"");
+        std::uint64_t remainder = in_arg;
+
+        if(0 == remainder) {
+            str.append(&(_digits[0]), 1);
+        }
+        else {
+            while(remainder != 0) {
+                str.append(&(_digits[remainder % _base]), 1);
+                remainder /= _base;
+            }
+        }
+
+        // If the number of digits is less than the minimum field width, append the
+        // fill character until reaching the minimum field width. Note that this 
+        // effectively right-aligns the number, as the temp buffer is in reverse
+        // order.
+        while(str.size() < _min_width) {
+            str.append(_fill_char, 1);
+        }
+
+        auto new_str = std::string(_prefix);
+        for(std::int64_t i = str.size()-1; i >= 0; i--) {
+            auto ptr = &(str.data()[i]);
+            new_str.append(ptr, 1);
+        }
+
+        return new_str;
+    }
+
+private:
+    static constexpr char8_t _hex_upper[] = u8"0123456789ABCDEF";
+    static constexpr char8_t _hex_lower[] = u8"0123456789abcdef";
+
+    std::uint8_t       _base;
+    const char8_t*     _digits;
+    const char8_t*     _fill_char;
+    std::uint8_t       _min_width;
+    const char8_t*     _prefix;
+};
+
+template <>
+struct formatter<const char*> {
+public:
+    formatter() { }
+
+    void parse(const std::string::value_type* in_open_brace,
+               const std::string::value_type* in_close_brace) {
+        // TODO: choose all these based on parsed spec
+        _fill_char = u8" ";
+        _min_width = 16;
+    }
+
+    std::string format(const char* in_arg) {
+        auto str = std::string(u8"");
+        while(*in_arg != '\0') {
+            str.append((char8_t*)in_arg, 1);
+            in_arg++;
+        }
+
+        // TODO: fill out to minimum width
+
+        return str;
+    }
+
+private:
+    const char8_t*     _fill_char;
+    std::uint8_t       _min_width;
+};
+
+template <>
+struct formatter<const char8_t*> {
+public:
+    formatter() { }
+
+    void parse(const std::string::value_type* in_open_brace,
+               const std::string::value_type* in_close_brace) {
+        // TODO: choose all these based on parsed spec
+        _fill_char = u8" ";
+        _min_width = 16;
+    }
+
+    std::string format(const char8_t* in_arg) {
+        auto str = std::string(u8"");
+        while(*in_arg != std::string::traits_type::eof()) {
+            str.append(in_arg, 1);
+            in_arg++;
+        }
+
+        // TODO: fill out to minimum width
+
+        return str;
+    }
+
+private:
+    const char8_t*     _fill_char;
+    std::uint8_t       _min_width;
+};
+
+template <>
+struct formatter<std::string> {
+public:
+    formatter() { }
+
+    void parse(const std::string::value_type* in_open_brace,
+               const std::string::value_type* in_close_brace) {
+        // TODO: choose all these based on parsed spec
+        _fill_char = u8" ";
+        _min_width = 16;
+    }
+
+    std::string format(const std::string& in_arg) {
+        return std::string(in_arg);
+    }
+
+private:
+    const char8_t*     _fill_char;
+    std::uint8_t       _min_width;
+};
+
+template <>
+struct formatter<std::uint8_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<std::uint16_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<std::uint32_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<std::int8_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<std::int16_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<std::int32_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<std::int64_t> : public std::formatter<std::uint64_t> {};
+
+template <>
+struct formatter<double> : public std::formatter<std::uint64_t> {};
+
 template <typename... Args>
-std::string format(const std::string& in_fmt, const Args&... in_args) {
+std::string format(const std::string& in_fmt) {
     return std::string(in_fmt);
+}
+
+template <typename T, typename... Args>
+std::string format(const std::string& in_fmt, const T& in_arg, const Args&... in_args) {
+    auto prefix = std::string(u8"");
+    const std::string::value_type* ptr = in_fmt.data();
+
+    // Advance until we find an opening brace. We shouldn't encounter an EOF,
+    // since there are still args left to format if we're in this function.
+    while(*ptr != '{') {
+        assert(*ptr != std::string::traits_type::eof());
+        if(*ptr == '{' && *(ptr + 1) != '{') {
+            break;
+        }
+        prefix.append(ptr, 1);
+        ptr++;
+    }
+
+    // Ptr is currently pointing at the opening brace for this format arg. Find
+    // the closing brace. Note that escaped closing braces (the "}}" sequence)
+    // can't appear in a format arg specification, thus the assert below the
+    // loop.
+    auto open_brace  = ptr;
+    auto close_brace = ptr;
+    while(*close_brace != '}') {
+        assert(*close_brace != std::string::traits_type::eof());
+        close_brace++;
+    }
+    assert(*close_brace == '}' && *(close_brace + 1) != '}');
+
+    // We now have the open and close braces for this format arg specification.
+    // Parse the specification between the braces using the appropriate
+    // formatter for in_arg.
+    auto fmt = std::formatter<T>();
+    fmt.parse(open_brace, close_brace);
+
+    // Format the current argument using the formatter.
+    auto arg_str = fmt.format(in_arg);
+
+    // Append the arg string to the current string.
+    prefix.append(arg_str.data(), arg_str.size());
+
+    // Continue formatting the string with the remaining args.
+    auto suffix = format(std::string(close_brace + 1), in_args...);
+    return prefix.append(suffix.data(), suffix.size());
 }
 
 }; // namespace std

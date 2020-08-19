@@ -10,6 +10,7 @@
 #ifndef _STD_STRING_HPP
 #define _STD_STRING_HPP
 
+#include <cassert>
 #include <cstddef>
 #include <memory_resource>
 
@@ -135,7 +136,7 @@ public:
     }
 
     constexpr static inline int_type eof() noexcept {
-        return int_type('\0');
+        return (int_type)u8'\0';
     }
 
     constexpr static inline int_type not_eof(int_type in_eof) noexcept {
@@ -162,7 +163,7 @@ public:
 
     // TODO: all the ctor/dtor/member functions
 
-    constexpr basic_string(const CharT * in_s, const Allocator& in_alloc = Allocator()) {
+    constexpr basic_string(const value_type* in_s, const Allocator& in_alloc = Allocator()) {
         _length_in_chars = 0;
         auto start = in_s;
         while(*in_s != traits_type::eof()) {
@@ -170,6 +171,17 @@ public:
             in_s++;
         }
         _buf[_length_in_chars] = traits_type::eof();
+    }
+
+    constexpr basic_string& append(const value_type* in_s, size_type in_n) {
+        auto new_size = _length_in_chars + in_n;
+        assert(new_size < capacity());
+        while(_length_in_chars < new_size) {
+            _buf[_length_in_chars++] = *in_s;
+            in_s++;
+        }
+        _buf[_length_in_chars] = traits_type::eof();
+        return *this;
     }
 
     inline size_type size() const noexcept {
