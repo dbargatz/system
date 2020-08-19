@@ -22,7 +22,8 @@
 HANDLERS
 #undef X
 
-extern void (*jump_usermode)(void (*)(void));
+typedef void(*jump_usermode_fn)(void (*)(void));
+extern void * jump_usermode;
 
 void usermode_fn() {
     asm volatile("int $0x80");
@@ -155,7 +156,7 @@ void core::run(const void * in_boot_info) {
     monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
 
     // Jump to user mode!
-    jump_usermode(usermode_fn);
+    ((jump_usermode_fn)&jump_usermode)(usermode_fn);
 
     // Just spin!
     while(true) {}
