@@ -8,13 +8,13 @@
 struct multiboot_tag_bootloader : multiboot_tag_string {};
 template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_bootloader * in_tag) {
-    in_log.debug(u8"\tBootloader name: {}", in_tag->string);
+    in_log.debug(u8"\tBootloader name: {}", (const char*)in_tag->string);
 }
 
 struct multiboot_tag_cmdline : multiboot_tag_string {};
 template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_cmdline * in_tag) {
-    in_log.debug(u8"\tCommand line: {}", in_tag->string);
+    in_log.debug(u8"\tCommand line: {}", (const char*)in_tag->string);
 }
 
 template <>
@@ -52,7 +52,7 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_mmap * in_tag
 
 template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_module * in_tag) {
-    in_log.debug(u8"\tModule {}:", in_tag->cmdline);
+    in_log.debug(u8"\tModule {}:", (const char*)in_tag->cmdline);
     in_log.debug(u8"\t\tStart physical address: {#016X}", in_tag->mod_start);
     in_log.debug(u8"\t\tEnd physical address  : {#016X}", in_tag->mod_end);
 

@@ -22,6 +22,12 @@
 HANDLERS
 #undef X
 
+extern void (*jump_usermode)(void (*)(void));
+
+void usermode_fn() {
+    asm volatile("int $0x80");
+}
+
 bool core::_disable_interrupts() {
     bool cur_state = _interrupts_enabled();
     asm volatile("cli");
@@ -60,6 +66,9 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
         case 33:                        // IDT index 33, IRQ 1, keyboard interrupt
             _kbd.interrupt_handler(frame);
             _pic.send_eoi(1);
+            break;
+        case 128:                       // IDT index 128 (0x80), temporary syscall
+            _log.info(u8"int 0x80 executed");
             break;
         default:                        // Unhandled interrupt
             _log.panic(u8"UNHANDLED INTERRUPT {#02X} ({})", int_num, int_num);
@@ -144,6 +153,9 @@ void core::run(const void * in_boot_info) {
     auto monitor_log = logging::logger();
     auto monitor_bin = loader::binary(monitor_log);
     monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
+
+    // Jump to user mode!
+    jump_usermode(usermode_fn);
 
     // Just spin!
     while(true) {}

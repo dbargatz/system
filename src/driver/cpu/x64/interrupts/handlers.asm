@@ -1,5 +1,6 @@
 extern this_core
 extern interrupt_entry
+global jump_usermode
 
 section .text
 bits 64
@@ -62,6 +63,25 @@ interrupt_handler_generic:
 .no_err_exit:
     pop rdi
     add rsp, 0x10
+    iretq
+
+;; Function pointer is in rdi
+jump_usermode:
+    mov ax, 0x23
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    ;; ss is handled by the iretq below.
+    ;; TODO: should all gp registers get zeroed before heading to usermode?
+
+    mov rax, rsp
+    push 0x23
+    push rax
+    pushf
+    push 0x1B
+    push rdi
+    xor rdi, rdi
     iretq
 
 ;; NEED: what is my vector number?
