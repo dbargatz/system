@@ -148,7 +148,7 @@ void core::run(const void * in_boot_info) {
     _pic.enable_irq(0);
     _pic.enable_irq(1);
     _enable_interrupts();
-    _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled)...", _interrupts_enabled() ? u8"en" : u8"dis");
+    _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
 
     // Load the monitor binary.
     auto monitor_log = logging::logger();
