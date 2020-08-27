@@ -10,9 +10,7 @@
         "asabil.meson",
         "cschlosser.doxdocgen",
         "davidanson.vscode-markdownlint",
-        "github.vscode-pull-request-github",
-        "ms-vscode.azure-account",
+        "ms-azuretools.vscode-docker",
         "ms-vscode.cpptools",
-        "ms-vsliveshare.vsliveshare"
     ]
 }
