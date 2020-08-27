@@ -1,26 +1,47 @@
 FROM debian:stable
 
-ARG CONFIGURE_SCRIPT="https://raw.githubusercontent.com/dbargatz/system/84293e5c47ccadf703ccbcdf4d992f56a436ad07/tools/configure"
+# Version of LLVM/Clang to download and install.
+ARG LLVM_VERSION=10
 
 # Avoid issues with debconf asking interactive questions during installation.
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update to the latest versions of packages.
-RUN apt-get update \
-    && apt-get -y upgrade \
+RUN apt-get update                                                  \
+    && apt-get -y upgrade                                           \
     # Install tools needed for the configure script or VS Code.
-    && apt-get -y install apt-utils libicu63 procps wget \
+    && apt-get -y install apt-utils libicu63 procps wget            \
     # Make bash the default shell instead of dash.
     && (echo "dash dash/sh boolean false" | debconf-set-selections) \
-    && dpkg-reconfigure dash \
-    && chsh -s /bin/bash root \
-    # Download and run the configure script to install all the needed tools.
-    && wget --quiet --output-document=/tmp/configure.sh $CONFIGURE_SCRIPT \
-    && /bin/bash /tmp/configure.sh \
-    && rm /tmp/configure.sh \
-    # Clean up to reduce image size.
-    && apt-get autoremove -y \
-    && apt-get clean -y \
+    && dpkg-reconfigure dash                                        \
+    && chsh -s /bin/bash root
+
+# Install the dependencies for compiling, debugging, and running.
+RUN apt-get -y --no-install-recommends install \
+    doxygen                                    \
+    gdb                                        \
+    git                                        \
+    gnupg2                                     \
+    graphviz                                   \
+    grub-common                                \
+    grub-pc-bin                                \
+    less                                       \
+    lsb-release                                \
+    nasm                                       \
+    python3                                    \
+    python3-pip                                \
+    qemu-system                                \
+    software-properties-common                 \
+    xorriso
+
+# Download and install the specified version of LLVM/Clang and associated tools.
+RUN wget https://apt.llvm.org/llvm.sh          \
+    && chmod +x llvm.sh                        \
+    && ./llvm.sh $LLVM_VERSION
+
+# Clean up to reduce image size.
+RUN apt-get autoremove -y                      \
+    && apt-get clean -y                        \
     && rm -rf /var/lib/apt/lists/*
 
 # Revert back to debconf's interactive prompts for the user.
