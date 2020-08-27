@@ -19,6 +19,7 @@ RUN apt-get update                                                  \
 # Install the dependencies for compiling, debugging, and running.
 RUN apt-get -y --no-install-recommends install \
     doxygen                                    \
+    g++                                        \
     gdb                                        \
     git                                        \
     gnupg2                                     \
@@ -33,6 +34,9 @@ RUN apt-get -y --no-install-recommends install \
     qemu-system                                \
     software-properties-common                 \
     xorriso
+
+# Install meson and ninja via pip.
+RUN pip3 install meson ninja
 
 # Download and install the specified version of LLVM/Clang and associated tools.
 RUN wget https://apt.llvm.org/llvm.sh          \
