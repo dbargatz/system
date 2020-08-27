@@ -2,7 +2,7 @@
 
 #include "std/panic.h"
 #include "debug/uart_logger.hpp"
-#include "display/vga_logger.hpp"
+#include "display/vga.hpp"
 #include "interrupts/gdt.hpp"
 #include "interrupts/tss.hpp"
 #include "core.hpp"
@@ -27,16 +27,18 @@ extern "C" void interrupt_entry(const void * in_frame_ptr) {
 }
 
 extern "C" int core_entry(const void * in_boot_info) {
-    // To work around the fact that boost::di isn't working right now with
-    // multiple bindings, create a logger instance and add both backends to
-    // it via the add_backend() helper (instead of the desired constructor
-    // injection technique), then register that logger as a singleton instance
-    // with a separate core injector.
+    // Create a VGA instance and clear the screen.
     const auto log_injector = di::make_injector();
-    auto vga_log = log_injector.create<vga_backend&>();
+    auto vga_ref = log_injector.create<vga&>();
+    vga_ref.clear_screen(vga::color::black);
+
+    // The VGA logging backend is currently broken, so only the UART logging
+    // backend is enabled. The add_backend() helper exists to allow multiple
+    // logging backends to be added to a single logger; boost::di's 
+    // implementation of constructor injection with multiple bindings is
+    // currently broken, so add_backend() is a workaround.
     auto uart_log = log_injector.create<uart_backend&>();
     auto log = log_injector.create<logging::logger&>();
-    log.add_backend(&vga_log);
     log.add_backend(&uart_log);
 
     // Bind abstract classes to implementations and create the bootstrap core.
