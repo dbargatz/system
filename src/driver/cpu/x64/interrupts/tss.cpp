@@ -45,13 +45,20 @@ tss::tss(gdt& in_gdt) {
     _our_tss.ist7_high = (std::uint32_t)0;
 
     // Load the I/O Port Bitmap with the size of the TSS structure, effectively
-    // disabling it.
-    // TODO: verify this with the Intel manuals.
+    // disabling it. Per Intel SDM, Volume 1, Section 19.5.2: "If the I/O bit
+    // map base address is greater than or equal to the TSS segment limit,
+    // there is no I/O permission map, and all I/O instructions generate
+    // exceptions when the CPL is greater than the current IOPL." Below, we
+    // set the segment limit for the TSS descriptor as the size of the TSS,
+    // meaning all I/O ports are inaccessible from user-mode (so long as the
+    // IOPL is less than the current privilege level).
     _our_tss.iopb_offset = (std::uint16_t)sizeof(_our_tss);
 
     // Install the descriptor for the TSS into the GDT. Note that this is a
     // 64-bit TSS, so there are two consecutive 8-byte entries in the GDT; the
-    // second entry is bits 32-63 of the TSS base address (if applicable).
+    // second entry is bits 32-63 of the TSS base address (if applicable). Note
+    // the segment limit; setting it to the size of the TSS makes all I/O ports
+    // inaccessible from user-mode. See above for more detail.
     in_gdt.install(0x28, &_our_tss, sizeof(_our_tss), 0x89, 0x00);
     in_gdt.install(0x30, 0, 0, 0, 0);
 
