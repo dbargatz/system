@@ -22,6 +22,10 @@ void operator delete(void * in_ptr) {
     PANIC("delete() called in core driver!");
 }
 
+extern "C" void syscall_entry(const std::uint8_t in_syscall_id) {
+    this_core->dispatch_syscall(in_syscall_id);
+}
+
 extern "C" void interrupt_entry(const void * in_frame_ptr) {
     this_core->dispatch_interrupt(in_frame_ptr);
 }

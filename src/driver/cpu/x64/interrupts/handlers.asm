@@ -1,6 +1,8 @@
 extern this_core
 extern interrupt_entry
+extern syscall_entry
 global jump_usermode
+global syscall_handler
 
 section .text
 bits 64
@@ -67,25 +69,68 @@ interrupt_handler_generic:
 
 ;; Function pointer is in rdi
 jump_usermode:
-    mov ax, 0x23
+    mov ax, 0x23    ; ring 3 data segment in GDT, bottom 2 bits set for ring 3 RPL
     mov ds, ax
     mov es, ax
     mov fs, ax
-    mov gs, ax
+    mov gs, ax ; TODO: this needs to be handled by swapgs
     ;; ss is handled by the iretq below.
     ;; TODO: should all gp registers get zeroed before heading to usermode?
+    ;; TODO: switch to usermode stack
 
     mov rax, rsp
-    push 0x23
+    push 0x23       ; ring 3 data segment in GDT, bottom 2 bits set for ring 3 RPL
     push rax
     pushf
     pop rax
     or rax, 0x3000  ; Set bits 12 and 13 to raise IOPL to ring 3
     push rax
-    push 0x1B
-    push rdi
+    push 0x2B       ; ring 3 code segment in GDT, bottom 2 bits set for ring 3 RPL
+    push rdi        ; address of usermode function
     xor rdi, rdi
     iretq
+
+;; Syscall ID is in rdi, rflags is in r11, return rip is in rcx
+syscall_handler:
+    ;; TODO: save SSE registers (XMM; FXSAVE/FXRSTOR?)
+    ;; TODO: why push in this order? 
+    ;; TODO: Clear direction flag for SysV ABI?
+    ;; TODO: push segment regs?
+    push rdi
+    push rsi
+    push rdx
+    push rcx ; contains return rip
+    push rax
+    push r8
+    push r9
+    push r10
+    push r11 ; contains rflags
+    push rbx
+    push r12
+    push r13
+    push r14
+    push r15
+.dispatch:
+    ;; The syscall ID is already in rdi.
+    lea rax, [syscall_entry]
+    call rax
+.restore_registers:
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop rbx
+    pop r11 ; contains rflags
+    pop r10
+    pop r9
+    pop r8
+    pop rax
+    pop rcx ; contains target RIP
+    pop rdx
+    pop rsi
+    pop rdi
+    ;; TODO: SWITCH BACK TO USERMODE STACK!!
+    o64 sysret
 
 ;; NEED: what is my vector number?
 %macro GENERATE_HANDLER_NO_ERR 1

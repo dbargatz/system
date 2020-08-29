@@ -431,6 +431,7 @@ ist2_stack_bottom:
 ist2_stack_top:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
+;; TODO: Update this comment for usermode
 ;; The 64-bit Global Descriptor Table (GDT), to be loaded into the
 ;; processor via the lgdt instruction after we've entered long mode. Each
 ;; GDT entry is 64 bits, and there are three minimum required entries for
@@ -450,18 +451,21 @@ section .rodata
 ;; hand, are always readable - setting the RW bit means the segment is
 ;; writeable.
 gdt64:
+.null_1: equ $-gdt64 ; first entry in GDT must always be NULL.
     dq 0
 .ring0_code: equ $-gdt64
 ;;     64b cs    present   priv level   desctype    exec      r/w     accessed
     dq (1<<53) | (1<<47)              | (1<<44) | (1<<43) | (1<<41)
 .ring0_data: equ $-gdt64
     dq           (1<<47)              | (1<<44)           | (1<<41)
+.null_2: equ $-gdt64 ; required for syscall/sysret implementation; IA32_STAR MSR has a weird format.
+    dq 0
+.ring3_data: equ $-gdt64
+    dq           (1<<47) | (3 << 45)  | (1<<44)           | (1<<41)
 .ring3_code: equ $-gdt64
 ;;     64b cs    present   priv level   desctype    exec      r/w
     dq (1<<53) | (1<<47) | (3 << 45)  | (1<<44) | (1<<43) | (1<<41)
-.ring3_data: equ $-gdt64
-    dq           (1<<47) | (3 << 45)  | (1<<44)           | (1<<41)
-.tss: equ $-gdt64 ;; NOTE: 64-bit TSS descriptor is 16 bytes
+.tss: equ $-gdt64 ; NOTE: 64-bit TSS descriptor is 16 bytes
     dq 0
     dq 0
 ;; The GDT pointer is a special data structure expected by the lgdt

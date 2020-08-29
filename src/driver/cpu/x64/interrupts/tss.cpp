@@ -59,11 +59,11 @@ tss::tss(gdt& in_gdt) {
     // second entry is bits 32-63 of the TSS base address (if applicable). Note
     // the segment limit; setting it to the size of the TSS makes all I/O ports
     // inaccessible from user-mode. See above for more detail.
-    in_gdt.install(0x28, &_our_tss, sizeof(_our_tss), 0x89, 0x00);
-    in_gdt.install(0x30, 0, 0, 0, 0);
+    in_gdt.install(0x30, &_our_tss, sizeof(_our_tss), 0x89, 0x00);
+    in_gdt.install(0x38, 0, 0, 0, 0);
 
     // Load the TSS into the core.
-    asm volatile("movq $0x28, %%rax; ltr %%ax": : : "rax");
+    asm volatile("movq $0x30, %%rax; ltr %%ax": : : "rax");
 }
 
 void tss::dump(logging::logger& in_log) {

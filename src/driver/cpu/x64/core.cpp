@@ -4,6 +4,7 @@
 #include "../../../loader/binary.hpp"
 
 #include "std/cpuid.h"
+#include "std/msr.hpp"
 #include "std/panic.h"
 
 // TODO: remove when usermode_fn is removed - temporary, used for usermode testing only
@@ -28,17 +29,22 @@ HANDLERS
 #undef X
 
 typedef void(*jump_usermode_fn)(void (*)(void));
-extern void * jump_usermode;
+extern void* jump_usermode;
+extern void* syscall_handler;
+
+inline void syscall(const std::uint8_t in_id) {
+    asm volatile("xor %%rdi, %%rdi; movb %0, %%dil; syscall" : : "m"(in_id));
+}
 
 void usermode_fn() {
-    asm volatile("int $0x80");
-
     const auto log_injector = di::make_injector();
     auto uart_log = log_injector.create<uart_backend&>();
     auto log = log_injector.create<logging::logger&>();
     log.add_backend(&uart_log);
 
-    log.info(u8"Hello from usermode! Entering busy loop.");
+    log.info(u8"Hello from usermode! Making syscall.");
+    syscall(0x80);
+    log.info(u8"Back in usermode! Entering busy loop.");
     while(true) {}
 }
 
@@ -81,15 +87,16 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
             _kbd.interrupt_handler(frame);
             _pic.send_eoi(1);
             break;
-        case 128:                       // IDT index 128 (0x80), temporary syscall
-            _log.info(u8"int 0x80 executed");
-            break;
         default:                        // Unhandled interrupt
             _log.panic(u8"UNHANDLED INTERRUPT {#02X} ({})", int_num, int_num);
             frame.dump(_log);
             asm volatile("hlt");
             break;
     }
+}
+
+void core::dispatch_syscall(const std::uint8_t in_syscall_id) {
+    _log.info(u8"Syscall {} was invoked!", in_syscall_id);
 }
 
 void core::panic_handler(interrupt_frame& in_frame) {
@@ -138,6 +145,32 @@ void core::run(const void * in_boot_info) {
     cpuid(1, &eax, &edx);
     _log.debug(u8"This core {} a local APIC.",
         (edx & CPUID_01_EDX_LOCAL_APIC_PRESENT) ? u8"has" : u8"doesn't have");
+
+    // Validate the processor supports syscall/sysret.
+    eax = 0;
+    edx = 0;
+    cpuid(CPUID_80000001, &eax, &edx);
+    assert(edx & CPUID_80000001_EDX_SYSCALL_SUPPORTED);
+
+    // Configure the IA32_STAR model-specific register for syscall/sysret,
+    // using 0x8 as the base syscall segment and 0x18 (null_2) as the base
+    // sysret segment, conforming to the weird config required by the
+    // processor. See Intel SDM, Volume 3A, Section 5.8.8 for details.
+    auto star = ((std::uint64_t)0x8 << 32) | ((std::uint64_t)0x18 << 48);
+    wrmsr(MSR_IA32_STAR, star);
+
+    // Set the syscall_handler function as the target for syscalls, and do not
+    // mask any flags in rflags. See Intel SDM, Volume 3A, Section 5.8.8 for
+    // details.
+    // TODO: how should FMASK actually be set?
+    wrmsr(MSR_IA32_LSTAR, (std::uint64_t)&syscall_handler);
+    wrmsr(MSR_IA32_FMASK, (std::uint64_t)0xFFFFFFFF);
+
+    // Enable the syscall/sysret instructions via the EFER model-specific
+    // register.
+    auto efer = rdmsr(MSR_IA32_EFER);
+    _log.info(u8"EFER: {#016X}", efer);
+    wrmsr(MSR_IA32_EFER, efer | 0x1);
 
     // Remap IRQ 0-7 to IDT vectors 0x20-0x27 (32-39), and IRQ 8-15 to IDT
     // vectors 0x28-0x2F (40-47) to avoid conflicting with the Intel-reserved

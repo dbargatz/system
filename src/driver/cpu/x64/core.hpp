@@ -17,6 +17,12 @@ class core {
 private:
     ///< If bit 9 is set in CPUID:01H:EDX, a local APIC is present on this core.
     static const std::uint32_t CPUID_01_EDX_LOCAL_APIC_PRESENT = (1 << 9);
+    
+    static const std::uint32_t CPUID_80000001 = 0x80000001;
+    
+    ///< If bit 11 is set in CPUID:80000001H:EDX, the syscall/sysret
+    ///< instructions are supported by this core.
+    static const std::uint32_t CPUID_80000001_EDX_SYSCALL_SUPPORTED = (1 << 11);
 
     ///< If bit 9 (IF) is set in RFLAGS, interrupts are enabled on this core.
     static const std::uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
@@ -48,6 +54,7 @@ public:
         tss& in_tss);
 
     void dispatch_interrupt(const void * in_frame_ptr);
+    void dispatch_syscall(const std::uint8_t in_syscall_id);
     void panic_handler(interrupt_frame& in_frame);
     void run(const void * in_boot_info);
 };
