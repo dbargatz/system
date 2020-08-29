@@ -38,8 +38,8 @@ void usermode_fn() {
     auto log = log_injector.create<logging::logger&>();
     log.add_backend(&uart_log);
 
-    log.info(u8"Hello from usermode!");
-    PANIC(u8"Usermode test has ended");
+    log.info(u8"Hello from usermode! Entering busy loop.");
+    while(true) {}
 }
 
 bool core::_disable_interrupts() {
