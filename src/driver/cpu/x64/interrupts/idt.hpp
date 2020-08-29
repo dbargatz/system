@@ -49,9 +49,11 @@ public:
      * @param in_handler function to execute when the interrupt occurs
      * @param in_ist_index Interrupt Stack Table (IST) stack to handle interrupt
      *                     on; index into TSS
+     * @param in_ring0 if true, handler only accessible from ring 0; otherwise,
+     *                 accessible only from ring 3
      */
     void register_handler(std::uint8_t in_index, const void * in_handler,
-                          std::uint8_t in_ist_index = 0);
+                          std::uint8_t in_ist_index = 0, bool in_ring0 = true);
 
     /**
      * @brief Loads this IDT into the core such that interrupts/exceptions will

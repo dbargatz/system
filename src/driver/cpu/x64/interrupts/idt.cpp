@@ -15,15 +15,18 @@ idt::idt(logging::logger& in_log) : _log(in_log) {
 }
 
 void idt::register_handler(std::uint8_t in_index, const void * in_handler,
-                           std::uint8_t in_ist_index) {
+                           std::uint8_t in_ist_index, bool in_ring0) {
+    std::uint8_t dpl = (in_ring0 ? 0 : 3);
+
     // TODO: ensure that this handler isn't already registered?
     _idt[in_index].offset_0_15  = (std::uint16_t)(((std::uint64_t)in_handler >>  0) & 0x0000FFFF);
     _idt[in_index].offset_16_31 = (std::uint16_t)(((std::uint64_t)in_handler >> 16) & 0x0000FFFF);
     _idt[in_index].offset_32_63 = (std::uint32_t)(((std::uint64_t)in_handler >> 32) & 0xFFFFFFFF);
-    //                              Ring 0           IST Index           Ring 0 code segment
+
+    //                               Ring 0           IST Index           Ring 0 code segment
     _idt[in_index].seg_selector = { .rpl = 0, .table_idx = in_ist_index, .descriptor_idx = 1};
-    //                      Interrupt Gate     System Segment
-    _idt[in_index].type = { .gate_type = 0xE, .segment_type = 0, .dpl = 0, .present = 1 };
+    //                      Interrupt Gate     System Segment     Descriptor Priv Level (0 for Ring 0 only, 3 for Ring 3 and Ring 0)
+    _idt[in_index].type = { .gate_type = 0xE, .segment_type = 0, .dpl = dpl, .present = 1 };    
 }
 
 void idt::install() {
