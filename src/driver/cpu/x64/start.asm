@@ -242,22 +242,25 @@ check_long_mode:
 ;; addresses. It does so using 512 2MiB huge pages, meaning only the
 ;; first entry of the P4 and P3 tables are valid, and there is a single
 ;; P2 table that identity maps the first 512 2MiB pages.
+;; TODO: This makes every page accessible from ring 3 (usermode), which
+;;       is VERY BAD. These pages should not be user accessible once the
+;;       loader can load ELF files into their own address spaces.
 set_up_page_tables:
     ;; Initialize the first entry of the P4 table to contain the physical
     ;; address of the first (and only) P3 table. Note that the entry in
     ;; the P4 table for the P3 table has marked the P3 table's page as
-    ;; present and writeable, as indicated by the ORing of EAX with
-    ;; 0b11.
+    ;; present, user-accessible, and writeable, as indicated by the ORing of
+    ;; EAX with 0b111.
     mov eax, p3_table
-    or eax, 0b11
+    or eax, 0b111  ;; TODO: Make accessible only from ring 0!
     mov [p4_table], eax
     ;; Initialize the first entry of the P3 table to contain the physical
     ;; address of the first (and only) P2 table. Note that the entry in
     ;; the P3 table for the P2 table has marked the P2 table's page as
-    ;; present and writeable, as indicated by the ORing of EAX with
-    ;; 0b11.
+    ;; present, user-accessible and writeable, as indicated by the ORing of
+    ;; EAX with 0b111.
     mov eax, p2_table
-    or eax, 0b11
+    or eax, 0b111 ;; TODO: Make accessible only from ring 0!
     mov [p3_table], eax
 
     ;; Initialize the counter for the loop below. ECX contains the entry
@@ -273,13 +276,13 @@ set_up_page_tables:
     ;; EAX. EAX now contains the physical starting address of the 2MiB
     ;; page the current entry in the P2 table should point at.
     mul ecx
-    ;; Mark the entry as present, writeable, and huge. Remember, while
-    ;; EAX does contain the physical starting address of the page, the
+    ;; Mark the entry as present, user-accessible, writeable, and huge.
+    ;; While EAX does contain the physical starting address of the page, the
     ;; bottom 12 bits of the address are used as flag bits for the entry.
     ;; Setting the huge bit is what marks the page as 2MiB - since this
     ;; entry is in the P2 table, the huge bit indicates the page should
     ;; be 2MiB.
-    or eax, 0b10000011
+    or eax, 0b10000111 ;; TODO: Make accessible only from ring 0!
     ;; Put the address/entry we computed in EAX into the P2 table at the
     ;; proper location. ECX contains the current entry we're looking at
     ;; in this loop iteration, 8 is the number of bytes each entry is,
