@@ -79,6 +79,9 @@ jump_usermode:
     push 0x23
     push rax
     pushf
+    pop rax
+    or rax, 0x3000  ; Set bits 12 and 13 to raise IOPL to ring 3
+    push rax
     push 0x1B
     push rdi
     xor rdi, rdi
