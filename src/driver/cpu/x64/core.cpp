@@ -6,6 +6,11 @@
 #include "std/cpuid.h"
 #include "std/panic.h"
 
+// TODO: remove when usermode_fn is removed - temporary, used for usermode testing only
+#include "debug/uart_logger.hpp"
+#include "../../../boost/di.hpp"
+namespace di = boost::di;
+
 #define HANDLERS \
     X(0) X(10) X(20) X(30) X(40) X(50) X(60) X(70) X(80) X(90) X(100) X(110) X(120) X(130) X(140) X(150) X(160) X(170) X(180) X(190) X(200) X(210) X(220) X(230) X(240) X(250) \
     X(1) X(11) X(21) X(31) X(41) X(51) X(61) X(71) X(81) X(91) X(101) X(111) X(121) X(131) X(141) X(151) X(161) X(171) X(181) X(191) X(201) X(211) X(221) X(231) X(241) X(251) \
@@ -27,6 +32,14 @@ extern void * jump_usermode;
 
 void usermode_fn() {
     asm volatile("int $0x80");
+
+    const auto log_injector = di::make_injector();
+    auto uart_log = log_injector.create<uart_backend&>();
+    auto log = log_injector.create<logging::logger&>();
+    log.add_backend(&uart_log);
+
+    log.info(u8"Hello from usermode!");
+    PANIC(u8"Usermode test has ended");
 }
 
 bool core::_disable_interrupts() {
@@ -134,7 +147,7 @@ void core::run(const void * in_boot_info) {
     // Mask all IRQs (0-15).
     _pic.disable_all();
 
-#define X(n) _idt.register_handler(n, &interrupt_handler_##n, (n == 6 ? 2 : 0));
+#define X(n) _idt.register_handler(n, &interrupt_handler_##n, (n == 6 ? 2 : 0), (n == 0x80 ? false : true));
     HANDLERS
 #undef X
 
