@@ -31,15 +31,11 @@ Doxygen-generated documentation is located at <https://dbargatz.me/system>.
 
 ## Environment
 
-The `tools/configure` script will set up a complete build environment. It
-assumes the following:
+The `tools/Dockerfile` defines a complete build and test environment in a
+Debian-stable Docker container. The container has the following software
+installed, which is required to build and test the OS:
 
-+ Debian-based Linux
-
-The `tools/configure` script will install or upgrade the following (along with
-any necessary dependencies) via apt-get:
-
-+ clang++ 7.0.1 or newer
++ clang++ 10.0.1 or newer
 + Doxygen 1.8.13 or newer
 + GDB 8.2.1 or newer
 + Git 2.20.1 or newer
@@ -47,9 +43,9 @@ any necessary dependencies) via apt-get:
 + Grub-common 2.02 or newer
 + Grub-pc-bin 2.02 or newer
 + less 487-0.1 or newer
-+ [Meson](https://mesonbuild.com/index.html) 0.49.2-1 or newer
++ [Meson](https://mesonbuild.com/index.html) 0.55.1 or newer
 + nasm 2.14-1 or newer
-+ [Ninja](https://ninja-build.org/) 1.8.2-1 or newer
++ [Ninja](https://ninja-build.org/) 1.10.0 or newer
 + Pip 18.1-5 or newer
 + Python 3.7.3 or newer
 + QEMU 3.1.0 or newer
@@ -98,9 +94,8 @@ Running QEMU with interrupt debugging turned on and logged to
 
 ```bash
 > tests/run.sh --gdb
-> gdb src/debug/gdb_pre_script
-(gdb) break core_entry
-(gdb) source src/debug/gdb_post_script
+> gdb -q
+(gdb) source src/debug/gdb_pre_script
 (gdb) continue
 ```
 
