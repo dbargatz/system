@@ -5,7 +5,7 @@ extern struct _gdt gdt64;
 gdt::gdt() : _our_gdt(*(struct _gdt *)&gdt64) { }
 
 void gdt::dump(logging::logger& in_log) {
-    in_log.debug(u8"GDT: {#016X}", (std::uint64_t)&gdt64);
+    in_log.debug(u8"GDT: {:#016X}", (std::uint64_t)&gdt64);
     for(auto& entry : _our_gdt.entries) {
         _dump_entry(in_log, entry);
     }
@@ -54,6 +54,6 @@ void gdt::_dump_entry(logging::logger& in_log, const struct _gdt_entry& in_entry
         (in_entry.size_bit    << 2)   +
         (in_entry.granularity << 3);
 
-    in_log.debug(u8"\t{#04X}: {016X}:{04X} Access: {02X} Flags: {01X}", entry_idx,
+    in_log.debug(u8"\t{:#04X}: {:016X}:{:04X} Access: {:02X} Flags: {:01X}", entry_idx,
         (std::uint64_t)base, (std::uint32_t)limit, access, flags);
 }

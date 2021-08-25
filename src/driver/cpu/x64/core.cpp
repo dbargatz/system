@@ -54,7 +54,7 @@ void usermode_fn() {
     log.add_backend(&uart_log);
 
     log.info(u8"Hello from usermode (CPL: {})! Making syscall.", get_cpl());
-    syscall(0x80);
+    syscall(0x22);
     log.info(u8"Back in usermode (CPL: {})! Entering busy loop.", get_cpl());
     while(true) {}
 }
@@ -99,7 +99,7 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
             _pic.send_eoi(1);
             break;
         default:                        // Unhandled interrupt
-            _log.panic(u8"UNHANDLED INTERRUPT {#02X} ({})", int_num, int_num);
+            _log.panic(u8"UNHANDLED INTERRUPT {:#02X} ({})", int_num, int_num);
             frame.dump(_log);
             asm volatile("hlt");
             break;
@@ -107,7 +107,7 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
 }
 
 void core::dispatch_syscall(const std::uint8_t in_syscall_id) {
-    _log.info(u8"Hello from supervisor mode (CPL: {})! Syscall {} was invoked.", get_cpl(), in_syscall_id);
+    _log.info(u8"Hello from supervisor mode (CPL: {})! Syscall {:#02X} ({}) was invoked.", get_cpl(), in_syscall_id, in_syscall_id);
 }
 
 void core::panic_handler(interrupt_frame& in_frame) {
@@ -126,7 +126,7 @@ void core::panic_handler(interrupt_frame& in_frame) {
             _log.panic(u8"");
             break;
         default:
-            _log.panic(u8"INVALID OPCODE({04X}): {#016X}", d->instruction,
+            _log.panic(u8"INVALID OPCODE({:04X}): {:#016X}", d->instruction,
                 in_frame.frame->rip);
             break;
     }
@@ -180,7 +180,7 @@ void core::run(const void * in_boot_info) {
     // Enable the syscall/sysret instructions via the EFER model-specific
     // register.
     auto efer = rdmsr(MSR_IA32_EFER);
-    _log.info(u8"EFER: {#016X}", efer);
+    _log.info(u8"EFER: {:#016X}", efer);
     wrmsr(MSR_IA32_EFER, efer | 0x1);
 
     // Remap IRQ 0-7 to IDT vectors 0x20-0x27 (32-39), and IRQ 8-15 to IDT

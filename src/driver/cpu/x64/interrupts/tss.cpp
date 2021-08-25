@@ -67,16 +67,16 @@ tss::tss(gdt& in_gdt) {
 }
 
 void tss::dump(logging::logger& in_log) {
-    in_log.debug(u8"TSS: {#016X}", (std::uint64_t)&_our_tss);
-    in_log.debug(u8"\tRSP0       : {#016X}", _our_tss.rsp0_low + (((std::uint64_t)_our_tss.rsp0_high << 32)));
-    in_log.debug(u8"\tRSP1       : {#016X}", _our_tss.rsp1_low + (((std::uint64_t)_our_tss.rsp1_high << 32)));
-    in_log.debug(u8"\tRSP2       : {#016X}", _our_tss.rsp2_low + (((std::uint64_t)_our_tss.rsp2_high << 32)));
-    in_log.debug(u8"\tIST1       : {#016X}", _our_tss.ist1_low + (((std::uint64_t)_our_tss.ist1_high << 32)));
-    in_log.debug(u8"\tIST2       : {#016X}", _our_tss.ist2_low + (((std::uint64_t)_our_tss.ist2_high << 32)));
-    in_log.debug(u8"\tIST3       : {#016X}", _our_tss.ist3_low + (((std::uint64_t)_our_tss.ist3_high << 32)));
-    in_log.debug(u8"\tIST4       : {#016X}", _our_tss.ist4_low + (((std::uint64_t)_our_tss.ist4_high << 32)));
-    in_log.debug(u8"\tIST5       : {#016X}", _our_tss.ist5_low + (((std::uint64_t)_our_tss.ist5_high << 32)));
-    in_log.debug(u8"\tIST6       : {#016X}", _our_tss.ist6_low + (((std::uint64_t)_our_tss.ist6_high << 32)));
-    in_log.debug(u8"\tIST7       : {#016X}", _our_tss.ist7_low + (((std::uint64_t)_our_tss.ist7_high << 32)));
-    in_log.debug(u8"\tIOPB Offset: {#04X}", _our_tss.iopb_offset);
+    in_log.debug(u8"TSS: {:#016X}", (std::uint64_t)&_our_tss);
+    in_log.debug(u8"\tRSP0       : {:#016X}", _our_tss.rsp0_low + (((std::uint64_t)_our_tss.rsp0_high << 32)));
+    in_log.debug(u8"\tRSP1       : {:#016X}", _our_tss.rsp1_low + (((std::uint64_t)_our_tss.rsp1_high << 32)));
+    in_log.debug(u8"\tRSP2       : {:#016X}", _our_tss.rsp2_low + (((std::uint64_t)_our_tss.rsp2_high << 32)));
+    in_log.debug(u8"\tIST1       : {:#016X}", _our_tss.ist1_low + (((std::uint64_t)_our_tss.ist1_high << 32)));
+    in_log.debug(u8"\tIST2       : {:#016X}", _our_tss.ist2_low + (((std::uint64_t)_our_tss.ist2_high << 32)));
+    in_log.debug(u8"\tIST3       : {:#016X}", _our_tss.ist3_low + (((std::uint64_t)_our_tss.ist3_high << 32)));
+    in_log.debug(u8"\tIST4       : {:#016X}", _our_tss.ist4_low + (((std::uint64_t)_our_tss.ist4_high << 32)));
+    in_log.debug(u8"\tIST5       : {:#016X}", _our_tss.ist5_low + (((std::uint64_t)_our_tss.ist5_high << 32)));
+    in_log.debug(u8"\tIST6       : {:#016X}", _our_tss.ist6_low + (((std::uint64_t)_our_tss.ist6_high << 32)));
+    in_log.debug(u8"\tIST7       : {:#016X}", _our_tss.ist7_low + (((std::uint64_t)_our_tss.ist7_high << 32)));
+    in_log.debug(u8"\tIOPB Offset: {:#04X}", _our_tss.iopb_offset);
 }

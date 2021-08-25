@@ -43,7 +43,7 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_mmap * in_tag
                 typestr = u8"unknown";
                 break;
         }
-        in_log.debug(u8"\t\tEntry {02d}: {#016X} - {#016X} ({16}: {} bytes)", i,
+        in_log.debug(u8"\t\tEntry {:02d}: {:#016X} - {:#016X} ({:16}: {} bytes)", i,
             in_tag->entries[i].addr,
             in_tag->entries[i].addr + in_tag->entries[i].len - 1,
             typestr, in_tag->entries[i].len);
@@ -53,8 +53,8 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_mmap * in_tag
 template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_module * in_tag) {
     in_log.debug(u8"\tModule {}:", (const char*)in_tag->cmdline);
-    in_log.debug(u8"\t\tStart physical address: {#016X}", in_tag->mod_start);
-    in_log.debug(u8"\t\tEnd physical address  : {#016X}", in_tag->mod_end);
+    in_log.debug(u8"\t\tStart physical address: {:#016X}", in_tag->mod_start);
+    in_log.debug(u8"\t\tEnd physical address  : {:#016X}", in_tag->mod_end);
 
     // TODO: move this to a parser function.
     // TODO: verify this is actually the "monitor" module.
@@ -80,7 +80,7 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_elf_sections 
             name_buf[sizeof(name_buf)-2] = '.';
             name_buf[sizeof(name_buf)-1] = '\0';
         }
-        in_log.debug(u8"\t\t{#08X}: {}", section.sh_addr, (const char8_t *)name_buf);
+        in_log.debug(u8"\t\t{:#08X}: {}", section.sh_addr, (const char8_t *)name_buf);
         std::memset(name_buf, 0, sizeof(name_buf));
     }
 }
@@ -89,18 +89,18 @@ template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_apm * in_tag) {
     in_log.debug(u8"\tAPM Information (version {}.{}):",
         in_tag->version >> 8, in_tag->version & 0x00FF);
-    in_log.debug(u8"\t\t32-bit CS:IP: {#04X}:{#08X} ({} bytes)",
+    in_log.debug(u8"\t\t32-bit CS:IP: {:#04X}:{:#08X} ({} bytes)",
         in_tag->cseg, in_tag->offset, in_tag->cseg_len);
-    in_log.debug(u8"\t\t16-bit CS   : {#04X} ({} bytes)",
+    in_log.debug(u8"\t\t16-bit CS   : {:#04X} ({} bytes)",
         in_tag->cseg_16, in_tag->cseg_16_len);
-    in_log.debug(u8"\t\t16-bit DS   : {#04X} ({} bytes)",
+    in_log.debug(u8"\t\t16-bit DS   : {:#04X} ({} bytes)",
         in_tag->dseg, in_tag->dseg_len);
-    in_log.debug(u8"\t\tFlags       : {#04X}", in_tag->flags);
+    in_log.debug(u8"\t\tFlags       : {:#04X}", in_tag->flags);
 }
 
 template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_load_base_addr * in_tag) {
-    in_log.debug(u8"\tImage load physical base address: {#016X}",
+    in_log.debug(u8"\tImage load physical base address: {:#016X}",
         in_tag->load_base_addr);
 }
 
@@ -139,7 +139,7 @@ void boot_info::dump(logging::logger& in_log, const void * in_boot_info) {
                 _dump(in_log, (const multiboot_tag_load_base_addr *)cur_ptr);
                 break;
             default:
-                in_log.debug(u8"Skipping tag {02d} ({} bytes)", tag->type, tag->size);
+                in_log.debug(u8"Skipping tag {:2} ({} bytes)", tag->type, tag->size);
                 break;
         }
         cur_ptr += ALIGN_8_BYTE(tag->size);

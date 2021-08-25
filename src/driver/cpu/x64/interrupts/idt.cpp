@@ -36,5 +36,5 @@ void idt::install() {
         .offset = (void *)_idt
     };
     asm volatile("lidt %0": :"m"(idtr));
-    _log.debug(u8"IDT loaded: address {#016X}, length {}.", (std::uint64_t)idtr.offset, idtr.limit);
+    _log.debug(u8"IDT loaded: address {:#016X}, length {}.", (std::uint64_t)idtr.offset, idtr.limit);
 }

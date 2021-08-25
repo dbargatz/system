@@ -65,7 +65,7 @@ void pic::disable_irq(const std::uint8_t in_irq_number) {
         mask = PIC2_DATA_PORT.inb() | (1 << (in_irq_number - 8));
         PIC2_DATA_PORT.outb(mask);
     }
-    _log.debug(u8"Disabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
+    _log.debug(u8"Disabled IRQ {:#02X} ({})", in_irq_number, in_irq_number);
 }
 
 void pic::enable_irq(const std::uint8_t in_irq_number) {
@@ -79,5 +79,5 @@ void pic::enable_irq(const std::uint8_t in_irq_number) {
         mask = PIC2_DATA_PORT.inb() & ~(1 << (in_irq_number - 8));
         PIC2_DATA_PORT.outb(mask);
     }
-    _log.debug(u8"Enabled IRQ {#02X} ({})", in_irq_number, in_irq_number);
+    _log.debug(u8"Enabled IRQ {:#02X} ({})", in_irq_number, in_irq_number);
 }
