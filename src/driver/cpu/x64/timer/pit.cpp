@@ -40,13 +40,13 @@ void pit::set_frequency(double in_frequency_hz) {
     CHANNEL_0_REGISTER.outb((std::uint8_t)_reload_value);
     CHANNEL_0_REGISTER.outb((std::uint8_t)(_reload_value >> 8));
 
-    _log.debug(u8"Set PIT frequency to {}Hz (requested frequency: {}Hz, reload value: {})", 
+    _log.debug(u8"Set PIT frequency to {}Hz (requested frequency: {}Hz, reload value: {:#02X})", 
         _frequency_hz, in_frequency_hz, _reload_value);
 }
 
 void pit::interrupt_handler(interrupt_frame& in_frame) {
     _uptime_ms += 1000.0 / _frequency_hz;
-    if((std::uint64_t)_uptime_ms % 1000 == 0 && _uptime_ms > 1.0) {
+    if((std::uint64_t)_uptime_ms % 10000 == 0 && _uptime_ms > 1.0) {
         _log.debug(u8"Uptime: {}ms", _uptime_ms);
     }
 }
