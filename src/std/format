@@ -20,12 +20,108 @@ public:
 
     void parse(const std::string::value_type* in_open_brace,
                const std::string::value_type* in_close_brace) {
-        // TODO: choose all these based on parsed spec
-        _base = 16;
-        _digits = _hex_upper;
-        _fill_char = u8"0";
-        _min_width = 16;
-        _prefix = u8"0x";
+        bool alternate_form = false;
+
+        // Advance to the colon separating the argument index from the format
+        // args. Argument indices are currently not supported.
+        const std::string::value_type* ptr = in_open_brace;
+        while(++ptr != in_close_brace) {
+            if(*ptr == ':') {
+                ptr++;
+                break;
+            }
+        }
+
+        // If there's no colon between the open and close braces, or the colon
+        // is followed immediately by the closing brace, use default values for
+        // all format args.
+        if(ptr == in_close_brace) { return; }
+
+        // Handle the fill-and-align character (if present).
+        switch(*ptr) {
+            case '<':
+                _fill_and_align = *ptr++;
+                break;
+            case '^':
+                _fill_and_align = *ptr++;
+                break;
+            case '>':
+                // As right-alignment is the default alignment for integers and
+                // floats, fall through to the default case.
+                ptr++;
+            default:
+                break;
+        }
+
+        // Handle the sign character (if present).
+        switch(*ptr) {
+            case '+':
+                _sign = *ptr++;
+                break;
+            case ' ':
+                _sign = *ptr++;
+                break;
+            case '-':
+                // As prefixing only negative numbers is the default behavior,
+                // fall through to the default case.
+                ptr++;
+            default:
+                break;
+        }
+
+        // Handle the alternate form character (if present).
+        if(*ptr == '#') {
+            alternate_form = true;
+            ptr++;
+        }
+
+        // Handle the zero-padding character (if present).
+        if(*ptr == '0') {
+            _fill_char = u8"0";
+            ptr++;
+        }
+
+        // Handle the width field (if present). Note that nested replacement
+        // fields are currently not handled.
+        while(*ptr >= '0' && *ptr <= '9') {
+            _min_width = (_min_width * 10) + (*ptr - '0');
+            ptr++;
+        }
+
+        // Note that the locale-specific character option (L) is not currently
+        // handled.
+
+        // Handle the type field (if present).
+        switch(*ptr) {
+            case 'b':
+            case 'B':
+                _base = 2;
+                if(alternate_form) {
+                    _prefix = u8"0b";
+                }
+                break;
+            case 'o':
+            case 'O':
+                _base = 8;
+                if(alternate_form) {
+                    _prefix = u8"0";
+                }
+                break;
+            case 'x':
+                _digits = _hex_lower;
+            case 'X':
+                _base = 16;
+                if(alternate_form) {
+                    _prefix = u8"0x";
+                }
+                break;
+            case 'd':
+                // As a base-10 integer is the default case, fall through to
+                // the default case.
+            default:
+                _base = 10;
+                break;
+        }
     }
 
     std::string format(const std::uint64_t& in_arg) {
@@ -63,11 +159,13 @@ private:
     static constexpr char8_t _hex_upper[] = u8"0123456789ABCDEF";
     static constexpr char8_t _hex_lower[] = u8"0123456789abcdef";
 
-    std::uint8_t       _base;
-    const char8_t*     _digits;
-    const char8_t*     _fill_char;
-    std::uint8_t       _min_width;
-    const char8_t*     _prefix;
+    std::uint8_t    _base           = 10;
+    const char8_t*  _digits         = _hex_upper;
+    char8_t         _fill_and_align = '>';
+    const char8_t*  _fill_char      = u8" ";
+    std::uint8_t    _min_width      = 0;
+    const char8_t*  _prefix         = u8"";
+    char8_t         _sign           = '-';
 };
 
 template <>
