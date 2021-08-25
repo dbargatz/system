@@ -44,7 +44,7 @@ namespace std {
     std::size_t strlen(const T * in_str) {
         auto ptr = in_str;
         while(((T)'\0') != *ptr) { ptr++; }
-        return ptr - in_str -1;
+        return ptr - in_str;
     }
 }; // namespace std
 
