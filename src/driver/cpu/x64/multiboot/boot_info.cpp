@@ -136,6 +136,13 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_apm * in_tag)
 }
 
 template <>
+void boot_info::_dump(logging::logger& in_log, const multiboot_tag_old_acpi * in_tag) {
+    in_log.debug(u8"\tACPI Table:");
+    in_log.debug(u8"\t\tType: Old ACPI");
+    in_log.debug(u8"\t\tRSDP: {:#016X}", (multiboot_uint64_t)in_tag->rsdp);
+}
+
+template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_load_base_addr * in_tag) {
     in_log.debug(u8"\tImage load physical base address: {:#016X}",
         in_tag->load_base_addr);
@@ -183,6 +190,9 @@ void boot_info::dump(logging::logger& in_log, const void * in_boot_info) {
                 break;
             case MULTIBOOT_TAG_TYPE_APM:
                 _dump(in_log, (const multiboot_tag_apm *)cur_ptr);
+                break;
+            case MULTIBOOT_TAG_TYPE_ACPI_OLD:
+                _dump(in_log, (const multiboot_tag_old_acpi *)cur_ptr);
                 break;
             case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
                 _dump(in_log, (const multiboot_tag_load_base_addr *)cur_ptr);
