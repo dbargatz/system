@@ -66,6 +66,28 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_mmap * in_tag
 }
 
 template <>
+void boot_info::_dump(logging::logger& in_log, const multiboot_tag_framebuffer * in_tag) {
+    auto common = in_tag->common;
+    auto type = u8"UNKNOWN";
+    switch(common.framebuffer_type) {
+        case MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED:
+            type = u8"Indexed";
+            break;
+        case MULTIBOOT_FRAMEBUFFER_TYPE_RGB:
+            type = u8"RGB";
+            break;
+        case MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT:
+            type = u8"EGA Text";
+            break;
+    }
+
+    in_log.debug(u8"\tFramebuffer: {}", type);
+    in_log.debug(u8"\t\tStart Address : {:#016X}", common.framebuffer_addr);
+    in_log.debug(u8"\t\tDimensions    : {}x{}x{} (width * height * pitch)", common.framebuffer_width, common.framebuffer_height, common.framebuffer_pitch);
+    in_log.debug(u8"\t\tBits per Pixel: {}", common.framebuffer_bpp);
+}
+
+template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_module * in_tag) {
     in_log.debug(u8"\tModule {}:", (const char*)in_tag->cmdline);
     in_log.debug(u8"\t\tStart physical address: {:#016X}", in_tag->mod_start);
@@ -152,6 +174,9 @@ void boot_info::dump(logging::logger& in_log, const void * in_boot_info) {
                 break;
             case MULTIBOOT_TAG_TYPE_MMAP:
                 _dump(in_log, (const multiboot_tag_mmap *)cur_ptr);
+                break;
+            case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
+                _dump(in_log, (const multiboot_tag_framebuffer *)cur_ptr);
                 break;
             case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
                 _dump(in_log, (const multiboot_tag_elf_sections *)cur_ptr);
