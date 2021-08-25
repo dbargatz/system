@@ -35,21 +35,21 @@ The `tools/Dockerfile` defines a complete build and test environment in a
 Debian-stable Docker container. The container has the following software
 installed, which is required to build and test the OS:
 
-+ clang++ 10.0.1 or newer
-+ Doxygen 1.8.13 or newer
-+ GDB 8.2.1 or newer
-+ Git 2.20.1 or newer
-+ Graphviz 2.40.1-6 or newer
-+ Grub-common 2.02 or newer
-+ Grub-pc-bin 2.02 or newer
-+ less 487-0.1 or newer
-+ [Meson](https://mesonbuild.com/index.html) 0.55.1 or newer
-+ nasm 2.14-1 or newer
-+ [Ninja](https://ninja-build.org/) 1.10.0 or newer
-+ Pip 18.1-5 or newer
-+ Python 3.7.3 or newer
-+ QEMU 3.1.0 or newer
-+ Xorriso 1.5.0-1 or newer
++ clang++ 13.0.0 or newer
++ Doxygen 1.9.1 or newer
++ GDB 10.1.90.20210103-git or newer
++ Git 2.30.2 or newer
++ Graphviz 2.42.2-5 or newer
++ Grub-common 2.04-20 or newer
++ Grub-pc-bin 2.04-20 or newer
++ less 551 or newer
++ [Meson](https://mesonbuild.com/index.html) 0.59.1 or newer
++ nasm 2.15.05 or newer
++ [Ninja](https://ninja-build.org/) 1.10.2 or newer
++ Pip 20.3.4 or newer
++ Python 3.9.2 or newer
++ QEMU 5.2.0 or newer
++ Xorriso 1.5.2 or newer
 
 ## Building
 

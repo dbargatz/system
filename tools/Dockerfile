@@ -1,7 +1,7 @@
-FROM debian:stable
+FROM debian:bullseye@sha256:c6e865b5373b09942bc49e4b02a7b361fcfa405479ece627f5d4306554120673
 
 # Version of LLVM/Clang to download and install.
-ARG LLVM_VERSION=10
+ARG LLVM_VERSION=13
 
 # Avoid issues with debconf asking interactive questions during installation.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update                                                  \
     && apt-get -y upgrade                                           \
     # Install tools needed for the configure script or VS Code.
-    && apt-get -y install apt-utils libicu63 procps wget            \
+    && apt-get -y install apt-utils libicu67 procps wget            \
     # Make bash the default shell instead of dash.
     && (echo "dash dash/sh boolean false" | debconf-set-selections) \
     && dpkg-reconfigure dash                                        \
