@@ -18,6 +18,21 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_cmdline * in_
 }
 
 template <>
+void boot_info::_dump(logging::logger& in_log, const multiboot_tag_basic_meminfo * in_tag) {
+    in_log.debug(u8"\tBasic Memory Info:");
+    in_log.debug(u8"\t\tLower memory: {:#016X}", in_tag->mem_lower);
+    in_log.debug(u8"\t\tUpper memory: {:#016X}", in_tag->mem_upper);
+}
+
+template <>
+void boot_info::_dump(logging::logger& in_log, const multiboot_tag_bootdev * in_tag) {
+    in_log.debug(u8"\tBoot Device:");
+    in_log.debug(u8"\t\tBIOS Device: {:#08X}", in_tag->biosdev);
+    in_log.debug(u8"\t\tSlice      : {}", in_tag->slice);
+    in_log.debug(u8"\t\tPartition  : {}", in_tag->part);
+}
+
+template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_mmap * in_tag) {
     std::uint64_t num_entries = (in_tag->size - sizeof(multiboot_tag_mmap)) / in_tag->entry_size;
     in_log.debug(u8"\tMemory map ({} entries):", num_entries);
@@ -128,6 +143,12 @@ void boot_info::dump(logging::logger& in_log, const void * in_boot_info) {
                 break;
             case MULTIBOOT_TAG_TYPE_MODULE:
                 _dump(in_log, (const multiboot_tag_module *)cur_ptr);
+                break;
+            case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
+                _dump(in_log, (const multiboot_tag_basic_meminfo *)cur_ptr);
+                break;
+            case MULTIBOOT_TAG_TYPE_BOOTDEV:
+                _dump(in_log, (const multiboot_tag_bootdev *)cur_ptr);
                 break;
             case MULTIBOOT_TAG_TYPE_MMAP:
                 _dump(in_log, (const multiboot_tag_mmap *)cur_ptr);
