@@ -8,7 +8,7 @@ GDB=
 ISO="${ROOT_DIR}/build/system.iso"
 QEMU_LOG="-D ${HOME}/qemu.log"
 SERIAL_LOG="-serial file:${HOME}/os.log"
-MEMORY=1G
+MEMORY=5G
 SMP=3
 QEMU_ARGS=()
 
