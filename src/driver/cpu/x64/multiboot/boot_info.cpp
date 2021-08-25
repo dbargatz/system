@@ -64,25 +64,25 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_module * in_t
 
 template <>
 void boot_info::_dump(logging::logger& in_log, const multiboot_tag_elf_sections * in_tag) {
-    in_log.debug(u8"\tELF Symbols ({} bytes, {} entries):", in_tag->size, in_tag->num);
-    auto sections = (const struct loader::Elf64_Shdr *)&in_tag->sections;
-    auto str_table = (const char8_t *)sections[in_tag->shndx].sh_addr;
-    char8_t name_buf[40] = {0};
-    for(auto i = 0; i < in_tag->num; i++) {
-        auto section = sections[i];
-        auto name = &(str_table[section.sh_name]);
-        if(std::strlen(name) < sizeof(name_buf) - 1) {
-            std::memcpy(name_buf, name, std::strlen(name));
-        } else {
-            std::memcpy(name_buf, name, sizeof(name_buf)-4);
-            name_buf[sizeof(name_buf)-4] = '.';
-            name_buf[sizeof(name_buf)-3] = '.';
-            name_buf[sizeof(name_buf)-2] = '.';
-            name_buf[sizeof(name_buf)-1] = '\0';
-        }
-        in_log.debug(u8"\t\t{:#08X}: {}", section.sh_addr, (const char8_t *)name_buf);
-        std::memset(name_buf, 0, sizeof(name_buf));
-    }
+    in_log.debug(u8"\tELF Symbols ({} bytes, {} entries)", in_tag->size, in_tag->num);
+    // auto sections = (const struct loader::Elf64_Shdr *)&in_tag->sections;
+    // auto str_table = (const char8_t *)sections[in_tag->shndx].sh_addr;
+    // char8_t name_buf[40] = {0};
+    // for(auto i = 0; i < in_tag->num; i++) {
+    //     auto section = sections[i];
+    //     auto name = &(str_table[section.sh_name]);
+    //     if(std::strlen(name) < sizeof(name_buf) - 1) {
+    //         std::memcpy(name_buf, name, std::strlen(name));
+    //     } else {
+    //         std::memcpy(name_buf, name, sizeof(name_buf)-4);
+    //         name_buf[sizeof(name_buf)-4] = '.';
+    //         name_buf[sizeof(name_buf)-3] = '.';
+    //         name_buf[sizeof(name_buf)-2] = '.';
+    //         name_buf[sizeof(name_buf)-1] = '\0';
+    //     }
+    //     in_log.debug(u8"\t\t{:#08X}: {}", section.sh_addr, (const char8_t *)name_buf);
+    //     std::memset(name_buf, 0, sizeof(name_buf));
+    // }
 }
 
 template <>
@@ -91,9 +91,9 @@ void boot_info::_dump(logging::logger& in_log, const multiboot_tag_apm * in_tag)
         in_tag->version >> 8, in_tag->version & 0x00FF);
     in_log.debug(u8"\t\t32-bit CS:IP: {:#04X}:{:#08X} ({} bytes)",
         in_tag->cseg, in_tag->offset, in_tag->cseg_len);
-    in_log.debug(u8"\t\t16-bit CS   : {:#04X} ({} bytes)",
+    in_log.debug(u8"\t\t16-bit CS   : {:#04X}          ({} bytes)",
         in_tag->cseg_16, in_tag->cseg_16_len);
-    in_log.debug(u8"\t\t16-bit DS   : {:#04X} ({} bytes)",
+    in_log.debug(u8"\t\t16-bit DS   : {:#04X}          ({} bytes)",
         in_tag->dseg, in_tag->dseg_len);
     in_log.debug(u8"\t\tFlags       : {:#04X}", in_tag->flags);
 }
@@ -117,6 +117,9 @@ void boot_info::dump(logging::logger& in_log, const void * in_boot_info) {
     while(total_size > 0) {
         multiboot_tag * tag = (multiboot_tag *)cur_ptr;
         switch(tag->type) {
+            case MULTIBOOT_TAG_TYPE_END:
+                in_log.debug(u8"\tFound end tag.");
+                break;
             case MULTIBOOT_TAG_TYPE_CMDLINE:
                 _dump(in_log, (const multiboot_tag_cmdline *)cur_ptr);
                 break;
@@ -139,7 +142,7 @@ void boot_info::dump(logging::logger& in_log, const void * in_boot_info) {
                 _dump(in_log, (const multiboot_tag_load_base_addr *)cur_ptr);
                 break;
             default:
-                in_log.debug(u8"Skipping tag {:2} ({} bytes)", tag->type, tag->size);
+                in_log.debug(u8"\tSkipping tag {:2} ({} bytes)", tag->type, tag->size);
                 break;
         }
         cur_ptr += ALIGN_8_BYTE(tag->size);
