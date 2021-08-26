@@ -15,23 +15,8 @@ std::string* boot_info::_parse(logging::logger& in_log, const multiboot_tag_boot
 }
 
 template <>
-void boot_info::_dump(const multiboot_tag_cmdline * in_tag) {
-    _log.debug(u8"\tCommand line: {}", (const char*)in_tag->string);
-}
-
-template <>
-void boot_info::_dump(const multiboot_tag_basic_meminfo * in_tag) {
-    _log.debug(u8"\tBasic Memory Info:");
-    _log.debug(u8"\t\tLower memory: {:#016X}", in_tag->mem_lower);
-    _log.debug(u8"\t\tUpper memory: {:#016X}", in_tag->mem_upper);
-}
-
-template <>
-void boot_info::_dump(const multiboot_tag_bootdev * in_tag) {
-    _log.debug(u8"\tBoot Device:");
-    _log.debug(u8"\t\tBIOS Device: {:#08X}", in_tag->biosdev);
-    _log.debug(u8"\t\tSlice      : {}", in_tag->slice);
-    _log.debug(u8"\t\tPartition  : {}", in_tag->part);
+std::string* boot_info::_parse(logging::logger& in_log, const multiboot_tag_cmdline * in_tag) {
+    return new std::string((const char8_t *)in_tag->string);
 }
 
 template <>
@@ -96,53 +81,12 @@ loader::binary* boot_info::_parse(logging::logger& in_log, const multiboot_tag_m
     return monitor;
 }
 
-template <>
-void boot_info::_dump(const multiboot_tag_elf_sections * in_tag) {
-    _log.debug(u8"\tELF Symbols ({} bytes, {} entries)", in_tag->size, in_tag->num);
-    // auto sections = (const struct loader::Elf64_Shdr *)&in_tag->sections;
-    // auto str_table = (const char8_t *)sections[in_tag->shndx].sh_addr;
-    // char8_t name_buf[40] = {0};
-    // for(auto i = 0; i < in_tag->num; i++) {
-    //     auto section = sections[i];
-    //     auto name = &(str_table[section.sh_name]);
-    //     if(std::strlen(name) < sizeof(name_buf) - 1) {
-    //         std::memcpy(name_buf, name, std::strlen(name));
-    //     } else {
-    //         std::memcpy(name_buf, name, sizeof(name_buf)-4);
-    //         name_buf[sizeof(name_buf)-4] = '.';
-    //         name_buf[sizeof(name_buf)-3] = '.';
-    //         name_buf[sizeof(name_buf)-2] = '.';
-    //         name_buf[sizeof(name_buf)-1] = '\0';
-    //     }
-    //     _log.debug(u8"\t\t{:#08X}: {}", section.sh_addr, (const char8_t *)name_buf);
-    //     std::memset(name_buf, 0, sizeof(name_buf));
-    // }
-}
-
-template <>
-void boot_info::_dump(const multiboot_tag_apm * in_tag) {
-    _log.debug(u8"\tAPM Information (version {}.{}):",
-        in_tag->version >> 8, in_tag->version & 0x00FF);
-    _log.debug(u8"\t\t32-bit CS:IP: {:#04X}:{:#08X} ({} bytes)",
-        in_tag->cseg, in_tag->offset, in_tag->cseg_len);
-    _log.debug(u8"\t\t16-bit CS   : {:#04X}          ({} bytes)",
-        in_tag->cseg_16, in_tag->cseg_16_len);
-    _log.debug(u8"\t\t16-bit DS   : {:#04X}          ({} bytes)",
-        in_tag->dseg, in_tag->dseg_len);
-    _log.debug(u8"\t\tFlags       : {:#04X}", in_tag->flags);
-}
-
-template <>
-void boot_info::_dump(const multiboot_tag_load_base_addr * in_tag) {
-    _log.debug(u8"\tImage load physical base address: {:#016X}",
-        in_tag->load_base_addr);
-}
-
 void boot_info::dump() {
     _log.info(u8"Boot info:");
-    _log.info(u8"\tACPI v1.0 RSDP: {:#016X}", _acpi_rsdp);
-    _log.info(u8"\tBootloader    : {}", *_bootloader);
-    _log.info(u8"\tLoad base addr: {:#016X}", _load_base_addr);
+    _log.info(u8"\tACPI v1.0 RSDP        : {:#016X}", _acpi_rsdp);
+    _log.info(u8"\tBootloader name       : {}", *_bootloader);
+    _log.info(u8"\tCPU Driver commandline: {}", *_cmdline);
+    _log.info(u8"\tCPU Driver load addr  : {:#016X}", _load_base_addr);
     _log.info(u8"\tMonitor binary: ");
     _monitor->dump();
 }
@@ -159,6 +103,7 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
     in_log.debug(u8"Parsing Multiboot 2 Boot Info:");
     const void* acpi_rsdp;
     std::string * booter;
+    std::string * cmdline;
     const void* load_base_addr;
     loader::binary * monitor;
 
@@ -168,7 +113,10 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
             case MULTIBOOT_TAG_TYPE_END:
                 in_log.debug(u8"\tParsed end tag.");
                 break;
-            // TODO: case MULTIBOOT_TAG_TYPE_CMDLINE:
+            case MULTIBOOT_TAG_TYPE_CMDLINE:
+                cmdline = _parse<std::string>(in_log, (const multiboot_tag_cmdline *)cur_ptr);
+                in_log.debug(u8"\tParsed CPU driver cmdline: {}.", *cmdline);
+                break;
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
                 booter = _parse<std::string>(in_log, (const multiboot_tag_bootloader *)cur_ptr);
                 in_log.debug(u8"\tParsed bootloader name: {}.", *booter);
@@ -195,5 +143,5 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
         total_size -= ALIGN_8_BYTE(tag->size);
     }
 
-    return new boot_info(in_log, acpi_rsdp, booter, load_base_addr, monitor);
+    return new boot_info(in_log, acpi_rsdp, booter, cmdline, load_base_addr, monitor);
 }
