@@ -9,10 +9,11 @@
 #include <cstdint>
 
 namespace std {
+    using align_val_t = unsigned long;
     using max_align_t = long double;
     using nullptr_t   = decltype(nullptr);
     using ptrdiff_t   = int64_t;
-    using size_t      = uint64_t;
+    using size_t      = unsigned long;
     // TODO: byte
 }; //namespace std
 
