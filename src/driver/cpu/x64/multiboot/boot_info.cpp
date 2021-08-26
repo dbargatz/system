@@ -133,13 +133,6 @@ void boot_info::_dump(const multiboot_tag_apm * in_tag) {
 }
 
 template <>
-void boot_info::_dump(const multiboot_tag_old_acpi * in_tag) {
-    _log.debug(u8"\tACPI Table:");
-    _log.debug(u8"\t\tType: Old ACPI");
-    _log.debug(u8"\t\tRSDP: {:#016X}", (multiboot_uint64_t)in_tag->rsdp);
-}
-
-template <>
 void boot_info::_dump(const multiboot_tag_load_base_addr * in_tag) {
     _log.debug(u8"\tImage load physical base address: {:#016X}",
         in_tag->load_base_addr);
