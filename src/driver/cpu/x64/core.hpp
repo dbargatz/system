@@ -56,7 +56,7 @@ public:
     void dispatch_interrupt(const void * in_frame_ptr);
     void dispatch_syscall(const std::uint8_t in_syscall_id);
     void panic_handler(interrupt_frame& in_frame);
-    void run(const void * in_boot_info);
+    void run();
 };
 
 #endif // _CORE_HPP

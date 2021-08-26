@@ -9,6 +9,7 @@
 #include "timer/pit.hpp"
 #include "keyboard/ps2_controller.hpp"
 #include "keyboard/ps2_keyboard.hpp"
+#include "multiboot/boot_info.hpp"
 
 #include "../../../boost/di.hpp"
 namespace di = boost::di;
@@ -31,24 +32,30 @@ extern "C" void interrupt_entry(const void * in_frame_ptr) {
 }
 
 extern "C" int core_entry(const void * in_boot_info) {
-    // Create a VGA instance and clear the screen.
+    // Set up the UART (serial port) logging backend and configure the logger
+    // to use it. The add_backend() helper exists to allow multiple logging
+    // backends to be added to a single logger; boost::di's implementation of
+    // constructor injection with multiple bindings is currently broken, so
+    // add_backend() is a workaround.
     const auto log_injector = di::make_injector();
-    auto vga_ref = log_injector.create<vga&>();
-    vga_ref.clear_screen(vga::color::black);
-
-    // The VGA logging backend is currently broken, so only the UART logging
-    // backend is enabled. The add_backend() helper exists to allow multiple
-    // logging backends to be added to a single logger; boost::di's 
-    // implementation of constructor injection with multiple bindings is
-    // currently broken, so add_backend() is a workaround.
     auto uart_log = log_injector.create<uart_backend&>();
     auto log = log_injector.create<logging::logger&>();
     log.add_backend(&uart_log);
 
+    // Parse the Multiboot 2 boot information and dump it to the log.
+    auto boot = boot_info(log, in_boot_info);
+    boot.dump();
+
+    // Create a VGA instance and clear the screen. Note that the VGA logging
+    // backend is currently broken, so only the UART logging backend is used.
+    auto vga_ref = log_injector.create<vga&>();
+    vga_ref.clear_screen(vga::color::black);
+
     // Bind abstract classes to implementations and create the bootstrap core.
     const auto core_injector = di::make_injector(
-        di::bind<logging::logger>().to(log),
+        di::bind<boot_info>().to(boot),
         di::bind<keyboard>().to<ps2_keyboard>(),
+        di::bind<logging::logger>().to(log),
         di::bind<scancode_set>().to<scancode_set_2>(),
         di::bind<timer>().to<pit>()
     );
@@ -56,7 +63,7 @@ extern "C" int core_entry(const void * in_boot_info) {
 
     // Save off the current core 
     this_core = &bootstrap_core;
-    this_core->run(in_boot_info);
+    this_core->run();
 
     PANIC(u8"End of core_entry() reached!");
     return -1;

@@ -137,7 +137,7 @@ void core::panic_handler(interrupt_frame& in_frame) {
     asm volatile("hlt");
 }
 
-void core::run(const void * in_boot_info) {
+void core::run() {
     _disable_interrupts();
 
     _log.debug(u8"Core Config:");
@@ -195,10 +195,6 @@ void core::run(const void * in_boot_info) {
     HANDLERS
 #undef X
 
-    // Parse the memory map to determine available physical memory regions along
-    // with used regions (and their uses).
-    _boot.dump(_log, in_boot_info);
-
     _ps2.reset();
     _kbd.reset();
     _timer.set_frequency(1000.0);
@@ -210,7 +206,7 @@ void core::run(const void * in_boot_info) {
     // Load the monitor binary.
     auto monitor_log = logging::logger();
     auto monitor_bin = loader::binary(monitor_log);
-    monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
+    // TODO: monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
 
     // Jump to user mode!
     ((jump_usermode_fn)&jump_usermode)(usermode_fn);

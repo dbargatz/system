@@ -3,17 +3,23 @@
 
 #include "../../../../logging/logger.hpp"
 
+
 class boot_info {
 public:
-    void * monitor_start_addr;
-    void * monitor_end_addr;
-
-    boot_info() { monitor_start_addr = nullptr; monitor_end_addr = nullptr; }
-    void dump(logging::logger& in_log, const void * in_boot_info);
+    boot_info(logging::logger& in_log, const void * in_boot_info) : _log(in_log), _boot_info(in_boot_info) {}
+    void dump();
 
 private:
     template <typename T>
-    void _dump(logging::logger& in_log, const T * in_tag);
+    void _dump(const T * in_tag);
+
+    logging::logger _log;
+    const void *    _boot_info;
+    // TODO: std::string _bootloader;
+    // TODO: loader::binary _cpu_driver;
+    // TODO: loader::binary _monitor;
+    // TODO: framebuffer info
+    // TODO: memory map info
 };
 
 #endif // _MULTIBOOT_BOOT_INFO_HPP
