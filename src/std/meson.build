@@ -1,5 +1,6 @@
 std_src = [
     'cstring.cpp',
+    'memory_resource.cpp',
     'string.cpp',
 ]
 

@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <new>
 
 namespace std::pmr {
 
@@ -28,13 +29,32 @@ protected:
     virtual bool do_is_equal(memory_resource const& in_other) const noexcept = 0;
 };
 
+class new_delete_memory_resource : public memory_resource {
+protected:
+    void * do_allocate(std::size_t in_bytes, std::size_t in_alignment) {
+        return ::operator new(in_bytes, in_alignment);
+    }
+
+    void do_deallocate(void * in_ptr, std::size_t in_bytes, std::size_t in_alignment) {
+        ::operator delete(in_ptr, in_bytes, in_alignment);
+    }
+
+    bool do_is_equal(memory_resource const& in_other) const noexcept {
+        return (this == &in_other);
+    }
+};
+
+memory_resource* get_default_resource() noexcept;
+memory_resource* new_delete_resource() noexcept;
+memory_resource* set_default_resource(memory_resource* r) noexcept;
+
 template <typename T = std::uint8_t>
 class polymorphic_allocator {
 public:
     using value_type = T;
 
     polymorphic_allocator() noexcept {
-        _resource = nullptr; //TODO: should be std::pmr::get_default_resource();
+        _resource = get_default_resource();
     }
 
     polymorphic_allocator(const polymorphic_allocator& in_other) = default;
@@ -53,7 +73,9 @@ public:
         resource()->deallocate(in_ptr, in_num * sizeof(T), alignof(T));
     }
 
-    memory_resource * resource() const;
+    memory_resource * resource() const {
+        return _resource;
+    }
 
 private:
     memory_resource * _resource;
