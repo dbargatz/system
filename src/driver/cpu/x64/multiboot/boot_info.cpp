@@ -1,5 +1,6 @@
 #include "boot_info.hpp"
 #include <cstring>
+#include "../../../../loader/binary.hpp"
 #include "../../../../loader/__elf.hpp" // TODO: fix include of private header
 #include "multiboot2.h"
 
@@ -9,8 +10,8 @@ struct multiboot_tag_bootloader : multiboot_tag_string {};
 struct multiboot_tag_cmdline : multiboot_tag_string {};
 
 template <>
-void boot_info::_dump(const multiboot_tag_bootloader * in_tag) {
-    _log.debug(u8"\tBootloader name: {}", (const char*)in_tag->string);
+std::string* boot_info::_parse(logging::logger& in_log, const multiboot_tag_bootloader * in_tag) {
+    return new std::string((const char8_t *)in_tag->string);
 }
 
 template <>
@@ -89,10 +90,10 @@ void boot_info::_dump(const multiboot_tag_framebuffer * in_tag) {
 }
 
 template <>
-void boot_info::_dump(const multiboot_tag_module * in_tag) {
-    _log.debug(u8"\tModule {}:", (const char*)in_tag->cmdline);
-    _log.debug(u8"\t\tStart physical address: {:#016X}", in_tag->mod_start);
-    _log.debug(u8"\t\tEnd physical address  : {:#016X}", in_tag->mod_end);
+loader::binary* boot_info::_parse(logging::logger& in_log, const multiboot_tag_module * in_tag) {
+    auto monitor = new loader::binary(in_log);
+    monitor->init((void *)in_tag->mod_start, (void *)in_tag->mod_end);
+    return monitor;
 }
 
 template <>
@@ -145,7 +146,71 @@ void boot_info::_dump(const multiboot_tag_load_base_addr * in_tag) {
 }
 
 void boot_info::dump() {
-    auto cur_ptr = (std::uint8_t *)_boot_info;
+    // auto cur_ptr = (std::uint8_t *)_boot_info;
+    // auto total_size = *(multiboot_uint32_t *)cur_ptr;
+
+    // // Move past the total_size and reserved fields
+    // cur_ptr += ALIGN_8_BYTE(sizeof(multiboot_uint32_t) * 2);
+    // total_size -= ALIGN_8_BYTE(sizeof(multiboot_uint32_t) * 2);
+
+    // // Loop through the tags
+    // _log.debug(u8"Multiboot 2 Boot Info:");
+    // while(total_size > 0) {
+    //     multiboot_tag * tag = (multiboot_tag *)cur_ptr;
+    //     switch(tag->type) {
+    //         case MULTIBOOT_TAG_TYPE_END:
+    //             _log.debug(u8"\tFound end tag.");
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_CMDLINE:
+    //             _dump((const multiboot_tag_cmdline *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
+    //             _dump((const multiboot_tag_bootloader *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_MODULE:
+    //             _dump((const multiboot_tag_module *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
+    //             _dump((const multiboot_tag_basic_meminfo *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_BOOTDEV:
+    //             _dump((const multiboot_tag_bootdev *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_MMAP:
+    //             _dump((const multiboot_tag_mmap *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
+    //             _dump((const multiboot_tag_framebuffer *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
+    //             _dump((const multiboot_tag_elf_sections *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_APM:
+    //             _dump((const multiboot_tag_apm *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_ACPI_OLD:
+    //             _dump((const multiboot_tag_old_acpi *)cur_ptr);
+    //             break;
+    //         case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
+    //             _dump((const multiboot_tag_load_base_addr *)cur_ptr);
+    //             break;
+    //         default:
+    //             _log.debug(u8"\tSkipping tag {:2} ({} bytes)", tag->type, tag->size);
+    //             break;
+    //     }
+    //     cur_ptr += ALIGN_8_BYTE(tag->size);
+    //     total_size -= ALIGN_8_BYTE(tag->size);
+    // }
+
+    _log.info(u8"Boot info:");
+    _log.info(u8"\tACPI RSDP     : {:#016X}", _acpi_rsdp);
+    _log.info(u8"\tBootloader    : {}", *_bootloader);
+    _log.info(u8"\tMonitor binary: ");
+    _monitor->dump();
+}
+
+boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) {
+    auto cur_ptr = (std::uint8_t *)in_boot_info;
     auto total_size = *(multiboot_uint32_t *)cur_ptr;
 
     // Move past the total_size and reserved fields
@@ -153,51 +218,36 @@ void boot_info::dump() {
     total_size -= ALIGN_8_BYTE(sizeof(multiboot_uint32_t) * 2);
 
     // Loop through the tags
-    _log.debug(u8"Multiboot 2 Boot Info:");
+    in_log.debug(u8"Parsing Multiboot 2 Boot Info:");
+    const void* acpi_rsdp;
+    std::string * booter;
+    loader::binary * monitor;
+
     while(total_size > 0) {
         multiboot_tag * tag = (multiboot_tag *)cur_ptr;
         switch(tag->type) {
             case MULTIBOOT_TAG_TYPE_END:
-                _log.debug(u8"\tFound end tag.");
-                break;
-            case MULTIBOOT_TAG_TYPE_CMDLINE:
-                _dump((const multiboot_tag_cmdline *)cur_ptr);
+                in_log.debug(u8"\tParsed end tag.");
                 break;
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
-                _dump((const multiboot_tag_bootloader *)cur_ptr);
+                booter = _parse<std::string>(in_log, (const multiboot_tag_bootloader *)cur_ptr);
+                in_log.debug(u8"\tParsed bootloader name: {}.", *booter);
                 break;
             case MULTIBOOT_TAG_TYPE_MODULE:
-                _dump((const multiboot_tag_module *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
-                _dump((const multiboot_tag_basic_meminfo *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_BOOTDEV:
-                _dump((const multiboot_tag_bootdev *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_MMAP:
-                _dump((const multiboot_tag_mmap *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
-                _dump((const multiboot_tag_framebuffer *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
-                _dump((const multiboot_tag_elf_sections *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_APM:
-                _dump((const multiboot_tag_apm *)cur_ptr);
+                monitor = _parse<loader::binary>(in_log, (const multiboot_tag_module *)cur_ptr);
+                in_log.debug(u8"\tParsed monitor ELF.");
                 break;
             case MULTIBOOT_TAG_TYPE_ACPI_OLD:
-                _dump((const multiboot_tag_old_acpi *)cur_ptr);
-                break;
-            case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-                _dump((const multiboot_tag_load_base_addr *)cur_ptr);
+                acpi_rsdp = (void*)((const multiboot_tag_old_acpi *)cur_ptr)->rsdp;
+                in_log.debug(u8"\tParsed ACPI v1.0 RSDP: {:#016X}", acpi_rsdp);
                 break;
             default:
-                _log.debug(u8"\tSkipping tag {:2} ({} bytes)", tag->type, tag->size);
+                in_log.debug(u8"\tSkipped tag {:2} ({} bytes).", tag->type, tag->size);
                 break;
         }
         cur_ptr += ALIGN_8_BYTE(tag->size);
         total_size -= ALIGN_8_BYTE(tag->size);
     }
+
+    return new boot_info(in_log, acpi_rsdp, booter, monitor);
 }
