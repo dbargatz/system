@@ -138,6 +138,7 @@ void core::panic_handler(interrupt_frame& in_frame) {
 }
 
 void core::run() {
+    _boot.dump();
     _disable_interrupts();
 
     _log.debug(u8"Core Config:");
@@ -202,11 +203,6 @@ void core::run() {
     _pic.enable_irq(1);
     _enable_interrupts();
     _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
-
-    // Load the monitor binary.
-    auto monitor_log = logging::logger();
-    auto monitor_bin = loader::binary(monitor_log);
-    // TODO: monitor_bin.init(_boot.monitor_start_addr, _boot.monitor_end_addr);
 
     // Jump to user mode!
     ((jump_usermode_fn)&jump_usermode)(usermode_fn);
