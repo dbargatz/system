@@ -139,62 +139,6 @@ void boot_info::_dump(const multiboot_tag_load_base_addr * in_tag) {
 }
 
 void boot_info::dump() {
-    // auto cur_ptr = (std::uint8_t *)_boot_info;
-    // auto total_size = *(multiboot_uint32_t *)cur_ptr;
-
-    // // Move past the total_size and reserved fields
-    // cur_ptr += ALIGN_8_BYTE(sizeof(multiboot_uint32_t) * 2);
-    // total_size -= ALIGN_8_BYTE(sizeof(multiboot_uint32_t) * 2);
-
-    // // Loop through the tags
-    // _log.debug(u8"Multiboot 2 Boot Info:");
-    // while(total_size > 0) {
-    //     multiboot_tag * tag = (multiboot_tag *)cur_ptr;
-    //     switch(tag->type) {
-    //         case MULTIBOOT_TAG_TYPE_END:
-    //             _log.debug(u8"\tFound end tag.");
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_CMDLINE:
-    //             _dump((const multiboot_tag_cmdline *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
-    //             _dump((const multiboot_tag_bootloader *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_MODULE:
-    //             _dump((const multiboot_tag_module *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
-    //             _dump((const multiboot_tag_basic_meminfo *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_BOOTDEV:
-    //             _dump((const multiboot_tag_bootdev *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_MMAP:
-    //             _dump((const multiboot_tag_mmap *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
-    //             _dump((const multiboot_tag_framebuffer *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
-    //             _dump((const multiboot_tag_elf_sections *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_APM:
-    //             _dump((const multiboot_tag_apm *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_ACPI_OLD:
-    //             _dump((const multiboot_tag_old_acpi *)cur_ptr);
-    //             break;
-    //         case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-    //             _dump((const multiboot_tag_load_base_addr *)cur_ptr);
-    //             break;
-    //         default:
-    //             _log.debug(u8"\tSkipping tag {:2} ({} bytes)", tag->type, tag->size);
-    //             break;
-    //     }
-    //     cur_ptr += ALIGN_8_BYTE(tag->size);
-    //     total_size -= ALIGN_8_BYTE(tag->size);
-    // }
-
     _log.info(u8"Boot info:");
     _log.info(u8"\tACPI RSDP     : {:#016X}", _acpi_rsdp);
     _log.info(u8"\tBootloader    : {}", *_bootloader);
@@ -222,6 +166,7 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
             case MULTIBOOT_TAG_TYPE_END:
                 in_log.debug(u8"\tParsed end tag.");
                 break;
+            // TODO: case MULTIBOOT_TAG_TYPE_CMDLINE:
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
                 booter = _parse<std::string>(in_log, (const multiboot_tag_bootloader *)cur_ptr);
                 in_log.debug(u8"\tParsed bootloader name: {}.", *booter);
@@ -230,10 +175,13 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
                 monitor = _parse<loader::binary>(in_log, (const multiboot_tag_module *)cur_ptr);
                 in_log.debug(u8"\tParsed monitor ELF.");
                 break;
+            // TODO: case MULTIBOOT_TAG_TYPE_MMAP:
+            // TODO: case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
             case MULTIBOOT_TAG_TYPE_ACPI_OLD:
                 acpi_rsdp = (void*)((const multiboot_tag_old_acpi *)cur_ptr)->rsdp;
                 in_log.debug(u8"\tParsed ACPI v1.0 RSDP: {:#016X}", acpi_rsdp);
                 break;
+            // TODO: case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
             default:
                 in_log.debug(u8"\tSkipped tag {:2} ({} bytes).", tag->type, tag->size);
                 break;
