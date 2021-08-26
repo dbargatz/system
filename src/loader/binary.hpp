@@ -10,10 +10,11 @@ class binary {
 public:
     binary(logging::logger& in_logger) : _log(in_logger) {}
     void dump();
-    bool init(const void * in_start_addr, const void * in_end_addr);
+    bool init(std::string* in_cmdline, const void * in_start_addr, const void * in_end_addr);
 
 private:
     logging::logger& _log;
+    std::string* _cmdline = 0;
     std::uint64_t _elf_length = 0;
     const void * _elf_start_addr = 0;
     const void * _elf_end_addr = 0;

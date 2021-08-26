@@ -77,7 +77,10 @@ void boot_info::_dump(const multiboot_tag_framebuffer * in_tag) {
 template <>
 loader::binary* boot_info::_parse(logging::logger& in_log, const multiboot_tag_module * in_tag) {
     auto monitor = new loader::binary(in_log);
-    monitor->init((void *)in_tag->mod_start, (void *)in_tag->mod_end);
+    auto cmdline = new std::string((const char8_t *)in_tag->cmdline);
+    auto start = (void *)static_cast<std::uint64_t>(in_tag->mod_start);
+    auto end = (void *)static_cast<std::uint64_t>(in_tag->mod_end);
+    monitor->init(cmdline, start, end);
     return monitor;
 }
 
