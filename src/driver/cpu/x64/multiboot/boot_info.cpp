@@ -115,30 +115,24 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
         multiboot_tag * tag = (multiboot_tag *)cur_ptr;
         switch(tag->type) {
             case MULTIBOOT_TAG_TYPE_END:
-                in_log.debug(u8"\tParsed end tag.");
                 break;
             case MULTIBOOT_TAG_TYPE_CMDLINE:
                 cmdline = _parse<std::string>(in_log, (const multiboot_tag_cmdline *)cur_ptr);
-                in_log.debug(u8"\tParsed CPU driver cmdline: {}.", *cmdline);
                 break;
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
                 booter = _parse<std::string>(in_log, (const multiboot_tag_bootloader *)cur_ptr);
-                in_log.debug(u8"\tParsed bootloader name: {}.", *booter);
                 break;
             case MULTIBOOT_TAG_TYPE_MODULE:
                 monitor = _parse<loader::binary>(in_log, (const multiboot_tag_module *)cur_ptr);
-                in_log.debug(u8"\tParsed monitor ELF.");
                 break;
             // TODO: case MULTIBOOT_TAG_TYPE_MMAP:
             // TODO: case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
             case MULTIBOOT_TAG_TYPE_ACPI_OLD:
                 acpi_rsdp = (void*)((const multiboot_tag_old_acpi *)cur_ptr)->rsdp;
-                in_log.debug(u8"\tParsed ACPI v1.0 RSDP: {:#016X}", acpi_rsdp);
                 break;
             case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
                 addr32 = ((const multiboot_tag_load_base_addr *)cur_ptr)->load_base_addr;
                 load_base_addr = (void*)static_cast<std::uint64_t>(addr32);
-                in_log.debug(u8"\tParsed load base addr: {:#016X}", load_base_addr);
                 break;
             default:
                 in_log.debug(u8"\tSkipped tag {:2} ({} bytes).", tag->type, tag->size);
