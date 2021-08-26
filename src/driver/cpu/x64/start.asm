@@ -1,6 +1,8 @@
 global start
 global ist1_stack_top
 global ist2_stack_top
+global kernel_heap_bottom
+global kernel_heap_top
 global gdt64
 
 extern core_entry
@@ -429,6 +431,11 @@ ist1_stack_top:
 ist2_stack_bottom:
     resb 2048
 ist2_stack_top:
+
+;; TODO
+kernel_heap_top:
+    resb 32768
+kernel_heap_bottom:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
 ;; TODO: Update this comment for usermode

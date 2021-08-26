@@ -1,0 +1,10 @@
+#ifndef _STD_NEW_HPP
+#define _STD_NEW_HPP
+
+#include <cstddef>
+
+[[nodiscard]] void* operator new(std::size_t size);
+[[nodiscard]] void* operator new(std::size_t size, std::align_val_t alignment);
+[[nodiscard]] void operator delete(void* ptr, std::size_t size, std::align_val_t alignment) noexcept;
+
+#endif // _STD_NEW_HPP
