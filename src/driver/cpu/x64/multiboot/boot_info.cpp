@@ -140,8 +140,9 @@ void boot_info::_dump(const multiboot_tag_load_base_addr * in_tag) {
 
 void boot_info::dump() {
     _log.info(u8"Boot info:");
-    _log.info(u8"\tACPI RSDP     : {:#016X}", _acpi_rsdp);
+    _log.info(u8"\tACPI v1.0 RSDP: {:#016X}", _acpi_rsdp);
     _log.info(u8"\tBootloader    : {}", *_bootloader);
+    _log.info(u8"\tLoad base addr: {:#016X}", _load_base_addr);
     _log.info(u8"\tMonitor binary: ");
     _monitor->dump();
 }
@@ -158,6 +159,7 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
     in_log.debug(u8"Parsing Multiboot 2 Boot Info:");
     const void* acpi_rsdp;
     std::string * booter;
+    const void* load_base_addr;
     loader::binary * monitor;
 
     while(total_size > 0) {
@@ -181,7 +183,10 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
                 acpi_rsdp = (void*)((const multiboot_tag_old_acpi *)cur_ptr)->rsdp;
                 in_log.debug(u8"\tParsed ACPI v1.0 RSDP: {:#016X}", acpi_rsdp);
                 break;
-            // TODO: case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
+            case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
+                load_base_addr = (void*)((const multiboot_tag_load_base_addr *)cur_ptr)->load_base_addr;
+                in_log.debug(u8"\tParsed load base addr: {:#016X}", load_base_addr);
+                break;
             default:
                 in_log.debug(u8"\tSkipped tag {:2} ({} bytes).", tag->type, tag->size);
                 break;
@@ -190,5 +195,5 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
         total_size -= ALIGN_8_BYTE(tag->size);
     }
 
-    return new boot_info(in_log, acpi_rsdp, booter, monitor);
+    return new boot_info(in_log, acpi_rsdp, booter, load_base_addr, monitor);
 }
