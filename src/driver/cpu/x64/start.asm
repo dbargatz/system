@@ -433,9 +433,9 @@ ist2_stack_bottom:
 ist2_stack_top:
 
 ;; TODO
-kernel_heap_top:
-    resb 32768
 kernel_heap_bottom:
+    resb 32768
+kernel_heap_top:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
 ;; TODO: Update this comment for usermode
