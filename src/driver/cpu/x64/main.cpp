@@ -1,3 +1,4 @@
+#include <memory_resource>
 #include "../../../logging/logger.hpp"
 
 #include "std/panic.h"
@@ -43,8 +44,7 @@ extern "C" int core_entry(const void * in_boot_info) {
     log.add_backend(&uart_log);
 
     // Parse the Multiboot 2 boot information and dump it to the log.
-    auto boot = boot_info(log, in_boot_info);
-    boot.dump();
+    boot_info* boot = boot_info::parse(log, in_boot_info);
 
     // Create a VGA instance and clear the screen. Note that the VGA logging
     // backend is currently broken, so only the UART logging backend is used.
@@ -52,8 +52,10 @@ extern "C" int core_entry(const void * in_boot_info) {
     vga_ref.clear_screen(vga::color::black);
 
     // Bind abstract classes to implementations and create the bootstrap core.
+    di::aux::owner<boot_info*> boot_ptr{boot};
     const auto core_injector = di::make_injector(
-        di::bind<boot_info>().to(boot),
+        di::bind<std::pmr::memory_resource>().to<std::pmr::new_delete_memory_resource>(),
+        di::bind<boot_info>().to(*boot_ptr),
         di::bind<keyboard>().to<ps2_keyboard>(),
         di::bind<logging::logger>().to(log),
         di::bind<scancode_set>().to<scancode_set_2>(),
