@@ -104,10 +104,11 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
 
     // Loop through the tags
     in_log.debug(u8"Parsing Multiboot 2 Boot Info:");
-    const void* acpi_rsdp;
+    const void * acpi_rsdp;
     std::string * booter;
     std::string * cmdline;
-    const void* load_base_addr;
+    multiboot_uint32_t addr32;
+    const void * load_base_addr;
     loader::binary * monitor;
 
     while(total_size > 0) {
@@ -135,7 +136,8 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
                 in_log.debug(u8"\tParsed ACPI v1.0 RSDP: {:#016X}", acpi_rsdp);
                 break;
             case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-                load_base_addr = (void*)((const multiboot_tag_load_base_addr *)cur_ptr)->load_base_addr;
+                addr32 = ((const multiboot_tag_load_base_addr *)cur_ptr)->load_base_addr;
+                load_base_addr = (void*)static_cast<std::uint64_t>(addr32);
                 in_log.debug(u8"\tParsed load base addr: {:#016X}", load_base_addr);
                 break;
             default:
