@@ -248,6 +248,13 @@ private:
 };
 
 template <>
+struct formatter<const void *> : public std::formatter<std::uint64_t> {
+    std::string format(const void* in_arg) {
+        return std::formatter<std::uint64_t>::format((std::uint64_t)in_arg);
+    }
+};
+
+template <>
 struct formatter<std::uint8_t> : public std::formatter<std::uint64_t> {};
 
 template <>
