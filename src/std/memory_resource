@@ -65,11 +65,11 @@ public:
 
     polymorphic_allocator(memory_resource * in_resource) : _resource(in_resource) {}
 
-    [[nodiscard]] T* allocate(std::size_t in_num) {
+    [[nodiscard]] T* allocate(std::size_t in_num) const {
         return static_cast<T*>(resource()->allocate(in_num * sizeof(T), alignof(T)));
     }
 
-    void deallocate(T* in_ptr, std::size_t in_num) {
+    void deallocate(T* in_ptr, std::size_t in_num) const {
         resource()->deallocate(in_ptr, in_num * sizeof(T), alignof(T));
     }
 
