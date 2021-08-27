@@ -1,5 +1,6 @@
 #include "vga.hpp"
 #include <cstring>
+#include <string>
 
 vga::vga() : _cur_column(0), _cur_row(0) {
     clear_screen(color::black);
@@ -12,8 +13,9 @@ void vga::clear_row(const color in_color, const std::uint8_t in_row) {
 
     // Write spaces for the entire row, using the same color for the foreground
     // and background.
+    auto str = std::string(u8" ");
     for (auto i = 0; i < _MAX_COLUMNS; i++) {
-        write(u8" ", in_color, in_color);
+        write(str, in_color, in_color);
     }
 
     set_position(old_row, old_col);
