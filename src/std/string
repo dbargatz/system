@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <cstddef>
+#include <cstring>
 #include <memory_resource>
 
 namespace std {
@@ -162,30 +163,60 @@ public:
     // TODO: const_reverse_iterator
 
     // TODO: all the ctor/dtor/member functions
+    constexpr basic_string(const Allocator& in_alloc = Allocator()) : _alloc(in_alloc) {
+        _buf = _alloc.allocate(_CHUNK_SIZE_BYTES);
+        _capacity_bytes = _CHUNK_SIZE_BYTES;
+        _length_chars = 0;
+        _buf[_length_chars] = traits_type::eof();
+    }
 
-    constexpr basic_string(const value_type* in_s, const Allocator& in_alloc = Allocator()) {
-        _length_in_chars = 0;
-        auto start = in_s;
-        while(*in_s != traits_type::eof()) {
-            _buf[_length_in_chars++] = *in_s;
-            in_s++;
+    constexpr basic_string(const value_type& in_c, const Allocator& in_alloc = Allocator()) : basic_string(in_alloc) {
+        append(1, in_c);
+    }
+
+    constexpr basic_string(size_type in_n, value_type in_c, const Allocator& in_alloc = Allocator()) : basic_string(in_alloc) {
+        append(in_n, in_c);
+    }
+
+    constexpr basic_string(const value_type* in_s, const Allocator& in_alloc = Allocator()) : basic_string(in_alloc) {
+        append(in_s);
+    }
+
+    constexpr basic_string& append(size_type in_n, value_type in_c) {
+        for(auto i = 0; i < in_n; i++) {
+            append(&in_c, 1);
         }
-        _buf[_length_in_chars] = traits_type::eof();
+        return *this;
+    }
+
+    constexpr basic_string& append(const basic_string& in_s) {
+        return append(in_s.data(), in_s.length());
+    }
+
+    constexpr basic_string& append(const value_type* in_s) {
+        auto len = strlen(in_s);
+        return append(in_s, len);
     }
 
     constexpr basic_string& append(const value_type* in_s, size_type in_n) {
-        auto new_size = _length_in_chars + in_n;
-        assert(new_size < capacity());
-        while(_length_in_chars < new_size) {
-            _buf[_length_in_chars++] = *in_s;
-            in_s++;
+        auto new_size = _length_chars + in_n;
+        if(new_size >= _capacity_bytes) {
+            auto align = _CHUNK_SIZE_BYTES - (new_size % _CHUNK_SIZE_BYTES);
+            auto new_cap = new_size + align;
+            auto new_buf = _alloc.allocate(new_cap);
+            memcpy(new_buf, _buf, _length_chars);
+            _buf = new_buf;
+            _capacity_bytes = new_cap;
         }
-        _buf[_length_in_chars] = traits_type::eof();
+
+        memcpy(_buf + _length_chars, in_s, in_n);
+        _length_chars += in_n;
+        _buf[_length_chars] = traits_type::eof();
         return *this;
     }
 
     inline size_type size() const noexcept {
-        return _length_in_chars;
+        return _length_chars;
     }
 
     inline size_type length() const noexcept {
@@ -195,7 +226,7 @@ public:
     // TODO: max_size()
 
     inline size_type capacity() const noexcept {
-        return _MAX_LENGTH_BYTES;
+        return _capacity_bytes;
     }
 
     const value_type* data() const noexcept {
@@ -207,11 +238,12 @@ public:
     }
 
 private:
-    constexpr static const std::uint16_t _MAX_LENGTH_BYTES = 256;
+    constexpr static const std::uint16_t _CHUNK_SIZE_BYTES = 16;
 
-    value_type _buf[_MAX_LENGTH_BYTES];
-    std::size_t _length_in_chars;
-
+    const allocator_type& _alloc;
+    value_type * _buf = nullptr;
+    size_type    _capacity_bytes = _CHUNK_SIZE_BYTES;
+    size_type    _length_chars = 0;
 };
 
 // TODO: npos
