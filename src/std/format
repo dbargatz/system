@@ -169,6 +169,29 @@ private:
 };
 
 template <>
+struct formatter<char8_t> {
+public:
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) {
+        // TODO: Figure out format spec for characters
+        _fill_char = u8" ";
+        _min_width = 16;
+    }
+
+    string format(const char8_t& in_arg) {
+        auto str = string(u8"");
+        str.append(in_arg);
+        return str;
+    }
+
+private:
+    const char8_t* _fill_char;
+    uint8_t        _min_width;
+};
+
+template <>
 struct formatter<const char*> {
 public:
     formatter() { }
@@ -280,7 +303,7 @@ struct formatter<double> : public formatter<uint64_t> {};
 
 template <typename... Args>
 string format(const string& in_fmt) {
-    return string(in_fmt);
+    return in_fmt;
 }
 
 template <typename T, typename... Args>
