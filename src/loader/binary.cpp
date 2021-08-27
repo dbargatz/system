@@ -60,6 +60,7 @@ void loader::binary::load() {
         prog_hdr++;
     }
 
+    _log.info(u8"Heading to user mode...");
     auto entry = (void(*)(void))(_elf_header->e_entry);
     ((jump_usermode_fn)&jump_usermode)(entry);
 }
