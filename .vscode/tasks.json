@@ -13,8 +13,7 @@
             },
             "presentation": {
                 "reveal": "always",
-                "panel": "new",
-                "close": true,
+                "panel": "dedicated",
             },
             "problemMatcher": []
         },
@@ -36,8 +35,7 @@
             "group": "test",
             "presentation": {
                 "reveal": "always",
-                "panel": "new",
-                "close": true,
+                "panel": "dedicated",
             },
             "isBackground": true,
             "dependsOn": [
