@@ -10,6 +10,8 @@
  * @return void* in_dest
  */
 extern "C" void * _memcpy(void * in_dest, const void * in_src, std::size_t in_count) {
+    if(in_count == 0) { return in_dest; }
+
     auto dest = (std::uint8_t *)in_dest;
     auto src  = (std::uint8_t *)in_src;
     for(auto i = 0; i < in_count; i++) {
@@ -27,6 +29,8 @@ extern "C" void * _memcpy(void * in_dest, const void * in_src, std::size_t in_co
  * @param in_count number of bytes to overwrite
  */
 extern "C" void _memset(void * in_dest, int in_char, std::size_t in_count) {
+    if(in_count == 0) { return; }
+
     auto dest = (std::uint8_t *)in_dest;
     for(auto i = 0; i < in_count; i++) {
         dest[i] = (std::uint8_t)in_char;
