@@ -10,12 +10,15 @@ public:
     boot_info(logging::logger& in_log, const void* in_acpi_rsdp,
               std::string* in_bootloader, std::string* in_cmdline,
               const void* in_load_base_addr, loader::binary* in_monitor) : 
+              monitor(in_monitor),
               _log(in_log), _acpi_rsdp(in_acpi_rsdp), 
               _bootloader(in_bootloader), _cmdline(in_cmdline),
-              _load_base_addr(in_load_base_addr), _monitor(in_monitor) {}
+              _load_base_addr(in_load_base_addr) {}
     void dump();
 
     static boot_info* parse(logging::logger& in_log, const void * in_boot_info);
+
+    loader::binary* monitor;
 
 private:
     template <typename T>
@@ -30,7 +33,6 @@ private:
     std::string*    _cmdline;
     // TODO: loader::binary _cpu_driver;
     const void*     _load_base_addr;
-    loader::binary* _monitor;
     // TODO: framebuffer info
     // TODO: memory map info
 };

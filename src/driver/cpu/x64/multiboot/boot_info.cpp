@@ -91,7 +91,7 @@ void boot_info::dump() {
     _log.info(u8"\tCPU Driver commandline: {}", *_cmdline);
     _log.info(u8"\tCPU Driver load addr  : {:#016X}", _load_base_addr);
     _log.info(u8"\tMonitor binary: ");
-    _monitor->dump();
+    monitor->dump();
 }
 
 boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) {
