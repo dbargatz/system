@@ -1,0 +1,83 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean Build (x64)",
+            "type": "shell",
+            "command": "rm -rf ./build/ && meson ./build/ --buildtype debug --cross-file ./x64.ini && ninja -C ./build/ && rm -rf ~/os.log",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "close": true,
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start QEMU (x64)",
+            "type": "shell",
+            "command": "./tests/run.sh --gdb",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "close": true,
+            },
+            "isBackground": true,
+            "dependsOn": [
+                "Clean Build (x64)",
+            ],
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "severity": 3,
+                      "code": 4,
+                      "message": 5
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "^VNC server running on 127.0.0.1:5900"
+                }
+            }
+        },
+        {
+            "label": "Kill QEMU",
+            "type": "shell",
+            "command": "kill -9 `ps -a | grep qemu-system | grep -v grep | awk '{$1=$1};1' | cut -d' ' -f1`",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "close": true,
+            },
+            "problemMatcher": []
+        },
+    ]
+  }
+
+
+
+
+// "program": "",
+// "args": [
+//     "-d int",
+//     "-no-reboot",
+//     "-s",
+//     "-S",
+//     "-m 5G",
+//     "-smp 3",
+//     "-display curses",
+//     "-serial file:~/os.log",
+//     "-D ~/qemu.log",
+//     "-cdrom ${workspaceFolder}/build/system.iso",
+// ],

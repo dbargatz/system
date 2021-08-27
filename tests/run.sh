@@ -39,5 +39,5 @@ esac
 done
 
 # Note: ${QEMU_ARGS[@]} expands to all the members of QEMU_ARGS.
-qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} -display curses ${SERIAL_LOG} \
+qemu-system-x86_64 -m ${MEMORY} -smp ${SMP} ${SERIAL_LOG} \
     ${DEBUG} ${GDB} ${QEMU_LOG} -cdrom ${ISO} ${QEMU_ARGS[@]}
