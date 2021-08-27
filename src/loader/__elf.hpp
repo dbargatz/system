@@ -19,6 +19,20 @@ enum class Elf_Ident : std::uint8_t {
     EI_MAX = 16
 };
 
+enum class ProgHdrType : std::uint32_t {
+    PT_NULL = 0,
+    PT_LOAD,
+    PT_DYNAMIC,
+    PT_INTERP,
+    PT_NOTE,
+    PT_SHLIB,
+    PT_PHDR,
+    PT_LOOS = 0x60000000,
+    PT_HIOS = 0x6FFFFFFF,
+    PT_LOPROC = 0x70000000,
+    PT_HIPROC = 0x7FFFFFFF,
+};
+
 struct Elf64_Ehdr {
     std::uint8_t  e_ident[(std::uint8_t)Elf_Ident::EI_MAX];
     std::uint16_t e_type;
@@ -34,6 +48,17 @@ struct Elf64_Ehdr {
     std::uint16_t e_shentsize;
     std::uint16_t e_shnum;
     std::uint16_t e_shstrndx;
+};
+
+struct Elf64_Phdr {
+    ProgHdrType p_type;
+    std::uint32_t p_flags;
+    std::uint64_t p_offset;
+    std::uint64_t p_vaddr;
+    std::uint64_t p_paddr;
+    std::uint64_t p_filesz;
+    std::uint64_t p_memsz;
+    std::uint64_t p_align;
 };
 
 struct Elf64_Shdr {

@@ -1,8 +1,12 @@
 #include "binary.hpp"
 
 #include <cassert>
+#include <cstring>
 
 #include "__elf.hpp"
+
+typedef void(*jump_usermode_fn)(void (*)(void));
+extern void* jump_usermode;
 
 void loader::binary::dump() {
     _log.info(u8"\t\tCommand line : {}", *_cmdline);
@@ -33,4 +37,29 @@ bool loader::binary::init(std::string* in_cmdline, const void * in_start_addr, c
     _elf_end_addr = in_end_addr;
     _elf_length = (std::uint64_t)in_end_addr - (std::uint64_t)in_start_addr;
     return true;
+}
+
+void loader::binary::load() {
+    auto prog_tbl = (std::uint8_t *)_elf_header + _elf_header->e_phoff;
+    auto prog_hdr = (const struct Elf64_Phdr *)prog_tbl;
+    auto prog_tbl_end = prog_hdr + _elf_header->e_phnum;
+    
+    while(prog_hdr < prog_tbl_end) {
+        if(prog_hdr->p_type != loader::ProgHdrType::PT_LOAD) {
+            prog_hdr++;
+            continue;
+        }
+        auto vaddr = (std::uint8_t *)prog_hdr->p_vaddr;
+        auto offset = (std::uint8_t *)_elf_header + prog_hdr->p_offset;
+        std::memcpy(vaddr, offset, prog_hdr->p_filesz);
+        if(prog_hdr->p_memsz > prog_hdr->p_filesz) {
+            auto end_addr = vaddr + prog_hdr->p_filesz;
+            auto amount = prog_hdr->p_memsz - prog_hdr->p_filesz;
+            std::memset(end_addr, 0, amount);
+        }
+        prog_hdr++;
+    }
+
+    auto entry = (void(*)(void))(_elf_header->e_entry);
+    ((jump_usermode_fn)&jump_usermode)(entry);
 }

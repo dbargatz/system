@@ -11,6 +11,7 @@ public:
     binary(logging::logger& in_logger) : _log(in_logger) {}
     void dump();
     bool init(std::string* in_cmdline, const void * in_start_addr, const void * in_end_addr);
+    void load();
 
 private:
     logging::logger& _log;
