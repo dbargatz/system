@@ -145,7 +145,7 @@ public:
 };
 
 // TODO: comments
-template <class CharT, class Traits = std::char_traits<CharT>, class Allocator = std::pmr::polymorphic_allocator<CharT>>
+template <class CharT, class Traits = char_traits<CharT>, class Allocator = pmr::polymorphic_allocator<CharT>>
 class basic_string {
 public:
     using traits_type     = Traits;
@@ -217,8 +217,8 @@ private:
 // TODO: npos
 // TODO: non-member basic_string operators
 
-using string = std::basic_string<char8_t>;
-using u8string = std::basic_string<char8_t>;
+using string = basic_string<char8_t>;
+using u8string = basic_string<char8_t>;
 
 }; // namespace std
 

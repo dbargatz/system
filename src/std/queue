@@ -15,7 +15,7 @@ namespace std {
  * @note Internally, this queue allocates space for N+1 items on the stack to
  *       simplify size calculations
  */
-template <typename T, std::uint16_t N>
+template <typename T, uint16_t N>
 class queue {
 public:
     /**
