@@ -28,8 +28,6 @@ namespace di = boost::di;
 HANDLERS
 #undef X
 
-typedef void(*jump_usermode_fn)(void (*)(void));
-extern void* jump_usermode;
 extern void* syscall_handler;
 
 inline std::uint16_t get_cpl() {
@@ -41,22 +39,6 @@ inline std::uint16_t get_cpl() {
 
     // Return Ring 0 for 0x08 and Ring 3 for 0x2B, which are the only options from the assert() above.
     return (0x08 == cs_selector ? 0 : 3);
-}
-
-inline void syscall(const std::uint8_t in_id) {
-    asm volatile("xor %%rdi, %%rdi; movb %0, %%dil; syscall" : : "m"(in_id));
-}
-
-void usermode_fn() {
-    const auto log_injector = di::make_injector();
-    auto uart_log = log_injector.create<uart_backend&>();
-    auto log = log_injector.create<logging::logger&>();
-    log.add_backend(&uart_log);
-
-    log.info(u8"Hello from usermode (CPL: {})! Making syscall.", get_cpl());
-    syscall(0x22);
-    log.info(u8"Back in usermode (CPL: {})! Entering busy loop.", get_cpl());
-    while(true) {}
 }
 
 bool core::_disable_interrupts() {
@@ -205,7 +187,7 @@ void core::run() {
     _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
 
     // Jump to user mode!
-    ((jump_usermode_fn)&jump_usermode)(usermode_fn);
+    _boot.monitor->load();
 
     // Just spin!
     while(true) {}
