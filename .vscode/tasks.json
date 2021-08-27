@@ -21,7 +21,18 @@
         {
             "label": "Start QEMU (x64)",
             "type": "shell",
-            "command": "./tests/run.sh --gdb",
+            "command": "/usr/bin/qemu-system-x86_64",
+            "args": [
+                "-m", "5G",
+                "-smp", "3",
+                "-serial", "stdio",
+                "-d", "int",
+                "-D", "~/qemu.log",
+                "-no-reboot",
+                "-s",
+                "-S",
+                "-cdrom", "${workspaceFolder}/build/system.iso",
+            ],
             "group": "test",
             "presentation": {
                 "reveal": "always",
@@ -53,31 +64,16 @@
         {
             "label": "Kill QEMU",
             "type": "shell",
-            "command": "kill -9 `ps -a | grep qemu-system | grep -v grep | awk '{$1=$1};1' | cut -d' ' -f1`",
-            "group": "test",
-            "presentation": {
-                "reveal": "always",
-                "panel": "new",
-                "close": true,
-            },
+            "command": "echo ${input:terminate}",
             "problemMatcher": []
         },
+    ],
+    "inputs": [
+        {
+          "id": "terminate",
+          "type": "command",
+          "command": "workbench.action.tasks.terminate",
+          "args": "terminateAll"
+        }
     ]
   }
-
-
-
-
-// "program": "",
-// "args": [
-//     "-d int",
-//     "-no-reboot",
-//     "-s",
-//     "-S",
-//     "-m 5G",
-//     "-smp 3",
-//     "-display curses",
-//     "-serial file:~/os.log",
-//     "-D ~/qemu.log",
-//     "-cdrom ${workspaceFolder}/build/system.iso",
-// ],
