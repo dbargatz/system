@@ -243,30 +243,29 @@ check_long_mode:
 ;; gibibyte of virtual addresses map to the first gibibyte of physical
 ;; addresses. It does so using 512 2MiB huge pages, meaning only the
 ;; first entry of the P4 and P3 tables are valid, and there is a single
-;; P2 table that identity maps the first 512 2MiB pages.
-;; TODO: This makes every page accessible from ring 3 (usermode), which
-;;       is VERY BAD. These pages should not be user accessible once the
-;;       loader can load ELF files into their own address spaces.
+;; P2 table that identity maps the first 512 2MiB pages. This memory is
+;; only accessible from ring 0 (supervisor mode); ring 3 (user mode)
+;; code must have appropriate page tables created for them.
 set_up_page_tables:
     ;; Initialize the first entry of the P4 table to contain the physical
     ;; address of the first (and only) P3 table. Note that the entry in
     ;; the P4 table for the P3 table has marked the P3 table's page as
-    ;; present, user-accessible, and writeable, as indicated by the ORing of
-    ;; EAX with 0b111.
+    ;; present, user-inaccessible, and writeable, as indicated by the
+    ;; ORing of EAX with 0b011.
     mov eax, p3_table
-    or eax, 0b111  ;; TODO: Make accessible only from ring 0!
+    or eax, 0b011
     mov [p4_table], eax
     ;; Initialize the first entry of the P3 table to contain the physical
     ;; address of the first (and only) P2 table. Note that the entry in
     ;; the P3 table for the P2 table has marked the P2 table's page as
-    ;; present, user-accessible and writeable, as indicated by the ORing of
-    ;; EAX with 0b111.
+    ;; present, user-inaccessible and writeable, as indicated by the
+    ;; ORing of EAX with 0b011.
     mov eax, p2_table
-    or eax, 0b111 ;; TODO: Make accessible only from ring 0!
+    or eax, 0b011
     mov [p3_table], eax
 
-    ;; Initialize the counter for the loop below. ECX contains the entry
-    ;; number in the P2 table we're currently on in the loop.
+    ;; Initialize the counter for the loop below. ECX contains the
+    ;; entry number in the P2 table we're currently on in the loop.
     mov ecx, 0
 
     ;; This loop identity maps the first 512 2MiB pages so that the
@@ -274,21 +273,21 @@ set_up_page_tables:
 .map_p2_table:
     ;; Put 2MiB in EAX.
     mov eax, 0x200000
-    ;; Multiply EAX (which contains 2MiB) by ECX, and store the result in
-    ;; EAX. EAX now contains the physical starting address of the 2MiB
-    ;; page the current entry in the P2 table should point at.
+    ;; Multiply EAX (which contains 2MiB) by ECX, and store the result
+    ;; in EAX. EAX now contains the physical starting address of the
+    ;; 2MiB page the current entry in the P2 table should point at.
     mul ecx
-    ;; Mark the entry as present, user-accessible, writeable, and huge.
-    ;; While EAX does contain the physical starting address of the page, the
-    ;; bottom 12 bits of the address are used as flag bits for the entry.
-    ;; Setting the huge bit is what marks the page as 2MiB - since this
-    ;; entry is in the P2 table, the huge bit indicates the page should
-    ;; be 2MiB.
-    or eax, 0b10000111 ;; TODO: Make accessible only from ring 0!
-    ;; Put the address/entry we computed in EAX into the P2 table at the
-    ;; proper location. ECX contains the current entry we're looking at
-    ;; in this loop iteration, 8 is the number of bytes each entry is,
-    ;; so ECX * 8 is the address of the entry in P2.
+    ;; Mark the entry as present, user-inaccessible, writeable, and
+    ;; huge. While EAX does contain the physical starting address of
+    ;; the page, the bottom 12 bits of the address are used as flag
+    ;; bits for the entry. Setting the huge bit is what marks the page
+    ;; as 2MiB - since this entry is in the P2 table, the huge bit
+    ;; indicates the page should be 2MiB.
+    or eax, 0b10000011
+    ;; Put the address/entry we computed in EAX into the P2 table at
+    ;; the proper location. ECX contains the current entry we're
+    ;; looking at in this loop iteration, 8 is the number of bytes each
+    ;; entry is, so ECX * 8 is the address of the entry in P2.
     mov [p2_table + ecx *8], eax
 
     ;; Increment ECX to move onto the next entry in the P2 table. If
@@ -300,15 +299,16 @@ set_up_page_tables:
     ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turns paging on by loading the P4 table's address into CR3, enabling
-;; PAE via the CR4 register, setting the long mode bit in the EFER Model
-;; Specific Register, and turning paging on via the paging bit in CR0.
+;; PAE via the CR4 register, setting the long mode bit in the EFER
+;; Model-Specific Register (MSR), and turning paging on via the paging
+;; bit in CR0.
 enable_paging:
-    ;; Load the address of the P4 table into CR3. CR3 can only be loaded
-    ;; via a register, so we put the address of the P4 table into EAX
-    ;; before loading it into CR3. On Intel processors, CR3 is the
-    ;; control register containing the address of the top-level page
-    ;; table, so CR3 must contain P4's address to properly do virtual-to-
-    ;; physical address translation.
+    ;; Load the address of the P4 table into CR3. CR3 can only be
+    ;; loaded via a register, so we put the address of the P4 table
+    ;; into EAX before loading it into CR3. On Intel processors, CR3 is
+    ;; the control register containing the address of the top-level
+    ;; page table, so CR3 must contain P4's address to properly do
+    ;; virtual-to-physical address translation.
     mov eax, p4_table
     mov cr3, eax
 
