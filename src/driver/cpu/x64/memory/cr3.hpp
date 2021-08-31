@@ -15,7 +15,7 @@ class cr3 {
     public:
         cr3(logging::logger& in_log) : _log(in_log) { }
 
-        std::tuple<physaddr_t, bool, bool> get_fields() {
+        std::tuple<std::uint64_t, physaddr_t, bool, bool> get_fields() {
             // Use "=r" to move CR3's value into a register; "=m" (storing the
             // value of CR3 in memory instead of a register) is an invalid
             // encoding of "movq".
@@ -24,12 +24,13 @@ class cr3 {
             auto pml4_addr = physaddr_t(value.pml4_physical_addr << 12);
             auto cd = (bool)value.cache_disable;
             auto wt = (bool)value.write_through;
-            return { pml4_addr, cd, wt };
+            return { value.raw, pml4_addr, cd, wt };
         }
 
         void dump() {
-            auto [pml4, cd, wt] = get_fields();
+            auto [raw, pml4, cd, wt] = get_fields();
             _log.debug(u8"CR3:");
+            _log.debug(u8"\tRaw Value         : {:#016X}", raw);
             _log.debug(u8"\tPML4 Physical Addr: {:#016X}", pml4);
             _log.debug(u8"\tCache Disable     : {}", cd);
             _log.debug(u8"\tWrite-Through     : {}", wt);
