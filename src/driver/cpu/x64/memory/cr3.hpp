@@ -15,11 +15,22 @@ class cr3 {
     public:
         cr3(logging::logger& in_log) : _log(in_log) { }
 
-        std::tuple<std::uint64_t, physaddr_t, bool, bool> get_fields() {
+        void dump() {
+            auto [raw, pml4, cd, wt] = get();
+            _log.debug(u8"CR3:");
+            _log.debug(u8"\tRaw Value         : {:#016X}", raw);
+            _log.debug(u8"\tPML4 Physical Addr: {:#016X}", pml4);
+            _log.debug(u8"\tCache Disable     : {}", cd);
+            _log.debug(u8"\tWrite-Through     : {}", wt);
+        }
+
+        std::tuple<std::uint64_t, physaddr_t, bool, bool> get() {
+            union _cr3_value value;
+            std::memset(&value, 0, sizeof(value));
+
             // Use "=r" to move CR3's value into a register; "=m" (storing the
             // value of CR3 in memory instead of a register) is an invalid
             // encoding of "movq".
-            union _cr3_value value;
             asm volatile("movq %%cr3, %0" : "=r"(value.raw));
             auto pml4_addr = physaddr_t(value.pml4_physical_addr << 12);
             auto cd = (bool)value.cache_disable;
@@ -27,13 +38,15 @@ class cr3 {
             return { value.raw, pml4_addr, cd, wt };
         }
 
-        void dump() {
-            auto [raw, pml4, cd, wt] = get_fields();
-            _log.debug(u8"CR3:");
-            _log.debug(u8"\tRaw Value         : {:#016X}", raw);
-            _log.debug(u8"\tPML4 Physical Addr: {:#016X}", pml4);
-            _log.debug(u8"\tCache Disable     : {}", cd);
-            _log.debug(u8"\tWrite-Through     : {}", wt);
+        void set(physaddr_t in_pml4_addr, bool in_cache_disable, bool in_write_through) {
+            union _cr3_value value;
+            std::memset(&value, 0, sizeof(value));
+
+            value.pml4_physical_addr = in_pml4_addr >> 12;
+            value.cache_disable = in_cache_disable ? 1 : 0;
+            value.write_through = in_write_through ? 1 : 0;
+
+            asm volatile("movq %0, %%cr3" : : "r"(value.raw));
         }
 
     private:
