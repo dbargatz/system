@@ -28,10 +28,7 @@ class cr3 {
         }
 
         void dump() {
-            auto tup = get_fields();
-            auto pml4 = get<0>(tup);
-            auto cd = get<1>(tup);
-            auto wt = get<2>(tup);
+            auto [pml4, cd, wt] = get_fields();
             _log.debug(u8"CR3:");
             _log.debug(u8"\tPML4 Physical Addr: {:#016X}", pml4);
             _log.debug(u8"\tCache Disable     : {}", cd);
