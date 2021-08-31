@@ -301,6 +301,21 @@ struct formatter<int64_t> : public formatter<uint64_t> {};
 template <>
 struct formatter<double> : public formatter<uint64_t> {};
 
+template <>
+struct formatter<bool> {
+public:
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) {
+        // TODO: implement bool format spec
+    }
+
+    string format(const bool& in_arg) {
+        return (in_arg ? string(u8"true") : string(u8"false"));
+    }
+};
+
 template <typename... Args>
 string format(const string& in_fmt) {
     return in_fmt;
