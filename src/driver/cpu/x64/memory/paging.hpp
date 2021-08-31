@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "../../../../logging/logger.hpp"
 
-namespace cpu::x64::memory::paging {
+namespace cpu::x64::memory {
 
 constexpr static const std::uint8_t MAX_PHYSICAL_ADDRESS = 52;
 
@@ -87,6 +87,6 @@ class pml1 : public _pml_base { // page table
         } __attribute__((packed));
 };
 
-}; // cpu::x64::memory::paging;
+}; // namespace cpu::x64::memory
 
 #endif // _CPU_X64_MEMORY_PAGING_HPP

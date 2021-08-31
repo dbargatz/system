@@ -53,6 +53,6 @@ class cr3 {
         logging::logger&  _log;
 };
 
-}; // cpu::x64::memory;
+}; // namespace cpu::x64::memory
 
 #endif // _CPU_X64_MEMORY_CR3_HPP
