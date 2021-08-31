@@ -14,6 +14,10 @@ namespace std {
 template <size_t i, typename T>
 struct _tuple_leaf {
     T value;
+
+    constexpr _tuple_leaf(const T& in_arg) {
+        value = in_arg;
+    }
 };
 
 
@@ -26,7 +30,10 @@ struct _tuple<i> {};
 
 template <size_t i, typename T, typename... Ts>
 struct _tuple<i, T, Ts...> : public _tuple_leaf<i, T>,
-                             public _tuple<i+1, Ts...> {};
+                             public _tuple<i+1, Ts...> {
+
+constexpr _tuple(const T& in_arg, const Ts&... in_rest) : _tuple_leaf<i, T>(in_arg), _tuple<i+1, Ts...>(in_rest...) { }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 template <typename... Ts>
@@ -34,25 +41,27 @@ using tuple = _tuple<0, Ts...>;
 
 
 // ////////////////////////////////////////////////////////////////////////////////
-// template <size_t i, typename T>
-// struct tuple_element {
-//     using type = T;
-// };
+template <size_t i, typename T>
+struct tuple_element;
 
-// template <size_t i, typename T, typename... Ts>
-// struct tuple_element<i, tuple<Ts...>> : public tuple_element<i, T>,
-//                                         public tuple_element<i+1, tuple<Ts...>> {};
+template <typename T, typename... Ts>
+struct tuple_element<0, tuple<T, Ts...>> {
+    using type = T;
+};
+
+template <size_t i, typename T, typename... Ts>
+struct tuple_element<i, tuple<T, Ts...>> : public tuple_element<i-1, tuple<Ts...>> {};
 
 ////////////////////////////////////////////////////////////////////////////////
-// template <typename T> struct tuple_size;
+template <typename T> struct tuple_size;
 
-// template <typename... Ts>
-// struct tuple_size<tuple<Ts...>> : public integral_constant<size_t, sizeof...(Ts)> {};
+template <typename... Ts>
+struct tuple_size<tuple<Ts...>> : public integral_constant<size_t, sizeof...(Ts)> {};
 
 
 ////////////////////////////////////////////////////////////////////////////////
 template<size_t i, typename T, typename... Ts>
-const T& get(_tuple<i, T, Ts...>& in_t) {
+const T get(const _tuple<i, T, Ts...>& in_t) {
     return static_cast<_tuple_leaf<i, T>>(in_t).value;
 }
 
