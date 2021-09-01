@@ -6,7 +6,7 @@
 #include "std/cpuid.h"
 #include "std/msr.hpp"
 #include "std/panic.h"
-#include "memory/cr3.hpp"
+#include "registers/cr3.hpp"
 
 #define HANDLERS \
     X(0) X(10) X(20) X(30) X(40) X(50) X(60) X(70) X(80) X(90) X(100) X(110) X(120) X(130) X(140) X(150) X(160) X(170) X(180) X(190) X(200) X(210) X(220) X(230) X(240) X(250) \
@@ -182,8 +182,8 @@ void core::run() {
     _enable_interrupts();
     _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
 
-    auto _cr3 = cpu::x64::memory::cr3(_log);
-    _cr3.dump();
+    auto _cr3 = cpu::x64::registers::cr3::get();
+    _log.debug(u8"CR3: {}", _cr3);
 
     // Jump to user mode!
     _boot.monitor->load();

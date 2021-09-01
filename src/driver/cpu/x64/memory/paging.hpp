@@ -4,6 +4,9 @@
 #include <cstdint>
 #include "../../../../logging/logger.hpp"
 
+using physaddr_t = std::uint64_t;
+constexpr static const physaddr_t nullphysaddr = (physaddr_t)0;
+
 namespace cpu::x64::memory {
 
 constexpr static const std::uint8_t MAX_PHYSICAL_ADDRESS = 52;
@@ -11,6 +14,7 @@ constexpr static const std::uint8_t MAX_PHYSICAL_ADDRESS = 52;
 class _pml_base {
     public:
         _pml_base(logging::logger& in_log);
+        virtual ~_pml_base();
 
         virtual void dump() = 0;
 };
