@@ -12,8 +12,19 @@ inline std::uint16_t get_cpl() {
     return (0x08 == cs_selector ? 0 : 3);
 }
 
-inline void syscall(const std::uint8_t in_id) {
-    asm volatile("xor %%rdi, %%rdi; movb %0, %%dil; syscall" : : "m"(in_id));
+inline void syscall(const std::uint8_t in_id, const std::uint64_t in_arg2 = 0, const std::uint64_t in_arg3 = 0,
+    const std::uint64_t in_arg4 = 0, const std::uint64_t in_arg5 = 0, const std::uint64_t in_arg6 = 0) {
+    // Almost follows the Linux kernel convention, but the first argument in RDI is always the syscall ID, and RAX is unused.
+    asm volatile(
+        "xor %%rdi, %%rdi;"
+        "movb %0, %%dil;"
+        "movq %1, %%rsi;"
+        "movq %2, %%rdx;"
+        "movq %3, %%r10;"
+        "movq %4, %%r8;"
+        "movq %5, %%r9;"
+        "syscall" : : "m"(in_id), "m"(in_arg2), "m"(in_arg3), "m"(in_arg4), "m"(in_arg5), "m"(in_arg6)
+    );
 }
 
 // Have to define because there is no nice libc that does this for us; see

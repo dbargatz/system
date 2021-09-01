@@ -96,14 +96,14 @@ syscall_handler:
     ;; TODO: why push in this order? 
     ;; TODO: Clear direction flag for SysV ABI?
     ;; TODO: push segment regs?
-    push rdi
-    push rsi
-    push rdx
+    push rdi ; contains arg1, which is always the syscall ID
+    push rsi ; contains arg2
+    push rdx ; contains arg3
     push rcx ; contains return rip
     push rax
-    push r8
-    push r9
-    push r10
+    push r8  ; contains arg5
+    push r9  ; contains arg6
+    push r10 ; contains arg4
     push r11 ; contains rflags
     push rbx
     push r12
