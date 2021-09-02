@@ -3,8 +3,15 @@
 
 #include <cstddef>
 
-[[nodiscard]] void* operator new(std::size_t size);
-[[nodiscard]] void* operator new(std::size_t size, std::align_val_t alignment);
-[[nodiscard]] void operator delete(void* ptr, std::size_t size, std::align_val_t alignment) noexcept;
+namespace std {
+    enum class align_val_t : size_t {};
+};
+
+[[nodiscard]] void* operator new(std::size_t count);
+[[nodiscard]] void* operator new[](std::size_t count);
+[[nodiscard]] void* operator new(std::size_t count, std::align_val_t al);
+[[nodiscard]] void* operator new[](std::size_t count, std::align_val_t al);
+
+void operator delete(void* ptr, std::size_t size, std::align_val_t al) noexcept;
 
 #endif // _STD_NEW_HPP

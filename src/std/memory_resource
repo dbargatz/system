@@ -11,11 +11,11 @@ class memory_resource {
 public:
     virtual ~memory_resource()  = default;
 
-    void * allocate(std::size_t in_bytes, std::size_t in_alignment = alignof(std::max_align_t)) {
+    void * allocate(std::size_t in_bytes, std::align_val_t in_alignment = std::align_val_t(alignof(std::max_align_t))) {
         return do_allocate(in_bytes, in_alignment);
     }
 
-    void deallocate(void * in_ptr, std::size_t in_bytes, std::size_t in_alignment = alignof(std::max_align_t)) {
+    void deallocate(void * in_ptr, std::size_t in_bytes, std::align_val_t in_alignment = std::align_val_t(alignof(std::max_align_t))) {
         return do_deallocate(in_ptr, in_bytes, in_alignment);
     }
 
@@ -24,18 +24,18 @@ public:
     }
 
 protected:
-    virtual void * do_allocate(std::size_t in_bytes, std::size_t in_alignment) = 0;
-    virtual void do_deallocate(void * in_ptr, std::size_t in_bytes, std::size_t in_alignment) = 0;
+    virtual void * do_allocate(std::size_t in_bytes, std::align_val_t in_alignment) = 0;
+    virtual void do_deallocate(void * in_ptr, std::size_t in_bytes, std::align_val_t in_alignment) = 0;
     virtual bool do_is_equal(memory_resource const& in_other) const noexcept = 0;
 };
 
 class new_delete_memory_resource : public memory_resource {
 protected:
-    void * do_allocate(std::size_t in_bytes, std::size_t in_alignment) {
+    void * do_allocate(std::size_t in_bytes, std::align_val_t in_alignment) {
         return ::operator new(in_bytes, in_alignment);
     }
 
-    void do_deallocate(void * in_ptr, std::size_t in_bytes, std::size_t in_alignment) {
+    void do_deallocate(void * in_ptr, std::size_t in_bytes, std::align_val_t in_alignment) {
         ::operator delete(in_ptr, in_bytes, in_alignment);
     }
 
@@ -66,11 +66,11 @@ public:
     polymorphic_allocator(memory_resource * in_resource) : _resource(in_resource) {}
 
     [[nodiscard]] T* allocate(std::size_t in_num) const {
-        return static_cast<T*>(resource()->allocate(in_num * sizeof(T), alignof(T)));
+        return static_cast<T*>(resource()->allocate(in_num * sizeof(T), std::align_val_t(alignof(T))));
     }
 
     void deallocate(T* in_ptr, std::size_t in_num) const {
-        resource()->deallocate(in_ptr, in_num * sizeof(T), alignof(T));
+        resource()->deallocate(in_ptr, in_num * sizeof(T), std::align_val_t(alignof(T)));
     }
 
     memory_resource * resource() const {
