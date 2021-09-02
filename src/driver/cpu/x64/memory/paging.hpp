@@ -2,95 +2,63 @@
 #define _CPU_X64_MEMORY_PAGING_HPP
 
 #include <cstdint>
-#include "../../../../logging/logger.hpp"
+#include <format>
 
 using physaddr_t = std::uint64_t;
 constexpr static const physaddr_t nullphysaddr = (physaddr_t)0;
 
+using virtaddr_t = std::uint64_t;
+constexpr static const virtaddr_t nullvirtaddr = (virtaddr_t)0;
+
 namespace cpu::x64::memory {
 
-constexpr static const std::uint8_t MAX_PHYSICAL_ADDRESS = 52;
+constexpr static const std::uint8_t  MAX_PHYSICAL_ADDRESS = 48;
+constexpr static const std::uint16_t PAGE_SIZE_BYTES = 4096;
+constexpr static const std::uint16_t PAGE_ALIGNMENT_BYTES = 4096;
 
-class _pml_base {
-    public:
-        _pml_base(logging::logger& in_log);
-        virtual ~_pml_base();
+class pml4 { // page map level 4 (CR3 contains physmem pointer to this table, only one in four-level paging)
+private:
+    struct _pml4_entry { // page map level 4 entry (physmem pointer to page directory pointer table)
+        std::uint64_t present         : 1;
+        std::uint64_t read_write      : 1;
+        std::uint64_t user_supervisor : 1;
+        std::uint64_t write_through   : 1;
+        std::uint64_t cache_disable   : 1;
+        std::uint64_t accessed        : 1;
+        std::uint64_t _ignored_1      : 1;
+        std::uint64_t _reserved_1     : 1;
+        std::uint64_t _ignored_2      : 4;
+        std::uint64_t pml3_physaddr   : (MAX_PHYSICAL_ADDRESS - 12);
+        std::uint64_t _reserved_2     : (52 - MAX_PHYSICAL_ADDRESS);
+        std::uint64_t _ignored_3      : 11;
+        std::uint64_t execute_disable : 1;
+    } __attribute__((packed));
 
-        virtual void dump() = 0;
-};
+    // in struct because it has to be 4KB page-aligned
+    struct alignas(PAGE_ALIGNMENT_BYTES) _pml4 {
+        struct _pml4_entry _entries[512];
+    } __attribute__((packed));
 
-class pml4 : public _pml_base { // page map level 4 (CR3 contains physmem pointer to this table, only one in four-level paging)
-    public:
-        pml4(logging::logger& in_log);
+    struct _pml4 * _pml4_val = nullptr;
 
-        void dump();
+public:
+    pml4(void* in_existing_pml4 = nullptr);
 
-    private:
-        struct _pml4_entry { // page map level 4 entry (physmem pointer to page directory pointer table)
-            std::uint64_t present         : 1;
-            std::uint64_t read_write      : 1;
-            std::uint64_t user_supervisor : 1;
-            std::uint64_t write_through   : 1;
-            std::uint64_t cache_disable   : 1;
-            std::uint64_t accessed        : 1;
-            std::uint64_t _ignored_1      : 1;
-            std::uint64_t _reserved_1     : 1;
-            std::uint64_t _ignored_2      : 4;
-        } __attribute__((packed));
-
-        struct _pml4 { // in struct because it has to be 4KB page-aligned
-            struct _pml4_entry _entries[512];
-        } __attribute__((packed));
-};
-
-class pml3 : public _pml_base { // page directory pointer table
-    public:
-        pml3(logging::logger& in_log);
-
-        void dump();
-
-    private:
-        struct _pml3_entry { // page directory pointer table entry (physmem pointer to page directory)
-
-        } __attribute__((packed));
-
-        struct _pml3 { // in struct because it has to be 4KB page-aligned
-            struct _pml3_entry _entries[512];
-        } __attribute__((packed));
-};
-
-class pml2 : public _pml_base { // page directory
-    public:
-        pml2(logging::logger& in_log);
-
-        void dump();
-
-    private:
-        struct _pml2_entry { // page directory entry (physmem pointer to page table)
-
-        } __attribute__((packed));
-
-        struct _pml2 { // in struct because it has to be 4KB page-aligned
-            struct _pml2_entry _entries[512];
-        } __attribute__((packed));
-};
-
-class pml1 : public _pml_base { // page table
-    public:
-        pml1(logging::logger& in_log);
-
-        void dump();
-
-    private:
-        struct _pml1_entry { // page table entry (physmem pointer to page frame)
-
-        } __attribute__((packed));
-
-        struct _pml1 { // in struct because it has to be 4KB page-aligned
-            struct _pml1_entry _entries[512];
-        } __attribute__((packed));
+    physaddr_t get_physaddr(virtaddr_t in_virtual_addr);
 };
 
 }; // namespace cpu::x64::memory
+
+template <>
+struct std::formatter<cpu::x64::memory::pml4> {
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) { }
+    
+    string format(const cpu::x64::memory::pml4& in_arg) {
+        return std::format(u8"{:#016X} (PML4)", (const void *)&in_arg);
+    }
+};
 
 #endif // _CPU_X64_MEMORY_PAGING_HPP
