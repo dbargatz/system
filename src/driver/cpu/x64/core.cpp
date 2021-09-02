@@ -7,6 +7,7 @@
 #include "std/msr.hpp"
 #include "std/panic.h"
 #include "registers/cr3.hpp"
+#include "registers/cr3.hpp"
 
 #define HANDLERS \
     X(0) X(10) X(20) X(30) X(40) X(50) X(60) X(70) X(80) X(90) X(100) X(110) X(120) X(130) X(140) X(150) X(160) X(170) X(180) X(190) X(200) X(210) X(220) X(230) X(240) X(250) \
@@ -184,6 +185,12 @@ void core::run() {
 
     auto _cr3 = cpu::x64::registers::cr3::get();
     _log.debug(u8"CR3: {}", _cr3);
+
+    auto pml4 = new cpu::x64::memory::pml4();
+    _log.debug(u8"PML4: {}", *pml4);
+
+    auto pml3_addr = pml4->get_physaddr(0x200000);
+    _log.debug(u8"PML3 address for 0x200000: {:#016X}", pml3_addr);
 
     // Jump to user mode!
     _boot.monitor->load();

@@ -12,6 +12,7 @@
 #include "keyboard/ps2_controller.hpp"
 #include "multiboot/boot_info.hpp"
 #include "timer/timer.hpp"
+#include "memory/paging.hpp"
 
 class core {
 private:
@@ -26,6 +27,8 @@ private:
 
     ///< If bit 9 (IF) is set in RFLAGS, interrupts are enabled on this core.
     static const std::uint64_t RFLAGS_INTERRUPTS_ENABLED_BIT   = (1 << 9);
+
+    cpu::x64::memory::pml4 _pml4;
 
     logging::logger& _log;
     boot_info& _boot;
