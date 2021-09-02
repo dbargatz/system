@@ -24,6 +24,7 @@ driver_cpu_x64_src = [
     'keyboard/ps2_keyboard.cpp',
     'keyboard/scancode_set_2.cpp',
     'memory/new.cpp',
+    'memory/paging.cpp',
     'multiboot/boot_info.cpp',
     'ports/io_port.cpp',
     'timer/pit.cpp',
