@@ -434,7 +434,7 @@ ist2_stack_top:
 
 ;; TODO
 kernel_heap_bottom:
-    resb 65535
+    resb 131070
 kernel_heap_top:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .rodata
