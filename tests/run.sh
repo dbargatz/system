@@ -22,7 +22,7 @@ case $key in
     shift
     ;;
     -g|--gdb)
-    GDB="-s -S"
+    GDB="-d int -no-reboot -s -S"
     shift
     ;;
     -h|--help)
