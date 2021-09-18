@@ -1,6 +1,6 @@
 project('system', 'cpp', version: '0.1.0')
 
-grub_cfg = 'src/driver/cpu/x64/grub.cfg'
+grub_cfg = '../src/driver/cpu/x64/grub.cfg'
 
 # Libraries
 subdir('src/lib/libcxx')
