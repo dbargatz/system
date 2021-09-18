@@ -115,11 +115,6 @@ void core::run() {
     _boot.dump();
     _disable_interrupts();
 
-    _log.debug(u8"Core Config:");
-    _log.debug(u8"    Interrupts   : {}abled", _interrupts_enabled() ? u8"en" : u8"dis");
-    _log.debug(u8"    PIT          : present");
-    _log.debug(u8"    Serial Port  : present");
-    _log.debug(u8"    Keyboard     : present");
     _gdt.dump(_log);
     _tss.dump(_log);
 
