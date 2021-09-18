@@ -1,9 +1,8 @@
 #include <memory_resource>
-#include "../../../lib/libsystem/logger.hpp"
 
 #include "std/panic.h"
-#include "debug/uart.hpp"
-#include "debug/uart_logger.hpp"
+#include "logging/uart.hpp"
+#include "logging/uart_logger.hpp"
 #include "interrupts/gdt.hpp"
 #include "interrupts/tss.hpp"
 #include "core.hpp"

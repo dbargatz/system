@@ -2,12 +2,12 @@
 #define _CORE_HPP
 
 #include <cstdint>
-#include "../../../lib/libsystem/logger.hpp"
 
 #include "interrupts/gdt.hpp"
 #include "interrupts/idt.hpp"
 #include "interrupts/pic.hpp"
 #include "interrupts/tss.hpp"
+#include "logging/logger.hpp"
 #include "multiboot/boot_info.hpp"
 #include "timer/timer.hpp"
 #include "memory/paging.hpp"

@@ -2,7 +2,7 @@
 #define _INTERRUPTS_FRAME_HPP
 
 #include <cstdint>
-#include "../../../../lib/libsystem/logger.hpp"
+#include "../logging/logger.hpp"
 
 class interrupt_frame {
 public:

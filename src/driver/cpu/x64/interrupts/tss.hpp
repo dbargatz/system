@@ -2,7 +2,7 @@
 #define _INTERRUPTS_TSS_HPP
 
 #include <cstdint>
-#include "../../../../lib/libsystem/logger.hpp"
+#include "../logging/logger.hpp"
 #include "gdt.hpp"
 
 /**

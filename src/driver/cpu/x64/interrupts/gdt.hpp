@@ -2,7 +2,7 @@
 #define _INTERRUPTS_GDT_HPP
 
 #include <cstdint>
-#include "../../../../lib/libsystem/logger.hpp"
+#include "../logging/logger.hpp"
 
 class gdt {
 public:

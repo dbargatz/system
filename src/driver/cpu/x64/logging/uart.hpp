@@ -1,5 +1,5 @@
-#ifndef _DEBUG_UART_HPP
-#define _DEBUG_UART_HPP
+#ifndef _CPU_X64_LOGGING_UART_HPP
+#define _CPU_X64_LOGGING_UART_HPP
 
 #include <cstddef>
 #include <cstdint>
@@ -27,4 +27,4 @@ public:
     void write(const std::string& in_str);
 };
 
-#endif // _DEBUG_UART_HPP
+#endif // _CPU_X64_LOGGING_UART_HPP

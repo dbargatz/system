@@ -1,7 +1,6 @@
 #include "boot_info.hpp"
 #include <cstring>
 #include <tuple>
-#include "../../../../lib/libsystem/logger.hpp"
 #include "multiboot2.h"
 
 #define ALIGN_8_BYTE(x) (x + ((x % 8) ? (8 - (x % 8)) : 0))

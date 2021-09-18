@@ -10,13 +10,13 @@ driver_cpu_x64_asm_src = [
 nasm_objs = gen_nasm.process(driver_cpu_x64_asm_src)
 
 driver_cpu_x64_src = [
-    'debug/uart.cpp',
-    'debug/uart_logger.cpp',
     'interrupts/gdt.cpp',
     'interrupts/frame.cpp',
     'interrupts/idt.cpp',
     'interrupts/pic.cpp',
     'interrupts/tss.cpp',
+    'logging/uart.cpp',
+    'logging/uart_logger.cpp',
     'memory/new.cpp',
     'memory/paging.cpp',
     'multiboot/boot_info.cpp',

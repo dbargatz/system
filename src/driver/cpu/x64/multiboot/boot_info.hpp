@@ -1,7 +1,7 @@
 #ifndef _MULTIBOOT_BOOT_INFO_HPP
 #define _MULTIBOOT_BOOT_INFO_HPP
 
-#include "../../../../lib/libsystem/logger.hpp"
+#include "../logging/logger.hpp"
 
 
 class boot_info {

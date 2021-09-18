@@ -1,8 +1,8 @@
 #include "core.hpp"
 
 #include <cassert>
-#include "../../../lib/libsystem/binary.hpp"
 
+#include "logging/logger.hpp"
 #include "std/cpuid.h"
 #include "std/msr.hpp"
 #include "std/panic.h"
