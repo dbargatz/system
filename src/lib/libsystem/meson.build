@@ -1,5 +1,5 @@
-logging_src = [
+libsystem_src = [
     'logger.cpp',
 ]
 
-logging_lib = static_library('logging', logging_src)
+libsystem_lib = static_library('libsystem', libsystem_src)

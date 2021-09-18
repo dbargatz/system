@@ -1,6 +1,8 @@
-std_src = [
+libcxx_src = [
     'cstring.cpp',
+    'cxa_atexit.cpp',
+    'cxa_virtual.cpp',
     'memory_resource.cpp',
 ]
 
-std_lib = static_library('std', std_src)
+libcxx_lib = static_library('libcxx', libcxx_src)

@@ -1,5 +1,5 @@
-loader_src = [
+libloader_src = [
     'binary.cpp',
 ]
 
-loader_lib = static_library('loader', loader_src)
+libloader_lib = static_library('libloader', libloader_src)
