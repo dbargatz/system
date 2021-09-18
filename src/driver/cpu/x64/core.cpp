@@ -1,7 +1,7 @@
 #include "core.hpp"
 
 #include <cassert>
-#include "../../../loader/binary.hpp"
+#include "../../../lib/libsystem/binary.hpp"
 
 #include "std/cpuid.h"
 #include "std/msr.hpp"
@@ -57,9 +57,8 @@ bool core::_interrupts_enabled() {
 }
 
 core::core(logging::logger& in_log, boot_info& in_boot, gdt& in_gdt, idt& in_idt,
-    keyboard& in_kbd, pic& in_pic, ps2_controller& in_ps2, timer& in_timer,
-    tss& in_tss) : _log(in_log), _boot(in_boot), _gdt(in_gdt), _idt(in_idt),
-    _kbd(in_kbd), _pic(in_pic), _ps2(in_ps2), _timer(in_timer), _tss(in_tss) {}
+    pic& in_pic, timer& in_timer, tss& in_tss) : _log(in_log), _boot(in_boot),
+    _gdt(in_gdt), _idt(in_idt), _pic(in_pic), _timer(in_timer), _tss(in_tss) {}
 
 void core::dispatch_interrupt(const void * in_frame_ptr) {
     interrupt_frame frame(in_frame_ptr);
@@ -72,10 +71,6 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
         case 32:                        // IDT index 32, IRQ 0, timer interrupt
             _timer.interrupt_handler(frame);
             _pic.send_eoi(0);
-            break;
-        case 33:                        // IDT index 33, IRQ 1, keyboard interrupt
-            _kbd.interrupt_handler(frame);
-            _pic.send_eoi(1);
             break;
         default:                        // Unhandled interrupt
             _log.panic(u8"UNHANDLED INTERRUPT {:#02X} ({})", int_num, int_num);
@@ -175,13 +170,10 @@ void core::run() {
     HANDLERS
 #undef X
 
-    _ps2.reset();
-    _kbd.reset();
     _timer.set_frequency(1000.0);
     _pic.enable_irq(0);
-    _pic.enable_irq(1);
     _enable_interrupts();
-    _log.info(u8"Keyboard and timer interrupts unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
+    _log.info(u8"Timer interrupt unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
 
     auto _cr3 = cpu::x64::registers::cr3::get();
     _log.debug(u8"CR3: {}", _cr3);
@@ -192,8 +184,7 @@ void core::run() {
     auto pml3_addr = pml4->get_physaddr(0x200000);
     _log.debug(u8"PML3 address for 0x200000: {:#016X}", pml3_addr);
 
-    // Jump to user mode!
-    _boot.monitor->load();
+    // TODO: Load the monitor binary and jump to it
 
     // Just spin!
     while(true) {}

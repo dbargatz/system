@@ -1,7 +1,7 @@
 #include "boot_info.hpp"
 #include <cstring>
-#include "../../../../loader/binary.hpp"
-#include "../../../../loader/__elf.hpp" // TODO: fix include of private header
+#include <tuple>
+#include "../../../../lib/libsystem/logger.hpp"
 #include "multiboot2.h"
 
 #define ALIGN_8_BYTE(x) (x + ((x % 8) ? (8 - (x % 8)) : 0))
@@ -75,13 +75,11 @@ void boot_info::_dump(const multiboot_tag_framebuffer * in_tag) {
 }
 
 template <>
-loader::binary* boot_info::_parse(logging::logger& in_log, const multiboot_tag_module * in_tag) {
-    auto monitor = new loader::binary(in_log);
+std::tuple<std::string *, const void *, const void *> boot_info::_parse(logging::logger& in_log, const multiboot_tag_module * in_tag) {
     auto cmdline = new std::string((const char8_t *)in_tag->cmdline);
     auto start = (void *)static_cast<std::uint64_t>(in_tag->mod_start);
     auto end = (void *)static_cast<std::uint64_t>(in_tag->mod_end);
-    monitor->init(cmdline, start, end);
-    return monitor;
+    return { cmdline, start, end };
 }
 
 void boot_info::dump() {
@@ -90,8 +88,10 @@ void boot_info::dump() {
     _log.info(u8"\tBootloader name       : {}", *_bootloader);
     _log.info(u8"\tCPU Driver commandline: {}", *_cmdline);
     _log.info(u8"\tCPU Driver load addr  : {:#016X}", _load_base_addr);
-    _log.info(u8"\tMonitor binary: ");
-    monitor->dump();
+    _log.info(u8"\tMonitor module        : ");
+    _log.info(u8"\t\tCommand line            : {}", *_monitor_cmd);
+    _log.info(u8"\t\tStart address           : {:#016X}", _monitor_start_addr);
+    _log.info(u8"\t\tEnd address             : {:#016X}", _monitor_end_addr);
 }
 
 boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) {
@@ -109,7 +109,9 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
     std::string * cmdline;
     multiboot_uint32_t addr32;
     const void * load_base_addr;
-    loader::binary * monitor;
+    std::string* mcmd;
+    const void * mstart;
+    const void * mend;
 
     while(total_size > 0) {
         multiboot_tag * tag = (multiboot_tag *)cur_ptr;
@@ -117,14 +119,20 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
             case MULTIBOOT_TAG_TYPE_END:
                 break;
             case MULTIBOOT_TAG_TYPE_CMDLINE:
-                cmdline = _parse<std::string>(in_log, (const multiboot_tag_cmdline *)cur_ptr);
+                cmdline = _parse<std::string*>(in_log, (const multiboot_tag_cmdline *)cur_ptr);
                 break;
             case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
-                booter = _parse<std::string>(in_log, (const multiboot_tag_bootloader *)cur_ptr);
+                booter = _parse<std::string*>(in_log, (const multiboot_tag_bootloader *)cur_ptr);
                 break;
             case MULTIBOOT_TAG_TYPE_MODULE:
-                monitor = _parse<loader::binary>(in_log, (const multiboot_tag_module *)cur_ptr);
+            {
+                auto mod = (const multiboot_tag_module *)cur_ptr;
+                auto [a, b, c] = _parse<std::tuple<std::string*, const void*, const void*>>(in_log, mod);
+                mcmd = a;
+                mstart = b;
+                mend = c;
                 break;
+            }
             // TODO: case MULTIBOOT_TAG_TYPE_MMAP:
             // TODO: case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
             case MULTIBOOT_TAG_TYPE_ACPI_OLD:
@@ -142,5 +150,5 @@ boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) 
         total_size -= ALIGN_8_BYTE(tag->size);
     }
 
-    return new boot_info(in_log, acpi_rsdp, booter, cmdline, load_base_addr, monitor);
+    return new boot_info(in_log, acpi_rsdp, booter, cmdline, load_base_addr, mcmd, mstart, mend);
 }

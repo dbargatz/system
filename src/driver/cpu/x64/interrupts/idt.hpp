@@ -2,7 +2,7 @@
 #define _INTERRUPTS_IDT_HPP
 
 #include <cstdint>
-#include "../../../../logging/logger.hpp"
+#include "../../../../lib/libsystem/logger.hpp"
 
 class idt {
 private:

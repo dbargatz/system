@@ -1,5 +1,4 @@
 #include "ps2_controller.hpp"
-#include "../std/panic.h"
 
 ps2_controller::ps2_controller(logging::logger& in_log) : _log(in_log) { }
 

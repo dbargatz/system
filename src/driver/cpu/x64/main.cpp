@@ -1,16 +1,13 @@
 #include <memory_resource>
-#include "../../../logging/logger.hpp"
+#include "../../../lib/libsystem/logger.hpp"
 
 #include "std/panic.h"
 #include "debug/uart.hpp"
 #include "debug/uart_logger.hpp"
-#include "display/vga.hpp"
 #include "interrupts/gdt.hpp"
 #include "interrupts/tss.hpp"
 #include "core.hpp"
 #include "timer/pit.hpp"
-#include "keyboard/ps2_controller.hpp"
-#include "keyboard/ps2_keyboard.hpp"
 #include "multiboot/boot_info.hpp"
 
 // TODO: store this in the FS or GS register so it's always accessible from
@@ -44,21 +41,13 @@ extern "C" int core_entry(const void * in_boot_info) {
     // Parse the Multiboot 2 boot information and dump it to the log.
     boot_info* boot = boot_info::parse(*log, in_boot_info);
 
-    // Create a VGA instance and clear the screen. Note that the VGA logging
-    // backend is currently broken, so only the UART logging backend is used.
-    auto vga_driver = new vga();
-    vga_driver->clear_screen(vga::color::black);
-
     // Bind abstract classes to implementations and create the bootstrap core.
     auto gdt_obj = new gdt();
     auto idt_obj = new idt(*log);
     auto tss_obj = new tss(*gdt_obj);
-    auto ps2_driver = new ps2_controller(*log);
-    auto set2 = new scancode_set_2();
-    auto keyboard_driver = new ps2_keyboard(*log, *ps2_driver, *set2);
     auto interrupt_driver = new pic(*log);
     auto timer = new pit(*log);
-    auto bootstrap_core = new core(*log, *boot, *gdt_obj, *idt_obj, *keyboard_driver, *interrupt_driver, *ps2_driver, *timer, *tss_obj);
+    auto bootstrap_core = new core(*log, *boot, *gdt_obj, *idt_obj, *interrupt_driver, *timer, *tss_obj);
 
     // Save off the current core
     this_core = bootstrap_core;

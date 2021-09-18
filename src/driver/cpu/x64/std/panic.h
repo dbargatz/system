@@ -18,6 +18,7 @@ constexpr static const std::uint16_t UD2_ENCODING = 0x0F0B;
 enum class panic_type : std::uint16_t {
     GENERIC       = 0xF2B4,    ///< Cause not specified by other types
     ASSERT_FAILED = 0xF2B5,    ///< PANIC() caused by failed ASSERT()
+    ABORT         = 0xF2B6,    ///< PANIC() caused by call to std::abort
 };
 
 /**

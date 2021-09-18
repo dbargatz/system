@@ -2,7 +2,7 @@
 #define _DEBUG_UART_LOGGER_HPP
 
 #include <string>
-#include "../../../../logging/backend.hpp"
+#include "../../../../lib/libsystem/logger.hpp"
 #include "uart.hpp"
 
 class uart_backend : public logging::backend {

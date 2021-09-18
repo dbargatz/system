@@ -2,14 +2,12 @@
 #define _CORE_HPP
 
 #include <cstdint>
-#include "../../../logging/logger.hpp"
+#include "../../../lib/libsystem/logger.hpp"
 
 #include "interrupts/gdt.hpp"
 #include "interrupts/idt.hpp"
 #include "interrupts/pic.hpp"
 #include "interrupts/tss.hpp"
-#include "keyboard/keyboard.hpp"
-#include "keyboard/ps2_controller.hpp"
 #include "multiboot/boot_info.hpp"
 #include "timer/timer.hpp"
 #include "memory/paging.hpp"
@@ -34,9 +32,7 @@ private:
     boot_info& _boot;
     gdt& _gdt;
     idt& _idt;
-    keyboard& _kbd;
     pic& _pic;
-    ps2_controller& _ps2;
     timer& _timer;
     tss& _tss;
 
@@ -50,9 +46,7 @@ public:
         boot_info& in_boot,
         gdt& in_gdt,
         idt& in_idt,
-        keyboard& in_kbd,
         pic& in_pic,
-        ps2_controller& in_ps2,
         timer& in_timer,
         tss& in_tss);
 

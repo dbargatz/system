@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <string>
-#include "../../../../logging/logger.hpp"
-#include "../ports/io_port.hpp"
+#include "../../lib/libsystem/logger.hpp"
+#include "../cpu/x64/ports/io_port.hpp"
 
 enum class ps2_port : std::uint8_t {
     INVALID = 0,

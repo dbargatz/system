@@ -2,7 +2,7 @@
 #define _INTERRUPTS_PIC_HPP
 
 #include <cstdint>
-#include "../../../../logging/logger.hpp"
+#include "../../../../lib/libsystem/logger.hpp"
 #include "../ports/io_port.hpp"
 
 class pic {

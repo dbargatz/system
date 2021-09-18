@@ -1,7 +1,7 @@
 #include "ps2_keyboard.hpp"
 #include <cassert>
 #include "scancode_set_2.hpp"
-#include "../std/panic.h"
+#include <cstdlib>
 
 ps2_keyboard::ps2_keyboard(logging::logger& in_log, ps2_controller& in_ps2, scancode_set& in_scancode_set) :
     _log(in_log), _ps2(in_ps2), _cur_scancode_set(in_scancode_set) {
@@ -96,7 +96,8 @@ void ps2_keyboard::interrupt_handler(interrupt_frame& in_frame) {
             _complete_command();
             break;
         default:
-            PANIC(u8"PS/2 keyboard in unknown state");
+            _log.error(u8"Last keyboard byte was {02X}", data);
+            std::abort();
             break;
     }
 

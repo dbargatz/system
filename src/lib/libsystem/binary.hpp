@@ -2,7 +2,7 @@
 #define _LOADER_BINARY_HPP
 
 #include <cstdint>
-#include "../logging/logger.hpp"
+#include "logger.hpp"
 
 namespace loader {
 
