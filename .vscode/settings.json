@@ -1,7 +1,7 @@
 {
     "files.associations": {
-        "**/src/std/**": "cpp",
-        "**/src/std/meson.build": "meson",
+        "**/src/lib/libcxx/**": "cpp",
+        "**/src/lib/libcxx/meson.build": "meson",
     },
     "files.exclude": {
         "**/.git": true,
