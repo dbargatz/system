@@ -1,4 +1,5 @@
 libsystem_src = [
+    'binary.cpp',
     'logger.cpp',
 ]
 
