@@ -4,7 +4,6 @@ grub_cfg = 'src/driver/cpu/x64/grub.cfg'
 
 # Libraries
 subdir('src/lib/libcxx')
-subdir('src/lib/libloader')
 subdir('src/lib/libsystem')
 
 # Executables
