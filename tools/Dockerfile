@@ -29,6 +29,7 @@ RUN apt-get -y --no-install-recommends install \
     less                                       \
     lsb-release                                \
     nasm                                       \
+    openssh-client                             \
     python3                                    \
     python3-pip                                \
     qemu-system                                \
