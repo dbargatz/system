@@ -15,7 +15,7 @@
 class ps2_keyboard : public keyboard {
 public:
     ps2_keyboard(logging::logger& in_log, ps2_controller& in_ps2, scancode_set& in_scancode_set);
-    void interrupt_handler(interrupt_frame& in_frame) override;
+    void interrupt_handler(core::x64::interrupts::stack_frame& in_frame) override;
     void reset() override;
 
 private:

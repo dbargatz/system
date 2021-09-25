@@ -9,10 +9,10 @@ namespace core::x64::interrupts {
 
 class pic {
 private:
-    constexpr static const io_port PIC1_COMMAND_PORT = io_port(0x0020);
-    constexpr static const io_port PIC1_DATA_PORT    = io_port(0x0021);
-    constexpr static const io_port PIC2_COMMAND_PORT = io_port(0x00A0);
-    constexpr static const io_port PIC2_DATA_PORT    = io_port(0x00A1);
+    constexpr static const ports::io_port PIC1_COMMAND_PORT = ports::io_port(0x0020);
+    constexpr static const ports::io_port PIC1_DATA_PORT    = ports::io_port(0x0021);
+    constexpr static const ports::io_port PIC2_COMMAND_PORT = ports::io_port(0x00A0);
+    constexpr static const ports::io_port PIC2_DATA_PORT    = ports::io_port(0x00A1);
 
     constexpr static const std::uint8_t EOI_COMMAND  = 0x20;
     constexpr static const std::uint8_t INIT_COMMAND = 0x11;

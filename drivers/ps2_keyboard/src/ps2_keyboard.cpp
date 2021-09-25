@@ -11,7 +11,7 @@ ps2_keyboard::ps2_keyboard(logging::logger& in_log, ps2_controller& in_ps2, scan
 // TODO: This implementation is gross. Convert to an instance of a 
 //       C++ state machine; see http://www.ludvikjerabek.com/2016/02/08/c11-state-machines/
 //       for examples.
-void ps2_keyboard::interrupt_handler(interrupt_frame& in_frame) {
+void ps2_keyboard::interrupt_handler(core::x64::interrupts::stack_frame& in_frame) {
     // Get the current data byte from the keyboard.
     auto data = _ps2.read(false);
     struct _command dummy = { _command_byte::ECHO, 0, {}};

@@ -1,7 +1,7 @@
 #include "frame.hpp"
 
 core::x64::interrupts::stack_frame::stack_frame(const void * in_frame_ptr) :
-    core::x64::interrupts::stack_frame::stack_frame((struct _interrupt_frame *)in_frame_ptr) { }
+    frame((struct _interrupt_stack_frame *)in_frame_ptr) { }
 
 void core::x64::interrupts::stack_frame::dump(logging::logger& in_log) {
     in_log.panic(u8"Interrupt : {:#04X} ({})", frame->interrupt_number,

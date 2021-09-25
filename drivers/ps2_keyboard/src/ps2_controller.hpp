@@ -36,8 +36,8 @@ public:
                        std::uint8_t in_ack=0, bool in_response=false);
 
 private:
-    constexpr static const io_port PS2_DATA_REGISTER = io_port(0x0060);
-    constexpr static const io_port PS2_STATUS_CMD_REGISTER = io_port(0x0064);
+    constexpr static const core::x64::ports::io_port PS2_DATA_REGISTER = core::x64::ports::io_port(0x0060);
+    constexpr static const core::x64::ports::io_port PS2_STATUS_CMD_REGISTER = core::x64::ports::io_port(0x0064);
 
     bool _port_1_ok;
     bool _port_2_ok;

@@ -22,7 +22,7 @@ drivers_core_x64_src = [
     'src/multiboot/boot_info.cpp',
     'src/ports/io_port.cpp',
     'src/timer/pit.cpp',
-    'src/core.cpp',
+    'src/core_manager.cpp',
     'src/main.cpp',
 ]
 

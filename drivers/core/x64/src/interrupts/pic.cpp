@@ -68,7 +68,7 @@ void core::x64::interrupts::pic::disable_irq(const std::uint8_t in_irq_number) {
     _log.debug(u8"Disabled IRQ {:#02X} ({})", in_irq_number, in_irq_number);
 }
 
-void pic::enable_irq(const std::uint8_t in_irq_number) {
+void core::x64::interrupts::pic::enable_irq(const std::uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
     std::uint8_t mask;
 
