@@ -5,29 +5,28 @@ seL4<sup>[2](#seL4)</sup>. It only supports x86_64 QEMU at the moment.
 
 ## Project Layout
 
-This project is being refactored to conform to the [Pitchfork Layout](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs):
+This project is loosely based on the [Pitchfork Layout](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs):
 
++ `apps/`: user-mode programs that can be run by the operating system. Each
+           subdirectory contains an individual application, which may be
+           linked against one or more libraries.
 + `build/`: not checked into the repository, but generated at build-time.
             Contains intermediate artifacts and final binaries, as well as the
             ISO file to launch QEMU with.
 + `docs/`: contains datasheets, technical documentation, and generated Doxygen
            documentation.
-+ `src/`: follows the "merged header placement" and "merged test placement"
-          paradigms, meaning all header, source, and unit test files are located
-          in this directory. There is no separate `include/` directory for
-          public API headers; these are contained within the `src/` directory as
-          well. The directory structure within `src/` aligns perfectly with the
-          namespaces of the code they contain.
++ `drivers/`: generally user-mode programs which interface with the core driver
+              for the current architecture in order to manage a specific
+              hardware device via system calls. This directory also contains
+              the architecture-specific core drivers, which run in supervisor
+              mode. Each subdirectory contains one or more drivers; for
+              example, the `drivers/core` directory contains a subdirectory
+              with a driver for each supported processor architecture.
++ `libs/`: static libraries that apps or drivers can link against and use. Each
+           subdirectory contains an individual library.
 + `tests/`: contains the `run.sh` test script for running QEMU.
 + `tools/`: contains the build/test environment configure script, Dockerfile,
             and Doxygen configuration file.
-
-If you find something that doesn't conform yet, please point it out! It may have
-slipped notice.
-
-## Documentation
-
-Doxygen-generated documentation is located at <https://dbargatz.me/system>.
 
 ## Environment
 
