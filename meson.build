@@ -1,13 +1,13 @@
 project('system', 'cpp', version: '0.1.0')
 
-grub_cfg = '../drivers/cpu/x64/grub.cfg'
+grub_cfg = '../drivers/core/x64/grub.cfg'
 
 # Libraries
 subdir('libs/libcxx')
 subdir('libs/libsystem')
 
 # Drivers
-subdir('drivers/cpu/x64')
+subdir('drivers/core/x64')
 subdir('drivers/ps2_keyboard')
 subdir('drivers/vga')
 

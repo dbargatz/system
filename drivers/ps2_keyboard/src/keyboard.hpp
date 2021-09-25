@@ -1,7 +1,7 @@
 #ifndef _KEYBOARD_KEYBOARD_HPP
 #define _KEYBOARD_KEYBOARD_HPP
 
-#include "../../cpu/x64/src/interrupts/frame.hpp"
+#include "../../core/x64/src/interrupts/frame.hpp"
 
 class keyboard {
 public:

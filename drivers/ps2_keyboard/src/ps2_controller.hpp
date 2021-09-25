@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <string>
 #include "../../../libs/libsystem/src/logger.hpp"
-#include "../../cpu/x64/src/ports/io_port.hpp"
+#include "../../core/x64/src/ports/io_port.hpp"
 
 enum class ps2_port : std::uint8_t {
     INVALID = 0,

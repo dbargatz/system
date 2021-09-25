@@ -10,7 +10,7 @@
 #include "ps2_controller.hpp"
 #include "scancode_set.hpp"
 #include "scancode_set_2.hpp"
-#include "../../cpu/x64/src/interrupts/frame.hpp"
+#include "../../core/x64/src/interrupts/frame.hpp"
 
 class ps2_keyboard : public keyboard {
 public:

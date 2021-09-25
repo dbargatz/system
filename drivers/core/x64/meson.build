@@ -9,7 +9,7 @@ driver_cpu_x64_asm_src = [
 ]
 nasm_objs = gen_nasm.process(driver_cpu_x64_asm_src)
 
-driver_cpu_x64_src = [
+drivers_core_x64_src = [
     'src/interrupts/gdt.cpp',
     'src/interrupts/frame.cpp',
     'src/interrupts/idt.cpp',
@@ -26,8 +26,8 @@ driver_cpu_x64_src = [
     'src/main.cpp',
 ]
 
-driver_cpu_x64_link_script = '../drivers/cpu/x64/linker.ld'
+drivers_core_x64_link_script = '../drivers/core/x64/linker.ld'
 link_with_objs = [libcxx_lib]
-core_x64_bin = executable('core_x64.bin', [driver_cpu_x64_src, nasm_objs],
-                          link_args: ['-Wl,-T' + driver_cpu_x64_link_script],
+core_x64_bin = executable('core_x64.bin', [drivers_core_x64_src, nasm_objs],
+                          link_args: ['-Wl,-T' + drivers_core_x64_link_script],
                           link_with: link_with_objs)
