@@ -3,13 +3,15 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/src/**"
+                "${workspaceFolder}/libs/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang++-13",
             "browse": {
                 "path": [
-                    "${workspaceFolder}/src"
+                    "${workspaceFolder}/apps",
+                    "${workspaceFolder}/drivers",
+                    "${workspaceFolder}/libs"
                 ],
                 "limitSymbolsToIncludedHeaders": true
             },
