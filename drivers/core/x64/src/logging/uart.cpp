@@ -1,8 +1,8 @@
 #include "uart.hpp"
 
-bool uart::_ourInitialized = false;
+bool core::x64::logging::uart::_ourInitialized = false;
 
-uart::uart() {
+core::x64::logging::uart::uart() {
     // TODO: make this test and set atomic
     if(!_ourInitialized) {
         _ourInitialized = true;
@@ -18,7 +18,7 @@ uart::uart() {
     }
 }
 
-void uart::write(const std::string& in_str) {
+void core::x64::logging::uart::write(const std::string& in_str) {
     // TODO: do we need to mutex this somehow? I don't think so, since:
     //         + interrupts disabled until boot/setup complete
     //         + core does nothing other than respond to interrupts/syscalls

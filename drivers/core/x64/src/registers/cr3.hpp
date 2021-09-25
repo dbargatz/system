@@ -1,12 +1,12 @@
-#ifndef _CPU_X64_REGISTERS_CR3_HPP
-#define _CPU_X64_REGISTERS_CR3_HPP
+#ifndef _CORE_X64_REGISTERS_CR3_HPP
+#define _CORE_X64_REGISTERS_CR3_HPP
 
 #include <cstdint>
 #include <cstring>
 #include <tuple>
 #include "../memory/paging.hpp"
 
-namespace cpu::x64::registers {
+namespace core::x64::registers {
 
 class cr3 {
 private:
@@ -16,8 +16,8 @@ private:
             std::uint64_t write_through      : 1;
             std::uint64_t cache_disable      : 1;
             std::uint64_t _ignored_2         : 7;
-            std::uint64_t pml4_physical_addr : (cpu::x64::memory::MAX_PHYSICAL_ADDRESS - 12);
-            std::uint64_t _reserved          : (64 - cpu::x64::memory::MAX_PHYSICAL_ADDRESS);
+            std::uint64_t pml4_physical_addr : (core::x64::memory::MAX_PHYSICAL_ADDRESS - 12);
+            std::uint64_t _reserved          : (64 - core::x64::memory::MAX_PHYSICAL_ADDRESS);
         } __attribute__((packed));
 
         std::uint64_t raw;
@@ -59,19 +59,19 @@ public:
         }
 };
 
-}; // namespace cpu::x64::registers
+}; // namespace core::x64::registers
 
 template <>
-struct std::formatter<cpu::x64::registers::cr3> {
+struct std::formatter<core::x64::registers::cr3> {
     formatter() { }
 
     void parse(const string::value_type* in_open_brace,
                const string::value_type* in_close_brace) { }
     
-    string format(const cpu::x64::registers::cr3& in_arg) {
+    string format(const core::x64::registers::cr3& in_arg) {
         auto [pml4, cd, wt, raw] = in_arg.value();
         return std::format(u8"{:#016X} (PML4={:#X}, CD={}, WT={})", raw, pml4, cd, wt);
     }
 };
 
-#endif // _CPU_X64_REGISTERS_CR3_HPP
+#endif // _CORE_X64_REGISTERS_CR3_HPP

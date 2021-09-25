@@ -1,9 +1,11 @@
-#ifndef _INTERRUPTS_PIC_HPP
-#define _INTERRUPTS_PIC_HPP
+#ifndef _CORE_X64_INTERRUPTS_PIC_HPP
+#define _CORE_X64_INTERRUPTS_PIC_HPP
 
 #include <cstdint>
 #include "../logging/logger.hpp"
 #include "../ports/io_port.hpp"
+
+namespace core::x64::interrupts {
 
 class pic {
 private:
@@ -37,4 +39,6 @@ public:
     void enable_irq(const std::uint8_t in_irq_number);
 };
 
-#endif // _INTERRUPTS_PIC_HPP
+}; // namespace core::x64::interrupts
+
+#endif // _CORE_X64_INTERRUPTS_PIC_HPP

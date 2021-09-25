@@ -1,11 +1,13 @@
-#ifndef _CPU_X64_LOGGING_UART_LOGGER_HPP
-#define _CPU_X64_LOGGING_UART_LOGGER_HPP
+#ifndef _CORE_X64_LOGGING_UART_LOGGER_HPP
+#define _CORE_X64_LOGGING_UART_LOGGER_HPP
 
 #include <string>
 #include "logger.hpp"
 #include "uart.hpp"
 
-class uart_backend : public cpu::x64::logging::backend {
+namespace core::x64::logging {
+
+class uart_backend : public backend {
 public:
     uart_backend(uart& in_uart) : _uart(in_uart) {}
 
@@ -15,4 +17,6 @@ private:
     uart& _uart;
 };
 
-#endif // _CPU_X64_LOGGING_UART_LOGGER_HPP
+}; // namespace core::x64::logging
+
+#endif // _CORE_X64_LOGGING_UART_LOGGER_HPP

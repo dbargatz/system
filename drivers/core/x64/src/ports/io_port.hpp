@@ -1,7 +1,9 @@
-#ifndef _PORTS_IO_PORT_HPP
-#define _PORTS_IO_PORT_HPP
+#ifndef _CORE_X64_PORTS_IO_PORT_HPP
+#define _CORE_X64_PORTS_IO_PORT_HPP
 
 #include <cstdint>
+
+namespace core::x64::ports {
 
 /**
  * @brief Represents a single I/O port in the I/O address space on Intel
@@ -63,4 +65,6 @@ public:
     std::uint32_t inl() const;
 };
 
-#endif // _PORTS_IO_PORT_HPP
+}; // namespace core::x64::ports
+
+#endif // _CORE_X64_PORTS_IO_PORT_HPP

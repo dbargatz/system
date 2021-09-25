@@ -1,10 +1,10 @@
 #include "pic.hpp"
 
-pic::pic(logging::logger& in_log) : _log(in_log) {
+core::x64::interrupts::pic::pic(logging::logger& in_log) : _log(in_log) {
     _log.debug(u8"Initialized PIC.");
 }
 
-void pic::send_eoi(const std::uint8_t in_irq_number) {
+void core::x64::interrupts::pic::send_eoi(const std::uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
 
     if(in_irq_number >= 8) {
@@ -13,7 +13,7 @@ void pic::send_eoi(const std::uint8_t in_irq_number) {
     PIC1_COMMAND_PORT.outb(EOI_COMMAND);
 }
 
-void pic::remap(const std::uint8_t in_pic1_interrupt_base,
+void core::x64::interrupts::pic::remap(const std::uint8_t in_pic1_interrupt_base,
                 const std::uint8_t in_pic2_interrupt_base) {
 
     // Save off the current interrupt masks.
@@ -47,14 +47,14 @@ void pic::remap(const std::uint8_t in_pic1_interrupt_base,
     PIC2_DATA_PORT.outb(pic2_mask);
 }
 
-void pic::disable_all(void) {
+void core::x64::interrupts::pic::disable_all(void) {
     // Mask all interrupts on both the PICs.
     PIC2_DATA_PORT.outb(0xFF);
     PIC1_DATA_PORT.outb(0xFF);
     _log.debug(u8"Disabled all IRQ");
 }
 
-void pic::disable_irq(const std::uint8_t in_irq_number) {
+void core::x64::interrupts::pic::disable_irq(const std::uint8_t in_irq_number) {
     // TODO: assert 0 <= in_irq_number < 15
     std::uint8_t mask;
 

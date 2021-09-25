@@ -1,5 +1,5 @@
-#ifndef _CPU_X64_MEMORY_PAGING_HPP
-#define _CPU_X64_MEMORY_PAGING_HPP
+#ifndef _CORE_X64_MEMORY_PAGING_HPP
+#define _CORE_X64_MEMORY_PAGING_HPP
 
 #include <cstdint>
 #include <format>
@@ -10,7 +10,7 @@ constexpr static const physaddr_t nullphysaddr = (physaddr_t)0;
 using virtaddr_t = std::uint64_t;
 constexpr static const virtaddr_t nullvirtaddr = (virtaddr_t)0;
 
-namespace cpu::x64::memory {
+namespace core::x64::memory {
 
 constexpr static const std::uint8_t  MAX_PHYSICAL_ADDRESS = 48;
 constexpr static const std::uint16_t PAGE_SIZE_BYTES = 4096;
@@ -47,18 +47,18 @@ public:
     physaddr_t get_physaddr(virtaddr_t in_virtual_addr);
 };
 
-}; // namespace cpu::x64::memory
+}; // namespace core::x64::memory
 
 template <>
-struct std::formatter<cpu::x64::memory::pml4> {
+struct std::formatter<core::x64::memory::pml4> {
     formatter() { }
 
     void parse(const string::value_type* in_open_brace,
                const string::value_type* in_close_brace) { }
     
-    string format(const cpu::x64::memory::pml4& in_arg) {
+    string format(const core::x64::memory::pml4& in_arg) {
         return std::format(u8"{:#016X} (PML4)", (const void *)&in_arg);
     }
 };
 
-#endif // _CPU_X64_MEMORY_PAGING_HPP
+#endif // _CORE_X64_MEMORY_PAGING_HPP

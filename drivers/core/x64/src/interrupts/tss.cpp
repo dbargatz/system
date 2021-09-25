@@ -3,7 +3,7 @@
 extern std::uint64_t ist1_stack_top;
 extern std::uint64_t ist2_stack_top;
 
-tss::tss(gdt& in_gdt) {
+core::x64::interrupts::tss::tss(gdt& in_gdt) {
     // Zero out the reserved fields.
     _our_tss.reserved1 = (std::uint32_t)0;
     _our_tss.reserved2 = (std::uint64_t)0;
@@ -66,7 +66,7 @@ tss::tss(gdt& in_gdt) {
     asm volatile("movq $0x30, %%rax; ltr %%ax": : : "rax");
 }
 
-void tss::dump(logging::logger& in_log) {
+void core::x64::interrupts::tss::dump(logging::logger& in_log) {
     in_log.debug(u8"TSS: {:#016X}", (std::uint64_t)&_our_tss);
     in_log.debug(u8"\tRSP0       : {:#016X}", _our_tss.rsp0_low + (((std::uint64_t)_our_tss.rsp0_high << 32)));
     in_log.debug(u8"\tRSP1       : {:#016X}", _our_tss.rsp1_low + (((std::uint64_t)_our_tss.rsp1_high << 32)));

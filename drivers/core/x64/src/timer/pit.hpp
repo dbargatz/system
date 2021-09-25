@@ -1,5 +1,5 @@
-#ifndef _TIMER_PIT_HPP
-#define _TIMER_PIT_HPP
+#ifndef _CORE_X64_TIMER_PIT_HPP
+#define _CORE_X64_TIMER_PIT_HPP
 
 #include <cstdint>
 #include "timer.hpp"
@@ -8,17 +8,19 @@
 #include "../ports/io_port.hpp"
 #include "../core.hpp"
 
+namespace core::x64::timer {
+
 class pit : public timer {
 private:
     ///< Read/write. When read, returns 16-bit count value. Written values are
     ///< "reload" values. Meaning of "count" and "reload" vary based on mode of
     ///< PIT, which is specified by COMMAND_REGISTER.
-    constexpr static const io_port CHANNEL_0_REGISTER = io_port(0x0040);
+    constexpr static const core::x64::ports::io_port CHANNEL_0_REGISTER = core::x64::ports::io_port(0x0040);
 
     ///< Write-only. Determines how a specified channel register will be read or
     ///< written to, and what mode the PIT channel operates in. See 
     ///< _command_reg for format.
-    constexpr static const io_port COMMAND_REGISTER = io_port(0x0043);
+    constexpr static const core::x64::ports::io_port COMMAND_REGISTER = core::x64::ports::io_port(0x0043);
 
     ///< The base/maximum clock frequency of the PIT in Hz. Actual frequency is
     ///< 1,193,181.666... Hz (with repeating 6).
@@ -56,7 +58,9 @@ public:
 
     double get_frequency() override;
     void set_frequency(double in_frequency_hz) override;
-    void interrupt_handler(interrupt_frame& in_frame) override;
+    void interrupt_handler(core::x64::interrupts::stack_frame& in_frame) override;
 };
 
-#endif // _TIMER_PIT_HPP
+}; // namespace core::x64::timer
+
+#endif // _CORE_X64_TIMER_PIT_HPP

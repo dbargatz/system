@@ -2,16 +2,16 @@
 
 extern struct _gdt gdt64;
 
-gdt::gdt() : _our_gdt(*(struct _gdt *)&gdt64) { }
+core::x64::interrupts::gdt::gdt() : _our_gdt(*(struct _gdt *)&gdt64) { }
 
-void gdt::dump(logging::logger& in_log) {
+void core::x64::interrupts::gdt::dump(logging::logger& in_log) {
     in_log.debug(u8"GDT: {:#016X}", (std::uint64_t)&gdt64);
     for(auto& entry : _our_gdt.entries) {
         _dump_entry(in_log, entry);
     }
 }
 
-void gdt::install(std::uint8_t in_index, const void * in_base, std::uint32_t in_limit,
+void core::x64::interrupts::gdt::install(std::uint8_t in_index, const void * in_base, std::uint32_t in_limit,
                   std::uint8_t in_access_byte, std::uint8_t in_flags) {
     auto idx = in_index / sizeof(_our_gdt.entries[0]);
     auto base = (std::uint64_t)in_base;
@@ -34,7 +34,7 @@ void gdt::install(std::uint8_t in_index, const void * in_base, std::uint32_t in_
     entry.granularity     = (in_flags & 0x08) >> 3;
 }
 
-void gdt::_dump_entry(logging::logger& in_log, const struct _gdt_entry& in_entry) {
+void core::x64::interrupts::gdt::_dump_entry(logging::logger& in_log, const struct _gdt_entry& in_entry) {
     auto entry_idx = (std::uint16_t)((std::uint8_t*)&in_entry - (std::uint8_t*)&_our_gdt);
     auto limit = in_entry.limit_0_15 + (in_entry.limit_16_19 << 16);
     auto base = in_entry.base_0_15  +

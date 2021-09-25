@@ -1,9 +1,11 @@
-#ifndef _INTERRUPTS_TSS_HPP
-#define _INTERRUPTS_TSS_HPP
+#ifndef _CORE_X64_INTERRUPTS_TSS_HPP
+#define _CORE_X64_INTERRUPTS_TSS_HPP
 
 #include <cstdint>
 #include "../logging/logger.hpp"
 #include "gdt.hpp"
+
+namespace core::x64::interrupts {
 
 /**
  * Task State Segment implementation for x64 processors. Provides Interrupt
@@ -52,4 +54,6 @@ private:
     struct _tss _our_tss;
 };
 
-#endif // _INTERRUPTS_TSS_HPP
+}; // namespace core::x64::interrupts
+
+#endif // _CORE_X64_INTERRUPTS_TSS_HPP

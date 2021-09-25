@@ -1,14 +1,14 @@
 #include "pit.hpp"
 #include "../std/panic.h"
 
-pit::pit(logging::logger& in_log) : _log(in_log), _uptime_ms(0.0),
+core::x64::timer::pit::pit(logging::logger& in_log) : _log(in_log), _uptime_ms(0.0),
     _frequency_hz(MIN_FREQUENCY_HZ), _reload_value(0) { }
 
-double pit::get_frequency() {
+double core::x64::timer::pit::get_frequency() {
     return _frequency_hz;
 }
 
-void pit::set_frequency(double in_frequency_hz) {
+void core::x64::timer::pit::set_frequency(double in_frequency_hz) {
     // If the frequency is too low or too high, panic.
     if(in_frequency_hz > BASE_FREQUENCY_HZ) {
         PANIC(u8"frequency too high");
@@ -44,7 +44,7 @@ void pit::set_frequency(double in_frequency_hz) {
         _frequency_hz, in_frequency_hz, _reload_value);
 }
 
-void pit::interrupt_handler(interrupt_frame& in_frame) {
+void core::x64::timer::pit::interrupt_handler(core::x64::interrupts::stack_frame& in_frame) {
     _uptime_ms += 1000.0 / _frequency_hz;
     if((std::uint64_t)_uptime_ms % 10000 == 0 && _uptime_ms > 1.0) {
         _log.debug(u8"Uptime: {}ms", _uptime_ms);

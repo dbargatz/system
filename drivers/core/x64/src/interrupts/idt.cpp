@@ -6,7 +6,7 @@ struct idtr {
     void *   offset;
 } __attribute__((packed));
 
-idt::idt(logging::logger& in_log) : _log(in_log) {
+core::x64::interrupts::idt::idt(logging::logger& in_log) : _log(in_log) {
     _log.debug(u8"Zeroing IDT...");
     // Zero out the actual Interrupt Descriptor Table, which is stored as a 
     // class member.
@@ -14,7 +14,7 @@ idt::idt(logging::logger& in_log) : _log(in_log) {
     _log.debug(u8"Zeroed.");
 }
 
-void idt::register_handler(std::uint8_t in_index, const void * in_handler,
+void core::x64::interrupts::idt::register_handler(std::uint8_t in_index, const void * in_handler,
                            std::uint8_t in_ist_index, bool in_ring0) {
     std::uint8_t dpl = (in_ring0 ? 0 : 3);
 
@@ -29,7 +29,7 @@ void idt::register_handler(std::uint8_t in_index, const void * in_handler,
     _idt[in_index].type = { .gate_type = 0xE, .segment_type = 0, .dpl = dpl, .present = 1 };    
 }
 
-void idt::install() {
+void core::x64::interrupts::idt::install() {
     // Populate an IDTR struct and use lidt to install the IDT.
     struct idtr idtr = {
         .limit = sizeof(_idt),

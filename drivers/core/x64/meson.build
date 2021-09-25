@@ -2,12 +2,12 @@ nasm = find_program('nasm')
 gen_nasm = generator(nasm,
     output: '@BASENAME@.o',
     arguments: ['-f', 'elf64', '@INPUT@', '-o', '@OUTPUT@'])
-driver_cpu_x64_asm_src = [
+drivers_core_x64_asm_src = [
     'src/interrupts/handlers.asm',
     'src/multiboot/multiboot2_header.asm',
     'src/start.asm'
 ]
-nasm_objs = gen_nasm.process(driver_cpu_x64_asm_src)
+nasm_objs = gen_nasm.process(drivers_core_x64_asm_src)
 
 drivers_core_x64_src = [
     'src/interrupts/gdt.cpp',

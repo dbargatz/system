@@ -1,12 +1,14 @@
-#ifndef _INTERRUPTS_FRAME_HPP
-#define _INTERRUPTS_FRAME_HPP
+#ifndef _CORE_X64_INTERRUPTS_STACK_FRAME_HPP
+#define _CORE_X64_INTERRUPTS_STACK_FRAME_HPP
 
 #include <cstdint>
 #include "../logging/logger.hpp"
 
-class interrupt_frame {
+namespace core::x64::interrupts {
+
+class stack_frame {
 public:
-    struct _interrupt_frame {
+    struct _interrupt_stack_frame {
         std::uint64_t r15;
         std::uint64_t r14;
         std::uint64_t r13;
@@ -30,11 +32,13 @@ public:
         std::uint64_t ss;
     } __attribute__((packed));
 
-    const struct _interrupt_frame * frame;
+    const struct _interrupt_stack_frame * frame;
 
-    interrupt_frame(const void * in_frame_ptr);
+    stack_frame(const void * in_frame_ptr);
 
     void dump(logging::logger& in_log);
 };
 
-#endif // _INTERRUPTS_FRAME_HPP
+}; // namespace core::x64::interrupts
+
+#endif // _CORE_X64_INTERRUPTS_STACK_FRAME_HPP

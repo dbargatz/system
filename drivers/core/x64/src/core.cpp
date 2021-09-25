@@ -38,30 +38,35 @@ inline std::uint16_t get_cpl() {
     return (0x08 == cs_selector ? 0 : 3);
 }
 
-bool core::_disable_interrupts() {
+bool core::x64::core_manager::_disable_interrupts() {
     bool cur_state = _interrupts_enabled();
     asm volatile("cli");
     return cur_state;
 }
 
-bool core::_enable_interrupts() {
+bool core::x64::core_manager::_enable_interrupts() {
     bool cur_state = _interrupts_enabled();
     asm volatile("sti");
     return cur_state;
 }
 
-bool core::_interrupts_enabled() {
+bool core::x64::core_manager::_interrupts_enabled() {
     std::uint64_t rflags;
     asm volatile("pushf; pop %0" : "=g"(rflags));
     return (rflags & RFLAGS_INTERRUPTS_ENABLED_BIT);
 }
 
-core::core(logging::logger& in_log, boot_info& in_boot, gdt& in_gdt, idt& in_idt,
-    pic& in_pic, timer& in_timer, tss& in_tss) : _log(in_log), _boot(in_boot),
+core::x64::core_manager::core_manager(logging::logger& in_log,
+    core::x64::multiboot::boot_info& in_boot,
+    core::x64::interrupts::gdt& in_gdt,
+    core::x64::interrupts::idt& in_idt,
+    core::x64::interrupts::pic& in_pic,
+    core::x64::timer::timer& in_timer,
+    core::x64::interrupts::tss& in_tss) : _log(in_log), _boot(in_boot),
     _gdt(in_gdt), _idt(in_idt), _pic(in_pic), _timer(in_timer), _tss(in_tss) {}
 
-void core::dispatch_interrupt(const void * in_frame_ptr) {
-    interrupt_frame frame(in_frame_ptr);
+void core::x64::core_manager::dispatch_interrupt(const void * in_frame_ptr) {
+    interrupts::stack_frame frame(in_frame_ptr);
     auto int_num = frame.frame->interrupt_number;
 
     switch(int_num) {
@@ -80,11 +85,11 @@ void core::dispatch_interrupt(const void * in_frame_ptr) {
     }
 }
 
-void core::dispatch_syscall(const std::uint8_t in_syscall_id) {
+void core::x64::core_manager::dispatch_syscall(const std::uint8_t in_syscall_id) {
     _log.info(u8"Hello from supervisor mode (CPL: {})! Syscall {:#02X} ({}) was invoked.", get_cpl(), in_syscall_id, in_syscall_id);
 }
 
-void core::panic_handler(interrupt_frame& in_frame) {
+void core::x64::core_manager::panic_handler(core::x64::interrupts::stack_frame& in_frame) {
     // Format the panic message appropriately based on the type of panic/invalid
     // opcode exception.
     auto d = (struct panic_data *)in_frame.frame->rip;
@@ -111,7 +116,7 @@ void core::panic_handler(interrupt_frame& in_frame) {
     asm volatile("hlt");
 }
 
-void core::run() {
+void core::x64::core_manager::run() {
     _boot.dump();
     _disable_interrupts();
 
@@ -170,10 +175,10 @@ void core::run() {
     _enable_interrupts();
     _log.info(u8"Timer interrupt unmasked, interrupts: {}abled...", _interrupts_enabled() ? u8"en" : u8"dis");
 
-    auto _cr3 = cpu::x64::registers::cr3::get();
+    auto _cr3 = ::core::x64::registers::cr3::get();
     _log.debug(u8"CR3: {}", _cr3);
 
-    auto pml4 = new cpu::x64::memory::pml4();
+    auto pml4 = new ::core::x64::memory::pml4();
     _log.debug(u8"PML4: {}", *pml4);
 
     auto pml3_addr = pml4->get_physaddr(0x200000);

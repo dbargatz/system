@@ -9,17 +9,17 @@ struct multiboot_tag_bootloader : multiboot_tag_string {};
 struct multiboot_tag_cmdline : multiboot_tag_string {};
 
 template <>
-std::string* boot_info::_parse(logging::logger& in_log, const multiboot_tag_bootloader * in_tag) {
+std::string* core::x64::multiboot::boot_info::_parse(logging::logger& in_log, const multiboot_tag_bootloader * in_tag) {
     return new std::string((const char8_t *)in_tag->string);
 }
 
 template <>
-std::string* boot_info::_parse(logging::logger& in_log, const multiboot_tag_cmdline * in_tag) {
+std::string* core::x64::multiboot::boot_info::_parse(logging::logger& in_log, const multiboot_tag_cmdline * in_tag) {
     return new std::string((const char8_t *)in_tag->string);
 }
 
 template <>
-void boot_info::_dump(const multiboot_tag_mmap * in_tag) {
+void core::x64::multiboot::boot_info::_dump(const multiboot_tag_mmap * in_tag) {
     std::uint64_t num_entries = (in_tag->size - sizeof(multiboot_tag_mmap)) / in_tag->entry_size;
     _log.debug(u8"\tMemory map ({} entries):", num_entries);
     for(auto i = 0; i < num_entries; i++) {
@@ -52,7 +52,7 @@ void boot_info::_dump(const multiboot_tag_mmap * in_tag) {
 }
 
 template <>
-void boot_info::_dump(const multiboot_tag_framebuffer * in_tag) {
+void core::x64::multiboot::boot_info::_dump(const multiboot_tag_framebuffer * in_tag) {
     auto common = in_tag->common;
     auto type = u8"UNKNOWN";
     switch(common.framebuffer_type) {
@@ -74,14 +74,14 @@ void boot_info::_dump(const multiboot_tag_framebuffer * in_tag) {
 }
 
 template <>
-std::tuple<std::string *, const void *, const void *> boot_info::_parse(logging::logger& in_log, const multiboot_tag_module * in_tag) {
+std::tuple<std::string *, const void *, const void *> core::x64::multiboot::boot_info::_parse(logging::logger& in_log, const multiboot_tag_module * in_tag) {
     auto cmdline = new std::string((const char8_t *)in_tag->cmdline);
     auto start = (void *)static_cast<std::uint64_t>(in_tag->mod_start);
     auto end = (void *)static_cast<std::uint64_t>(in_tag->mod_end);
     return { cmdline, start, end };
 }
 
-void boot_info::dump() {
+void core::x64::multiboot::boot_info::dump() {
     _log.info(u8"Boot info:");
     _log.info(u8"\tACPI v1.0 RSDP        : {:#016X}", _acpi_rsdp);
     _log.info(u8"\tBootloader name       : {}", *_bootloader);
@@ -93,7 +93,7 @@ void boot_info::dump() {
     _log.info(u8"\t\tEnd address             : {:#016X}", _monitor_end_addr);
 }
 
-boot_info* boot_info::parse(logging::logger& in_log, const void * in_boot_info) {
+core::x64::multiboot::boot_info* core::x64::multiboot::boot_info::parse(logging::logger& in_log, const void * in_boot_info) {
     auto cur_ptr = (std::uint8_t *)in_boot_info;
     auto total_size = *(multiboot_uint32_t *)cur_ptr;
 

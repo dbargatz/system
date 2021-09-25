@@ -1,8 +1,10 @@
-#ifndef _INTERRUPTS_GDT_HPP
-#define _INTERRUPTS_GDT_HPP
+#ifndef _CORE_X64_INTERRUPTS_GDT_HPP
+#define _CORE_X64_INTERRUPTS_GDT_HPP
 
 #include <cstdint>
 #include "../logging/logger.hpp"
+
+namespace core::x64::interrupts {
 
 class gdt {
 public:
@@ -47,4 +49,6 @@ private:
     void _dump_entry(logging::logger& in_log, const struct _gdt_entry& in_entry);
 };
 
-#endif // _INTERRUPTS_GDT_HPP
+}; // namespace core::x64::interrupts
+
+#endif // _CORE_X64_INTERRUPTS_GDT_HPP

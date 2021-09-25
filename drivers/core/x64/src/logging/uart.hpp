@@ -1,10 +1,12 @@
-#ifndef _CPU_X64_LOGGING_UART_HPP
-#define _CPU_X64_LOGGING_UART_HPP
+#ifndef _CORE_X64_LOGGING_UART_HPP
+#define _CORE_X64_LOGGING_UART_HPP
 
 #include <cstddef>
 #include <cstdint>
 #include <string>
 #include "../ports/io_port.hpp"
+
+namespace core::x64::logging {
 
 class uart {
 private:
@@ -27,4 +29,6 @@ public:
     void write(const std::string& in_str);
 };
 
-#endif // _CPU_X64_LOGGING_UART_HPP
+};
+
+#endif // _CORE_X64_LOGGING_UART_HPP

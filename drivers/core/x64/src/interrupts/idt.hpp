@@ -1,8 +1,10 @@
-#ifndef _INTERRUPTS_IDT_HPP
-#define _INTERRUPTS_IDT_HPP
+#ifndef _CORE_X64_INTERRUPTS_IDT_HPP
+#define _CORE_X64_INTERRUPTS_IDT_HPP
 
 #include <cstdint>
 #include "../logging/logger.hpp"
+
+namespace core::x64::interrupts {
 
 class idt {
 private:
@@ -65,4 +67,6 @@ public:
     void install();
 };
 
-#endif // _INTERRUPTS_IDT_HPP
+}; // namespace core::x64::interrupts
+
+#endif // _CORE_X64_INTERRUPTS_IDT_HPP

@@ -1,8 +1,9 @@
-#ifndef _MULTIBOOT_BOOT_INFO_HPP
-#define _MULTIBOOT_BOOT_INFO_HPP
+#ifndef _CORE_X64_MULTIBOOT_BOOT_INFO_HPP
+#define _CORE_X64_MULTIBOOT_BOOT_INFO_HPP
 
 #include "../logging/logger.hpp"
 
+namespace core::x64::multiboot {
 
 class boot_info {
 public:
@@ -38,4 +39,6 @@ private:
     const void*     _monitor_end_addr;
 };
 
-#endif // _MULTIBOOT_BOOT_INFO_HPP
+}; // namespace core::x64::multiboot
+
+#endif // _CORE_X64_MULTIBOOT_BOOT_INFO_HPP
