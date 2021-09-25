@@ -2,7 +2,7 @@
 #define _DISPLAY_VGA_LOGGER_HPP
 
 #include <string>
-#include "../../lib/libsystem/backend.hpp"
+#include "../../../libs/libsystem/src/backend.hpp"
 #include "vga.hpp"
 
 class vga_backend : public logging::backend {

@@ -4,13 +4,13 @@
 #include <cstdint>
 #include <queue>
 #include <string>
-#include "../../lib/libsystem/logger.hpp"
+#include "../../../libs/libsystem/src/logger.hpp"
 #include "keyboard.hpp"
 #include "keystate.hpp"
 #include "ps2_controller.hpp"
 #include "scancode_set.hpp"
 #include "scancode_set_2.hpp"
-#include "../cpu/x64/interrupts/frame.hpp"
+#include "../../cpu/x64/src/interrupts/frame.hpp"
 
 class ps2_keyboard : public keyboard {
 public:

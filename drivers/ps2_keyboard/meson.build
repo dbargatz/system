@@ -1,8 +1,8 @@
 ps2_keyboard_src = [
-    'keystate.cpp',
-    'ps2_controller.cpp',
-    'ps2_keyboard.cpp',
-    'scancode_set_2.cpp',
+    'src/keystate.cpp',
+    'src/ps2_controller.cpp',
+    'src/ps2_keyboard.cpp',
+    'src/scancode_set_2.cpp',
 ]
 
 link_with_objs = [libcxx_lib, libsystem_lib]

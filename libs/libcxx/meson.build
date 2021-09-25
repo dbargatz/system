@@ -1,8 +1,8 @@
 libcxx_src = [
-    'cstring.cpp',
-    'cxa_atexit.cpp',
-    'cxa_virtual.cpp',
-    'memory_resource.cpp',
+    'src/cstring.cpp',
+    'src/cxa_atexit.cpp',
+    'src/cxa_virtual.cpp',
+    'src/memory_resource.cpp',
 ]
 
 libcxx_lib = static_library('libcxx', libcxx_src)

@@ -1,5 +1,5 @@
 monitor_src = [
-    'main.cpp',
+    'src/main.cpp',
 ]
 
 link_with_objs = [libcxx_lib, libsystem_lib]

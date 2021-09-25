@@ -1,6 +1,6 @@
 vga_src = [
-    'vga.cpp',
-    'vga_logger.cpp',
+    'src/vga.cpp',
+    'src/vga_logger.cpp',
 ]
 
 link_with_objs = [libcxx_lib, libsystem_lib]

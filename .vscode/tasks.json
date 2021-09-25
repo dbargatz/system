@@ -6,7 +6,7 @@
         {
             "label": "Clean Build (x64)",
             "type": "shell",
-            "command": "rm -rf ./build/ && meson ./build/ --buildtype debug --cross-file ./x64.ini && ninja -C ./build/ && rm -rf ~/os.log",
+            "command": "rm -rf ./build/ && meson ./build/ --buildtype debug --cross-file ./drivers/cpu/x64/x64.ini && ninja -C ./build/ && rm -rf ~/os.log",
             "group": {
                 "kind": "build",
                 "isDefault": true

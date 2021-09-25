@@ -1,6 +1,6 @@
 libsystem_src = [
-    'binary.cpp',
-    'logger.cpp',
+    'src/binary.cpp',
+    'src/logger.cpp',
 ]
 
 libsystem_lib = static_library('libsystem', libsystem_src)

@@ -1,7 +1,7 @@
 #ifndef _CPU_X64_LOGGING_LOGGER
 #define _CPU_X64_LOGGING_LOGGER
 
-#include "../../../../lib/libsystem/logger.hpp"
+#include "../../../../../libs/libsystem/src/logger.hpp"
 
 
 namespace cpu::x64::logging {
