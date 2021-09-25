@@ -6,7 +6,6 @@
 #include "../logging/logger.hpp"
 #include "../interrupts/frame.hpp"
 #include "../ports/io_port.hpp"
-#include "../core.hpp"
 
 namespace core::x64::timer {
 

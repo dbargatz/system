@@ -5,7 +5,7 @@
 #include "logging/uart_logger.hpp"
 #include "interrupts/gdt.hpp"
 #include "interrupts/tss.hpp"
-#include "core.hpp"
+#include "core_manager.hpp"
 #include "timer/pit.hpp"
 #include "multiboot/boot_info.hpp"
 

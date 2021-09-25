@@ -1,4 +1,4 @@
-#include "core.hpp"
+#include "core_manager.hpp"
 
 #include <cassert>
 
@@ -6,7 +6,6 @@
 #include "std/cpuid.h"
 #include "std/msr.hpp"
 #include "std/panic.h"
-#include "registers/cr3.hpp"
 #include "registers/cr3.hpp"
 
 #define HANDLERS \
