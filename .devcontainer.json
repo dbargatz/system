@@ -1,6 +1,6 @@
 {
     "name": "system",
-    "dockerFile": "tools/Dockerfile",
+    "dockerFile": "Dockerfile",
     "runArgs":[
         "--privileged"
     ],
