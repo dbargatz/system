@@ -1,18 +1,20 @@
 project('system', 'cpp', version: '0.1.0')
 
-grub_cfg = '../src/grub.cfg'
+grub_cfg = '../drivers/core/x64/grub.cfg'
 
 # Libraries
-subdir('src/abi')
-subdir('src/loader')
-subdir('src/logging')
-subdir('src/std')
+subdir('libs/libcxx')
+subdir('libs/libsystem')
 
-# Executables
-subdir('src/driver/cpu/x64')
-subdir('src/monitor')
+# Drivers
+subdir('drivers/core/x64')
+subdir('drivers/ps2_keyboard')
+subdir('drivers/vga')
 
-iso = custom_target('iso',
+# Applications
+subdir('apps/monitor')
+
+iso_x64 = custom_target('iso_x64',
     input: [core_x64_bin, monitor_bin],
     output: 'system.iso',
     command: ['mkdir', '-p', 'iso/boot/grub', '&&',
