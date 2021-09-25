@@ -85,8 +85,8 @@ void core::x64::multiboot::boot_info::dump() {
     _log.info(u8"Boot info:");
     _log.info(u8"\tACPI v1.0 RSDP        : {:#016X}", _acpi_rsdp);
     _log.info(u8"\tBootloader name       : {}", *_bootloader);
-    _log.info(u8"\tCPU Driver commandline: {}", *_cmdline);
-    _log.info(u8"\tCPU Driver load addr  : {:#016X}", _load_base_addr);
+    _log.info(u8"\tCore Driver commandline: {}", *_cmdline);
+    _log.info(u8"\tCore Driver load addr  : {:#016X}", _load_base_addr);
     _log.info(u8"\tMonitor module        : ");
     _log.info(u8"\t\tCommand line            : {}", *_monitor_cmd);
     _log.info(u8"\t\tStart address           : {:#016X}", _monitor_start_addr);
