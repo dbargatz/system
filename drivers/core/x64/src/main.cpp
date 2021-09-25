@@ -12,7 +12,7 @@
 // TODO: store this in the FS or GS register so it's always accessible from
 //       the core driver; make sure on returns to user mode FS/GS is restored
 //       so we don't leak it to user mode.
-core * this_core;
+core::x64::core_manager * this_core;
 
 void operator delete(void * in_ptr) {
     PANIC("delete() called in core driver!");
@@ -32,21 +32,21 @@ extern "C" int core_entry(const void * in_boot_info) {
     // backends to be added to a single logger; boost::di's implementation of
     // constructor injection with multiple bindings is currently broken, so
     // add_backend() is a workaround.
-    auto uart_driver = new uart();
-    auto uart_log = new uart_backend(*uart_driver);
+    auto uart_driver = new core::x64::logging::uart();
+    auto uart_log = new core::x64::logging::uart_backend(*uart_driver);
     auto log = new logging::logger();
     log->add_backend(uart_log);
 
     // Parse the Multiboot 2 boot information and dump it to the log.
-    boot_info* boot = boot_info::parse(*log, in_boot_info);
+    auto boot = core::x64::multiboot::boot_info::parse(*log, in_boot_info);
 
     // Bind abstract classes to implementations and create the bootstrap core.
-    auto gdt_obj = new gdt();
-    auto idt_obj = new idt(*log);
-    auto tss_obj = new tss(*gdt_obj);
-    auto interrupt_driver = new pic(*log);
-    auto timer = new pit(*log);
-    auto bootstrap_core = new core(*log, *boot, *gdt_obj, *idt_obj, *interrupt_driver, *timer, *tss_obj);
+    auto gdt_obj = new core::x64::interrupts::gdt();
+    auto idt_obj = new core::x64::interrupts::idt(*log);
+    auto tss_obj = new core::x64::interrupts::tss(*gdt_obj);
+    auto interrupt_driver = new core::x64::interrupts::pic(*log);
+    auto timer = new core::x64::timer::pit(*log);
+    auto bootstrap_core = new core::x64::core_manager(*log, *boot, *gdt_obj, *idt_obj, *interrupt_driver, *timer, *tss_obj);
 
     // Save off the current core
     this_core = bootstrap_core;
