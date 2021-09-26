@@ -11,13 +11,30 @@
             "executable": "${workspaceFolder}/build/iso/boot/core_x64.bin",
             "autorun": [
                 "set arch i386:x86-64:intel",
-                "break core_entry",                
+                "break core_entry",
             ],
             "printCalls": true,
             "target": "localhost:1234",
             "remote": true,
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "Start QEMU (x64)",
+            "postDebugTask": "Kill QEMU",
+        },
+        {
+            "name": "Debug (arm64)",
+            "type": "gdb",
+            "gdbpath": "gdb-multiarch",
+            "request": "attach",
+            "executable": "${workspaceFolder}/build/kernel8.img",
+            "autorun": [
+                "set arch aarch64",
+                "break core_entry",
+            ],
+            "printCalls": true,
+            "target": "localhost:1234",
+            "remote": true,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Start QEMU (arm64)",
             "postDebugTask": "Kill QEMU",
         }
     ]

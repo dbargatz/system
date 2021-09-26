@@ -6,7 +6,18 @@
         {
             "label": "Clean Build (x64)",
             "type": "shell",
-            "command": "rm -rf ./build/ && meson ./build/ --buildtype debug --cross-file ./drivers/core/x64/x64.ini && ninja -C ./build/ && rm -rf ~/os.log",
+            "command": "rm -rf ./build/ && meson setup ./build/ --buildtype debug --cross-file ./drivers/core/x64/x64.ini && ninja -C ./build/ system.iso && rm -rf ~/os.log",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Build (arm64)",
+            "type": "shell",
+            "command": "rm -rf ./build/ && meson setup ./build/ --buildtype debug --cross-file ./drivers/core/arm64/arm64.ini && ninja -C ./build/ kernel8.img && rm -rf ~/os.log",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -40,6 +51,47 @@
             "isBackground": true,
             "dependsOn": [
                 "Clean Build (x64)",
+            ],
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "severity": 3,
+                      "code": 4,
+                      "message": 5
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".",
+                    "endsPattern": "^VNC server running on 127.0.0.1:5900"
+                }
+            }
+        },
+        {
+            "label": "Start QEMU (arm64)",
+            "type": "shell",
+            "command": "/usr/bin/qemu-system-aarch64",
+            "args": [
+                "-M", "raspi3b",
+                "-serial", "stdio",
+                "-d", "int",
+                "-D", "~/qemu.log",
+                "-no-reboot",
+                "-s",
+                "-S",
+                "-kernel", "${workspaceFolder}/build/kernel8.img",
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+            },
+            "isBackground": true,
+            "dependsOn": [
+                "Clean Build (arm64)",
             ],
             "problemMatcher": {
                 "pattern": [
