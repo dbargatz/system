@@ -7,7 +7,7 @@ gen_aarch64_asm = generator(aarch64_assembler,
     output: '@BASENAME@.o',
     arguments: ['-target', 'aarch64', '-c', '@INPUT@', '-o', '@OUTPUT@'])
 drivers_core_arm64_asm_src = [
-    'src/start.s',
+    'src/start.asm',
 ]
 asm_objs = gen_aarch64_asm.process(drivers_core_arm64_asm_src)
 
