@@ -7,6 +7,7 @@ subdir('libs/libcxx')
 subdir('libs/libsystem')
 
 # Drivers
+subdir('drivers/core/arm64')
 subdir('drivers/core/x64')
 subdir('drivers/ps2_keyboard')
 subdir('drivers/vga')
@@ -21,6 +22,13 @@ iso_x64 = custom_target('iso_x64',
               'cp', grub_cfg, 'iso/boot/grub', '&&',
               'cp', '@INPUT@', 'iso/boot', '&&',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
+    install: true,
+    install_dir: 'build')
+
+arm64 = custom_target('arm64',
+    input: [core_arm64_bin],
+    output: 'kernel8.img',
+    command: ['cp', '@INPUT@', '@OUTPUT@'],
     install: true,
     install_dir: 'build')
 
