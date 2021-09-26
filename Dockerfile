@@ -20,12 +20,13 @@ RUN apt-get update                                                  \
 RUN apt-get -y --no-install-recommends install \
     doxygen                                    \
     g++                                        \
-    gdb                                        \
+    gdb-multiarch                              \
     git                                        \
     gnupg2                                     \
     graphviz                                   \
     grub-common                                \
     grub-pc-bin                                \
+    file                                       \
     less                                       \
     lsb-release                                \
     nasm                                       \
