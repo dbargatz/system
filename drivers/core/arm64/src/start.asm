@@ -38,4 +38,4 @@ _bootstrap:
     // jump to C code, should not return
 4:  bl      core_entry
     // for failsafe, halt this core too
-    b 4b
+    b _hang
