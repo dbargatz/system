@@ -29,6 +29,7 @@ RUN apt-get -y --no-install-recommends install \
     file                                       \
     less                                       \
     lsb-release                                \
+    make                                       \
     nasm                                       \
     openssh-client                             \
     python3                                    \
