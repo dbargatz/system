@@ -83,7 +83,8 @@
             "command": "/usr/bin/qemu-system-aarch64",
             "args": [
                 "-M", "raspi3b",
-                "-serial", "stdio",
+                "-serial", "null",  // skip UART0 for now
+                "-serial", "stdio", // redirect UART1 (the mini-UART) to stdio
                 "-d", "int",
                 "-D", "~/qemu_raspi3b.log",
                 "-no-reboot",
