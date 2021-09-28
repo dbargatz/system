@@ -1,17 +1,15 @@
-drivers_core_arm64_asm_src = [
-    'src/start.s',
-]
-
 aarch64_assembler = find_program('clang-13')
 gen_aarch64_asm = generator(aarch64_assembler,
     output: '@BASENAME@.o',
     arguments: ['-target', 'aarch64', '-c', '@INPUT@', '-o', '@OUTPUT@'])
 drivers_core_arm64_asm_src = [
+    'src/console/utils.asm',
     'src/start.asm',
 ]
 asm_objs = gen_aarch64_asm.process(drivers_core_arm64_asm_src)
 
 drivers_core_arm64_src = [
+    'src/console/uart.cpp',
     'src/main.cpp',
 ]
 
