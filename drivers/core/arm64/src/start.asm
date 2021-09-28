@@ -6,17 +6,11 @@
 // Make _start global.
 .globl _start
  
-    .org 0x80000
-// Entry point for the kernel. Registers:
-// x0 -> 32 bit pointer to DTB in memory (primary core only) / 0 (secondary cores)
-// x1 -> 0
-// x2 -> 0
-// x3 -> 0
-// x4 -> 32 bit kernel entry point, _start location
+ .org 0x80000
 _start:
-    mrs    x5, mpidr_el1        
-    and    x5, x5,#0xFF        // Check processor id
-    cbz    x5, _bootstrap      // Hang for all non-primary CPU
+    mrs    x0, mpidr_el1        
+    and    x0, x0,#0xFF        // Check processor id
+    cbz    x0, _bootstrap      // Hang for all non-primary CPU
     b      _hang
 
 _hang:
