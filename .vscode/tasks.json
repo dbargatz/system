@@ -4,32 +4,39 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Clean Build (x64)",
+            "label": "Clean",
             "type": "shell",
-            "command": "rm -rf ./build/ && meson setup ./build/ --buildtype debug --cross-file ./drivers/core/x64/x64.ini && ninja -C ./build/ system.iso && rm -rf ~/os.log",
+            "command": "make clean",
+            "group": "build"
+        },
+        {
+            "label": "Build (qemu-pc)",
+            "type": "shell",
             "group": "build",
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
+            "command": "make clean && make build",
+            "options": {
+                "env": {
+                    "SYSTEM_ARCHITECTURE": "x64",
+                    "SYSTEM_NINJA_TARGET": "system.iso",
+                    "SYSTEM_PLATFORM": "qemu-pc",
+                }
             },
-            "problemMatcher": []
         },
         {
-            "label": "Clean Build (arm64)",
+            "label": "Build (raspi3b)",
             "type": "shell",
-            "command": "rm -rf ./build/ && meson setup ./build/ --buildtype debug --cross-file ./drivers/core/arm64/arm64.ini && ninja -C ./build/ kernel8.img && rm -rf ~/os.log",
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "group": "build",
+            "command": "make clean && make build",
+            "options": {
+                "env": {
+                    "SYSTEM_ARCHITECTURE": "arm64",
+                    "SYSTEM_NINJA_TARGET": "kernel8.img",
+                    "SYSTEM_PLATFORM": "raspi3b",
+                }
             },
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-            },
-            "problemMatcher": []
         },
         {
-            "label": "Start QEMU (x64)",
+            "label": "Start QEMU (qemu-pc)",
             "type": "shell",
             "command": "/usr/bin/qemu-system-x86_64",
             "args": [
@@ -37,11 +44,11 @@
                 "-smp", "3",
                 "-serial", "stdio",
                 "-d", "int",
-                "-D", "~/qemu.log",
+                "-D", "~/qemu_x64.log",
                 "-no-reboot",
                 "-s",
                 "-S",
-                "-cdrom", "${workspaceFolder}/build/system.iso",
+                "-cdrom", "${workspaceFolder}/build/qemu-pc/system.iso",
             ],
             "group": "test",
             "presentation": {
@@ -50,7 +57,7 @@
             },
             "isBackground": true,
             "dependsOn": [
-                "Clean Build (x64)",
+                "Build (qemu-pc)",
             ],
             "problemMatcher": {
                 "pattern": [
@@ -71,18 +78,18 @@
             }
         },
         {
-            "label": "Start QEMU (arm64)",
+            "label": "Start QEMU (raspi3b)",
             "type": "shell",
             "command": "/usr/bin/qemu-system-aarch64",
             "args": [
                 "-M", "raspi3b",
                 "-serial", "stdio",
                 "-d", "int",
-                "-D", "~/qemu.log",
+                "-D", "~/qemu_raspi3b.log",
                 "-no-reboot",
                 "-s",
                 "-S",
-                "-kernel", "${workspaceFolder}/build/kernel8.img",
+                "-kernel", "${workspaceFolder}/build/raspi3b/kernel8.img",
             ],
             "group": "test",
             "presentation": {
@@ -91,7 +98,7 @@
             },
             "isBackground": true,
             "dependsOn": [
-                "Clean Build (arm64)",
+                "Build (raspi3b)",
             ],
             "problemMatcher": {
                 "pattern": [

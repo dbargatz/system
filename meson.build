@@ -1,6 +1,6 @@
 project('system', 'cpp', version: '0.1.0')
 
-grub_cfg = '../drivers/core/x64/grub.cfg'
+grub_cfg = '../../drivers/core/x64/grub.cfg'
 
 # Libraries
 subdir('libs/libcxx')
@@ -23,14 +23,14 @@ iso_x64 = custom_target('iso_x64',
               'cp', '@INPUT@', 'iso/boot', '&&',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
     install: true,
-    install_dir: 'build')
+    install_dir: 'build/qemu-pc')
 
 arm64 = custom_target('arm64',
     input: [core_arm64_bin],
     output: 'kernel8.img',
     command: ['cp', '@INPUT@', '@OUTPUT@'],
     install: true,
-    install_dir: 'build')
+    install_dir: 'build/raspi3b')
 
 doxygen = find_program('doxygen')
 doxygen_data = configuration_data()

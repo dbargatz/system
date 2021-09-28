@@ -26,7 +26,7 @@ drivers_core_x64_src = [
     'src/main.cpp',
 ]
 
-drivers_core_x64_link_script = '../drivers/core/x64/linker.ld'
+drivers_core_x64_link_script = '../../drivers/core/x64/linker.ld'
 link_with_objs = [libcxx_lib]
 core_x64_bin = executable('core_x64.bin', [drivers_core_x64_src, nasm_objs],
                           link_args: ['-Wl,-T' + drivers_core_x64_link_script],

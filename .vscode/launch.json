@@ -5,10 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug (x64)",
+            "name": "Debug (qemu-pc)",
             "type": "gdb",
+            "gdbpath": "gdb-multiarch",
             "request": "attach",
-            "executable": "${workspaceFolder}/build/iso/boot/core_x64.bin",
+            "executable": "${workspaceFolder}/build/x64/iso/boot/core_x64.bin",
             "autorun": [
                 "set arch i386:x86-64:intel",
                 "break core_entry",
@@ -17,15 +18,15 @@
             "target": "localhost:1234",
             "remote": true,
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Start QEMU (x64)",
+            "preLaunchTask": "Start QEMU (qemu-pc)",
             "postDebugTask": "Kill QEMU",
         },
         {
-            "name": "Debug (arm64)",
+            "name": "Debug (raspi3b)",
             "type": "gdb",
             "gdbpath": "gdb-multiarch",
             "request": "attach",
-            "executable": "${workspaceFolder}/build/kernel8.img",
+            "executable": "${workspaceFolder}/build/raspi3b/kernel8.img",
             "autorun": [
                 "set arch aarch64",
                 "break core_entry",
@@ -34,7 +35,7 @@
             "target": "localhost:1234",
             "remote": true,
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Start QEMU (arm64)",
+            "preLaunchTask": "Start QEMU (raspi3b)",
             "postDebugTask": "Kill QEMU",
         }
     ]

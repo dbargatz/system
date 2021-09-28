@@ -15,7 +15,7 @@ drivers_core_arm64_src = [
     'src/main.cpp',
 ]
 
-drivers_core_arm64_link_script = '../drivers/core/arm64/linker.ld'
+drivers_core_arm64_link_script = '../../drivers/core/arm64/linker.ld'
 link_with_objs = [libcxx_lib]
 core_arm64_bin = executable('core_arm64.bin', [drivers_core_arm64_src, asm_objs],
                           link_args: ['-Wl,-T' + drivers_core_arm64_link_script],
