@@ -10,30 +10,16 @@
             "group": "build"
         },
         {
-            "label": "Build (qemu-pc)",
+            "label": "Build All",
             "type": "shell",
             "group": "build",
-            "command": "make clean && make build",
-            "options": {
-                "env": {
-                    "SYSTEM_ARCHITECTURE": "x64",
-                    "SYSTEM_NINJA_TARGET": "system.iso",
-                    "SYSTEM_PLATFORM": "qemu-pc",
-                }
-            },
+            "command": "make clean && make all",
         },
         {
             "label": "Build (raspi3b)",
             "type": "shell",
             "group": "build",
             "command": "make clean && make build",
-            "options": {
-                "env": {
-                    "SYSTEM_ARCHITECTURE": "arm64",
-                    "SYSTEM_NINJA_TARGET": "kernel8.img",
-                    "SYSTEM_PLATFORM": "raspi3b",
-                }
-            },
         },
         {
             "label": "Start QEMU (qemu-pc)",
@@ -57,7 +43,7 @@
             },
             "isBackground": true,
             "dependsOn": [
-                "Build (qemu-pc)",
+                "Build All",
             ],
             "problemMatcher": {
                 "pattern": [
@@ -99,7 +85,7 @@
             },
             "isBackground": true,
             "dependsOn": [
-                "Build (raspi3b)",
+                "Build All",
             ],
             "problemMatcher": {
                 "pattern": [
