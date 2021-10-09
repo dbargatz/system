@@ -16,7 +16,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "make clean && make all",
+            "command": "make all",
         },
         {
             "label": "Start QEMU (qemu-pc)",
