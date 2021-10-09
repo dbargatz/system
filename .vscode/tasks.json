@@ -24,7 +24,7 @@
                 "-smp", "3",
                 "-serial", "stdio",
                 "-d", "int",
-                "-D", "~/qemu_pc.log",
+                "-D", "~/qemu_qemu_pc.log",
                 "-no-reboot",
                 "-s",
                 "-S",
@@ -66,7 +66,7 @@
                 "-serial", "null",  // skip UART0 for now
                 "-serial", "stdio", // redirect UART1 (the mini-UART) to stdio
                 "-d", "int",
-                "-D", "~/raspi3b.log",
+                "-D", "~/qemu_raspi3b.log",
                 "-no-reboot",
                 "-s",
                 "-S",
