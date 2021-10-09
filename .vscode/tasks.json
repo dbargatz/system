@@ -16,12 +16,6 @@
             "command": "make clean && make all",
         },
         {
-            "label": "Build (raspi3b)",
-            "type": "shell",
-            "group": "build",
-            "command": "make clean && make build",
-        },
-        {
             "label": "Start QEMU (qemu-pc)",
             "type": "shell",
             "command": "/usr/bin/qemu-system-x86_64",
@@ -30,11 +24,11 @@
                 "-smp", "3",
                 "-serial", "stdio",
                 "-d", "int",
-                "-D", "~/qemu_x64.log",
+                "-D", "~/qemu_pc.log",
                 "-no-reboot",
                 "-s",
                 "-S",
-                "-cdrom", "${workspaceFolder}/build/qemu-pc/system.iso",
+                "-cdrom", "${workspaceFolder}/build/qemu_pc/system.iso",
             ],
             "group": "test",
             "presentation": {
@@ -72,7 +66,7 @@
                 "-serial", "null",  // skip UART0 for now
                 "-serial", "stdio", // redirect UART1 (the mini-UART) to stdio
                 "-d", "int",
-                "-D", "~/qemu_raspi3b.log",
+                "-D", "~/raspi3b.log",
                 "-no-reboot",
                 "-s",
                 "-S",

@@ -9,7 +9,7 @@
             "type": "gdb",
             "gdbpath": "gdb-multiarch",
             "request": "attach",
-            "executable": "${workspaceFolder}/build/x64/iso/boot/core_x64.bin",
+            "executable": "${workspaceFolder}/build/qemu_pc/iso/boot/core_qemu_pc.bin",
             "autorun": [
                 "set arch i386:x86-64:intel",
                 "break core_entry",
