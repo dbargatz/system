@@ -15,8 +15,7 @@ enum class level : std::uint8_t {
     Debug,
     Info,
     Warn,
-    Error,
-    Panic
+    Error
 };
 
 class console {
@@ -52,6 +51,27 @@ public:
     void debug(const char* in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
     template <typename... Args>
     void debug(const std::string& in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
+
+    template <typename... Args>
+    void info(const char8_t* in_fmt, Args&&... in_args) { _write(level::Info, in_fmt, in_args...); }
+    template <typename... Args>
+    void info(const char* in_fmt, Args&&... in_args) { _write(level::Info, in_fmt, in_args...); }
+    template <typename... Args>
+    void info(const std::string& in_fmt, Args&&... in_args) { _write(level::Info, in_fmt, in_args...); }
+
+    template <typename... Args>
+    void warn(const char8_t* in_fmt, Args&&... in_args) { _write(level::Warn, in_fmt, in_args...); }
+    template <typename... Args>
+    void warn(const char* in_fmt, Args&&... in_args) { _write(level::Warn, in_fmt, in_args...); }
+    template <typename... Args>
+    void warn(const std::string& in_fmt, Args&&... in_args) { _write(level::Warn, in_fmt, in_args...); }
+
+    template <typename... Args>
+    void error(const char8_t* in_fmt, Args&&... in_args) { _write(level::Error, in_fmt, in_args...); }
+    template <typename... Args>
+    void error(const char* in_fmt, Args&&... in_args) { _write(level::Error, in_fmt, in_args...); }
+    template <typename... Args>
+    void error(const std::string& in_fmt, Args&&... in_args) { _write(level::Error, in_fmt, in_args...); }
 
     template <typename... Args>
     void log(level in_level, const char8_t* in_fmt, Args&&... in_args) { _write(in_level, in_fmt, in_args...); }
