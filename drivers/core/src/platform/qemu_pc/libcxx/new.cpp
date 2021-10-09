@@ -33,6 +33,12 @@ void* operator new[](std::size_t count, std::align_val_t al) {
     return ::operator new(count, std::align_val_t(alignof(std::max_align_t)));
 }
 
+void operator delete(void* ptr) noexcept {
+    assert(ptr >= &_early_heap_bottom);
+    assert(ptr < &_early_heap_top);
+    return;    
+}
+
 void operator delete(void* ptr, std::size_t size, std::align_val_t alignment) noexcept {
     assert(ptr >= &_early_heap_bottom);
     assert(ptr < &_early_heap_top);
