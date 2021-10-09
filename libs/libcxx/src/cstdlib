@@ -3,7 +3,7 @@
 
 namespace std {
 
-    void abort(void);
+    [[noreturn]] void abort(void);
 
 }; // namespace std
 
