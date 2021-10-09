@@ -50,7 +50,7 @@ core::console::console::console() {
 	put32(AUX_MU_CNTL_REG,3);               //Finally, enable transmitter and receiver
 }
 
-void core::console::console::write(const char8_t* in_str) {
+void core::console::console::_platform_write(const char8_t* in_str) {
     for(int i = 0; in_str[i] != '\0'; i++) {
         // Wait until the status register indicates the line is clear to send.
         while(0 == (get32(AUX_MU_LSR_REG) & 0x20)) {}

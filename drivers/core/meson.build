@@ -22,6 +22,8 @@ core_qemu_pc_asm_src = [
 ]
 core_qemu_pc_cpp_src = core_cpp_src + [
     'src/platform/qemu_pc/console/console.cpp',
+    'src/platform/qemu_pc/libcxx/abort.cpp',
+    'src/platform/qemu_pc/libcxx/new.cpp',
     'src/platform/qemu_pc/ports/io_port.cpp',
 ]
 

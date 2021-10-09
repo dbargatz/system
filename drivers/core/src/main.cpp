@@ -5,5 +5,5 @@
 
 extern "C" void core_entry(std::uint64_t in_proc_id) {
     core::console::console log;
-    log.write("Hello, world!\n");
+    log.debug("Hello, world!\n");
 }

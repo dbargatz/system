@@ -41,7 +41,8 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "cassert": "cpp"
     },
     "files.exclude": {
         "**/.git": true,
