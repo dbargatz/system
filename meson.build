@@ -12,7 +12,7 @@ subdir('drivers/vga')
 # Applications
 subdir('apps/monitor')
 
-grub_cfg = '../../drivers/core/src/platform/qemu_pc/grub.cfg'
+grub_cfg = '../../drivers/core/src/platform/qemu_pc/boot/grub.cfg'
 qemu_pc = custom_target('iso_x64',
     input: [core_qemu_pc_bin, monitor_bin],
     output: 'system.iso',
