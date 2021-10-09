@@ -13,7 +13,7 @@ subdir('drivers/vga')
 subdir('apps/monitor')
 
 grub_cfg = '../../drivers/core/src/platform/qemu_pc/boot/grub.cfg'
-qemu_pc = custom_target('iso_x64',
+qemu_pc = custom_target('qemu_pc',
     input: [core_qemu_pc_bin],
     output: 'system.iso',
     command: ['mkdir', '-p', 'iso/boot/grub', '&&',
@@ -23,7 +23,7 @@ qemu_pc = custom_target('iso_x64',
     install: true,
     install_dir: 'build/qemu_pc')
 
-raspi3b = custom_target('arm64',
+raspi3b = custom_target('raspi3b',
     input: [core_raspi3b_bin],
     output: 'kernel8.img',
     command: ['cp', '@INPUT@', '@OUTPUT@'],
