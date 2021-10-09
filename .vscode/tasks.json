@@ -12,7 +12,10 @@
         {
             "label": "Build All",
             "type": "shell",
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "command": "make clean && make all",
         },
         {
