@@ -17,6 +17,7 @@ x64_assembler = generator(find_program('nasm'),
 
 # Build for the QEMU-PC target. -------------------------------------------------------------------
 core_qemu_pc_asm_src = [
+    'src/platform/qemu_pc/boot/multiboot2_header.asm',
     'src/platform/qemu_pc/boot/start.asm',
 ]
 core_qemu_pc_cpp_src = core_cpp_src + [

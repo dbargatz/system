@@ -20,5 +20,4 @@ raspi3b: raspi3b-build
 
 clean:
 	rm -rf ./build
-	rm -rf ~/os_*.log
-	rm -rf ~/qemu_*.log
+	rm -rf ~/*.log
