@@ -125,11 +125,15 @@ long_mode_start:
     cmp rbx, end_init_array
     jb .call_ctor
 
-    ;; Pop the Multiboot 2 information structure off the stack into RDI. By x64
-    ;; calling convention, RDI receives the first argument to a function call;
-    ;; as the only argument to core_entry is the Multiboot 2 info struct, we 
-    ;; pass it via RDI.
-    pop rdi
+    ;; Pop the Multiboot 2 information structure off the stack into RDI. By the
+    ;; System V AMD64 ABI calling convention, RDI contains the first integer
+    ;; argument to a function call and RSI contains the second integer argument.
+    ;; The core_entry() function expects a processor ID as the first argument
+    ;; and a pointer to any platform-specific boot information as the second
+    ;; argument; because this is the bootstrap core, pass zero as the processor
+    ;; ID and pop the Multiboot 2 info struct pointer off the stack into RSI.
+    xor rdi, rdi
+    pop rsi
 
     ;; Load RAX with the address of core_entry and call it!
     lea rax, [core_entry]
