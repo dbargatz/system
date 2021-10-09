@@ -6,8 +6,6 @@
 #include <format>
 #include <string>
 
-#include "../platform.hpp"
-
 namespace core::console {
 
 enum class level : std::uint8_t {
