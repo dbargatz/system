@@ -1,32 +1,30 @@
 project('system', 'cpp', version: '0.1.0')
 
-grub_cfg = '../../drivers/core/x64/grub.cfg'
-
 # Libraries
 subdir('libs/libcxx')
 subdir('libs/libsystem')
 
 # Drivers
-subdir('drivers/core/arm64')
-subdir('drivers/core/x64')
+subdir('drivers/core')
 subdir('drivers/ps2_keyboard')
 subdir('drivers/vga')
 
 # Applications
 subdir('apps/monitor')
 
-iso_x64 = custom_target('iso_x64',
-    input: [core_x64_bin, monitor_bin],
+grub_cfg = '../../drivers/core/src/platform/qemu_pc/grub.cfg'
+qemu_pc = custom_target('iso_x64',
+    input: [core_qemu_pc_bin, monitor_bin],
     output: 'system.iso',
     command: ['mkdir', '-p', 'iso/boot/grub', '&&',
               'cp', grub_cfg, 'iso/boot/grub', '&&',
               'cp', '@INPUT@', 'iso/boot', '&&',
               'grub-mkrescue', '--quiet', '-o', '@OUTPUT@', 'iso'],
     install: true,
-    install_dir: 'build/qemu-pc')
+    install_dir: 'build/qemu_pc')
 
-arm64 = custom_target('arm64',
-    input: [core_arm64_bin],
+raspi3b = custom_target('arm64',
+    input: [core_raspi3b_bin],
     output: 'kernel8.img',
     command: ['cp', '@INPUT@', '@OUTPUT@'],
     install: true,

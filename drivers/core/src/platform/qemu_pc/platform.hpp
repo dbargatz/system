@@ -1,0 +1,6 @@
+#ifndef _CORE_PLATFORM_QEMU_PC_PLATFORM_HPP
+#define _CORE_PLATFORM_QEMU_PC_PLATFORM_HPP
+
+#include "console/uart.hpp"
+
+#endif // _CORE_PLATFORM_QEMU_PC_PLATFORM_HPP
