@@ -21,7 +21,7 @@ core_qemu_pc_asm_src = [
     'src/platform/qemu_pc/boot/start.asm',
 ]
 core_qemu_pc_cpp_src = core_cpp_src + [
-    'src/platform/qemu_pc/console/uart.cpp',
+    'src/platform/qemu_pc/console/console.cpp',
     'src/platform/qemu_pc/ports/io_port.cpp',
 ]
 
@@ -38,7 +38,7 @@ core_raspi3b_asm_src = [
     'src/platform/raspi3b/console/utils.asm',
 ]
 core_raspi3b_cpp_src = core_cpp_src + [
-    'src/platform/raspi3b/console/uart.cpp',
+    'src/platform/raspi3b/console/console.cpp',
 ]
 
 core_raspi3b_linker_script = '../../drivers/core/src/platform/raspi3b/linker.ld'

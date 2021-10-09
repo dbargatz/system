@@ -1,8 +1,9 @@
 #include <cstdint>
+#include <string>
 
-#include "platform.hpp"
+#include "console/console.hpp"
 
 extern "C" void core_entry(std::uint64_t in_proc_id) {
-    core::console::uart log;
+    core::console::console log;
     log.write("Hello, world!\n");
 }
