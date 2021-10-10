@@ -9,7 +9,7 @@ constexpr static const core::x64::ports::io_port LINE_CONTROL     = core::x64::p
 constexpr static const core::x64::ports::io_port MODEM_CONTROL    = core::x64::ports::io_port(COM1_IO_PORT + 4);
 constexpr static const core::x64::ports::io_port LINE_STATUS      = core::x64::ports::io_port(COM1_IO_PORT + 5);
 
-core::console::console::console() {
+bool core::console::console::_platform_init(void) {
     // TODO: explain what's going on here
     INTERRUPT_ENABLE.outb(0x00);
     LINE_CONTROL.outb(0x80);
@@ -18,6 +18,8 @@ core::console::console::console() {
     LINE_CONTROL.outb(0x03);
     ID_FIFO_CONTROL.outb(0xC7);
     MODEM_CONTROL.outb(0x0B);
+
+    return true;
 }
 
 void core::console::console::_platform_write(const char * in_str) {

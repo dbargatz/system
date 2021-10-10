@@ -26,7 +26,7 @@ extern "C" void delay_cycles(std::uint32_t in_num_cycles);
 extern "C" std::uint32_t get32(std::uint32_t in_mmio_reg);
 extern "C" void put32(std::uint32_t in_mmio_reg, std::uint32_t in_value);
 
-core::console::console::console() {
+bool core::console::console::_platform_init(void) {
     auto selector = get32(GPFSEL1);
 	selector &= ~(7<<12);                   // clean gpio14
 	selector |= 2<<12;                      // set alt5 for gpio14
@@ -48,6 +48,8 @@ core::console::console::console() {
 	put32(AUX_MU_BAUD_REG,270);             //Set baud rate to 115200
 
 	put32(AUX_MU_CNTL_REG,3);               //Finally, enable transmitter and receiver
+
+	return true;
 }
 
 void core::console::console::_platform_write(const char * in_str) {

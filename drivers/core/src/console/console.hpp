@@ -39,6 +39,7 @@ enum class level : std::uint8_t {
 
 class console {
 private:
+    level _current_level = level::Info;
     constexpr static char _LEVEL_PREFIXES[] = { '?', ' ', '+', '-', '!', '*'};
 
     template <typename... Args>
@@ -53,6 +54,9 @@ private:
 
     template <typename... Args>
     void _write(level in_level, const std::string& in_fmt, Args&&... in_args) {
+        // Don't format or log the message if it's below the current log level.
+        if(in_level < _current_level) { return; }
+
         auto msg = std::format(in_fmt, in_args...);
 
         // Don't allow newlines in console messages; this could lead to log forgery when combined
@@ -64,10 +68,59 @@ private:
         _platform_write(final.c_str());
     }
 
+    bool _platform_init(void);
     void _platform_write(const char * in_str);
 
 public:
-    console();
+    console(level in_level = level::Info) {
+        assert(_platform_init());
+        set_level(in_level);
+    }
+
+    /**
+     * @brief Returns the current console message level.
+     * 
+     * @return current console message level 
+     */
+    level get_level(void) {
+        return _current_level;
+    }
+
+    /**
+     * @brief Sets the current console level to in_level, meaning messages with a level below this
+     * will not be written to the console.
+     * 
+     * @param in_level minimum level of all messages to write to the console; cannot be Unknown
+     */
+    void set_level(level in_level) {
+        if(in_level == level::Unknown) {
+            warn("Cannot set console level to {}; leaving level at {}", in_level, _current_level);
+            return;
+        }
+        _current_level = in_level;
+        debug("Set console level to {}", _current_level);
+    }
+
+    /**
+     * @brief Writes a series of messages in various Unicode languages to the console at in_level.
+     * Intended to exercise Unicode functionality on new platforms.
+     * 
+     * @param in_level level to write the messages at; if level is below the current console level,
+     * no messages will be written to the console
+     */
+    void unicode_test(level in_level) {
+        if(in_level < _current_level) { return; }
+
+        log(in_level, "Console Unicode test:");
+        log(in_level, "  Arabic:   هذا اختبار");
+        log(in_level, "  Chinese:  这是一个测试");
+        log(in_level, "  Emojis:   🙃 ❤️‍🔥 🖕");
+        log(in_level, "  English:  this is a test");
+        log(in_level, "  Hindi:    यह एक परीक्षण है");
+        log(in_level, "  Japanese: これはテストです");
+        log(in_level, "  Korean:   이것은 시험이다");
+        log(in_level, "  Russian:  это проверка");
+    }
 
     template <typename... Args>
     void debug(const char8_t* in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
@@ -105,6 +158,29 @@ public:
     void log(level in_level, const std::string& in_fmt, Args&&... in_args) { _write(in_level, in_fmt, in_args...); }
 };
 
+};
+
+template <>
+struct std::formatter<core::console::level> {
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) { }
+
+    string format(const core::console::level in_arg) {
+        switch(in_arg) {
+            case core::console::level::Debug:
+                return "debug";
+            case core::console::level::Info:
+                return "info";
+            case core::console::level::Warn:
+                return "warn";
+            case core::console::level::Error:
+                return "error";
+            default:
+                return "unknown";
+        }
+    }
 };
 
 #endif // _CORE_CONSOLE_CONSOLE_HPP
