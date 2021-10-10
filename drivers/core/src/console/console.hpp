@@ -8,11 +8,32 @@
 
 namespace core::console {
 
+/**
+ * @brief Relative severity of a message printed to the console.
+ */
 enum class level : std::uint8_t {
+    /**
+     * @brief Sentinel value; should not be encountered unless something is uninitialized.
+     */
     Unknown,
+    /**
+     * @brief Highly-detailed messages intended for debugging the core driver; typically filtered
+     * out. The term "firehose" comes to mind.
+     */
     Debug,
+    /**
+     * @brief General messages intended for high-level status tracking of the core driver.
+     */
     Info,
+    /**
+     * @brief Messages indicating something has gone wrong in the core driver but it's proceeding
+     * despite the issue.
+     */
     Warn,
+    /**
+     * @brief Something terrible has befallen the core driver, and we're likely about to poop the
+     * hammock. Usually followed by a panic/abort.
+     */
     Error
 };
 
@@ -20,19 +41,24 @@ class console {
 private:
     constexpr static char8_t _LEVEL_PREFIXES[] = { '?', ' ', '+', '-', '!', '*'};
 
-    // TODO: This is dangerous for a few reasons, security-wise:
-    //       + We don't filter out newlines or other spacing
-    //       + We don't disallow prefixes used as log level prefixes
-    //       + A bunch of other nefarious stuff can be done - we don't filter at all
-    // Someone can forge log messages as a result of these shortfalls. They need
-    // to be corrected.
     template <typename... Args>
-    void _write(level in_level, const char8_t* in_fmt, Args&&... in_args) { _write(in_level, std::string(in_fmt), in_args...); }
+    void _write(level in_level, const char8_t* in_fmt, Args&&... in_args) {
+        _write(in_level, std::string(in_fmt), in_args...);
+    }
+
     template <typename... Args>
-    void _write(level in_level, const char* in_fmt, Args&&... in_args) { _write(in_level, std::string((const char8_t*)in_fmt), in_args...); }
+    void _write(level in_level, const char* in_fmt, Args&&... in_args) {
+        _write(in_level, std::string((const char8_t*)in_fmt), in_args...);
+    }
+
     template <typename... Args>
     void _write(level in_level, const std::string& in_fmt, Args&&... in_args) {
         auto msg = std::format(in_fmt, in_args...);
+
+        // Don't allow newlines in console messages; this could lead to log forgery when combined
+        // with user-manipulated formatting.
+        assert(!msg.contains(u8'\n'));
+
         auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
         auto final = std::format(u8"[{}] {}\n", lvl, msg);
         _platform_write(final.c_str());
