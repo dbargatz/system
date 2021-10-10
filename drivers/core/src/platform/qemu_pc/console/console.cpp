@@ -20,7 +20,7 @@ core::console::console::console() {
     MODEM_CONTROL.outb(0x0B);
 }
 
-void core::console::console::_platform_write(const char8_t* in_str) {
+void core::console::console::_platform_write(const char * in_str) {
     for(int i = 0; in_str[i] != '\0'; i++) {
         // Busy-loop while we wait for space in the FIFO to clear up.
         while(0 == (LINE_STATUS.inb() & 0x20)) {}

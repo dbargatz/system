@@ -39,16 +39,16 @@ enum class level : std::uint8_t {
 
 class console {
 private:
-    constexpr static char8_t _LEVEL_PREFIXES[] = { '?', ' ', '+', '-', '!', '*'};
+    constexpr static char _LEVEL_PREFIXES[] = { '?', ' ', '+', '-', '!', '*'};
 
     template <typename... Args>
     void _write(level in_level, const char8_t* in_fmt, Args&&... in_args) {
-        _write(in_level, std::string(in_fmt), in_args...);
+        _write(in_level, std::string((const char *)in_fmt), in_args...);
     }
 
     template <typename... Args>
     void _write(level in_level, const char* in_fmt, Args&&... in_args) {
-        _write(in_level, std::string((const char8_t*)in_fmt), in_args...);
+        _write(in_level, std::string(in_fmt), in_args...);
     }
 
     template <typename... Args>
@@ -57,14 +57,14 @@ private:
 
         // Don't allow newlines in console messages; this could lead to log forgery when combined
         // with user-manipulated formatting.
-        assert(!msg.contains(u8'\n'));
+        assert(!msg.contains('\n'));
 
         auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
-        auto final = std::format(u8"[{}] {}\n", lvl, msg);
+        auto final = std::format("[{}] {}\n", lvl, msg);
         _platform_write(final.c_str());
     }
 
-    void _platform_write(const char8_t* in_str);
+    void _platform_write(const char * in_str);
 
 public:
     console();

@@ -479,7 +479,7 @@ private:
 
 // TODO: non-member basic_string operators
 
-using string = basic_string<char8_t>;
+using string = basic_string<char>;
 using u8string = basic_string<char8_t>;
 
 }; // namespace std

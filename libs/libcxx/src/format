@@ -77,7 +77,7 @@ public:
 
         // Handle the zero-padding character (if present).
         if(*ptr == '0') {
-            _fill_char = u8"0";
+            _fill_char = "0";
             ptr++;
         }
 
@@ -97,14 +97,14 @@ public:
             case 'B':
                 _base = 2;
                 if(alternate_form) {
-                    _prefix = u8"0b";
+                    _prefix = "0b";
                 }
                 break;
             case 'o':
             case 'O':
                 _base = 8;
                 if(alternate_form) {
-                    _prefix = u8"0";
+                    _prefix = "0";
                 }
                 break;
             case 'x':
@@ -112,7 +112,7 @@ public:
             case 'X':
                 _base = 16;
                 if(alternate_form) {
-                    _prefix = u8"0x";
+                    _prefix = "0x";
                 }
                 break;
             case 'd':
@@ -125,7 +125,7 @@ public:
     }
 
     string format(const uint64_t& in_arg) {
-        auto str = string(u8"");
+        auto str = string("");
         uint64_t remainder = in_arg;
 
         if(0 == remainder) {
@@ -156,39 +156,39 @@ public:
     }
 
 private:
-    static constexpr char8_t _hex_upper[] = u8"0123456789ABCDEF";
-    static constexpr char8_t _hex_lower[] = u8"0123456789abcdef";
+    static constexpr char _hex_upper[] = "0123456789ABCDEF";
+    static constexpr char _hex_lower[] = "0123456789abcdef";
 
-    uint8_t         _base           = 10;
-    const char8_t*  _digits         = _hex_upper;
-    char8_t         _fill_and_align = '>';
-    const char8_t*  _fill_char      = u8" ";
-    uint8_t         _min_width      = 0;
-    const char8_t*  _prefix         = u8"";
-    char8_t         _sign           = '-';
+    uint8_t      _base           = 10;
+    const char * _digits         = _hex_upper;
+    char         _fill_and_align = '>';
+    const char * _fill_char      = " ";
+    uint8_t      _min_width      = 0;
+    const char * _prefix         = "";
+    char         _sign           = '-';
 };
 
 template <>
-struct formatter<char8_t> {
+struct formatter<char> {
 public:
     formatter() { }
 
-    void parse(const string::value_type* in_open_brace,
-               const string::value_type* in_close_brace) {
+    void parse(const string::value_type * in_open_brace,
+               const string::value_type * in_close_brace) {
         // TODO: Figure out format spec for characters
-        _fill_char = u8" ";
+        _fill_char = " ";
         _min_width = 16;
     }
 
     string format(const char8_t& in_arg) {
-        auto str = string(u8"");
+        auto str = string("");
         str.append(in_arg);
         return str;
     }
 
 private:
-    const char8_t* _fill_char;
-    uint8_t        _min_width;
+    const char * _fill_char;
+    uint8_t      _min_width;
 };
 
 template <>
@@ -199,41 +199,12 @@ public:
     void parse(const string::value_type* in_open_brace,
                const string::value_type* in_close_brace) {
         // TODO: choose all these based on parsed spec
-        _fill_char = u8" ";
+        _fill_char = " ";
         _min_width = 16;
     }
 
     string format(const char* in_arg) {
-        auto str = string(u8"");
-        while(*in_arg != '\0') {
-            str.append((char8_t*)in_arg, 1);
-            in_arg++;
-        }
-
-        // TODO: fill out to minimum width
-
-        return str;
-    }
-
-private:
-    const char8_t* _fill_char;
-    uint8_t        _min_width;
-};
-
-template <>
-struct formatter<const char8_t*> {
-public:
-    formatter() { }
-
-    void parse(const string::value_type* in_open_brace,
-               const string::value_type* in_close_brace) {
-        // TODO: choose all these based on parsed spec
-        _fill_char = u8" ";
-        _min_width = 16;
-    }
-
-    string format(const char8_t* in_arg) {
-        auto str = string(u8"");
+        auto str = string("");
         while(*in_arg != '\0') {
             str.append(in_arg, 1);
             in_arg++;
@@ -245,8 +216,37 @@ public:
     }
 
 private:
-    const char8_t* _fill_char;
-    uint8_t        _min_width;
+    const char * _fill_char;
+    uint8_t      _min_width;
+};
+
+template <>
+struct formatter<const char8_t*> {
+public:
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) {
+        // TODO: choose all these based on parsed spec
+        _fill_char = " ";
+        _min_width = 16;
+    }
+
+    string format(const char8_t* in_arg) {
+        auto str = string("");
+        while(*in_arg != '\0') {
+            str.append((const char *)in_arg, 1);
+            in_arg++;
+        }
+
+        // TODO: fill out to minimum width
+
+        return str;
+    }
+
+private:
+    const char * _fill_char;
+    uint8_t      _min_width;
 };
 
 template <>
@@ -257,7 +257,7 @@ public:
     void parse(const string::value_type* in_open_brace,
                const string::value_type* in_close_brace) {
         // TODO: choose all these based on parsed spec
-        _fill_char = u8" ";
+        _fill_char = " ";
         _min_width = 16;
     }
 
@@ -266,8 +266,8 @@ public:
     }
 
 private:
-    const char8_t*     _fill_char;
-    uint8_t       _min_width;
+    const char * _fill_char;
+    uint8_t      _min_width;
 };
 
 template <>
@@ -312,7 +312,7 @@ public:
     }
 
     string format(const bool& in_arg) {
-        return (in_arg ? string(u8"true") : string(u8"false"));
+        return (in_arg ? string("true") : string("false"));
     }
 };
 
@@ -323,7 +323,7 @@ string format(const string& in_fmt) {
 
 template <typename T, typename... Args>
 string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
-    auto prefix = string(u8"");
+    auto prefix = string("");
     const string::value_type* ptr = in_fmt.data();
 
     // Advance until we find an opening brace. We shouldn't encounter a null terminator, since
