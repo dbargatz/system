@@ -234,7 +234,7 @@ public:
 
     string format(const char8_t* in_arg) {
         auto str = string(u8"");
-        while(*in_arg != string::traits_type::eof()) {
+        while(*in_arg != '\0') {
             str.append(in_arg, 1);
             in_arg++;
         }
@@ -326,10 +326,10 @@ string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
     auto prefix = string(u8"");
     const string::value_type* ptr = in_fmt.data();
 
-    // Advance until we find an opening brace. We shouldn't encounter an EOF,
-    // since there are still args left to format if we're in this function.
+    // Advance until we find an opening brace. We shouldn't encounter a null terminator, since
+    // there are still args left to format if we're in this function.
     while(*ptr != '{') {
-        assert(*ptr != string::traits_type::eof());
+        assert(*ptr != '\0');
         if(*ptr == '{' && *(ptr + 1) != '{') {
             break;
         }
@@ -344,7 +344,7 @@ string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
     auto open_brace  = ptr;
     auto close_brace = ptr;
     while(*close_brace != '}') {
-        assert(*close_brace != string::traits_type::eof());
+        assert(*close_brace != '\0');
         close_brace++;
     }
     assert(*close_brace == '}' && *(close_brace + 1) != '}');
