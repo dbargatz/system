@@ -11,14 +11,26 @@
 
 namespace std {
     /**
-     * @brief Copies the given number of bytes from the source to destination.
+     * @brief Copies in_count bytes from the object pointed to by in_src to the object pointed to
+     * by in_dest. The objects must NOT overlap.
      * 
-     * @param in_dest pointer to copy bytes to; must not overlap with in_src
-     * @param in_src pointer to copy bytes from; must not overlap with in_dest
+     * @param in_dest pointer to the memory location to copy to; must not overlap with in_src
+     * @param in_src pointer to the memory location to copy from; must not overlap with in_dest
      * @param in_count number of bytes to copy
-     * @return void* in_dest
+     * @return in_dest
      */
     void * memcpy(void * in_dest, const void * in_src, std::size_t in_count);
+
+    /**
+     * @brief Copies in_count bytes from the object pointed to by in_src to the object pointed to
+     * by in_dest. The objects may overlap.
+     * 
+     * @param in_dest pointer to the memory location to copy to
+     * @param in_src pointer to the memory location to copy from
+     * @param in_count number of bytes to copy
+     * @return in_dest
+     */
+    void * memmove(void * in_dest, const void * in_src, std::size_t in_count);
 
     /**
      * @brief Sets the given number of bytes at the given pointer to the given 
