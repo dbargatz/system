@@ -28,35 +28,32 @@ public:
     // TODO: state_type
 
     /**
-     * @brief Assigns a character to a given value.
+     * @brief Assigns character in_a to character in_b.
      * 
      * @param in_a character to assign to
      * @param in_b character value to assign
      * @note Space complexity: O(1)
      * @note Time complexity: O(1)
      */
-    constexpr static inline void assign(char_type& in_a,
-                                        const char_type& in_b) noexcept {
+    static constexpr void assign(char_type& in_a, const char_type& in_b) noexcept {
         in_a = in_b;
     }
 
     /**
-     * @brief Assigns in_char value to in_count characters in the character
+     * @brief Assigns character in_c value to in_count characters in the character
      * sequence pointed to by in_cseq.
      * 
      * @param in_cseq pointer to a character sequence to assign to
      * @param in_count length of the character sequence
-     * @param in_char character value to assign
-     * @return constexpr char_type* in_cseq
+     * @param in_c character value to assign
+     * @return in_cseq
      * @note Space complexity: O(1)
      * @note Time complexity: O(in_count)
      */
-    constexpr static inline char_type * assign(char_type * in_cseq,
-                                               std::size_t in_count,
-                                               char_type in_char) {
+    static constexpr char_type* assign(char_type* in_cseq, std::size_t in_count, char_type in_c) {
         auto seq = in_cseq;
         for(; in_count; --in_count, ++in_cseq) {
-            assign(*in_cseq, in_char);
+            assign(*in_cseq, in_c);
         }
         return seq;
     }
@@ -69,22 +66,23 @@ public:
      * @param in_a pointer to the first character string to compare
      * @param in_b pointer to the second character string to compare
      * @param in_count number of characters to compare from each character string
-     * @return constexpr int negative value if in_a is less than in_b. Zero if
-     * in_a is equal to in_b. Positive value if in_a is greater than in_b.
+     * @return negative value if in_a is less than in_b. Zero if in_a is equal to in_b. Positive
+     * value if in_a is greater than in_b.
      * @note Space complexity: O(1)
      * @note Time complexity: O(in_count)
      */
-    constexpr static int compare(const CharT * in_a, const CharT * in_b,
+    static constexpr int compare(const char_type* in_a,
+                                 const char_type* in_b,
                                  std::size_t in_count) {
         // Compare each character in the strings.
         for(; in_count > 0; --in_count, ++in_a, ++in_b) {
-            if(lt(*in_a, *in_b)) {
-                // "a" sorts lexicographically before "b".
-                return -1;
-            } else if(lt(*in_b, *in_a)) {
-                // "a" sorts lexicographically after "b".
-                return 1;
-            }
+            // "a" sorts lexicographically before "b".
+            if(lt(*in_a, *in_b)) { return -1; }
+
+            // "a" sorts lexicographically after "b".
+            if(lt(*in_b, *in_a)) { return 1; }
+
+            // Otherwise "a" == "b", so continue.
         }
 
         // The two strings must be equal.
@@ -92,17 +90,95 @@ public:
     }
 
     /**
+     * @brief Copies in_count characters from the character sequence pointed to by in_src to the
+     * character sequence pointed to by in_dest. The character sequences must NOT overlap.
+     * 
+     * @param in_dest pointer to a character sequence to copy to; must not overlap with in_src
+     * @param in_src pointer to a character sequence to copy from; must not overlap with in_dest
+     * @param in_count number of characters to copy
+     * @return in_dest
+     * @note Space complexity: O(1)
+     * @note Time complexity: O(in_count)
+     */
+    static constexpr char_type* copy(char_type* in_dest,
+                                     const char_type* in_src,
+                                     std::size_t in_count) {
+        return memcpy(in_dest, in_src, in_count);
+    }
+
+    /**
+     * @brief Returns a value not equivalent to any valid value of type char_type.
+     * 
+     * @return a value not equivalent to any valid value of type char_type.
+     * @note Space complexity: O(1) (cast done at compile-time)
+     * @note Time complexity: O(1) (cast done at compile-time)
+     */
+    static constexpr int_type eof() noexcept {
+        return (int_type)-1;
+    }
+
+    /**
      * @brief Compares in_a and in_b for equality.
      * 
      * @param in_a first character value to compare
      * @param in_b second character value to compare
-     * @return true if in_a and in_b are equal
-     * @return false if in_a and in_b are not equal
+     * @return true if in_a and in_b are equal; false if in_a and in_b are not equal
      * @note Space complexity: O(1)
      * @note Time complexity: O(1)
      */
-    constexpr static inline bool eq(CharT in_a, CharT in_b) noexcept {
+    static constexpr bool eq(char_type in_a, char_type in_b) noexcept {
         return (in_a == in_b);
+    }
+
+    /**
+     * @brief Checks whether two values of type int_type are equal.
+     * 
+     * @param in_a first int_type value to compare
+     * @param in_b second int_type value to compare
+     * @return true if in_a and in_b are equal; false if in_a and in_b are not equal
+     * @note Space complexity: O(1) (cast done at compile-time)
+     * @note Time complexity: O(1) (cast done at compile-time)
+     */
+    static constexpr bool eq_int_type(int_type in_a, int_type in_b) noexcept {
+        return in_a == in_b;
+    }
+
+    /**
+     * @brief Searches for character in_c within the first in_count characters of the sequence
+     * pointed to by in_cseq.
+     * 
+     * @param in_cseq pointer to a character sequence to search
+     * @param in_count number of characters to analyze
+     * @param in_c character to search for
+     * @return pointer to the first character in the range specified by [in_cseq, in_cseq+in_count)
+     * that compares equal to in_c, or a null pointer if not found
+     * @note Space complexity: O(1)
+     * @note Time complexity: O(in_count)
+     */
+    static constexpr const char_type* find(const char_type* in_cseq,
+                                           std::size_t in_count,
+                                           const char_type& in_c) {
+        for(auto i = 0; i < in_count; i++) {
+            if(in_cseq[i] == in_c) {
+                return in_cseq + i;
+            }
+        }
+        return nullptr;
+    }
+
+    /**
+     * @brief Returns the length of the character sequence pointed to by in_cseq, that is, the
+     * position of the terminating null character ('\0').
+     * 
+     * @param in_cseq pointer to a null-terminated character sequence to return length of
+     * @return length of character sequence pointed to by in_cseq
+     * @note Space complexity: O(1)
+     * @note Time complexity: O(n), where n is the length of in_cseq
+     */
+    static constexpr std::size_t length(const char_type* in_cseq) {
+        std::size_t idx = 0;
+        while(in_cseq[idx] != '\0') { idx++; }
+        return idx;
     }
 
     /**
@@ -110,38 +186,65 @@ public:
      * 
      * @param in_a first character value to compare
      * @param in_b second character value to compare
-     * @return true if in_a is less than/lexicographically sorts before in_b
-     * @return false if in_a is less than/lexicographically sorts after in_b
+     * @return true if in_a is less than/lexicographically sorts before in_b; false if in_a is less
+     * than/lexicographically sorts after in_b
      * @note Space complexity: O(1)
      * @note Time complexity: O(1)
      */
-    constexpr static inline bool lt(CharT in_a, CharT in_b) noexcept {
+    static constexpr bool lt(char_type in_a, char_type in_b) noexcept {
         return (in_a < in_b);
     }
 
-    // TODO: move()
-    // TODO: copy()
-    // TODO: length()
-    // TODO: find()
-
-    constexpr static inline char_type to_char_type(int_type in_i) noexcept {
-        return char_type(in_i);
+    /**
+     * @brief Copies in_count characters from the character sequence pointed to by in_src to the
+     * character sequence pointed to by in_dest. The character sequences may overlap.
+     * 
+     * @param in_dest pointer to a character sequence to copy to
+     * @param in_src pointer to a character sequence to copy from
+     * @param in_count number of characters to copy
+     * @return in_dest
+     * @note Space complexity: O(1)
+     * @note Time complexity: O(in_count)
+     */
+    static constexpr char_type* move(char_type* in_dest, const char_type* in_src, std::size_t in_count) {
+        return memmove(in_dest, in_src, in_count * sizeof(char_type));
     }
 
-    constexpr static inline int_type to_int_type(char_type in_c) noexcept {
-        return int_type(in_c);
-    }
-
-    constexpr static inline bool eq_int_type(int_type in_a, int_type in_b) noexcept {
-        return in_a == in_b;
-    }
-
-    constexpr static inline int_type eof() noexcept {
-        return (int_type)u8'\0';
-    }
-
-    constexpr static inline int_type not_eof(int_type in_eof) noexcept {
+    /**
+     * @brief Given in_eof, produces a suitable value that is not equivalent to eof().
+     * 
+     * @param in_eof value to analyze
+     * @return in_eof if in_eof and eof() are not equivalent; otherwise, returns some other
+     * non-eof() value.
+     * @note Space complexity: O(1)
+     * @note Time complexity: O(1)
+     */
+    static constexpr int_type not_eof(int_type in_eof) noexcept {
         return eq_int_type(in_eof, eof()) ? ~eof() : in_eof;
+    }
+
+    /**
+     * @brief Converts a value of int_type to char_type.
+     * 
+     * @param in_int value to convert
+     * @return a char_type value equivalent to in_i
+     * @note Space complexity: O(1) (cast done at compile-time)
+     * @note Time complexity: O(1) (cast done at compile-time)
+     */
+    static constexpr char_type to_char_type(int_type in_int) noexcept {
+        return char_type(in_int);
+    }
+
+    /**
+     * @brief Converts a value of char_type to int_type.
+     * 
+     * @param in_c value to convert
+     * @return an int_type value equivalent to in_c
+     * @note Space complexity: O(1) (cast done at compile-time)
+     * @note Time complexity: O(1) (cast done at compile-time)
+     */
+    static constexpr int_type to_int_type(char_type in_c) noexcept {
+        return int_type(in_c);
     }
 };
 
@@ -162,12 +265,14 @@ public:
     // TODO: reverse_iterator
     // TODO: const_reverse_iterator
 
+    static const size_type npos = -1;
+
     // TODO: all the ctor/dtor/member functions
     constexpr basic_string(const Allocator& in_alloc = Allocator()) : _alloc(in_alloc) {
         _buf = _alloc.allocate(_CHUNK_SIZE_BYTES);
         _capacity_bytes = _CHUNK_SIZE_BYTES;
         _length_chars = 0;
-        _buf[_length_chars] = traits_type::eof();
+        _buf[_length_chars] = '\0';
     }
 
     constexpr basic_string(const value_type& in_c, const Allocator& in_alloc = Allocator()) : basic_string(in_alloc) {
@@ -194,7 +299,7 @@ public:
     }
 
     constexpr basic_string& append(const value_type* in_s) {
-        auto len = strlen(in_s);
+        auto len = traits_type::length(in_s);
         return append(in_s, len);
     }
 
@@ -211,8 +316,134 @@ public:
 
         memcpy(_buf + _length_chars, in_s, in_n);
         _length_chars += in_n;
-        _buf[_length_chars] = traits_type::eof();
+        _buf[_length_chars] = '\0';
         return *this;
+    }
+
+    /**
+     * @brief Checks if this string contains the given substring.
+     * 
+     * @param in_str substring to search for
+     * @return true if this string contains in_str; false otherwise
+     * @warning THIS SHOULD ACCEPT A std::basic_string_view, NOT A std::basic_string
+     */
+    constexpr bool contains(basic_string& in_str) const noexcept {
+        return find(in_str) != npos;
+    }
+
+    /**
+     * @brief Checks if this string contains the given character.
+     * 
+     * @param in_c character to search for
+     * @return true if this string contains in_c; false otherwise
+     */
+    constexpr bool contains(CharT in_c) const noexcept {
+        return find(in_c) != npos;
+    }
+
+    /**
+     * @brief Checks if this string contains the given null-terminated character sequence.
+     * 
+     * @param in_cseq character sequence to search for
+     * @return true if this string contains in_cseq; false otherwise
+     */
+    constexpr bool contains(const CharT* in_cseq) const noexcept {
+        return find(in_cseq) != npos;
+    }
+
+    /**
+     * @brief Finds the first substring in this string equal to in_str.
+     * 
+     * @param in_str string to search for
+     * @param in_start_idx index in this string to start the search at
+     * @return index of the first character of the found substring or npos if no such substring is
+     * found
+     */
+    constexpr size_type find(const basic_string& in_str,
+                             size_type in_start_idx = 0) const noexcept {
+        return find(in_str.c_str(), in_start_idx, in_str.length());
+    }
+
+    /**
+     * @brief Finds the first substring in this string equal to in_str, where in_str is contained
+     * within the range [in_str, in_str+in_count). The range may contain null characters.
+     * 
+     * @param in_str string to search for, bounded by [in_str, in_str+in_count)
+     * @param in_start_idx index in this string to start the search at
+     * @param in_count number of characters in in_str
+     * @return index of the first character of the found substring or npos if no such substring is
+     * found
+     */
+    constexpr size_type find(const CharT * in_str,
+                             size_type in_start_idx,
+                             size_type in_count) const {
+        // This string can't contain the search string if it's longer than this string, so bail.
+        if(in_count > _length_chars) { return npos; }
+
+        // Figure out the last index in this string that could possibly contain a match to the
+        // search string; if we exceed that index, we can bail early, since the search string is
+        // too long to be contained within the rest of this string.
+        auto cur_idx = in_start_idx;
+        auto max_idx = _length_chars - in_count;
+        while(cur_idx <= max_idx) {
+
+            // Starting from the current character index, 
+            auto search_idx = 0;
+            while(search_idx < in_count) {
+                // If the current characters in the search string and this string don't match, then
+                // this index in this string isn't a match. Break out and return to the top-level
+                // loop.
+                if(in_str[search_idx] != _buf[cur_idx + search_idx]) {
+                    break;
+                }
+
+                search_idx++;
+            }
+
+            // If we reached the end of the search string, it means we found the search string!
+            // Return the starting index of the search string contained within this string.
+            if(search_idx == in_count) {
+                return cur_idx;
+            }
+
+            cur_idx++;
+        }
+
+        return npos;
+    }
+
+    /**
+     * @brief Finds the first substring in this string equal to the character sequence pointed at
+     * by in_cseq. The length of the character sequence is determined by the first null character
+     * using Traits::length(in_cseq).
+     * 
+     * @param in_cseq pointer to a character sequence to search for
+     * @param in_start_idx index in this string to start the search at
+     * @return index of the first character of the found substring or npos if no such substring is
+     * found
+     */
+    constexpr size_type find(const CharT * in_cseq, size_type in_start_idx = 0) const {
+        auto cseq_len = traits_type::length(in_cseq);
+        return find(in_cseq, in_start_idx, cseq_len);
+    }
+
+    /**
+     * @brief Finds the first instance of the character in_c in this string.
+     * 
+     * @param in_c character to search for
+     * @param in_start_idx index in this string to start the search at
+     * @return index of the found character in this string or npos if no such character is
+     * found
+     */
+    constexpr size_type find(CharT in_c, size_type in_start_idx = 0) const noexcept {
+        while(in_start_idx <= _length_chars) {
+            if(_buf[in_start_idx] == in_c) {
+                return in_start_idx;
+            }
+            in_start_idx++;
+        }
+
+        return npos;
     }
 
     inline size_type size() const noexcept {
@@ -246,7 +477,6 @@ private:
     size_type    _length_chars = 0;
 };
 
-// TODO: npos
 // TODO: non-member basic_string operators
 
 using string = basic_string<char8_t>;
