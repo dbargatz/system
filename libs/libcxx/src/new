@@ -8,6 +8,7 @@ namespace std {
 };
 
 [[nodiscard]] void* operator new(std::size_t count);
+[[nodiscard]] void* operator new(std::size_t count, void* ptr);
 [[nodiscard]] void* operator new[](std::size_t count);
 [[nodiscard]] void* operator new(std::size_t count, std::align_val_t al);
 [[nodiscard]] void* operator new[](std::size_t count, std::align_val_t al);

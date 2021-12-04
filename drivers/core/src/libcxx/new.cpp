@@ -13,6 +13,10 @@ void* operator new(std::size_t count) {
     return ::operator new(count, std::align_val_t(alignof(std::max_align_t)));
 }
 
+void* operator new(std::size_t count, void* ptr) {
+    return ptr;
+}
+
 void* operator new(std::size_t count, std::align_val_t al) {
     auto aligned_size = count + ((std::uint64_t)(cur_heap_ptr + count) % (std::size_t)al);
     std::uint8_t * retval = cur_heap_ptr;
