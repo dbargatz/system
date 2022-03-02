@@ -12,10 +12,9 @@ namespace core::memory {
 typedef std::uint8_t * physical_addr_t;
 typedef std::uint8_t * virtual_addr_t;
 
-std::size_t align_to(const std::size_t in_boundary, const std::size_t in_num) {
-    auto remainder = in_num % in_boundary;
-    return (in_num + (in_boundary - remainder));
-}
+constexpr std::align_val_t DEFAULT_ALIGNMENT = (std::align_val_t)16;
+
+std::size_t align_to(const std::align_val_t in_boundary, const std::size_t in_num);
 
 struct alignas(16) heap_chunk {
     std::uint8_t * next;
@@ -25,7 +24,7 @@ struct alignas(16) heap_chunk {
 class heap {
 private:
     char _name[16];
-    const core::console::console& _log;
+    core::console::console& _log;
     struct heap_chunk * _start;
     struct heap_chunk * _next_free;
     std::size_t _bytes_total;
@@ -33,7 +32,7 @@ private:
     std::size_t _bytes_used;
 
 public:
-    heap(const char in_name[16], const core::console::console& in_log, physical_addr_t in_initial_frame, std::size_t in_num_frames) : _log(in_log) {
+    heap(const char in_name[16], core::console::console& in_log, physical_addr_t in_initial_frame, std::size_t in_num_frames) : _log(in_log) {
         assert(((std::uintptr_t)in_initial_frame % PAGE_SIZE_BYTES) == 0);
 
         std::memcpy((void*)_name, in_name, 16);
@@ -47,8 +46,8 @@ public:
         _bytes_used = 0;
     }
 
-    physical_addr_t allocate(const std::size_t in_size);
-    physical_addr_t allocate(const physical_addr_t in_start, const std::size_t in_size);
+    physical_addr_t allocate(const std::size_t in_size, const std::align_val_t in_alignment = DEFAULT_ALIGNMENT);
+    physical_addr_t reserve(const physical_addr_t in_start, const std::size_t in_size, const std::align_val_t in_alignment = DEFAULT_ALIGNMENT);
     bool deallocate(const physical_addr_t in_addr);
 };
 

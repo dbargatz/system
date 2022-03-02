@@ -2,12 +2,9 @@
 #include <cassert>
 #include <cstdint>
 #include <cstring>
+#include "../memory/manager.hpp"
 
-static std::uint8_t _early_heap[65535] = {0};
-
-static std::uint8_t* _early_heap_bottom = (std::uint8_t *)&_early_heap;
-static std::uint8_t* _early_heap_top = _early_heap_bottom + 65535;
-static std::uint8_t* cur_heap_ptr = _early_heap_bottom;
+core::memory::memory_manager * core_mem_mgr;
 
 void* operator new(std::size_t count) {
     return ::operator new(count, std::align_val_t(alignof(std::max_align_t)));
@@ -18,15 +15,7 @@ void* operator new(std::size_t count, void* ptr) {
 }
 
 void* operator new(std::size_t count, std::align_val_t al) {
-    auto aligned_size = count + ((std::uint64_t)(cur_heap_ptr + count) % (std::size_t)al);
-    std::uint8_t * retval = cur_heap_ptr;
-
-    cur_heap_ptr += aligned_size;
-    assert(cur_heap_ptr >= _early_heap_bottom);
-    assert(cur_heap_ptr < _early_heap_top);
-
-    std::memset(retval, 0, aligned_size);
-    return retval;
+    return core_mem_mgr->core_allocate(count, al);
 }
 
 void* operator new[](std::size_t count) {
@@ -38,13 +27,11 @@ void* operator new[](std::size_t count, std::align_val_t al) {
 }
 
 void operator delete(void* ptr) noexcept {
-    assert(ptr >= _early_heap_bottom);
-    assert(ptr < _early_heap_top);
-    return;    
+    core_mem_mgr->core_deallocate((core::memory::physical_addr_t)ptr);
+    return;
 }
 
 void operator delete(void* ptr, std::size_t size, std::align_val_t alignment) noexcept {
-    assert(ptr >= _early_heap_bottom);
-    assert(ptr < _early_heap_top);
-    return;    
+    core_mem_mgr->core_deallocate((core::memory::physical_addr_t)ptr);
+    return;
 }
