@@ -1,3 +1,6 @@
+#ifndef _CORE_PLATFORM_HPP
+#define _CORE_PLATFORM_HPP
+
 #ifdef PLATFORM_QEMU_PC
   #include "platform/qemu_pc/platform.hpp"
   constexpr static const char * PLATFORM_NAME = "QEMU PC";
@@ -7,3 +10,5 @@
 #else
   #error PLATFORM compile-time define was not specified or was invalid
 #endif
+
+#endif // _CORE_PLATFORM_HPP
