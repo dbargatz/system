@@ -93,12 +93,8 @@ public:
      * @param in_level minimum level of all messages to write to the console; cannot be Unknown
      */
     void set_level(level in_level) {
-        if(in_level == level::Unknown) {
-            warn("Cannot set console level to {}; leaving level at {}", in_level, _current_level);
-            return;
-        }
+        assert(in_level != level::Unknown);
         _current_level = in_level;
-        debug("Set console level to {}", _current_level);
     }
 
     /**
