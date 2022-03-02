@@ -287,6 +287,9 @@ template <>
 struct formatter<uint32_t> : public formatter<uint64_t> {};
 
 template <>
+struct formatter<size_t> : public formatter<uint64_t> {};
+
+template <>
 struct formatter<int8_t> : public formatter<uint64_t> {};
 
 template <>
