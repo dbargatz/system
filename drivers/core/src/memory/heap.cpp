@@ -3,9 +3,10 @@
 
 using namespace core::memory;
 
-std::size_t core::memory::align_to(const std::align_val_t in_boundary, const std::size_t in_num) {
-    auto remainder = in_num % (std::size_t)in_boundary;
-    return (in_num + ((std::size_t)in_boundary - remainder));
+std::size_t core::memory::align_to(const std::align_val_t in_alignment, const std::size_t in_num) {
+    auto align = (std::size_t)in_alignment;
+    auto remainder = in_num % align;
+    return (in_num + ((align - remainder) % align));
 }
 
 physical_addr_t heap::allocate(const std::size_t in_size, const std::align_val_t in_alignment) {
