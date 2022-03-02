@@ -1,6 +1,8 @@
 # Generic source code and static libraries used for all platforms. --------------------------------
 core_cpp_src = [
     'src/libcxx/new.cpp',
+    'src/memory/heap.cpp',
+    'src/memory/manager.cpp',
     'src/main.cpp'
 ]
 core_linker_objs = [libcxx_lib]
