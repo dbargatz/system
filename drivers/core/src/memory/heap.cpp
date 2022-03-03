@@ -64,7 +64,6 @@ physical_addr_t heap::allocate(const std::size_t in_size, const std::align_val_t
 }
 
 physical_addr_t heap::reserve(const physical_addr_t in_start, const std::size_t in_size, const std::align_val_t in_alignment) {
-    // TODO: implement.
     return nullptr;
 }
 
