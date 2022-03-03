@@ -36,13 +36,16 @@
  
  .org 0x80000
 _start:
-    mrs    x0, mpidr_el1        
-    and    x0, x0, #0xFF       // Check processor id
-    cbz    x0, _bootstrap      // Hang for all non-primary CPU
-    b      _hang
+    mrs    x0, mpidr_el1       // Grab the equivalent of an ID for the current
+    and    x0, x0, #0xFF       // core (technically its affinity level 0), then
+    cbz    x0, _bootstrap      // bootstrap the primary core (id == 0) only and
+    b      _hang               // hang all non-primary cores (id != 0).
 
 _hang:
-    b _hang
+    wfe                        // Core will sleep until signalled; much more
+    b _hang                    // power-efficient than a spin-loop. If core IS
+                               // signalled, for now just loop back to waiting
+                               // for an event (wfe).
 
 _bootstrap:
     // set stack before our code
@@ -64,4 +67,4 @@ _bootstrap:
     // jump to C code, should not return
 4:  bl      core_entry
     // for failsafe, halt this core too
-    b _hang
+    b       _hang
