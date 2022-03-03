@@ -55,16 +55,18 @@ _bootstrap:
     // clear bss
     ldr     x5, =__bss_start
     ldr     w6, =__bss_size
-3:  cbz     w6, 4f
+_bss_loop:
+    cbz     w6, _arg_setup
     str     xzr, [x5], #8
     sub     w6, w6, #1
-    cbnz    w6, 3b
+    cbnz    w6, _bss_loop
 
+_arg_setup:
     // The processor ID is still in x0, and we don't have any boot information
     // for core_entry() on this platform, so zero out the x1 register.
     mov     x1, xzr
  
     // jump to C code, should not return
-4:  bl      core_entry
+    bl      core_entry
     // for failsafe, halt this core too
     b       _hang
