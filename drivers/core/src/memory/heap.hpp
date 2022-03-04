@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstring>
+#include <format>
 #include <new>
 #include "../platform.hpp"
 
@@ -68,8 +69,26 @@ public:
     physical_addr_t allocate(const std::size_t in_size, const std::align_val_t in_alignment = DEFAULT_ALIGNMENT);
     physical_addr_t reserve(const physical_addr_t in_start, const std::size_t in_size, const std::align_val_t in_alignment = DEFAULT_ALIGNMENT);
     bool deallocate(const physical_addr_t in_addr);
+
+    auto format() const {
+        auto total = (std::size_t)(_heap_end - _heap_start);
+        auto available = total - _bytes_used - _bytes_overhead;
+        return std::format("Heap: {} total / {} available / {} used / {} overhead", total, available, _bytes_used, _bytes_overhead);
+    }
 };
 
 }; // namespace core::memory
+
+template <>
+struct std::formatter<core::memory::heap> {
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) { }
+
+    string format(const core::memory::heap& in_arg) {
+        return in_arg.format();
+    }
+};
 
 #endif // _CORE_MEMORY_HEAP_HPP

@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <format>
 #include "../console/console.hpp"
 #include "heap.hpp"
 
@@ -22,8 +23,24 @@ public:
     physical_addr_t core_allocate(const std::size_t in_size, const std::align_val_t in_alignment = (const std::align_val_t)16);
     physical_addr_t core_reserve(const physical_addr_t in_start, const std::size_t in_size, const std::align_val_t in_alignment = (const std::align_val_t)16);
     bool core_deallocate(const physical_addr_t in_addr);
+
+    auto format() const {
+        return std::format("{}", _core_heap);
+    }
 };
 
 }; // namespace core::memory
+
+template <>
+struct std::formatter<core::memory::memory_manager> {
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) { }
+
+    string format(const core::memory::memory_manager& in_arg) {
+        return in_arg.format();
+    }
+};
 
 #endif // _CORE_MEMORY_MANAGER_HPP

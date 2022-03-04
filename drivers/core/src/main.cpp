@@ -20,6 +20,8 @@ extern core::memory::memory_manager * _core_memory_manager;
     log.info("  Boot Info: {:016X}", in_boot_info);
     log.unicode_test(core::console::level::Debug);
 
+    log.debug("Memory manager: {}", mem_mgr);
+
     // TODO: Initialize core state manager
     // TODO: Initialize interrupt manager
     // TODO: Initialize full memory manager
