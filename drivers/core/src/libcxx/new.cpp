@@ -4,7 +4,7 @@
 #include <cstring>
 #include "../memory/manager.hpp"
 
-core::memory::memory_manager * core_mem_mgr;
+core::memory::memory_manager * _core_memory_manager;
 
 void* operator new(std::size_t count) {
     return ::operator new(count, std::align_val_t(alignof(std::max_align_t)));
@@ -15,7 +15,7 @@ void* operator new(std::size_t count, void* ptr) {
 }
 
 void* operator new(std::size_t count, std::align_val_t al) {
-    return core_mem_mgr->core_allocate(count, al);
+    return _core_memory_manager->core_allocate(count, al);
 }
 
 void* operator new[](std::size_t count) {
@@ -27,11 +27,11 @@ void* operator new[](std::size_t count, std::align_val_t al) {
 }
 
 void operator delete(void* ptr) noexcept {
-    core_mem_mgr->core_deallocate((core::memory::physical_addr_t)ptr);
+    _core_memory_manager->core_deallocate((core::memory::physical_addr_t)ptr);
     return;
 }
 
 void operator delete(void* ptr, std::size_t size, std::align_val_t alignment) noexcept {
-    core_mem_mgr->core_deallocate((core::memory::physical_addr_t)ptr);
+    _core_memory_manager->core_deallocate((core::memory::physical_addr_t)ptr);
     return;
 }
