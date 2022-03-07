@@ -11,7 +11,7 @@
 // the core driver.
 extern core::memory::memory_manager * _core_memory_manager;
 
-[[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const void* in_boot_info) {
+[[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
     core::console::console log(core::console::level::Debug);
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
