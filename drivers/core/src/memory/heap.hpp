@@ -6,12 +6,10 @@
 #include <cstring>
 #include <format>
 #include <new>
+#include "types.hpp"
 #include "../platform.hpp"
 
 namespace core::memory {
-
-typedef std::uint8_t * physical_addr_t;
-typedef std::uint8_t * virtual_addr_t;
 
 std::size_t align_to(const std::align_val_t in_boundary, const std::size_t in_num);
 
