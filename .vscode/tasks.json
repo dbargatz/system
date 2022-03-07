@@ -73,6 +73,7 @@
                 "-no-reboot",
                 "-s",
                 "-S",
+                "-dtb", "${workspaceFolder}/drivers/core/src/platform/raspi3b/bcm2710-rpi-3-b.dtb",
                 "-kernel", "${workspaceFolder}/build/raspi3b/kernel8.img",
             ],
             "group": "test",
