@@ -36,9 +36,9 @@
  
  .org 0x80000
 _start:
-    mrs    x0, mpidr_el1       // Grab the equivalent of an ID for the current
-    and    x0, x0, #0xFF       // core (technically its affinity level 0), then
-    cbz    x0, _bootstrap      // bootstrap the primary core (id == 0) only and
+    mrs    x2, mpidr_el1       // Grab the equivalent of an ID for the current
+    and    x2, x2, #0xFF       // core (technically its affinity level 0), then
+    cbz    x2, _bootstrap      // bootstrap the primary core (id == 0) only and
     b      _hang               // hang all non-primary cores (id != 0).
 
 _hang:
@@ -56,16 +56,17 @@ _bootstrap:
     ldr     x5, =__bss_start
     ldr     w6, =__bss_size
 _bss_loop:
-    cbz     w6, _arg_setup
+    cbz     w6, _core_entry
     str     xzr, [x5], #8
     sub     w6, w6, #1
     cbnz    w6, _bss_loop
 
-_arg_setup:
-    // The processor ID is still in x0, and we don't have any boot information
-    // for core_entry() on this platform, so zero out the x1 register.
-    mov     x1, xzr
- 
+_core_entry:
+    mov     x1, x0             // x0 contains the 32-bit physical address of
+    mov     x0, x2             // the DTB, and x2 contains the processor ID.
+                               // Move the args to their expected registers for
+                               // the core_entry() function.
+
     // jump to C code, should not return
     bl      core_entry
     // for failsafe, halt this core too
