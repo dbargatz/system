@@ -1,11 +1,8 @@
 #ifndef _CORE_MEMORY_TYPES_HPP
 #define _CORE_MEMORY_TYPES_HPP
 
-#include <cassert>
 #include <cstdint>
 #include <format>
-#include "../console/console.hpp"
-#include "heap.hpp"
 
 namespace core::memory {
 
