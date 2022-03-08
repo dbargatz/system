@@ -28,9 +28,7 @@ physical_addr_t heap::allocate(const std::size_t in_size, const std::align_val_t
 
     // We iterated the entire heap and couldn't find a chunk big enough for this allocation,
     // either due to actual heap usage or fragmentation.
-    if(cur_addr >= _heap_end) {
-        return nullptr;
-    }
+    assert(cur_addr < _heap_end);
 
     // If the free chunk has enough space left for another heap chunk header plus the
     // alignment size, then create a new free chunk immediately after the current chunk
