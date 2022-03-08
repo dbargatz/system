@@ -8,7 +8,7 @@
 
 namespace core::devicetree {
 
-struct fdt_header { 
+struct _fdt_header { 
     std::uint32_t magic;
     std::uint32_t totalsize;
     std::uint32_t off_dt_struct;
@@ -23,7 +23,7 @@ struct fdt_header {
 
 class dtb {
 private:
-    struct fdt_header * _header;
+    struct _fdt_header * _header;
 
     std::uint32_t _be_to_le(std::uint32_t in_big_endian) const {
         auto be = (std::uint8_t *)&in_big_endian;
@@ -49,7 +49,7 @@ private:
 
 public:
     dtb(core::memory::physical_addr_t in_dtb) {
-        _header = (struct fdt_header *)in_dtb;
+        _header = (struct _fdt_header *)in_dtb;
     }
 
     auto format() const {
