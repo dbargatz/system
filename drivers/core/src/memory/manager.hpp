@@ -25,7 +25,7 @@ public:
     bool core_deallocate(const physical_addr_t in_addr);
 
     auto format() const {
-        return std::format("{}", _core_heap);
+        return std::format("Memory Manager at 0x{:016X}:\n\t{}", (physical_addr_t)this, _core_heap);
     }
 };
 
