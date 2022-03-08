@@ -58,11 +58,6 @@ private:
         if(in_level < _current_level) { return; }
 
         auto msg = std::format(in_fmt, in_args...);
-
-        // Don't allow newlines in console messages; this could lead to log forgery when combined
-        // with user-manipulated formatting.
-        assert(!msg.contains('\n'));
-
         auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
         auto final = std::format("[{}] {}\n", lvl, msg);
         _platform_write(final.c_str());
