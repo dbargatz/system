@@ -23,9 +23,9 @@ struct fdt_header {
 
 class dtb {
 private:
-    struct fdt_header _header;
+    struct fdt_header * _header;
 
-    std::uint32_t _be_to_le(std::uint32_t in_big_endian) {
+    std::uint32_t _be_to_le(std::uint32_t in_big_endian) const {
         auto be = (std::uint8_t *)&in_big_endian;
         std::uint32_t ret = (std::uint32_t)be[0] << 24;
         ret |= (std::uint32_t)be[1] << 16;
@@ -34,7 +34,7 @@ private:
         return ret;
     }
 
-    std::uint64_t _be_to_le(std::uint64_t in_big_endian) {
+    std::uint64_t _be_to_le(std::uint64_t in_big_endian) const {
         auto be = (std::uint8_t *)&in_big_endian;
         std::uint64_t ret = (std::uint64_t)be[0] << 56;
         ret |= (std::uint64_t)be[1] << 48;
@@ -49,14 +49,23 @@ private:
 
 public:
     dtb(core::memory::physical_addr_t in_dtb) {
-        auto header_big_endian = (std::uint32_t *)in_dtb;
-        for(auto i = 0; i < 10; i++) {
-            ((std::uint32_t *)&_header)[i] = _be_to_le(header_big_endian[i]);
-        }
+        _header = (struct fdt_header *)in_dtb;
     }
 
     auto format() const {
-        return std::format("Magic: {:08X} | Total Size: {} | Version: {} | Struct Block Offset/Size: {:08X}/{} | String Block Offset/Size: {:08X}/{}", _header.magic, _header.totalsize, _header.version, _header.off_dt_struct, _header.size_dt_struct, _header.off_dt_strings, _header.size_dt_strings);
+        return std::format(
+            "Device Tree at 0x{:016X}:\n"
+            "\tMagic          : 0x{:08X}\n"
+            "\tTotal Size     : {} bytes\n"
+            "\tVersion        : {} (min: {})\n"
+            "\tMem Reserve Map: 0x{:016X}\n"
+            "\tStruct Block   : 0x{:016X} ({} bytes)\n"
+            "\tString Block   : 0x{:016X} ({} bytes)",
+            (core::memory::physical_addr_t)_header, _be_to_le(_header->magic),
+            _be_to_le(_header->totalsize), _be_to_le(_header->version),
+            _be_to_le(_header->last_comp_version), _be_to_le(_header->off_mem_rsvmap),
+            _be_to_le(_header->off_dt_struct), _be_to_le(_header->size_dt_struct),
+            _be_to_le(_header->off_dt_strings), _be_to_le(_header->size_dt_strings));
     }
 };
 
