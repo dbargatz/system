@@ -10,6 +10,9 @@ std::size_t core::memory::align_to(const std::align_val_t in_alignment, const st
 }
 
 physical_addr_t heap::allocate(const std::size_t in_size, const std::align_val_t in_alignment) {
+    // Sanity check - don't allow allocations of zero size.
+    assert(in_size != 0);
+
     // Align the allocation up to meet alignment requirements.
     auto aligned_size = align_to(in_alignment, in_size);
     auto cur_addr = _heap_start;
@@ -66,6 +69,9 @@ physical_addr_t heap::reserve(const physical_addr_t in_start, const std::size_t 
 }
 
 bool heap::deallocate(const physical_addr_t in_addr) {
+    // Sanity check - we should never be deallocating nullptr.
+    assert(in_addr != nullptr);
+
     // Sanity check - ensure the given address is somewhere within the heap boundaries, and is
     // marked as free.
     auto chunk_addr = in_addr - sizeof(struct heap_chunk);
