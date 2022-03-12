@@ -80,8 +80,15 @@ bool heap::deallocate(const physical_addr_t in_addr) {
     assert(in_addr < _heap_end);
     assert(!chunk->free);
 
-    // TODO: Validate that this is a valid heap chunk (heap cookie?)
-    // TODO: Coalesce this chunk with any following free chunk.
+    // Coalesce this chunk with all contiguous following free chunks.
+    auto next_chunk_addr = chunk_addr + sizeof(*chunk) + chunk->length;
+    auto next_chunk = (struct heap_chunk *)next_chunk_addr;
+    while(next_chunk_addr < _heap_end && next_chunk->free) {
+        auto additional_length = sizeof(*next_chunk) + next_chunk->length;
+        chunk->length += additional_length;
+        next_chunk_addr += additional_length;
+        next_chunk = (struct heap_chunk *)next_chunk_addr;
+    }
 
     // Mark the chunk as free again.
     chunk->free = true;
