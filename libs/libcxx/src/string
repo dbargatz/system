@@ -469,30 +469,30 @@ public:
 
     /**
      * @brief Finds the first substring in this string equal to the character sequence pointed at
-     * by in_cseq. The length of the character sequence is determined by the first null character
-     * using Traits::length(in_cseq).
+     * by in_str. The length of the character sequence is determined by the first null character
+     * using Traits::length(in_str).
      * 
-     * @param in_cseq pointer to a character sequence to search for
+     * @param in_str pointer to a character sequence to search for
      * @param in_start_idx index in this string to start the search at
      * @return index of the first character of the found substring or npos if no such substring is
      * found
      */
-    constexpr size_type find(const CharT * in_cseq, size_type in_start_idx = 0) const {
-        auto cseq_len = traits_type::length(in_cseq);
-        return find(in_cseq, in_start_idx, cseq_len);
+    constexpr size_type find(const CharT * in_str, size_type in_start_idx = 0) const {
+        auto strlen = traits_type::length(in_cseq);
+        return find(in_str, in_start_idx, strlen);
     }
 
     /**
-     * @brief Finds the first instance of the character in_c in this string.
+     * @brief Finds the first instance of the character in_ch in this string.
      * 
-     * @param in_c character to search for
+     * @param in_ch character to search for
      * @param in_start_idx index in this string to start the search at
      * @return index of the found character in this string or npos if no such character is
      * found
      */
-    constexpr size_type find(CharT in_c, size_type in_start_idx = 0) const noexcept {
+    constexpr size_type find(CharT in_ch, size_type in_start_idx = 0) const noexcept {
         while(in_start_idx <= _length_chars) {
-            if(_buf[in_start_idx] == in_c) {
+            if(_buf[in_start_idx] == in_ch) {
                 return in_start_idx;
             }
             in_start_idx++;
