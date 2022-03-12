@@ -345,16 +345,13 @@ string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
     ret_str.append(in_fmt.data(), open_brace_idx);
 
     // Ptr is currently pointing at the opening brace for this format arg. Find
-    // the closing brace. Note that escaped closing braces (the "}}" sequence)
-    // can't appear in a format arg specification, thus the assert below the
-    // loop.
+    // the closing brace.
     auto open_brace  = ptr;
     auto close_brace = ptr;
     while(*close_brace != '}') {
         assert(*close_brace != '\0');
         close_brace++;
     }
-    assert(*close_brace == '}' && *(close_brace + 1) != '}');
 
     // We now have the open and close braces for this format arg specification.
     // Parse the specification between the braces using the appropriate
