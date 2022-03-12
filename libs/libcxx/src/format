@@ -321,12 +321,13 @@ public:
 
 template <typename... Args>
 string format(const string& in_fmt) {
-    return in_fmt;
+    return string(in_fmt);
 }
 
 template <typename T, typename... Args>
 string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
-    auto prefix = string("");
+    auto ret_str = string("");
+    auto open_brace_idx = 0;
     const string::value_type* ptr = in_fmt.data();
 
     // Advance until we find an opening brace. We shouldn't encounter a null terminator, since
@@ -336,9 +337,12 @@ string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
         if(*ptr == '{' && *(ptr + 1) != '{') {
             break;
         }
-        prefix.append(ptr, 1);
+        open_brace_idx++;
         ptr++;
     }
+
+    // Add everything up to the first brace to the return string.
+    ret_str.append(in_fmt.data(), open_brace_idx);
 
     // Ptr is currently pointing at the opening brace for this format arg. Find
     // the closing brace. Note that escaped closing braces (the "}}" sequence)
@@ -362,11 +366,13 @@ string format(const string& in_fmt, const T& in_arg, const Args&... in_args) {
     auto arg_str = fmt.format(in_arg);
 
     // Append the arg string to the current string.
-    prefix.append(arg_str.data(), arg_str.size());
+    ret_str.append(arg_str.data(), arg_str.size());
 
     // Continue formatting the string with the remaining args.
-    auto suffix = format(string(close_brace + 1), in_args...);
-    return prefix.append(suffix.data(), suffix.size());
+    auto remaining_str = string(close_brace + 1);
+    auto suffix = format(remaining_str, in_args...);
+    ret_str.append(suffix.data(), suffix.size());
+    return ret_str;
 }
 
 }; // namespace std
