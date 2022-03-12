@@ -356,8 +356,10 @@ public:
 
         auto new_size = _length_chars + in_n + 1;
         if(new_size >= _capacity_bytes) {
-            auto align = _CHUNK_SIZE_BYTES - (new_size % _CHUNK_SIZE_BYTES);
-            auto new_cap = new_size + align;
+            auto new_cap = _capacity_bytes == 0 ? _MIN_BUF_SIZE_BYTES : _capacity_bytes;
+            while(new_cap <= new_size) {
+                new_cap *= 2;
+            }
             auto new_buf = _alloc.allocate(new_cap);
             if(_buf != nullptr) {
                 memcpy(new_buf, _buf, _length_chars);
@@ -527,7 +529,7 @@ public:
     }
 
 private:
-    constexpr static const std::uint16_t _CHUNK_SIZE_BYTES = 16;
+    constexpr static const std::uint16_t _MIN_BUF_SIZE_BYTES = 16;
 
     const allocator_type _alloc;
     value_type * _buf = nullptr;
