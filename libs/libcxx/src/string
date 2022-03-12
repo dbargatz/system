@@ -287,6 +287,14 @@ public:
         append(in_s);
     }
 
+    ~basic_string() {
+        assert(_buf != nullptr);
+        _alloc.deallocate(_buf, _capacity_bytes);
+        _buf = nullptr;
+        _capacity_bytes = -1;
+        _length_chars = -1;
+    }
+
     constexpr basic_string& append(size_type in_n, value_type in_c) {
         for(auto i = 0; i < in_n; i++) {
             append(&in_c, 1);
@@ -310,6 +318,7 @@ public:
             auto new_cap = new_size + align;
             auto new_buf = _alloc.allocate(new_cap);
             memcpy(new_buf, _buf, _length_chars);
+            _alloc.deallocate(_buf, _capacity_bytes);
             _buf = new_buf;
             _capacity_bytes = new_cap;
         }
@@ -466,6 +475,11 @@ public:
 
     const value_type* c_str() const noexcept {
         return _buf;
+    }
+
+    constexpr basic_string& operator=(const basic_string& in_other) {
+        _length_chars = 0;
+        return append(in_other);
     }
 
 private:
