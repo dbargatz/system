@@ -18,7 +18,7 @@ struct alignas(16) heap_chunk {
     std::size_t length;
 } __attribute__((packed));
 
-constexpr std::align_val_t DEFAULT_ALIGNMENT = (std::align_val_t)16;
+constexpr std::align_val_t DEFAULT_ALIGNMENT = (std::align_val_t)sizeof(struct heap_chunk);
 constexpr std::size_t MIN_CHUNK_SIZE = (std::size_t)DEFAULT_ALIGNMENT + sizeof(struct heap_chunk);
 
 class heap {
