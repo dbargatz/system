@@ -13,9 +13,9 @@ namespace core::memory {
 
 std::size_t align_to(const std::align_val_t in_boundary, const std::size_t in_num);
 
-struct alignas(16) heap_chunk {
-    bool free;
-    std::size_t length;
+struct heap_chunk {
+    bool free          : 1;
+    std::size_t length : 63;
 } __attribute__((packed));
 
 constexpr std::align_val_t DEFAULT_ALIGNMENT = (std::align_val_t)sizeof(struct heap_chunk);
