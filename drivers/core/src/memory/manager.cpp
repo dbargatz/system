@@ -7,7 +7,7 @@ using namespace core::memory;
 //       section of the core driver binary. Eventually I want all heaps (including this one)
 //       allocated from a memory map dynamically, but until I have DeviceTree support for ARM64,
 //       this will do.
-constexpr std::size_t _NUM_HEAP_FRAMES = 16;
+constexpr std::size_t _NUM_HEAP_FRAMES = 64;
 constexpr std::size_t _HEAP_SIZE_BYTES = PAGE_SIZE_BYTES * _NUM_HEAP_FRAMES;
 alignas(PAGE_SIZE_BYTES) static std::uint8_t _heap_bytes[_HEAP_SIZE_BYTES] = {0};
 
