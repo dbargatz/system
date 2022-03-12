@@ -103,6 +103,7 @@ public:
         auto struct_ptr = (struct _fdt_node *)((std::uint8_t *)_header + _be_to_le(_header->off_dt_struct));
         auto strings_block = (const char *)_header + _be_to_le(_header->off_dt_strings);
         bool finished = false;
+        auto indent = std::string("  ");
         str.append(std::format("\tStruct Block   : 0x{:016X} ({} bytes)\n", _be_to_le(_header->off_dt_struct), _be_to_le(_header->size_dt_struct)));
         while(!finished) {
             auto token = _be_to_le(struct_ptr->token);
@@ -113,8 +114,9 @@ public:
                     auto node = (struct _fdt_begin_node *)struct_ptr;
                     auto name_len = std::strlen((const char *)node->name) + 1;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, name_len);
-                    auto nodestr = std::format("\t  Node: {}\n", (const char *)node->name);
+                    auto nodestr = std::format("\t{}{} {\n", indent, (const char *)node->name);
                     str.append(nodestr);
+                    indent.append("  ");
                     struct_ptr = (struct _fdt_node *)((std::uint8_t *)struct_ptr + next);
                     break;
                 }
@@ -122,6 +124,9 @@ public:
                     // Continue on END_NODE node.
                     // TODO: add asserts to make sure we're closing out an open node block.
                     struct_ptr++;
+                    indent = std::string(indent.length() - 2, ' ');
+                    auto closestr = std::format("\t{}}\n", indent);
+                    str.append(closestr);
                     break;
                 }
                 case 0x03: {
@@ -130,7 +135,7 @@ public:
                     auto len = _be_to_le(node->len);
                     auto val = (const char *)node->value;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, len);
-                    auto propstr = std::format("\t\t{}: {}\n", name, val);
+                    auto propstr = std::format("\t{}{}: {}\n", indent, name, val);
                     str.append(propstr);
                     struct_ptr = (struct _fdt_node *)((std::uint8_t *)struct_ptr + next);
                     break;
