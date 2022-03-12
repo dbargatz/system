@@ -113,7 +113,7 @@ public:
                     auto node = (struct _fdt_begin_node *)struct_ptr;
                     auto name_len = std::strlen((const char *)node->name) + 1;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, name_len);
-                    auto nodestr = std::format("\t  Node: {}", (const char *)node->name);
+                    auto nodestr = std::format("\t  Node: {}\n", (const char *)node->name);
                     str.append(nodestr);
                     struct_ptr = (struct _fdt_node *)((std::uint8_t *)struct_ptr + next);
                     break;
@@ -130,7 +130,7 @@ public:
                     auto len = _be_to_le(node->len);
                     auto val = (const char *)node->value;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, len);
-                    auto propstr = std::format("\t\t{}: {}", name, val);
+                    auto propstr = std::format("\t\t{}: {}\n", name, val);
                     str.append(propstr);
                     struct_ptr = (struct _fdt_node *)((std::uint8_t *)struct_ptr + next);
                     break;
