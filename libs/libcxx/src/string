@@ -478,7 +478,7 @@ public:
      * found
      */
     constexpr size_type find(const CharT * in_str, size_type in_start_idx = 0) const {
-        auto strlen = traits_type::length(in_cseq);
+        auto strlen = traits_type::length(in_str);
         return find(in_str, in_start_idx, strlen);
     }
 
