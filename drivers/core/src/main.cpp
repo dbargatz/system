@@ -18,9 +18,9 @@ extern core::memory::memory_manager * _core_memory_manager;
     _core_memory_manager = &mem_mgr;
 
     log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
-    log.info("  {}", mem_mgr);
+    log.info("{}", mem_mgr);
     auto dtb = new core::devicetree::dtb(in_boot_info);
-    log.info("  {}", *dtb);
+    log.info("{}", *dtb);
     log.unicode_test(core::console::level::Debug);
 
     // TODO: Initialize core state manager

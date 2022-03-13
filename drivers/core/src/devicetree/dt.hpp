@@ -81,10 +81,10 @@ public:
     auto format() const {
         auto str = std::format(
             "Device Tree at 0x{:016X}:\n"
-            "\tMagic          : 0x{:08X}\n"
-            "\tTotal Size     : {} bytes\n"
-            "\tVersion        : {} (min: {})\n"
-            "\tMem Reserve Map: 0x{:016X}\n",
+            "  Magic          : 0x{:08X}\n"
+            "  Total Size     : {} bytes\n"
+            "  Version        : {} (min: {})\n"
+            "  Mem Reserve Map: 0x{:016X}\n",
             (core::memory::physical_addr_t)_header, _be_to_le(_header->magic),
             _be_to_le(_header->totalsize), _be_to_le(_header->version),
             _be_to_le(_header->last_comp_version), _be_to_le(_header->off_mem_rsvmap));
@@ -96,15 +96,15 @@ public:
             if(addr == 0 && size == 0) {
                 break;
             }
-            str.append(std::format("\t  Entry: {:016X} ({} bytes)\n", addr, size));
+            str.append(std::format("    Entry: {:016X} ({} bytes)\n", addr, size));
             rsv_entry++;
         }
 
+        str.append(std::format("  Struct Block   : 0x{:016X} ({} bytes)\n", _be_to_le(_header->off_dt_struct), _be_to_le(_header->size_dt_struct)));
         auto struct_ptr = (struct _fdt_node *)((std::uint8_t *)_header + _be_to_le(_header->off_dt_struct));
         auto strings_block = (const char *)_header + _be_to_le(_header->off_dt_strings);
         bool finished = false;
-        auto indent = std::string("  ");
-        str.append(std::format("\tStruct Block   : 0x{:016X} ({} bytes)\n", _be_to_le(_header->off_dt_struct), _be_to_le(_header->size_dt_struct)));
+        auto depth = 0;
         while(!finished) {
             auto token = _be_to_le(struct_ptr->token);
 
@@ -114,18 +114,20 @@ public:
                     auto node = (struct _fdt_begin_node *)struct_ptr;
                     auto name_len = std::strlen((const char *)node->name) + 1;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, name_len);
-                    auto nodestr = std::format("\t{}{} {\n", indent, (const char *)node->name);
+                    auto indent = std::string(2 + (depth * 2), ' ');
+                    auto nodestr = std::format("{}{}{\n", indent, (const char *)node->name);
                     str.append(nodestr);
-                    indent.append("  ");
+                    depth++;
                     struct_ptr = (struct _fdt_node *)((std::uint8_t *)struct_ptr + next);
                     break;
                 }
                 case 0x02: {
                     // Continue on END_NODE node.
-                    // TODO: add asserts to make sure we're closing out an open node block.
+                    assert(depth > 0);
                     struct_ptr++;
-                    indent = std::string(indent.length() - 2, ' ');
-                    auto closestr = std::format("\t{}}\n", indent);
+                    depth--;
+                    auto indent = std::string(2 + (depth * 2), ' ');
+                    auto closestr = std::format("{}}\n", indent);
                     str.append(closestr);
                     break;
                 }
@@ -135,7 +137,8 @@ public:
                     auto len = _be_to_le(node->len);
                     auto val = (const char *)node->value;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, len);
-                    auto propstr = std::format("\t{}{}: {}\n", indent, name, val);
+                    auto indent = std::string(2 + (depth * 2), ' ');
+                    auto propstr = std::format("{}{}: {}\n", indent, name, val);
                     str.append(propstr);
                     struct_ptr = (struct _fdt_node *)((std::uint8_t *)struct_ptr + next);
                     break;
@@ -147,9 +150,8 @@ public:
                 }
                 case 0x09: {
                     // Stop looping on an END node.
-                    // TODO: add asserts to make sure we're at the end of the struct block, and
-                    //       that we've closed all BEGIN_NODEs with END_NODEs.
                     finished = true;
+                    assert(depth == 0);
                     break;
                 }
                 default: {

@@ -73,11 +73,11 @@ public:
         auto available = total - _bytes_used - _bytes_overhead;
         return std::format(
             "Heap '{}' at 0x{:016X}:\n"
-            "\t  Buffer   : 0x{:016X}\n"
-            "\t  Total    : {} bytes\n"
-            "\t  Available: {} bytes\n"
-            "\t  Used     : {} bytes\n"
-            "\t  Overhead : {} bytes",
+            "  Buffer   : 0x{:016X}\n"
+            "  Total    : {} bytes\n"
+            "  Available: {} bytes\n"
+            "  Used     : {} bytes\n"
+            "  Overhead : {} bytes",
             (const char *)_name, (physical_addr_t)this, (physical_addr_t)_heap_start,
             total, available, _bytes_used, _bytes_overhead
         );
