@@ -57,10 +57,23 @@ private:
         // Don't format or log the message if it's below the current log level.
         if(in_level < _current_level) { return; }
 
-        auto msg = std::format(in_fmt, in_args...);
+        std::string msg = std::format(in_fmt, in_args...);
         auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
-        auto final = std::format("[{}] {}\n", lvl, msg);
-        _platform_write(final.c_str());
+        auto start_idx = 0;
+        auto count = 0;
+        while(start_idx < msg.length()) {
+            auto newline_idx = msg.find('\n', start_idx);
+            if(newline_idx == std::string::npos) {
+                count = msg.length() - start_idx;
+            } else {
+                count = newline_idx - start_idx;
+            }
+
+            auto line = std::string(msg, start_idx, count);
+            auto final = std::format("[{}] {}\n", lvl, line);
+            _platform_write(final.c_str());
+            start_idx += count + 1;
+        }
     }
 
     bool _platform_init(void);
