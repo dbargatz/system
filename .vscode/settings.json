@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.docker": "dockerfile",
         "**/libs/libcxx/src/**": "cpp",
         "array": "cpp",
         "atomic": "cpp",
@@ -42,7 +43,8 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "algorithm": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "cstring": "cpp"
     },
     "files.exclude": {
         "**/.git": true,
