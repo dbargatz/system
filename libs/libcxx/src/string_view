@@ -1,0 +1,232 @@
+/**
+ * @file
+ * @brief Implementations of the std::basic_string_view and std::string_view
+ * classes.
+ * 
+ * @note Some comments in this file were based off of/taken directly from the
+ * descriptions on https://en.cppreference.com/w/cpp/string/basic_string_view
+ * and various subpages. All errors are mine, all credit is theirs.
+ */
+#ifndef _STD_STRING_VIEW_HPP
+#define _STD_STRING_VIEW_HPP
+
+#include <cassert>
+#include <string>
+
+namespace std {
+
+template <class CharT, class Traits = char_traits<CharT>>
+class basic_string_view {
+    using traits_type     = Traits;
+    using value_type      = CharT;
+    using pointer         = value_type*;
+    using const_pointer   = const value_type*;
+    using reference       = value_type&;
+    using const_reference = const value_type&;
+    // using const_iterator         = /* implementation-defined */
+    // using iterator               = const_iterator;
+    // using const_reverse_iterator = reverse_iterator<const_iterator>;
+    // using reverse_iterator       = const_reverse_iterator;
+    using size_type       = std::size_t;
+    using difference_type = std::ptrdiff_t;
+
+    static constexpr size_type npos = size_type(-1);
+
+    constexpr basic_string_view() noexcept {
+        _buf = nullptr;
+        _length_chars = 0;
+    }
+
+    constexpr basic_string_view(const basic_string_view&) noexcept = default;
+    constexpr basic_string_view& operator=(const basic_string_view&) noexcept = default;
+
+    constexpr basic_string_view(const CharT* in_str) {
+        _buf = in_str;
+        _length_chars = traits_type::length(in_str);
+    }
+
+    constexpr basic_string_view(nullptr_t) = delete;
+
+
+    constexpr basic_string_view(const CharT* in_str, size_type in_len) {
+      _buf = in_str;
+      _length_chars = in_len;
+    }
+
+    // template<class It, class End>
+    //   constexpr basic_string_view(It begin, End end);
+    // template<class R>
+    //   constexpr basic_string_view(R&& r);
+
+    // iterator support
+    // constexpr const_iterator begin() const noexcept;
+    // constexpr const_iterator end() const noexcept;
+    // constexpr const_iterator cbegin() const noexcept;
+    // constexpr const_iterator cend() const noexcept;
+    // constexpr const_reverse_iterator rbegin() const noexcept;
+    // constexpr const_reverse_iterator rend() const noexcept;
+    // constexpr const_reverse_iterator crbegin() const noexcept;
+    // constexpr const_reverse_iterator crend() const noexcept;
+ 
+    // capacity
+    constexpr size_type size() const noexcept { return _length_chars; }
+    constexpr size_type length() const noexcept { return size(); }
+    constexpr size_type max_size() const noexcept { return size(); }
+    [[nodiscard]] constexpr bool empty() const noexcept { return (size() == 0); }
+ 
+    // element access
+    constexpr const_reference operator[](size_type in_pos) const { return _buf[in_pos]; }
+
+    // constexpr const_reference at(size_type in_pos) const;
+
+    constexpr const_reference front() const { return _buf[0]; }
+    constexpr const_reference back() const { return _buf[_length_chars - 1]; }
+    constexpr const_pointer data() const noexcept { return _buf };
+ 
+    // modifiers
+    constexpr void remove_prefix(size_type in_n) {
+      assert(in_n <= _length_chars);
+      _buf += in_n;
+      _length_chars -= in_n;
+    }
+
+    constexpr void remove_suffix(size_type in_n) {
+      assert(in_n <= _length_chars);
+      _length_chars -= in_n;
+    }
+
+    constexpr void swap(basic_string_view& in_s) noexcept {
+      auto other_buf = in_s._buf;
+      auto other_len = in_s._length_chars;
+      in_s._buf = _buf;
+      in_s._length_chars = _length_chars;
+      _buf = other_buf;
+      _length_chars = other_len;
+    }
+ 
+    // string operations
+    // constexpr size_type copy(CharT* s, size_type n, size_type pos = 0) const;
+ 
+    // constexpr basic_string_view substr(size_type pos = 0, size_type n = npos) const;
+ 
+    // constexpr int compare(basic_string_view s) const noexcept;
+    // constexpr int compare(size_type pos1, size_type n1, basic_string_view s) const;
+    // constexpr int compare(size_type pos1, size_type n1, basic_string_view s,
+    //                       size_type pos2, size_type n2) const;
+    // constexpr int compare(const CharT* s) const;
+    // constexpr int compare(size_type pos1, size_type n1, const CharT* s) const;
+    // constexpr int compare(size_type pos1, size_type n1, const CharT* s,
+    //                       size_type n2) const;
+ 
+    constexpr bool starts_with(basic_string_view in_x) const noexcept { return (find(in_x) == 0); }
+    constexpr bool starts_with(CharT in_x) const noexcept { return (find(in_x) == 0); }
+    constexpr bool starts_with(const CharT* in_x) const { return (find(in_x) == 0); }
+    // constexpr bool ends_with(basic_string_view in_x) const noexcept;
+    // constexpr bool ends_with(CharT in_x) const noexcept;
+    // constexpr bool ends_with(const CharT* in_x) const;
+ 
+    constexpr bool contains(basic_string_view in_x) const noexcept {
+      return (find(in_x) != npos);
+    }
+
+    constexpr bool contains(CharT in_x) const noexcept {
+      return (find(in_x) != npos);
+    }
+
+    constexpr bool contains(const CharT* in_x) const {
+      return (find(in_x) != npos);
+    }
+ 
+    // searching
+    constexpr size_type find(basic_string_view in_s, size_type in_pos = 0) const noexcept {
+        // This string view can't contain the search string view if the search
+        // string view is longer than this string view, so bail.
+        if(in_s.size() > (_length_chars - in_pos)) { return npos; }
+
+        // Figure out the last index in this string view that could possibly
+        // contain a match to the search string view; if we exceed that index,
+        // we can bail early, since the search string view is too long to be
+        // contained within the rest of this string view.
+        auto cur_idx = _buf + in_pos;
+        auto max_idx = _length_chars - in_s.size();
+        while(cur_idx <= max_idx) {
+            // Starting from the current character index, 
+            auto search_idx = 0;
+            while(search_idx < in_s.size()) {
+                // If the current characters in the search string view and this
+                // string view don't match, then this index in this string view
+                // isn't a match. Break out and return to the top-level loop.
+                if(in_s[search_idx] != _buf[cur_idx + search_idx]) {
+                    break;
+                }
+
+                search_idx++;
+            }
+
+            // If we reached the end of the search string view, it means we
+            // found the search string! Return the starting index of the search
+            // string view contained within this string view.
+            if(search_idx == in_s.size()) {
+                return cur_idx;
+            }
+
+            cur_idx++;
+        }
+
+        return npos;
+    }
+
+    constexpr size_type find(CharT in_c, size_type in_pos = 0) const noexcept {
+      auto search = basic_string_view(&c, 1);
+      return find(search, in_pos);
+    }
+
+    constexpr size_type find(const CharT* in_s, size_type in_pos, size_type in_n) const {
+      auto search = basic_string_view(in_s, in_n);
+      return find(search, in_pos);
+    }
+
+    constexpr size_type find(const CharT* in_s, size_type in_pos = 0) const {
+      auto search = basic_string_view(in_s);
+      return find(search, in_pos);
+    }
+
+    // constexpr size_type rfind(basic_string_view s, size_type pos = npos) const noexcept;
+    // constexpr size_type rfind(CharT c, size_type pos = npos) const noexcept;
+    // constexpr size_type rfind(const CharT* s, size_type pos, size_type n) const;
+    // constexpr size_type rfind(const CharT* s, size_type pos = npos) const;
+ 
+    // constexpr size_type find_first_of(basic_string_view s,
+    //                                   size_type pos = 0) const noexcept;
+    // constexpr size_type find_first_of(CharT c, size_type pos = 0) const noexcept;
+    // constexpr size_type find_first_of(const CharT* s, size_type pos, size_type n) const;
+    // constexpr size_type find_first_of(const CharT* s, size_type pos = 0) const;
+    // constexpr size_type find_last_of(basic_string_view s,
+    //                                  size_type pos = npos) const noexcept;
+    // constexpr size_type find_last_of(CharT c, size_type pos = npos) const noexcept;
+    // constexpr size_type find_last_of(const CharT* s, size_type pos, size_type n) const;
+    // constexpr size_type find_last_of(const CharT* s, size_type pos = npos) const;
+    // constexpr size_type find_first_not_of(basic_string_view s,
+    //                                       size_type pos = 0) const noexcept;
+    // constexpr size_type find_first_not_of(CharT c, size_type pos = 0) const noexcept;
+    // constexpr size_type find_first_not_of(const CharT* s, size_type pos,
+    //                                       size_type n) const;
+    // constexpr size_type find_first_not_of(const CharT* s, size_type pos = 0) const;
+    // constexpr size_type find_last_not_of(basic_string_view s,
+    //                                    size_type pos = npos) const noexcept;
+    // constexpr size_type find_last_not_of(CharT c, size_type pos = npos) const noexcept;
+    // constexpr size_type find_last_not_of(const CharT* s, size_type pos,
+    //                                      size_type n) const;
+    // constexpr size_type find_last_not_of(const CharT* s, size_type pos = npos) const;
+
+private:
+    value_type * _buf = nullptr;
+    size_type    _length_chars = 0;
+};
+
+using string_view = basic_string_view<char>;
+using u8string_view = basic_string_view<char8_t>;
+
+}; // namespace std
+
+#endif // _STD_STRING_VIEW_HPP
