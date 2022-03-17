@@ -4,10 +4,9 @@
 #include <cstdint>
 
 namespace core::devicetree {
-    std::size_t align_to(const std::align_val_t in_alignment, const std::size_t in_num) {
-        auto align = (std::size_t)in_alignment;
-        auto remainder = in_num % align;
-        return (in_num + ((align - remainder) % align));
+    std::size_t align_to(const std::size_t in_alignment, const std::size_t in_num) {
+        auto remainder = in_num % in_alignment;
+        return (in_num + ((in_alignment - remainder) % in_alignment));
     }
 
     std::uint32_t be_to_le(std::uint32_t in_big_endian) {
