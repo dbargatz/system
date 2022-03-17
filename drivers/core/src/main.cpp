@@ -1,8 +1,8 @@
 #include <cstdint>
 #include <cstdlib>
+#include "../../../libs/libdevicetree/src/fdt.hpp"
 
 #include "console/console.hpp"
-#include "devicetree/dt.hpp"
 #include "memory/manager.hpp"
 #include "platform.hpp"
 
@@ -19,8 +19,8 @@ extern core::memory::memory_manager * _core_memory_manager;
 
     log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
     log.info("{}", mem_mgr);
-    auto dtb = new core::devicetree::dtb(in_boot_info);
-    log.info("{}", *dtb);
+    auto fdt = devicetree::fdt(in_boot_info);
+    log.info("{}", fdt);
     log.unicode_test(core::console::level::Debug);
 
     // TODO: Initialize core state manager
