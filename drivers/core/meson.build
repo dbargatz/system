@@ -5,7 +5,7 @@ core_cpp_src = [
     'src/memory/manager.cpp',
     'src/main.cpp'
 ]
-core_linker_objs = [libcxx_lib]
+core_linker_objs = [libcxx_lib, libdevicetree_lib]
 
 
 # Meson generators to compile assembly for different processor architectures. ---------------------

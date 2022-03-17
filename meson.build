@@ -2,6 +2,7 @@ project('system', 'cpp', version: '0.1.0')
 
 # Libraries
 subdir('libs/libcxx')
+subdir('libs/libdevicetree')
 subdir('libs/libsystem')
 
 # Drivers
