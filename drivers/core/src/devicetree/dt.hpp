@@ -6,6 +6,7 @@
 #include "../console/console.hpp"
 #include "../memory/heap.hpp"
 #include "../memory/types.hpp"
+#include "utils.hpp"
 
 namespace core::devicetree {
 
@@ -48,33 +49,11 @@ private:
     const struct _fdt_header * _header;
     const struct _fdt_reserve_entry * _mem_reserve_map;
 
-    std::uint32_t _be_to_le(std::uint32_t in_big_endian) const {
-        auto be = (std::uint8_t *)&in_big_endian;
-        std::uint32_t ret = (std::uint32_t)be[0] << 24;
-        ret |= (std::uint32_t)be[1] << 16;
-        ret |= (std::uint32_t)be[2] << 8;
-        ret |= (std::uint32_t)be[3];
-        return ret;
-    }
-
-    std::uint64_t _be_to_le(std::uint64_t in_big_endian) const {
-        auto be = (std::uint8_t *)&in_big_endian;
-        std::uint64_t ret = (std::uint64_t)be[0] << 56;
-        ret |= (std::uint64_t)be[1] << 48;
-        ret |= (std::uint64_t)be[2] << 40;
-        ret |= (std::uint64_t)be[3] << 32;
-        ret |= (std::uint64_t)be[4] << 24;
-        ret |= (std::uint64_t)be[5] << 16;
-        ret |= (std::uint64_t)be[6] << 8;
-        ret |= (std::uint64_t)be[7];
-        return ret;
-    }
-
 public:
     dtb(core::memory::physical_addr_t in_dtb) {
         _header = (struct _fdt_header *)in_dtb;
 
-        auto mem_reserve_map_offset = (std::uint64_t)(_be_to_le(_header->off_mem_rsvmap));
+        auto mem_reserve_map_offset = (std::uint64_t)(be_to_le(_header->off_mem_rsvmap));
         _mem_reserve_map = (struct _fdt_reserve_entry *)(in_dtb + mem_reserve_map_offset);
     }
 
@@ -85,14 +64,14 @@ public:
             "  Total Size     : {} bytes\n"
             "  Version        : {} (min: {})\n"
             "  Mem Reserve Map: 0x{:016X}\n",
-            (core::memory::physical_addr_t)_header, _be_to_le(_header->magic),
-            _be_to_le(_header->totalsize), _be_to_le(_header->version),
-            _be_to_le(_header->last_comp_version), _be_to_le(_header->off_mem_rsvmap));
+            (core::memory::physical_addr_t)_header, be_to_le(_header->magic),
+            be_to_le(_header->totalsize), be_to_le(_header->version),
+            be_to_le(_header->last_comp_version), be_to_le(_header->off_mem_rsvmap));
 
         auto rsv_entry = _mem_reserve_map;
         while(true) {
-            auto addr = _be_to_le(rsv_entry->address);
-            auto size = _be_to_le(rsv_entry->size);
+            auto addr = be_to_le(rsv_entry->address);
+            auto size = be_to_le(rsv_entry->size);
             if(addr == 0 && size == 0) {
                 break;
             }
@@ -100,13 +79,13 @@ public:
             rsv_entry++;
         }
 
-        str.append(std::format("  Struct Block   : 0x{:016X} ({} bytes)\n", _be_to_le(_header->off_dt_struct), _be_to_le(_header->size_dt_struct)));
-        auto struct_ptr = (struct _fdt_node *)((std::uint8_t *)_header + _be_to_le(_header->off_dt_struct));
-        auto strings_block = (const char *)_header + _be_to_le(_header->off_dt_strings);
+        str.append(std::format("  Struct Block   : 0x{:016X} ({} bytes)\n", be_to_le(_header->off_dt_struct), be_to_le(_header->size_dt_struct)));
+        auto struct_ptr = (struct _fdt_node *)((std::uint8_t *)_header + be_to_le(_header->off_dt_struct));
+        auto strings_block = (const char *)_header + be_to_le(_header->off_dt_strings);
         bool finished = false;
         auto depth = 0;
         while(!finished) {
-            auto token = _be_to_le(struct_ptr->token);
+            auto token = be_to_le(struct_ptr->token);
 
             switch(token) {
                 case 0x01: {
@@ -133,8 +112,8 @@ public:
                 }
                 case 0x03: {
                     auto node = (struct _fdt_prop *)struct_ptr;
-                    auto name = strings_block + _be_to_le(node->nameoff);
-                    auto len = _be_to_le(node->len);
+                    auto name = strings_block + be_to_le(node->nameoff);
+                    auto len = be_to_le(node->len);
                     auto val = (const char *)node->value;
                     auto next = sizeof(*node) + core::memory::align_to((std::align_val_t)4, len);
                     auto indent = std::string(2 + (depth * 2), ' ');
