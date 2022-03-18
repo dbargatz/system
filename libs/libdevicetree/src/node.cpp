@@ -2,7 +2,7 @@
 #include <cassert>
 #include "__utils.hpp"
 
-devicetree::node * devicetree::node::parse(const void * in_ptr) {
+devicetree::node * devicetree::node::parse(const void * in_ptr, const void * in_strings_block) {
     auto n = new node();
     n->next = nullptr;
     n->_start = (struct internal::fdt_begin_node *)in_ptr;
@@ -15,11 +15,12 @@ devicetree::node * devicetree::node::parse(const void * in_ptr) {
     auto align = internal::align(sizeof(*n->_start) + n->_name.size() + 1);
     auto next = (std::uint8_t *)in_ptr + align;
     node * prev_child = nullptr;
+    property * prev_prop = nullptr;
     while(true) {
         auto token = internal::be_to_le(*(std::uint32_t *)next);
         switch(token) {
             case 0x01: {
-                auto child = node::parse(next);
+                auto child = node::parse(next, in_strings_block);
                 next += child->length();
                 if(prev_child != nullptr) {
                     prev_child->next = child;
@@ -35,9 +36,14 @@ devicetree::node * devicetree::node::parse(const void * in_ptr) {
                 return n;
             }
             case 0x03: {
-                auto prop = (struct internal::fdt_property *)next;
-                auto offset = internal::be_to_le(prop->len) + sizeof(*prop);
-                next += internal::align(offset);
+                auto prop = property::parse(next, in_strings_block);
+                next += prop->length();
+                if(prev_prop != nullptr) {
+                    prev_prop->next = prop;
+                } else {
+                    n->_properties = prop;
+                }
+                prev_prop = prop;
                 break;
             }
             case 0x04: {
@@ -54,9 +60,17 @@ devicetree::node * devicetree::node::parse(const void * in_ptr) {
 }
 
 std::string devicetree::node::format(std::size_t in_indent) const {
-    auto child = _children;
     auto indent = std::string(in_indent * 2, ' ');
     auto str = std::format("{}{} {\n", indent, _name);
+
+    auto prop = _properties;
+    while(prop != nullptr) {
+        auto prop_str = prop->format(in_indent+1);
+        str.append(prop_str);
+        prop = prop->next;
+    }
+
+    auto child = _children;
     while(child != nullptr) {
         auto child_str = child->format(in_indent+1);
         str.append(child_str);

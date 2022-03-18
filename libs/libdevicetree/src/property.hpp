@@ -1,46 +1,43 @@
-#ifndef _DEVICETREE_NODE_HPP
-#define _DEVICETREE_NODE_HPP
+#ifndef _DEVICETREE_PROPERTY_HPP
+#define _DEVICETREE_PROPERTY_HPP
 
 #include <cstdint>
 #include <format>
 #include <string>
 #include <string_view>
 #include "__structs.hpp"
-#include "property.hpp"
 
 namespace devicetree {
 
-class node {
+class property {
 private:
-    struct internal::fdt_begin_node * _start;
+    struct internal::fdt_property * _start;
     std::string_view _name;
     std::size_t _length;
-    node * _children;
-    property * _properties;
 
-    node() {}
+    property() {}
 
 public:
-    node * next;
+    property * next;
 
-    static node * parse(const void * in_ptr, const void * in_strings_block);
+    static property * parse(const void * in_ptr, const void * in_strings_block);
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
-}; // class node
+}; // class property
 
 }; // namespace devicetree
 
 template <>
-struct std::formatter<devicetree::node> {
+struct std::formatter<devicetree::property> {
     formatter() { }
 
     void parse(const string::value_type* in_open_brace,
                const string::value_type* in_close_brace) { }
 
-    string format(const devicetree::node& in_arg) {
+    string format(const devicetree::property& in_arg) {
         return in_arg.format();
     }
 }; // struct std::formatter
 
-#endif // _DEVICETREE_NODE_HPP
+#endif // _DEVICETREE_PROPERTY_HPP

@@ -10,9 +10,10 @@ devicetree::fdt * devicetree::fdt::parse(const void * in_ptr) {
     auto byte_ptr = (const std::uint8_t *)in_ptr;
     auto structs_block_ptr = byte_ptr + internal::be_to_le(header->off_dt_struct);
     auto structs_block_size = internal::be_to_le(header->size_dt_struct);
+    auto strings_block_ptr = byte_ptr + internal::be_to_le(header->off_dt_strings);
     auto fdt = new devicetree::fdt();
     fdt->_header = header;
-    fdt->_root = node::parse(structs_block_ptr);
+    fdt->_root = node::parse(structs_block_ptr, strings_block_ptr);
 
     assert((fdt->_root->length() + sizeof(std::uint32_t)) == structs_block_size);
     auto end = structs_block_ptr + fdt->_root->length();
