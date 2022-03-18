@@ -50,7 +50,7 @@ public:
 
 
     constexpr basic_string_view(const CharT* in_str, size_type in_len) {
-      _buf = in_str;
+      _buf = (char *)in_str;
       _length_chars = in_len;
     }
 
@@ -108,16 +108,56 @@ public:
     // string operations
     // constexpr size_type copy(CharT* s, size_type n, size_type pos = 0) const;
  
-    // constexpr basic_string_view substr(size_type pos = 0, size_type n = npos) const;
+    constexpr basic_string_view substr(size_type in_pos = 0, size_type in_count = npos) const {
+      assert(in_pos <= size());
+      auto rcount = size() - in_pos;
+      if(in_count < rcount) {
+        rcount = in_count;
+      }
+      return basic_string_view(_buf[in_pos], rcount);
+    }
  
-    // constexpr int compare(basic_string_view s) const noexcept;
-    // constexpr int compare(size_type pos1, size_type n1, basic_string_view s) const;
-    // constexpr int compare(size_type pos1, size_type n1, basic_string_view s,
-    //                       size_type pos2, size_type n2) const;
-    // constexpr int compare(const CharT* s) const;
-    // constexpr int compare(size_type pos1, size_type n1, const CharT* s) const;
-    // constexpr int compare(size_type pos1, size_type n1, const CharT* s,
-    //                       size_type n2) const;
+    constexpr int compare(basic_string_view in_v) const noexcept {
+      auto rlen = in_v.size() < size() ? in_v.size() : size();
+      auto result = traits_type::compare(data(), in_v.data(), rlen);
+
+      if(result != 0 || size() == in_v.size()) { return result; }
+
+      if(size() < in_v.size()) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+
+    constexpr int compare(size_type in_pos1, size_type in_count1, basic_string_view in_v) const {
+      auto s1 = substr(in_pos1, in_count1);
+      return s1.compare(in_v);
+    }
+
+    constexpr int compare(size_type in_pos1, size_type in_count1, basic_string_view in_v,
+                          size_type in_pos2, size_type in_count2) const {
+      auto s1 = substr(in_pos1, in_count1);
+      auto s2 = in_v.substr(in_pos2, in_count2);
+      return s1.compare(s2);
+    }
+
+    constexpr int compare(const CharT* in_s) const {
+      return compare(basic_string_view(in_s));
+    }
+
+    constexpr int compare(size_type in_pos1, size_type in_count1, const CharT* in_s) const {
+      auto s1 = substr(in_pos1, in_count1);
+      auto s2 = basic_string_view(in_s);
+      return s1.compare(s2);
+    }
+
+    constexpr int compare(size_type in_pos1, size_type in_count1, const CharT* in_s,
+                          size_type in_count2) const {
+      auto s1 = substr(in_pos1, in_count1);
+      auto s2 = basic_string_view(in_s, in_count2);
+      return s1.compare(s2);
+    }
  
     constexpr bool starts_with(basic_string_view in_x) const noexcept { return (find(in_x) == 0); }
     constexpr bool starts_with(CharT in_x) const noexcept { return (find(in_x) == 0); }
