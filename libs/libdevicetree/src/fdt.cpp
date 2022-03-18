@@ -23,7 +23,7 @@ devicetree::fdt * devicetree::fdt::parse(const void * in_ptr) {
 }
 
 std::string devicetree::fdt::format() const {
-    return std::format("Devicetree: 0x{:X}\n  {}\n", (const void *)_header, *_root);
+    return std::format("Devicetree: 0x{:X}\n{}", (const void *)_header, _root->format());
 }
 
 std::size_t devicetree::fdt::length() const {

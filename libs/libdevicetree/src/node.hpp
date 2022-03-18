@@ -23,7 +23,7 @@ public:
 
     static node * parse(const void * in_ptr);
 
-    std::string format() const;
+    std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
 }; // class node
 

@@ -53,15 +53,17 @@ devicetree::node * devicetree::node::parse(const void * in_ptr) {
     assert(false);
 }
 
-std::string devicetree::node::format() const {
+std::string devicetree::node::format(std::size_t in_indent) const {
     auto child = _children;
-    auto str = std::format("{} {", _name);
+    auto indent = std::string(in_indent * 2, ' ');
+    auto str = std::format("{}{} {\n", indent, _name);
     while(child != nullptr) {
-        auto child_str = std::format("\n  {}", *child);
+        auto child_str = child->format(in_indent+1);
         str.append(child_str);
         child = child->next;
     }
-    str.append("} \n");
+    auto close = std::format("{}} \n", indent);
+    str.append(close);
     return str;
 }
 
