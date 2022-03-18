@@ -16,6 +16,20 @@ devicetree::property * devicetree::property::parse(const void * in_ptr, const vo
     return p;
 }
 
+template<> std::uint32_t devicetree::property::get_value<std::uint32_t>() {
+    assert(internal::be_to_le(_start->len) == sizeof(std::uint32_t));
+    return internal::be_to_le(*(std::uint32_t *)_start->value);
+}
+
+template<> std::uint64_t devicetree::property::get_value<std::uint64_t>() {
+    assert(internal::be_to_le(_start->len) == sizeof(std::uint64_t));
+    return internal::be_to_le(*(std::uint64_t *)_start->value);
+}
+
+template<> std::string_view devicetree::property::get_value<std::string_view>() {
+    return std::string_view((const char *)_start->value, internal::be_to_le(_start->len));
+}
+
 std::string devicetree::property::format(std::size_t in_indent) const {
     auto indent = std::string(in_indent * 2, ' ');
     return std::format("{}{}: ???\n", indent, _name);

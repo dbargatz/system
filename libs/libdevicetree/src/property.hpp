@@ -22,6 +22,8 @@ public:
 
     static property * parse(const void * in_ptr, const void * in_strings_block);
 
+    template<class V> V get_value();
+
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
 }; // class property
