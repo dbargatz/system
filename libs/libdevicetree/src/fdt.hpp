@@ -1,17 +1,25 @@
 #ifndef _DEVICETREE_FDT_HPP
 #define _DEVICETREE_FDT_HPP
 
+#include <cassert>
 #include <format>
 #include <string>
+#include "__structs.hpp"
+#include "__utils.hpp"
 
 namespace devicetree {
 
 class fdt {
 private:
-    const void * _start;
+    struct internal::fdt_header * _header;
+    struct internal::fdt_begin_node * _root;
 
 public:
-    constexpr fdt(const void * in_ptr) : _start(in_ptr) {}
+    fdt(const void * in_ptr) {
+        _header = (struct internal::fdt_header *)in_ptr;
+        assert(_header->magic == internal::be_to_le(0xD00DFEED));
+        assert(_header->version == internal::be_to_le((std::uint32_t)17));
+    }
 
     std::string format() const;
 }; // class fdt
