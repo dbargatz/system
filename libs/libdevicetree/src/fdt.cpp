@@ -14,6 +14,7 @@ devicetree::fdt * devicetree::fdt::parse(const void * in_ptr) {
     fdt->_header = header;
     fdt->_root = node::parse(structs_block_ptr);
 
+    assert((fdt->_root->length() + sizeof(std::uint32_t)) == structs_block_size);
     auto end = structs_block_ptr + fdt->_root->length();
     auto end_token = internal::be_to_le(*(std::uint32_t *)end);
     assert(end_token == 0x09);
@@ -22,7 +23,7 @@ devicetree::fdt * devicetree::fdt::parse(const void * in_ptr) {
 }
 
 std::string devicetree::fdt::format() const {
-    return std::format("Devicetree: 0x{:X}", (const void *)_header);
+    return std::format("Devicetree: 0x{:X}\n  {}\n", (const void *)_header, *_root);
 }
 
 std::size_t devicetree::fdt::length() const {
