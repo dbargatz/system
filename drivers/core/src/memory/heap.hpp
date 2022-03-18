@@ -15,7 +15,8 @@ std::size_t align_to(const std::align_val_t in_boundary, const std::size_t in_nu
 
 struct heap_chunk {
     bool free          : 1;
-    std::size_t length : 63;
+    std::size_t wasted : 8;
+    std::size_t length : 55;
 } __attribute__((packed));
 
 constexpr std::align_val_t DEFAULT_ALIGNMENT = (std::align_val_t)sizeof(struct heap_chunk);
@@ -31,6 +32,9 @@ private:
 
     // Physical end address of the contiguous memory range this heap can allocate/reserve from.
     physical_addr_t _heap_end;
+
+    // Number of heap chunks currently present, both free and used.
+    std::size_t _num_chunks;
 
     // Number of heap bytes currently allocated/reserved to heap callers. Includes alignment bytes,
     // as those bytes are technically usable by a caller without trashing heap_chunk structures.
@@ -55,11 +59,13 @@ public:
         // the chunk header size from the length.
         auto first_chunk = (struct heap_chunk *)_heap_start;
         first_chunk->free = true;
+        first_chunk->wasted = 0;
         first_chunk->length = length - sizeof(*first_chunk);
 
         // Initialize the statistics vars - none of the bytes are used yet because nothing has
         // asked the heap to allocate/reserve bytes yet, but we do have overhead bytes already,
         // since we created a chunk header!
+        _num_chunks = 1;
         _bytes_used = 0;
         _bytes_overhead = sizeof(*first_chunk);
     }
@@ -69,17 +75,25 @@ public:
     bool deallocate(const physical_addr_t in_addr);
 
     auto format() const {
+        // Calculate all of these stats before the std::format() call to avoid
+        // the numbers changing due to allocations/deallocations in the
+        // std::format() call itself.
         auto total = (std::size_t)(_heap_end - _heap_start);
-        auto available = total - _bytes_used - _bytes_overhead;
+        auto used = _bytes_used;
+        auto overhead = _bytes_overhead;
+        auto available = total - used - overhead;
+        auto num_chunks = _num_chunks;
         return std::format(
-            "Heap '{}' at 0x{:016X}:\n"
-            "  Buffer   : 0x{:016X}\n"
+            "Heap '{}' at 0x{:X}:\n"
+            "  Buffer   : 0x{:X} - 0x{:X}\n"
             "  Total    : {} bytes\n"
             "  Available: {} bytes\n"
             "  Used     : {} bytes\n"
-            "  Overhead : {} bytes",
-            (const char *)_name, (physical_addr_t)this, (physical_addr_t)_heap_start,
-            total, available, _bytes_used, _bytes_overhead
+            "  Overhead : {} bytes\n"
+            "  Chunks   : {} chunks",
+            (const char *)_name, (physical_addr_t)this, 
+            (physical_addr_t)_heap_start, (physical_addr_t)_heap_end,
+            total, available, used, overhead, num_chunks
         );
     }
 };

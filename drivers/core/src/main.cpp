@@ -22,6 +22,7 @@ extern core::memory::memory_manager * _core_memory_manager;
     auto fdt = devicetree::fdt::parse(in_boot_info);
     log.info("{}", *fdt);
     log.unicode_test(core::console::level::Debug);
+    log.info("{}", mem_mgr);
 
     // TODO: Initialize core state manager
     // TODO: Initialize interrupt manager

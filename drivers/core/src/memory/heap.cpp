@@ -41,15 +41,18 @@ physical_addr_t heap::allocate(const std::size_t in_size, const std::align_val_t
         // Create a new heap chunk for the memory from the current chunk we don't need.
         auto new_free_chunk = (struct heap_chunk *)(cur_addr + sizeof(struct heap_chunk) + aligned_size);
         new_free_chunk->free = true;
+        new_free_chunk->wasted = 0;
         new_free_chunk->length = remaining_chunk_size - sizeof(struct heap_chunk);
 
         // Update the overhead statistic - we created a new heap chunk, which isn't usable space.
         _bytes_overhead += sizeof(struct heap_chunk);
         cur_chunk->length = aligned_size;
+        _num_chunks++;
     } else {
         // We don't create a new chunk, but the space remaining in the current chunk is technically
         // overhead (aka internal fragmentation), because it's not usable space until the current
         // chunk is freed. Count it as overhead!
+        cur_chunk->wasted = remaining_chunk_size;
         _bytes_overhead += remaining_chunk_size;
     }
 
@@ -60,7 +63,8 @@ physical_addr_t heap::allocate(const std::size_t in_size, const std::align_val_t
 
     // Update the amount of memory actually used by the allocation; we count alignment bytes as
     // part of the allocation, unlike chunk headers or internal fragmentation.
-    _bytes_used += aligned_size;
+    auto actually_used = cur_chunk->length - cur_chunk->wasted;
+    _bytes_used += actually_used;
     return alloc_mem;
 }
 
@@ -80,22 +84,25 @@ bool heap::deallocate(const physical_addr_t in_addr) {
     assert(in_addr < _heap_end);
     assert(!chunk->free);
 
+    // Update the bytes used before we start coalescing chunks.
+    auto actually_used = chunk->length - chunk->wasted;
+    _bytes_used -= actually_used;
+    _bytes_overhead -= chunk->wasted;
+
     // Coalesce this chunk with all contiguous following free chunks.
     auto next_chunk_addr = chunk_addr + sizeof(*chunk) + chunk->length;
     auto next_chunk = (struct heap_chunk *)next_chunk_addr;
     while(next_chunk_addr < _heap_end && next_chunk->free) {
         auto additional_length = sizeof(*next_chunk) + next_chunk->length;
         chunk->length += additional_length;
+        _bytes_overhead -= sizeof(*next_chunk);
+        _num_chunks -= 1;
         next_chunk_addr += additional_length;
         next_chunk = (struct heap_chunk *)next_chunk_addr;
     }
 
-    // Mark the chunk as free again.
+    // Mark the chunk as free again with no wasted space.
     chunk->free = true;
-
-    // Update the heap statistics. Note that we're not updating _bytes_overhead, because we're
-    // not coalescing chunks yet.
-    _bytes_used -= chunk->length;
-
+    chunk->wasted = 0;
     return true;
 }
