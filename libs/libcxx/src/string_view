@@ -17,6 +17,7 @@ namespace std {
 
 template <class CharT, class Traits = char_traits<CharT>>
 class basic_string_view {
+public:
     using traits_type     = Traits;
     using value_type      = CharT;
     using pointer         = value_type*;
@@ -41,7 +42,7 @@ class basic_string_view {
     constexpr basic_string_view& operator=(const basic_string_view&) noexcept = default;
 
     constexpr basic_string_view(const CharT* in_str) {
-        _buf = in_str;
+        _buf = (CharT *)in_str;
         _length_chars = traits_type::length(in_str);
     }
 
@@ -81,7 +82,7 @@ class basic_string_view {
 
     constexpr const_reference front() const { return _buf[0]; }
     constexpr const_reference back() const { return _buf[_length_chars - 1]; }
-    constexpr const_pointer data() const noexcept { return _buf };
+    constexpr const_pointer data() const noexcept { return _buf; };
  
     // modifiers
     constexpr void remove_prefix(size_type in_n) {
@@ -177,7 +178,7 @@ class basic_string_view {
     }
 
     constexpr size_type find(CharT in_c, size_type in_pos = 0) const noexcept {
-      auto search = basic_string_view(&c, 1);
+      auto search = basic_string_view(&in_c, 1);
       return find(search, in_pos);
     }
 
