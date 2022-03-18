@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <utility>
 
 namespace std {
@@ -263,6 +264,27 @@ public:
 
     string format(const string& in_arg) {
         return string(in_arg);
+    }
+
+private:
+    const char * _fill_char;
+    uint8_t      _min_width;
+};
+
+template <>
+struct formatter<string_view> {
+public:
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) {
+        // TODO: choose all these based on parsed spec
+        _fill_char = " ";
+        _min_width = 16;
+    }
+
+    string format(const string_view& in_arg) {
+        return string(in_arg.data(), in_arg.size());
     }
 
 private:
