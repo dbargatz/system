@@ -1,4 +1,5 @@
 libdevicetree_src = [
+    'src/__utils.cpp',
     'src/fdt.cpp',
 ]
 
