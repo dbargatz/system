@@ -50,7 +50,7 @@ public:
 
 
     constexpr basic_string_view(const CharT* in_str, size_type in_len) {
-      _buf = (char *)in_str;
+      _buf = (CharT *)in_str;
       _length_chars = in_len;
     }
 
@@ -268,6 +268,24 @@ private:
 using string_view = basic_string_view<char>;
 using u8string_view = basic_string_view<char8_t>;
 
+template<class CharT, class Traits>
+constexpr bool operator==(basic_string_view<CharT, Traits> in_lhs,
+                          basic_string_view<CharT, Traits> in_rhs) noexcept {
+  return (0 == in_lhs.compare(in_rhs));
+}
+
 }; // namespace std
+
+namespace std::literals::string_view_literals {
+
+constexpr std::string_view operator "" sv( const char* in_str, std::size_t in_len ) noexcept {
+  return std::string_view(in_str, in_len);
+}
+
+constexpr std::u8string_view operator "" sv( const char8_t* in_str, std::size_t in_len ) noexcept {
+  return std::u8string_view(in_str, in_len);
+}
+
+}; // namespace std::literals::string_view_literals
 
 #endif // _STD_STRING_VIEW_HPP
