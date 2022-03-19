@@ -9,78 +9,67 @@ namespace std {
 template<typename T, size_t N>
 class array {
 public:
-    class iterator {
-    public:
-        iterator(const T* in_ptr) : _ptr(in_ptr) {}
-        iterator operator++() {
-            _ptr++;
-            return *this;
+    using value_type             = T;
+    using pointer                = T*;
+    using const_pointer          = const T*;
+    using reference              = T&;
+    using const_reference        = const T&;
+    using size_type              = size_t;
+    using difference_type        = ptrdiff_t;
+    using iterator               = value_type*;
+    using const_iterator         = const value_type*;
+    // using reverse_iterator       = std::reverse_iterator<iterator>;
+    // using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+    constexpr void fill(const T& in_value) {
+        for(auto i = 0; i < N; i++) {
+            _buf[i] = in_value;
         }
-
-        bool operator!=(const iterator& in_other) const {
-            return _ptr != in_other._ptr;
-        }
-
-        const T& operator*() {
-            return *_ptr;
-        }
-
-    private:
-        const T* _ptr;
-    };
-
-    T& operator[](std::size_t in_idx) {
-        assert(in_idx < N);
-        return _buf[in_idx];
     }
 
-    constexpr const T& operator[](std::size_t in_idx) const noexcept {
-        return _buf[in_idx];
+    // constexpr void swap(array&) noexcept(is_nothrow_swappable_v<T>);
+
+    // iterators
+    constexpr iterator begin() noexcept { return _buf; }
+    constexpr const_iterator begin() const noexcept { return _buf; }
+    constexpr iterator end() noexcept { return _buf + N; }
+    constexpr const_iterator end() const noexcept { return _buf + N; }
+ 
+    // constexpr reverse_iterator       rbegin() noexcept;
+    // constexpr const_reverse_iterator rbegin() const noexcept;
+    // constexpr reverse_iterator       rend() noexcept;
+    // constexpr const_reverse_iterator rend() const noexcept;
+ 
+    constexpr const_iterator cbegin() const noexcept { return _buf; }
+    constexpr const_iterator cend() const noexcept { return _buf; }
+    // constexpr const_reverse_iterator crbegin() const noexcept
+    // constexpr const_reverse_iterator crend() const noexcept;
+
+    // capacity
+    [[nodiscard]] constexpr bool empty() const noexcept { return size() == 0; }
+    constexpr size_type size() const noexcept { return N; }
+    constexpr size_type max_size() const noexcept { return N; }
+
+    // element access
+    constexpr reference operator[](size_type in_n) { return _buf[in_n]; }
+    constexpr const_reference operator[](size_type in_n) const { return _buf[in_n]; }
+    constexpr reference at(size_type in_n) {
+        assert(in_n < N);
+        return _buf[in_n];
     }
 
-    T& at(std::size_t in_idx) {
-        return _buf[in_idx];
+    constexpr const_reference at(size_type in_n) const {
+        assert(in_n < N);
+        return _buf[in_n];
     }
 
-    constexpr const T& at(std::size_t in_idx) const noexcept {
-        return _buf[in_idx];
-    }
-
-    iterator begin() noexcept {
-        return iterator((T*)_buf);
-    }
-
-    iterator end() noexcept {
-        return iterator((T*)_buf + N);
-    }
-
-    constexpr T& front() const noexcept {
-        return *begin();
-    }
-
-    constexpr T& back() const noexcept {
-        return N ? *(end() - 1) : *end();
-    }
-
-    constexpr std::size_t size() const noexcept {
-        return N;
-    }
-
-    constexpr std::size_t max_size() const noexcept {
-        return N;
-    }
-
-    constexpr bool empty() const noexcept {
-        return size() == 0;
-    }
-
-    T* data() noexcept {
-        return __addressof(_buf[0]);
-    }
-
-    const T* data() const noexcept {
-        return __addressof(_buf[0]);
-    }
+    constexpr reference front() { return _buf[0]; }
+    constexpr const_reference front() const { return _buf[0]; }
+    constexpr reference back() { return _buf[size() - 1]; }
+    constexpr const_reference back() const { return _buf[size() - 1]; }
+ 
+    constexpr T * data() noexcept { return _buf; }
+    constexpr const T * data() const noexcept { return _buf; }
 
 private:
     T _buf[N];
