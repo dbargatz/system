@@ -2,6 +2,7 @@
 #define _STD_ARRAY_HPP
 
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 
 namespace std {
