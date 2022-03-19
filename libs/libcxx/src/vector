@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <memory>
+#include <new>
 
 namespace std {
 
@@ -35,19 +36,11 @@ public:
     // construct/copy/destroy
     constexpr vector() noexcept(noexcept(Allocator())) : vector(Allocator()) { }
     constexpr explicit vector(const Allocator& in_alloc) noexcept { _alloc = in_alloc; }
-    constexpr vector(size_type in_count, const T& in_value, const Allocator& in_alloc = Allocator()) {
-        _alloc = in_alloc;
-        _buf = _alloc.allocate(in_count);
-        _capacity_items = in_count;
-        _length_items = in_count;
-        for(auto i = 0; i < in_count; i++) { _buf[i] = in_value; }
+    constexpr vector(size_type in_count, const T& in_value, const Allocator& in_alloc = Allocator()) : vector(in_alloc) {
+        resize(in_count, in_value);
     }
-    constexpr explicit vector(size_type in_count, const Allocator& in_alloc = Allocator()) {
-        _alloc = in_alloc;
-        _buf = _alloc.allocate(in_count);
-        _capacity_items = in_count;
-        _length_items = in_count;
-        for(auto i = 0; i < in_count; i++) { ::operator new((void *)(_buf + i)) T(); }
+    constexpr explicit vector(size_type in_count, const Allocator& in_alloc = Allocator()) : vector(in_alloc) {
+        resize(in_count);
     }
     // template<class InputIt>
     // constexpr vector(InputIt first, InputIt last, const Allocator& = Allocator());
@@ -69,21 +62,131 @@ public:
 
     constexpr void assign(size_type in_count, const T& in_value) {
         _reset();
-        _buf = alloc.allocate(in_count);
-        _capacity_items = in_count;
-        _length_items = in_count;
-        for(auto i = 0; i < in_count; i++) { _buf[i] = in_value; }
+        resize(in_count, in_value);
     }
 
     // constexpr void assign(initializer_list<T>);
 
     constexpr allocator_type get_allocator() const noexcept { return _alloc; }
 
+
+    // iterators
+    // constexpr iterator               begin() noexcept;
+    // constexpr const_iterator         begin() const noexcept;
+    // constexpr iterator               end() noexcept;
+    // constexpr const_iterator         end() const noexcept;
+    // constexpr reverse_iterator       rbegin() noexcept;
+    // constexpr const_reverse_iterator rbegin() const noexcept;
+    // constexpr reverse_iterator       rend() noexcept;
+    // constexpr const_reverse_iterator rend() const noexcept;
+ 
+    // constexpr const_iterator         cbegin() const noexcept;
+    // constexpr const_iterator         cend() const noexcept;
+    // constexpr const_reverse_iterator crbegin() const noexcept;
+    // constexpr const_reverse_iterator crend() const noexcept;
+ 
+
+    // capacity
+    [[nodiscard]] constexpr bool empty() const noexcept { return (_length_items == 0); }
+    constexpr size_type size() const noexcept { return _length_items; }
+    // constexpr size_type max_size() const noexcept;
+    constexpr size_type capacity() const noexcept { return _capacity_items; }
+    constexpr void resize(size_type in_count) {
+        // Increase the vector capacity if necessary.
+        reserve(in_count);
+
+        // If the number of items grew, we use the placement new construction
+        // so the newly-added items appear default-inserted. This loop will
+        // never be executed if the number of items shrunk, because
+        // _length_items >= in_count.
+        for(auto i = _length_items; i < in_count; i++) {
+            ::operator new(_buf + i)();
+        }
+        _length_items = in_count;
+    }
+
+    constexpr void resize(size_type in_count, const T& in_value) {
+        // Increase the vector capacity if necessary.
+        reserve(in_count);
+
+        // If the number of items grew, we need to copy-construct the additional
+        // elements with the provided in_value. This loop will never be executed
+        // if the number of items shrunk, because _length_items >= in_count.
+        for(auto i = _length_items; i < in_count; i++) { _buf[i] = in_value; }
+        _length_items = in_count;
+    }
+
+    constexpr void reserve(size_type in_capacity) {
+        auto new_cap = _exponential_capacity(in_capacity);
+        if(new_cap <= _capacity_items) { return; }
+
+        auto cur_buf = _buf;
+        _buf = _alloc.allocate(new_cap);
+        for(auto i = 0; i < _length_items; i++) { _buf[i] = cur_buf[i]; }
+
+        if(cur_buf != nullptr) {
+            _alloc.deallocate(cur_buf, _capacity_items);
+        }
+
+        _capacity_items = new_cap;
+    }
+
+    constexpr void shrink_to_fit() {
+        auto new_cap = _exponential_capacity(_length_items);
+        if(new_cap >= _capacity_items) { return; }
+
+        auto cur_buf = _buf;
+        _buf = _alloc.allocate(new_cap);
+        for(auto i = 0; i < _length_items; i++) { _buf[i] = cur_buf[i]; }
+
+        if(cur_buf != nullptr) {
+            _alloc.deallocate(cur_buf, _capacity_items);
+        }
+
+        _capacity_items = new_cap;
+    }
+
+    // element access
+    constexpr reference operator[](size_type in_pos) { return _buf[in_pos]; }
+    constexpr const_reference operator[](size_type in_pos) const { return _buf[in_pos]; }
+    constexpr const_reference at(size_type in_pos) const {
+        assert(in_pos < _length_items);
+        return _buf[in_pos];
+    }
+
+    constexpr reference at(size_type in_pos) {
+        assert(in_pos < _length_items);
+        return _buf[in_pos];
+    }
+
+    // constexpr reference front();
+    // constexpr const_reference front() const;
+    // constexpr reference back();
+    // constexpr const_reference back() const;
+ 
+    // data access
+    constexpr T* data() noexcept { return _buf; }
+    constexpr const T* data() const noexcept { return _buf; }
+
+
+
 private:
-    const allocator_type _alloc;
+    allocator_type _alloc;
     value_type * _buf = nullptr;
     size_type _capacity_items = 0;
     size_type _length_items = 0;
+
+    constexpr size_type _exponential_capacity(size_type in_capacity) {
+        in_capacity = in_capacity - 1;
+        in_capacity |= in_capacity >> 1;
+        in_capacity |= in_capacity >> 2;
+        in_capacity |= in_capacity >> 4;
+        in_capacity |= in_capacity >> 8;
+        in_capacity |= in_capacity >> 16;
+        in_capacity |= in_capacity >> 32;
+        in_capacity = in_capacity + 1;
+        return in_capacity;
+    }
 
     constexpr void _reset() {
         if(_buf != nullptr) {
