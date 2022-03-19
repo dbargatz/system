@@ -10,7 +10,11 @@ void* operator new(std::size_t count) {
     return ::operator new(count, std::align_val_t(alignof(std::max_align_t)));
 }
 
-void* operator new(std::size_t count, void* ptr) {
+void* operator new(std::size_t count, void* ptr) noexcept {
+    return ptr;
+}
+
+void* operator new[](std::size_t count, void* ptr) noexcept {
     return ptr;
 }
 
