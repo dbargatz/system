@@ -1,3 +1,4 @@
+#include <array>
 #include <cstdint>
 #include <cstdlib>
 #include "../../../libs/libdevicetree/src/fdt.hpp"
@@ -5,6 +6,7 @@
 #include "console/console.hpp"
 #include "memory/manager.hpp"
 #include "platform.hpp"
+
 
 // TODO: need structure to hold per-core information, like memory manager for each core
 
@@ -22,6 +24,12 @@ extern core::memory::memory_manager * _core_memory_manager;
     auto fdt = devicetree::fdt::parse(in_boot_info);
     log.info("{}", *fdt);
     log.unicode_test(core::console::level::Debug);
+
+    std::array<std::uint64_t, 15> bob;
+    for(auto i = 0; i < 15; i++) { bob[i] = 1 << i; }
+    log.info("std::array test:");
+    for(auto&& element : bob) { log.info("  Element: 0x{:X}", element); }
+
     log.info("{}", mem_mgr);
 
     // TODO: Initialize core state manager
