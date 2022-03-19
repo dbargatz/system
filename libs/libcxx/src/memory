@@ -26,8 +26,8 @@ public:
     using void_pointer = void*;
     using const_void_pointer = const void*;
 
-    using difference_type = Alloc::difference_type;
-    using size_type = Alloc::size_type;
+    using difference_type = typename Alloc::difference_type;
+    using size_type = typename Alloc::size_type;
 
 }; // struct allocator_traits
 
@@ -46,6 +46,8 @@ public:
     constexpr allocator(const allocator<U>& in_other) noexcept {}
 
     constexpr ~allocator() {}
+
+    constexpr allocator& operator=(const allocator&) = default;
 
     [[nodiscard]] constexpr T* allocate(std::size_t in_n) {
         auto size = sizeof(T) * in_n;
