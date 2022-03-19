@@ -1,6 +1,7 @@
 #include <array>
 #include <cstdint>
 #include <cstdlib>
+#include <vector>
 #include "../../../libs/libdevicetree/src/fdt.hpp"
 
 #include "console/console.hpp"
@@ -25,10 +26,16 @@ extern core::memory::memory_manager * _core_memory_manager;
     log.info("{}", *fdt);
     log.unicode_test(core::console::level::Debug);
 
-    std::array<std::uint64_t, 15> bob;
-    for(auto i = 0; i < 15; i++) { bob[i] = 1 << i; }
+    std::array<std::uint64_t, 15> arr;
+    for(auto i = 0; i < 15; i++) { arr[i] = 1 << i; }
     log.info("std::array test:");
-    for(auto&& element : bob) { log.info("  Element: 0x{:X}", element); }
+    for(auto&& element : arr) { log.info("  Element: 0x{:X}", element); }
+
+    auto vec = std::vector<std::uint64_t>(32, 0x1122334455667788);
+    log.info("std::vector test (size={}, cap={}):", vec.size(), vec.capacity());
+    for(auto i = 0; i < vec.size(); i++) {
+        log.info("  Element: 0x{:X}", vec[i]);
+    }
 
     log.info("{}", mem_mgr);
 
