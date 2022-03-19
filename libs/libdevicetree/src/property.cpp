@@ -34,13 +34,12 @@ template<> std::string_view devicetree::property::get_value<std::string_view>() 
 
 std::string devicetree::property::format(std::size_t in_indent) const {
     auto indent = std::string(in_indent * 2, ' ');
-    auto value_str = "???"sv;
-    auto format_str = std::string("");
     if(_name == "model"sv ||
        _name == "status"sv ||
        _name == "name"sv ||
        _name == "device_type"sv) {
-        value_str = get_value<std::string_view>();
+        auto value = get_value<std::string_view>();
+        return std::format("{}{}: {}\n", indent, _name, value);
     } else if(
         _name == "phandle"sv ||
         _name == "#address-cells"sv ||
@@ -48,10 +47,9 @@ std::string devicetree::property::format(std::size_t in_indent) const {
         _name == "virtual-reg"sv
     ) {
         auto value = get_value<std::uint32_t>();
-        format_str = std::format("{}", value);
-        value_str = std::string_view(format_str.c_str(), format_str.size());
+        return std::format("{}{}: {}\n", indent, _name, value);
     }
-    return std::format("{}{}: {}\n", indent, _name, value_str);
+    return std::format("{}{}: {}\n", indent, _name, "???"sv);
 }
 
 std::size_t devicetree::property::length() const {
