@@ -1,0 +1,67 @@
+/**
+ * @file
+ * @brief Implementations of the std::allocator and std::allocator_traits
+ * classes.
+ * 
+ * @note Some comments in this file were based off of/taken directly from the
+ * descriptions on https://en.cppreference.com/w/cpp/memory/allocator and
+ * various subpages. All errors are mine, all credit is theirs.
+ */
+#ifndef _STD_MEMORY_HPP
+#define _STD_MEMORY_HPP
+
+#include <cstddef>
+#include <new>
+#include <type_traits>
+
+namespace std {
+
+template <class Alloc>
+struct allocator_traits {
+public:
+    using allocator_type = Alloc;
+    using value_type = typename Alloc::value_type;
+    using pointer = value_type*;
+    using const_pointer = const value_type*;
+    using void_pointer = void*;
+    using const_void_pointer = const void*;
+
+    using difference_type = Alloc::difference_type;
+    using size_type = Alloc::size_type;
+
+}; // struct allocator_traits
+
+template <class T>
+struct allocator {
+public:
+    using value_type = T;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+    using propagate_on_container_move_assignment = std::true_type;
+
+    constexpr allocator() noexcept {}
+    constexpr allocator(const allocator& in_other) noexcept {}
+
+    template<class U>
+    constexpr allocator(const allocator<U>& in_other) noexcept {}
+
+    constexpr ~allocator() {}
+
+    [[nodiscard]] constexpr T* allocate(std::size_t in_n) {
+        auto size = sizeof(T) * in_n;
+        return static_cast<T*>(::operator new(size));
+    }
+
+    constexpr void deallocate(T* in_ptr, std::size_t in_n) {
+        ::operator delete(in_ptr);
+    }
+}; // struct allocator
+
+template <class T1, class T2>
+constexpr bool operator==(const allocator<T1>& in_lhs, const allocator<T2>& in_rhs) noexcept {
+    return true;
+}
+
+}; // namespace std
+
+#endif // _STD_MEMORY_HPP
