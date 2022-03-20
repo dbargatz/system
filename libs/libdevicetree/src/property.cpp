@@ -1,5 +1,6 @@
 #include "property.hpp"
 #include <cassert>
+#include <vector>
 #include "__utils.hpp"
 
 using namespace std::literals;
@@ -32,6 +33,18 @@ template<> std::string_view devicetree::property::get_value<std::string_view>() 
     return std::string_view((const char *)_start->value);
 }
 
+template<> std::vector<std::string_view> devicetree::property::get_value<std::vector<std::string_view>>() const {
+    auto vec = std::vector<std::string_view>();
+    const char * str_ptr = _start->value;
+    const char * end_ptr = _start->value + internal::be_to_le(_start->len);
+    while(str_ptr < end_ptr) {
+        auto view = std::string_view(str_ptr);
+        vec.push_back(view);
+        str_ptr += view.length() + 1;
+    }
+    return vec;
+}
+
 std::string devicetree::property::format(std::size_t in_indent) const {
     auto indent = std::string(in_indent * 2, ' ');
     if(_name == "model"sv ||
@@ -51,6 +64,7 @@ std::string devicetree::property::format(std::size_t in_indent) const {
         _name == "phandle"sv ||
         _name == "#address-cells"sv ||
         _name == "#size-cells"sv ||
+        _name == "#interrupt-cells"sv ||
         _name == "virtual-reg"sv ||
         _name == "cache-op-block-size"sv ||
         _name == "reservation-granule-size"sv ||
@@ -83,6 +97,17 @@ std::string devicetree::property::format(std::size_t in_indent) const {
     ) {
         auto value = get_value<std::uint64_t>();
         return std::format("{}{}: {}\n", indent, _name, value);
+    } else if(
+        _name == "compatible"sv ||
+        _name == "enable-method"sv
+    ) {
+        auto value = get_value<std::vector<std::string_view>>();
+        auto str = std::format("{}{}:\n", indent, _name);
+        for(auto&& item : value) {
+            auto line = std::format("{}  - {}\n", indent, item);
+            str.append(line);
+        }
+        return str;
     }
     return std::format("{}{}: {}\n", indent, _name, "???"sv);
 }
