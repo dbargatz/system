@@ -28,8 +28,8 @@ public:
     using const_reference        = const value_type&;
     using size_type              = std::size_t;
     using difference_type        = std::ptrdiff_t;
-    // using iterator               = /* implementation-defined */;
-    // using const_iterator         = /* implementation-defined */;
+    using iterator               = pointer;
+    using const_iterator         = const_pointer;
     // using reverse_iterator       = std::reverse_iterator<iterator>;
     // using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -71,17 +71,17 @@ public:
 
 
     // iterators
-    // constexpr iterator               begin() noexcept;
-    // constexpr const_iterator         begin() const noexcept;
-    // constexpr iterator               end() noexcept;
-    // constexpr const_iterator         end() const noexcept;
+    constexpr iterator begin() noexcept { return _buf; }
+    constexpr const_iterator begin() const noexcept { return _buf; }
+    constexpr iterator end() noexcept { return (_length_items > 0 ? _buf + _length_items : _buf + 1); }
+    constexpr const_iterator end() const noexcept { return (_length_items > 0 ? _buf + _length_items : _buf + 1); }
     // constexpr reverse_iterator       rbegin() noexcept;
     // constexpr const_reverse_iterator rbegin() const noexcept;
     // constexpr reverse_iterator       rend() noexcept;
     // constexpr const_reverse_iterator rend() const noexcept;
- 
-    // constexpr const_iterator         cbegin() const noexcept;
-    // constexpr const_iterator         cend() const noexcept;
+
+    constexpr const_iterator cbegin() const noexcept { return _buf; }
+    constexpr const_iterator cend() const noexcept { return (_length_items > 0 ? _buf + _length_items : _buf + 1); }
     // constexpr const_reverse_iterator crbegin() const noexcept;
     // constexpr const_reverse_iterator crend() const noexcept;
  
@@ -134,6 +134,7 @@ public:
     constexpr void shrink_to_fit() {
         auto new_cap = _exponential_capacity(_length_items);
         if(new_cap >= _capacity_items) { return; }
+        if(new_cap == 0) { _reset(); return ;}
 
         auto cur_buf = _buf;
         _buf = _alloc.allocate(new_cap);
@@ -168,7 +169,79 @@ public:
     constexpr T* data() noexcept { return _buf; }
     constexpr const T* data() const noexcept { return _buf; }
 
+    // modifiers
+    // template<class... Args>
+    // constexpr reference emplace_back(Args&&... in_args);
+    constexpr void push_back(const T& in_value) {
+        // Make sure there's enough space for the new item.
+        reserve(_length_items + 1);
+        _buf[_length_items] = in_value;
+        _length_items++;
+    }
 
+    constexpr void push_back(T&& in_value) {
+        // Make sure there's enough space for the new item.
+        reserve(_length_items + 1);
+        _buf[_length_items] = in_value;
+        _length_items++;
+    }
+
+    constexpr void pop_back() {
+        assert(_length_items > 0);
+        _length_items--;
+    }
+ 
+    // template<class... Args>
+    // constexpr iterator emplace(const_iterator in_position, Args&&... in_args);
+    constexpr iterator insert(const_iterator in_position, const T& in_value) {
+        assert(in_position >= begin());
+        assert(in_position < end());
+
+        // Convert the iterator to an index in the buffer.
+        auto idx = (std::size_t)(in_position - _buf);
+
+        // Make sure there's enough space for the new item.
+        reserve(_length_items + 1);
+
+        // Shift all the following items to the right by one slot.
+        for(auto i = _length_items; i > idx; i--) {
+            _buf[i] = _buf[i - 1];
+        }
+
+        // Insert the given value and do bookkeeping.
+        _buf[idx] = in_value;
+        _length_items++;
+        return (iterator)&_buf[idx];
+    }
+    // constexpr iterator insert(const_iterator in_position, T&& in_value);
+    // constexpr iterator insert(const_iterator in_position, size_type in_count, const T& in_value);
+    // template<class InputIt>
+    // constexpr iterator insert(const_iterator in_position, InputIt in_first, InputIt in_last);
+    // constexpr iterator insert(const_iterator in_position, initializer_list<T> il);
+    constexpr iterator erase(const_iterator in_position) {
+        assert(in_position >= begin());
+        assert(in_position < end());
+
+        // Convert the iterator to an index in the buffer.
+        auto idx = (std::size_t)(in_position - _buf);
+
+        // Shift all the following items to the left by one slot.
+        for(auto i = idx; i < _length_items; i++) {
+            _buf[i] = _buf[i + 1];
+        }
+
+        // Bookkeeping.
+        _length_items--;
+        return (iterator)&_buf[idx];
+    }
+    // constexpr iterator erase(const_iterator in_first, const_iterator in_last);
+    // constexpr void swap(vector&) noexcept(allocator_traits<Allocator>::propagate_on_container_swap::value || allocator_traits<Allocator>::is_always_equal::value);
+    constexpr void clear() noexcept {
+        if(_buf != nullptr) {
+            for(auto i = 0; i < _length_items; i++) { _buf[i].~T(); }
+        }
+        _length_items = 0;
+    }
 
 private:
     allocator_type _alloc;
