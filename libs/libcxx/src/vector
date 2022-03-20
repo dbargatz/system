@@ -73,15 +73,15 @@ public:
     // iterators
     constexpr iterator begin() noexcept { return _buf; }
     constexpr const_iterator begin() const noexcept { return _buf; }
-    constexpr iterator end() noexcept { return (_length_items > 0 ? _buf + _length_items : _buf + 1); }
-    constexpr const_iterator end() const noexcept { return (_length_items > 0 ? _buf + _length_items : _buf + 1); }
+    constexpr iterator end() noexcept { return _buf + _length_items; }
+    constexpr const_iterator end() const noexcept { return _buf + _length_items; }
     // constexpr reverse_iterator       rbegin() noexcept;
     // constexpr const_reverse_iterator rbegin() const noexcept;
     // constexpr reverse_iterator       rend() noexcept;
     // constexpr const_reverse_iterator rend() const noexcept;
 
     constexpr const_iterator cbegin() const noexcept { return _buf; }
-    constexpr const_iterator cend() const noexcept { return (_length_items > 0 ? _buf + _length_items : _buf + 1); }
+    constexpr const_iterator cend() const noexcept { return _buf + _length_items; }
     // constexpr const_reverse_iterator crbegin() const noexcept;
     // constexpr const_reverse_iterator crend() const noexcept;
  
