@@ -5,7 +5,9 @@
 #include <format>
 #include <string>
 #include <string_view>
+#include <vector>
 #include "__structs.hpp"
+#include "__utils.hpp"
 
 namespace devicetree {
 
@@ -23,6 +25,17 @@ public:
     static property * parse(const void * in_ptr, const void * in_strings_block);
 
     template<class V> V get_value() const;
+    template<class V> std::vector<V*> get_prop_encoded_array() const {
+        auto vec = std::vector<V*>();
+        auto cur_ptr = (const std::uint8_t *)_start->value;
+        auto end_ptr = (const std::uint8_t *)_start->value + internal::be_to_le(_start->len);
+        while(cur_ptr < end_ptr) {
+            auto value = (V*)cur_ptr;
+            vec.push_back(value);
+            cur_ptr += sizeof(V);
+        }
+        return vec;
+    }
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;

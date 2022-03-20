@@ -28,10 +28,6 @@ struct fdt_begin_node {
     char name[0];
 } __attribute__((packed));
 
-struct fdt_end_node {
-    std::uint32_t token;
-} __attribute__((packed));
-
 struct fdt_property {
     std::uint32_t token;
     std::uint32_t len;
@@ -39,12 +35,15 @@ struct fdt_property {
     char value[0];
 } __attribute__((packed));
 
-struct fdt_nop {
-    std::uint32_t token;
+struct fdt_reg {
+    std::uint32_t address;
+    std::uint32_t length;
 } __attribute__((packed));
 
-struct fdt_end {
-    std::uint32_t token;
+struct fdt_range {
+    std::uint32_t child_bus_address;
+    std::uint32_t parent_bus_address;
+    std::uint32_t length;
 } __attribute__((packed));
 
 }; // namespace devicetree::internal

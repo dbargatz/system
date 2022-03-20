@@ -1,7 +1,5 @@
 #include "property.hpp"
 #include <cassert>
-#include <vector>
-#include "__utils.hpp"
 
 using namespace std::literals;
 
@@ -62,6 +60,7 @@ std::string devicetree::property::format(std::size_t in_indent) const {
         return std::format("{}{}: {}\n", indent, _name, value);
     } else if(
         _name == "phandle"sv ||
+        _name == "interrupt-parent"sv ||
         _name == "#address-cells"sv ||
         _name == "#size-cells"sv ||
         _name == "#interrupt-cells"sv ||
@@ -105,6 +104,33 @@ std::string devicetree::property::format(std::size_t in_indent) const {
         auto str = std::format("{}{}:\n", indent, _name);
         for(auto&& item : value) {
             auto line = std::format("{}  - {}\n", indent, item);
+            str.append(line);
+        }
+        return str;
+    } else if(
+        _name == "reg"sv
+    ) {
+        auto value = get_prop_encoded_array<struct internal::fdt_reg>();
+        auto str = std::format("{}{}:\n", indent, _name);
+        for(auto&& item : value) {
+            auto start = internal::be_to_le(item->address);
+            auto len = internal::be_to_le(item->length);
+            auto end = start + len;
+            auto line = std::format("{}  - 0x{:X} - 0x{:X} ({} bytes)\n", indent, start, end, len);
+            str.append(line);
+        }
+        return str;
+    } else if(
+        _name == "ranges"sv ||
+        _name == "dma-ranges"sv
+    ) {
+        auto value = get_prop_encoded_array<struct internal::fdt_range>();
+        auto str = std::format("{}{}:\n", indent, _name);
+        for(auto&& item : value) {
+            auto child_start = internal::be_to_le(item->child_bus_address);
+            auto parent_start = internal::be_to_le(item->parent_bus_address);
+            auto len = internal::be_to_le(item->length);
+            auto line = std::format("{}  - 0x{:X} -> 0x{:X} ({} bytes)\n", indent, child_start, parent_start, len);
             str.append(line);
         }
         return str;
