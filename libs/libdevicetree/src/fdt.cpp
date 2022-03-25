@@ -23,6 +23,11 @@ devicetree::fdt * devicetree::fdt::parse(const void * in_ptr) {
     return fdt;
 }
 
+devicetree::node * devicetree::fdt::find(std::string_view in_name) {
+    assert(in_name.starts_with('/'));
+    return _root->find(in_name);
+}
+
 std::string devicetree::fdt::format() const {
     return std::format("Devicetree: 0x{:X}\n{}", (const void *)_header, _root->format());
 }

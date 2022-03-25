@@ -25,6 +25,8 @@ public:
 
     static node * parse(const void * in_ptr, const void * in_strings_block);
 
+    node * find(std::string_view in_name);
+
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
 }; // class node

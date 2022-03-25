@@ -59,6 +59,27 @@ devicetree::node * devicetree::node::parse(const void * in_ptr, const void * in_
     assert(false);
 }
 
+devicetree::node * devicetree::node::find(std::string_view in_name) {
+    auto at_idx = _name.find('@');
+    auto cur_name = _name;
+    if(at_idx != std::string_view::npos) {
+        cur_name = _name.substr(0, at_idx);
+    }
+
+    if(in_name == cur_name) { return this; }
+    else if(!in_name.starts_with(cur_name)) { return nullptr; }
+
+    in_name.remove_prefix(cur_name.length());
+
+    auto cur_child = _children;
+    while(cur_child != nullptr) {
+        auto result = cur_child->find(in_name);
+        if(result != nullptr) { return result; }
+        cur_child = cur_child->next;
+    }
+    return nullptr;
+}
+
 std::string devicetree::node::format(std::size_t in_indent) const {
     auto indent = std::string(in_indent * 2, ' ');
     auto str = std::format("{}{} {\n", indent, _name);

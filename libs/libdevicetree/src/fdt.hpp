@@ -3,6 +3,7 @@
 
 #include <format>
 #include <string>
+#include <string_view>
 #include "__structs.hpp"
 #include "node.hpp"
 
@@ -18,6 +19,8 @@ private:
 
 public:
     static fdt * parse(const void * in_ptr);
+
+    node * find(std::string_view in_name);
 
     std::string format() const;
     std::size_t length() const;

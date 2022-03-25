@@ -23,7 +23,8 @@ extern core::memory::memory_manager * _core_memory_manager;
     log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
     log.info("{}", mem_mgr);
     auto fdt = devicetree::fdt::parse(in_boot_info);
-    log.info("{}", *fdt);
+    auto memnode = fdt->find("/memory");
+    log.info("{}", *memnode);
     log.unicode_test(core::console::level::Debug);
 
     std::array<std::uint64_t, 15> arr;
