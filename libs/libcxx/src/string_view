@@ -114,7 +114,7 @@ public:
       if(in_count < rcount) {
         rcount = in_count;
       }
-      return basic_string_view(_buf[in_pos], rcount);
+      return basic_string_view(_buf + in_pos, rcount);
     }
  
     constexpr int compare(basic_string_view in_v) const noexcept {
@@ -188,7 +188,7 @@ public:
         // contain a match to the search string view; if we exceed that index,
         // we can bail early, since the search string view is too long to be
         // contained within the rest of this string view.
-        auto cur_idx = _buf + in_pos;
+        auto cur_idx = in_pos;
         auto max_idx = _length_chars - in_s.size();
         while(cur_idx <= max_idx) {
             // Starting from the current character index, 
