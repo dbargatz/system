@@ -53,6 +53,13 @@ bool core::console::console::_platform_init(void) {
     return true;
 }
 
+void core::console::console::_platform_write(level in_level) {
+    auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
+    _platform_write('[');
+    _platform_write(lvl);
+    _platform_write("] ");
+}
+
 void core::console::console::_platform_write(const char in_c) {
     // Wait until the status register indicates the line is clear to send.
     while (0 == (get32(AUX_MU_LSR_REG) & 0x20)) { }
