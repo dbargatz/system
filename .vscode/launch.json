@@ -26,7 +26,7 @@
             "type": "gdb",
             "gdbpath": "gdb-multiarch",
             "request": "attach",
-            "executable": "${workspaceFolder}/build/raspi3b/kernel8.img",
+            "executable": "${workspaceFolder}/build/raspi3b/kernel8.elf",
             "autorun": [
                 "set arch aarch64",
                 "break core_entry",
