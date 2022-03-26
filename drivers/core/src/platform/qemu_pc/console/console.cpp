@@ -22,12 +22,10 @@ bool core::console::console::_platform_init(void) {
     return true;
 }
 
-void core::console::console::_platform_write(const char * in_str) {
-    for(int i = 0; in_str[i] != '\0'; i++) {
-        // Busy-loop while we wait for space in the FIFO to clear up.
-        while(0 == (LINE_STATUS.inb() & 0x20)) {}
+void core::console::console::_platform_write(const char in_c) {
+    // Busy-loop while we wait for space in the FIFO to clear up.
+    while(0 == (LINE_STATUS.inb() & 0x20)) {}
 
-        // Write the current character out.
-        DATA.outb(in_str[i]);
-    }
+    // Write the current character out.
+    DATA.outb(in_c);
 }

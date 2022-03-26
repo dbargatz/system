@@ -53,39 +53,10 @@ bool core::console::console::_platform_init(void) {
     return true;
 }
 
-void core::console::console::_platform_write(level in_level) {
-    auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
-    _platform_write('[');
-    _platform_write(lvl);
-    _platform_write("] ");
-}
-
 void core::console::console::_platform_write(const char in_c) {
     // Wait until the status register indicates the line is clear to send.
     while (0 == (get32(AUX_MU_LSR_REG) & 0x20)) { }
 
     // Send the given character.
     put32(AUX_MU_IO_REG, in_c);
-}
-
-void core::console::console::_platform_write(const char *in_str) {
-    for (int i = 0; in_str[i] != '\0'; i++) {
-        // Logging only uses newlines (\n), but TTY serial connections expect a
-        // carriage return (\r) followed by a newline (\n). Without the \r, the
-        // cursor never returns to the start of a line, so messages with just a
-        // newline end up looking like this:
-        // This is line 1
-        //               This is line 2
-        //                             See why the \r is needed?
-        // To avoid this, put a carriage return before putting any newlines.
-        // It's okay if the newline already had a carriage return before it;
-        // sending multiple carriage returns does nothing other than waste a
-        // bit of time.
-        if (in_str[i] == '\n') {
-            _platform_write('\r');
-        }
-
-        // Send this character.
-        _platform_write(in_str[i]);
-    }
 }
