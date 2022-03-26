@@ -12,7 +12,7 @@ namespace devicetree {
 class fdt {
 private:
     struct internal::fdt_header * _header;
-    // struct internal::fdt_memory_reserve_entry * _mem_reserve_map;
+    struct internal::fdt_memory_reserve_entry * _mem_reserve_map;
     node * _root;
 
     fdt() {}
