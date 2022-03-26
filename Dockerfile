@@ -18,6 +18,7 @@ RUN apt-get update                                                  \
 
 # Install the dependencies for compiling, debugging, and running.
 RUN apt-get -y --no-install-recommends install \
+    bear                                       \
     doxygen                                    \
     g++                                        \
     gdb-multiarch                              \
