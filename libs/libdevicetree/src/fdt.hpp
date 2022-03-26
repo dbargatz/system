@@ -18,7 +18,7 @@ private:
     fdt() {}
 
 public:
-    static fdt * parse(const void * in_ptr);
+    static fdt parse(const void * in_ptr);
 
     node * find(std::string_view in_name);
 
