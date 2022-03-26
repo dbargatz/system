@@ -16,8 +16,7 @@
 extern core::memory::memory_manager * _core_memory_manager;
 
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
-    core::console::console log(core::console::level::Debug);
-    log.puts("Console init\n");
+    core::console::console log(core::console::level::Info);
 
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
