@@ -1,14 +1,14 @@
 ENTRY(_start)
  
 SECTIONS {
-    . = 512K;
+    . = 0x80000;
 
     __start = .;
     __text_start = .;
     .text :
     {
         KEEP(*(.text.boot))
-        *(.text)
+        *(.text .text.*)
     }
     . = ALIGN(0x1000);
     __text_end = .;
@@ -16,7 +16,7 @@ SECTIONS {
     __rodata_start = .;
     .rodata :
     {
-        *(.rodata)
+        *(.rodata .rodata.*)
     }
     . = ALIGN(0x1000);
     __rodata_end = .;
@@ -24,16 +24,16 @@ SECTIONS {
     __data_start = .;
     .data :
     {
-        *(.data)
+        *(.data .data.*)
     }
     . = ALIGN(0x1000);
     __data_end = .;
  
     __bss_start = .;
-    .bss :
+    .bss (NOLOAD):
     {
         bss = .;
-        *(.bss)
+        *(.bss .bss.*)
     }
     . = ALIGN(0x1000);
     __bss_end = .;
