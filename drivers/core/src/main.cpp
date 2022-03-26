@@ -30,17 +30,6 @@ extern core::memory::memory_manager * _core_memory_manager;
     log.info("{}", *memnode);
     log.unicode_test(core::console::level::Debug);
 
-    std::array<std::uint64_t, 15> arr;
-    for(auto i = 0; i < 15; i++) { arr[i] = 1 << i; }
-    log.info("std::array test:");
-    for(auto&& element : arr) { log.info("  Element: 0x{:X}", element); }
-
-    auto vec = std::vector<std::uint64_t>(32, 0x1122334455667788);
-    log.info("std::vector test (size={}, cap={}):", vec.size(), vec.capacity());
-    for(auto i = 0; i < vec.size(); i++) {
-        log.info("  Element: 0x{:X}", vec[i]);
-    }
-
     log.info("{}", mem_mgr);
 
     // TODO: Initialize core state manager
