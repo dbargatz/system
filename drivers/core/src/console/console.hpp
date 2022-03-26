@@ -126,6 +126,8 @@ public:
         log(in_level, "  Russian:  это проверка");
     }
 
+    void puts(const char * in_str) { _platform_write(in_str); }
+
     template <typename... Args>
     void debug(const char8_t* in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
     template <typename... Args>
