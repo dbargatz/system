@@ -33,8 +33,7 @@
  
 // Make _start global.
 .globl _start
- 
- .org 0x80000
+
 _start:
     mrs    x2, mpidr_el1       // Grab the equivalent of an ID for the current
     and    x2, x2, #0xFF       // core (technically its affinity level 0), then
