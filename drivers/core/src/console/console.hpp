@@ -48,6 +48,7 @@ private:
 
         _platform_write(in_level);
         _platform_write(in_str);
+        _platform_write("\n");
     }
 
     template <typename... Args>
@@ -93,7 +94,7 @@ public:
     console(level in_level = level::Info) {
         assert(_platform_init());
         set_level(in_level);
-        debug("Console init\n");
+        debug("Console init");
     }
 
     /**
