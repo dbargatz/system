@@ -1,5 +1,10 @@
 .PHONY: all %-build clean qemu_pc raspi3b
 
+ASM_SRCS = drivers/core/src/platform/raspi3b/boot/start.asm drivers/core/src/platform/raspi3b/console/utils.asm
+ASM_OBJS = $(ASM_SRCS:%.asm=build/raspi3b/%.o)
+CPP_SRCS = drivers/core/src/platform/raspi3b/console/console.cpp drivers/core/src/platform/raspi3b/libcxx/abort.cpp drivers/core/src/libcxx/new.cpp drivers/core/src/memory/heap.cpp drivers/core/src/memory/manager.cpp drivers/core/src/main.cpp libs/libcxx/src/cstring.cpp libs/libcxx/src/cxa_atexit.cpp libs/libcxx/src/cxa_virtual.cpp libs/libcxx/src/memory_resource.cpp libs/libdevicetree/src/__utils.cpp libs/libdevicetree/src/fdt.cpp libs/libdevicetree/src/node.cpp libs/libdevicetree/src/property.cpp
+CPP_OBJS = $(CPP_SRCS:%.cpp=build/raspi3b/%.o)
+
 all: qemu_pc raspi3b
 
 qemu_pc: SYSTEM_ARCHITECTURE=x64
@@ -8,7 +13,7 @@ qemu_pc: SYSTEM_PLATFORM=qemu_pc
 qemu_pc: qemu_pc-build
 	@
 
-raspi3b: $(ASM_OBJS) $(CPP_OBJS)
+raspi3b: clean $(ASM_OBJS) $(CPP_OBJS)
 	ld.lld-13 -m aarch64elf -nostdlib $(ASM_OBJS) $(CPP_OBJS) -T drivers/core/src/platform/raspi3b/linker.ld -o build/raspi3b/kernel8.elf
 	llvm-objcopy-13 --extract-dwo build/raspi3b/kernel8.elf build/raspi3b/kernel8.img.debug
 	llvm-objcopy-13 -O binary build/raspi3b/kernel8.elf build/raspi3b/kernel8.img
@@ -16,11 +21,6 @@ raspi3b: $(ASM_OBJS) $(CPP_OBJS)
 %-build:
 	meson setup ./build/${SYSTEM_PLATFORM}/ --buildtype debug --cross-file ./cross_base.ini --cross-file ./drivers/core/src/platform/${SYSTEM_PLATFORM}/platform.ini
 	ninja -C ./build/${SYSTEM_PLATFORM} ${SYSTEM_NINJA_TARGET}
-
-ASM_SRCS = drivers/core/src/platform/raspi3b/boot/start.asm drivers/core/src/platform/raspi3b/console/utils.asm
-ASM_OBJS = $(ASM_SRCS:%.asm=build/raspi3b/%.o)
-CPP_SRCS = drivers/core/src/platform/raspi3b/console/console.cpp drivers/core/src/platform/raspi3b/libcxx/abort.cpp drivers/core/src/libcxx/new.cpp drivers/core/src/memory/heap.cpp drivers/core/src/memory/manager.cpp drivers/core/src/main.cpp libs/libcxx/src/cstring.cpp libs/libcxx/src/cxa_atexit.cpp libs/libcxx/src/cxa_virtual.cpp libs/libcxx/src/memory_resource.cpp libs/libdevicetree/src/__utils.cpp libs/libdevicetree/src/fdt.cpp libs/libdevicetree/src/node.cpp libs/libdevicetree/src/property.cpp
-CPP_OBJS = $(CPP_SRCS:%.cpp=build/raspi3b/%.o)
 
 build/raspi3b/%.o : %.asm
 	mkdir -p $(dir $@)
