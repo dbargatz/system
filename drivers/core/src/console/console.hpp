@@ -77,6 +77,7 @@ private:
     }
 
     bool _platform_init(void);
+    void _platform_write(const char in_c);
     void _platform_write(const char * in_str);
 
 public:
