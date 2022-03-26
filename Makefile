@@ -8,11 +8,10 @@ qemu_pc: SYSTEM_PLATFORM=qemu_pc
 qemu_pc: qemu_pc-build
 	@
 
-raspi3b: SYSTEM_ARCHITECTURE=arm64
-raspi3b: SYSTEM_NINJA_TARGET=kernel8.img
-raspi3b: SYSTEM_PLATFORM=raspi3b
-raspi3b: raspi3b-build
-	@
+raspi3b: $(ASM_OBJS) $(CPP_OBJS)
+	ld.lld-13 -m aarch64elf -nostdlib $(ASM_OBJS) $(CPP_OBJS) -T drivers/core/src/platform/raspi3b/linker.ld -o build/raspi3b/kernel8.elf
+	llvm-objcopy-13 --extract-dwo build/raspi3b/kernel8.elf build/raspi3b/kernel8.img.debug
+	llvm-objcopy-13 -O binary build/raspi3b/kernel8.elf build/raspi3b/kernel8.img
 
 %-build:
 	meson setup ./build/${SYSTEM_PLATFORM}/ --buildtype debug --cross-file ./cross_base.ini --cross-file ./drivers/core/src/platform/${SYSTEM_PLATFORM}/platform.ini
@@ -29,11 +28,9 @@ build/raspi3b/%.o : %.asm
 
 build/raspi3b/%.o : %.cpp
 	mkdir -p $(dir $@)
-	/usr/bin/clang++-13 -isystem libs/libcxx/src -mcmodel=small -fchar8_t -ffreestanding -flto=thin -fno-builtin -fno-exceptions -fno-rtti -fno-threadsafe-statics -fpic -nostdinc -nostdinc++ -std=c++2a -Wall -DPLATFORM_RASPI3B --target=aarch64-elf64 -c $< -o $@
+	/usr/bin/clang++-13 -g -isystem libs/libcxx/src -mcmodel=small -fchar8_t -ffreestanding -flto=thin -fno-builtin -fno-exceptions -fno-rtti -fno-threadsafe-statics -fpic -nostdinc -nostdinc++ -std=c++2a -Wall -DPLATFORM_RASPI3B --target=aarch64-elf64 -c $< -o $@
 
-kernel8.img: $(ASM_OBJS) $(CPP_OBJS)
-	ld.lld-13 -m aarch64elf -nostdlib $(ASM_OBJS) $(CPP_OBJS) -T drivers/core/src/platform/raspi3b/linker.ld -o build/raspi3b/kernel8.elf
-	llvm-objcopy-13 -O binary build/raspi3b/kernel8.elf build/raspi3b/kernel8.img
+
 
 clean:
 	rm -rf ./build
