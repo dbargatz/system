@@ -1,4 +1,4 @@
-FROM debian:bullseye@sha256:c6e865b5373b09942bc49e4b02a7b361fcfa405479ece627f5d4306554120673
+FROM debian:bullseye-20220328
 
 # Version of LLVM/Clang to download and install.
 ARG LLVM_VERSION=13
@@ -26,7 +26,6 @@ RUN apt-get -y --no-install-recommends install \
     gnupg2                                     \
     graphviz                                   \
     grub-common                                \
-    grub-pc-bin                                \
     file                                       \
     less                                       \
     lsb-release                                \
