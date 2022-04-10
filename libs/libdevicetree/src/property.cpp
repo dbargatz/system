@@ -58,47 +58,49 @@ std::string devicetree::property::format(std::size_t in_indent) const {
     ) {
         auto value = get_value<std::string_view>();
         return std::format("{}{}: {}\n", indent, _name, value);
-    } else if(
-        _name == "phandle"sv ||
-        _name == "interrupt-parent"sv ||
-        _name == "#address-cells"sv ||
-        _name == "#size-cells"sv ||
-        _name == "#interrupt-cells"sv ||
-        _name == "virtual-reg"sv ||
-        _name == "cache-op-block-size"sv ||
-        _name == "reservation-granule-size"sv ||
-        _name == "tlb-size"sv ||
-        _name == "tlb-sets"sv ||
-        _name == "d-tlb-size"sv ||
-        _name == "d-tlb-sets"sv ||
-        _name == "i-tlb-size"sv ||
-        _name == "i-tlb-sets"sv ||
-        _name == "cache-size"sv ||
-        _name == "cache-sets"sv ||
-        _name == "cache-block-size"sv ||
-        _name == "cache-line-size"sv ||
-        _name == "i-cache-size"sv ||
-        _name == "i-cache-sets"sv ||
-        _name == "i-cache-block-size"sv ||
-        _name == "i-cache-line-size"sv ||
-        _name == "d-cache-size"sv ||
-        _name == "d-cache-sets"sv ||
-        _name == "d-cache-block-size"sv ||
-        _name == "d-cache-line-size"sv ||
-        _name == "next-level-cache"sv ||
-        _name == "cache-level"sv ||
-        _name == "reg-shift"sv
+    }
+    
+    if(_name == "phandle"sv ||
+       _name == "interrupt-parent"sv ||
+       _name == "#address-cells"sv ||
+       _name == "#size-cells"sv ||
+       _name == "#interrupt-cells"sv ||
+       _name == "virtual-reg"sv ||
+       _name == "cache-op-block-size"sv ||
+       _name == "reservation-granule-size"sv ||
+       _name == "tlb-size"sv ||
+       _name == "tlb-sets"sv ||
+       _name == "d-tlb-size"sv ||
+       _name == "d-tlb-sets"sv ||
+       _name == "i-tlb-size"sv ||
+       _name == "i-tlb-sets"sv ||
+       _name == "cache-size"sv ||
+       _name == "cache-sets"sv ||
+       _name == "cache-block-size"sv ||
+       _name == "cache-line-size"sv ||
+       _name == "i-cache-size"sv ||
+       _name == "i-cache-sets"sv ||
+       _name == "i-cache-block-size"sv ||
+       _name == "i-cache-line-size"sv ||
+       _name == "d-cache-size"sv ||
+       _name == "d-cache-sets"sv ||
+       _name == "d-cache-block-size"sv ||
+       _name == "d-cache-line-size"sv ||
+       _name == "next-level-cache"sv ||
+       _name == "cache-level"sv ||
+       _name == "reg-shift"sv
     ) {
         auto value = get_value<std::uint32_t>();
         return std::format("{}{}: {}\n", indent, _name, value);
-    } else if(
-        _name == "cpu-release-addr"sv
-    ) {
+    }
+    
+    if(_name == "cpu-release-addr"sv) {
         auto value = get_value<std::uint64_t>();
         return std::format("{}{}: {}\n", indent, _name, value);
-    } else if(
-        _name == "compatible"sv ||
-        _name == "enable-method"sv
+    } 
+    
+    if(_name == "compatible"sv ||
+       _name == "enable-method"sv
     ) {
         auto value = get_value<std::vector<std::string_view>>();
         auto str = std::format("{}{}:\n", indent, _name);
@@ -107,9 +109,9 @@ std::string devicetree::property::format(std::size_t in_indent) const {
             str.append(line);
         }
         return str;
-    } else if(
-        _name == "reg"sv
-    ) {
+    }
+
+    if(_name == "reg"sv) {
         auto value = get_prop_encoded_array<struct internal::fdt_reg>();
         auto str = std::format("{}{}:\n", indent, _name);
         for(auto&& item : value) {
@@ -120,9 +122,10 @@ std::string devicetree::property::format(std::size_t in_indent) const {
             str.append(line);
         }
         return str;
-    } else if(
-        _name == "ranges"sv ||
-        _name == "dma-ranges"sv
+    }
+    
+    if(_name == "ranges"sv ||
+       _name == "dma-ranges"sv
     ) {
         auto value = get_prop_encoded_array<struct internal::fdt_range>();
         auto str = std::format("{}{}:\n", indent, _name);
@@ -135,6 +138,7 @@ std::string devicetree::property::format(std::size_t in_indent) const {
         }
         return str;
     }
+
     return std::format("{}{}: {}\n", indent, _name, "???"sv);
 }
 
