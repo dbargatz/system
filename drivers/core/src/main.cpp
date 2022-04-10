@@ -15,8 +15,12 @@
 // the core driver.
 extern core::memory::memory_manager * _core_memory_manager;
 
+// This is defined in libcxx/cassert.cpp and is used for logging during asserts.
+extern core::console::console * _core_assert_log;
+
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
     core::console::console log(core::console::level::Info);
+    _core_assert_log = &log;
 
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;

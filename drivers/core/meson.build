@@ -1,5 +1,6 @@
 # Generic source code and static libraries used for all platforms. --------------------------------
 core_cpp_src = [
+    'src/libcxx/cassert.cpp',
     'src/libcxx/new.cpp',
     'src/memory/heap.cpp',
     'src/memory/manager.cpp',

@@ -1,16 +1,15 @@
 #ifndef _STD_CASSERT_HPP
 #define _STD_CASSERT_HPP
 
-#include <cstdlib>
-
 #ifdef NDEBUG
 #define assert(cond) ((void)0)
+#define assertm(cond, msg) ((void)0)
 #else // NDEBUG
 
-#define assert(cond)  \
-    if(!(cond)) {     \
-        std::abort(); \
-    }
+[[noreturn]] void __assert_failed(const char * in_file, int in_line, const char * in_func, const char * in_msg);
+
+#define assert(cond) if(!(cond)) { __assert_failed(__FILE__, __LINE__, __func__, "Assertion `" #cond "` failed!"); }
+#define assertm(cond, msg) if(!(cond)) { __assert_failed(__FILE__, __LINE__, __func__, msg); }
 #endif // NDEBUG
 
 #endif // _STD_CASSERT_HPP
