@@ -1,7 +1,5 @@
-#include <array>
 #include <cstdint>
 #include <cstdlib>
-#include <vector>
 #include "../../../libs/libdevicetree/src/fdt.hpp"
 
 #include "console/console.hpp"
