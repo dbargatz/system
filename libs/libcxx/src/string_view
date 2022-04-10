@@ -80,9 +80,9 @@ public:
 
     // constexpr const_reference at(size_type in_pos) const;
 
-    constexpr const_reference front() const { return _buf[0]; }
-    constexpr const_reference back() const { return _buf[_length_chars - 1]; }
-    constexpr const_pointer data() const noexcept { return _buf; };
+    constexpr const_reference front() const { assert(_buf != nullptr); return _buf[0]; }
+    constexpr const_reference back() const { assert(_buf != nullptr); return _buf[_length_chars - 1]; }
+    constexpr const_pointer data() const noexcept { assert(_buf != nullptr); return _buf; };
  
     // modifiers
     constexpr void remove_prefix(size_type in_n) {
@@ -118,16 +118,30 @@ public:
     }
  
     constexpr int compare(basic_string_view in_v) const noexcept {
-      auto rlen = in_v.size() < size() ? in_v.size() : size();
-      auto result = traits_type::compare(data(), in_v.data(), rlen);
+      auto lhs_size = size();
+      auto rhs_size = in_v.size();
+      auto min_size = lhs_size < rhs_size ? lhs_size : rhs_size;
 
-      if(result != 0 || size() == in_v.size()) { return result; }
+      auto lhs_data = data();
+      auto rhs_data = in_v.data();
+      auto result = traits_type::compare(lhs_data, rhs_data, min_size);
 
-      if(size() < in_v.size()) {
-        return -1;
-      } else {
-        return 1;
-      }
+      // If the strings aren't equal to begin with (result is -1 or 1), then
+      // just return the result.
+      if(result != 0) { return result; }
+
+      // If the result is 0, and the two strings are the same size, then the
+      // strings are equal! Return the zero result.
+      if(lhs_size == rhs_size) { return result; }
+
+      // If the result is 0, but this string is shorter than the other string,
+      // return -1 to indicate this string is a prefix of the other.
+      if(lhs_size < rhs_size) { return -1; }
+
+      // The only remaining case is that the result is 0, but this string is
+      // longer than the other string, meaning the other string is a prefix of
+      // this string. Return 1 to indicate that.
+      return 1;
     }
 
     constexpr int compare(size_type in_pos1, size_type in_count1, basic_string_view in_v) const {

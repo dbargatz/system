@@ -74,6 +74,9 @@ public:
     static constexpr int compare(const char_type* in_a,
                                  const char_type* in_b,
                                  std::size_t in_count) {
+        assert(in_a != nullptr);
+        assert(in_b != nullptr);
+
         // Compare each character in the strings.
         for(; in_count > 0; --in_count, ++in_a, ++in_b) {
             // "a" sorts lexicographically before "b".
