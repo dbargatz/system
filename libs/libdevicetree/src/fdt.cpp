@@ -50,7 +50,8 @@ std::string devicetree::fdt::format() const {
     }
 
     auto hdr_str = std::format("{}\n{}\n{}", lenstr, cpustr, memrsv_str);
-    return std::format("Devicetree: 0x{:X}\n{}{}", (const void *)_header, hdr_str, _root->format(1));
+    auto tree_str = _root->format(1);
+    return std::format("Devicetree: 0x{:X}\n{}{}", (const void *)_header, hdr_str, tree_str);
 }
 
 std::size_t devicetree::fdt::length() const {
