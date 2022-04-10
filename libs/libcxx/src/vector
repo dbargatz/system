@@ -9,6 +9,7 @@
 #ifndef _STD_VECTOR_HPP
 #define _STD_VECTOR_HPP
 
+#include <cassert>
 #include <cstring>
 #include <memory>
 #include <new>
