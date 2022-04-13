@@ -17,7 +17,7 @@ extern core::memory::memory_manager * _core_memory_manager;
 extern core::console::console * _core_assert_log;
 
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
-    core::console::console log(core::console::level::Info);
+    core::console::console log(core::console::level::Debug);
     _core_assert_log = &log;
 
     auto mem_mgr = core::memory::memory_manager();
@@ -26,7 +26,6 @@ extern core::console::console * _core_assert_log;
     log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
     log.info("{}", mem_mgr);
     auto fdt = devicetree::fdt::parse(in_boot_info);
-    log.info("{}", fdt);
 
     auto memnode = fdt.find("/memory");
     log.info("{}", *memnode);
