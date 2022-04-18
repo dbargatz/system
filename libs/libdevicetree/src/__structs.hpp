@@ -5,6 +5,12 @@
 
 namespace devicetree::internal {
 
+constexpr std::uint32_t FDT_BEGIN_NODE = 0x00000001;
+constexpr std::uint32_t FDT_END_NODE = 0x00000002;
+constexpr std::uint32_t FDT_PROP = 0x00000003;
+constexpr std::uint32_t FDT_NOP = 0x00000004;
+constexpr std::uint32_t FDT_END = 0x00000009;
+
 struct fdt_header { 
     std::uint32_t magic;
     std::uint32_t totalsize;
