@@ -20,18 +20,21 @@ extern core::console::console * _core_assert_log;
     core::console::console log(core::console::level::Debug);
     _core_assert_log = &log;
 
+    auto fdt = devicetree::fdt(in_boot_info);
+    devicetree::node chosen;
+    assert(fdt.find("/chosen", &chosen));
+    devicetree::node memnode;
+    assert(fdt.find("/memory", &memnode));
+
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
 
     log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
     log.info("{}", mem_mgr);
-    auto fdt = devicetree::fdt::parse(in_boot_info);
+    log.info("{}", chosen);
+    log.info("{}", memnode);
 
-    auto memnode = fdt.find("/memory");
-    log.info("{}", *memnode);
     log.unicode_test(core::console::level::Debug);
-
-    log.info("{}", mem_mgr);
 
     // TODO: Initialize core state manager
     // TODO: Initialize interrupt manager

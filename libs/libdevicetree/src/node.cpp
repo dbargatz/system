@@ -2,51 +2,59 @@
 #include <cassert>
 #include "__utils.hpp"
 
-devicetree::node * devicetree::node::parse(const void * in_ptr, const void * in_strings_block) {
-    auto n = new node();
-    n->next = nullptr;
-    n->_start = (struct internal::fdt_begin_node *)in_ptr;
-    assert(internal::be_to_le(n->_start->token) == 0x00000001);
-    n->_name = std::string_view(n->_start->name);
-    if(n->_name.size() == 0) {
-        n->_name = std::string_view("/");
+devicetree::node::node(const void * in_ptr, const void * in_strings_block) {
+    _start = (struct internal::fdt_begin_node *)in_ptr;
+    assert(internal::be_to_le(_start->token) == 0x00000001);
+    _strings_block = (std::uint8_t *)in_strings_block;
+
+    _name = std::string_view(_start->name);
+    if(_name.length() == 0) {
+        _name = std::string_view("/");
+    }
+}
+
+bool devicetree::node::find(std::string_view in_name, devicetree::node * out_node) {
+    auto at_idx = _name.find('@');
+    auto cur_name = _name;
+    if(at_idx != std::string_view::npos) {
+        cur_name = _name.substr(0, at_idx);
     }
 
-    auto align = internal::align(sizeof(*n->_start) + n->_name.size() + 1);
-    auto next = (std::uint8_t *)in_ptr + align;
-    node * prev_child = nullptr;
-    property * prev_prop = nullptr;
+    if(in_name == cur_name) {
+        out_node->_start = _start;
+        out_node->_name = _name;
+        out_node->_strings_block = _strings_block;
+        return true; 
+    }
+    else if(!in_name.starts_with(cur_name)) {
+        return false;
+    }
+
+    in_name.remove_prefix(cur_name.length());
+    auto align = internal::align(sizeof(*_start) + _name.size() + 1);
+    auto next = (std::uint8_t *)_start + align;
     while(true) {
-        auto token = internal::be_to_le(*(std::uint32_t *)next);
-        switch(token) {
-            case 0x01: {
-                auto child = node::parse(next, in_strings_block);
-                next += child->length();
-                if(prev_child != nullptr) {
-                    prev_child->next = child;
-                } else {
-                    n->_children = child;
+        auto cur_token = internal::be_to_le(*(std::uint32_t *)next);
+        switch(cur_token) {
+            case internal::FDT_BEGIN_NODE: {
+                auto child_node = node(next, _strings_block);
+                auto result = child_node.find(in_name, out_node);
+                if(result) {
+                    return true;
                 }
-                prev_child = child;
+
+                next += child_node.length();
                 break;
             }
-            case 0x02: {
-                next += sizeof(std::uint32_t);
-                n->_length = internal::align((std::size_t)(next - (std::uint8_t *)n->_start));
-                return n;
+            case internal::FDT_END_NODE: {
+                return false;
             }
-            case 0x03: {
-                auto prop = property::parse(next, in_strings_block);
-                next += prop->length();
-                if(prev_prop != nullptr) {
-                    prev_prop->next = prop;
-                } else {
-                    n->_properties = prop;
-                }
-                prev_prop = prop;
+            case internal::FDT_PROP: {
+                auto prop = property(next, _strings_block);
+                next += prop.length();
                 break;
             }
-            case 0x04: {
+            case internal::FDT_NOP: {
                 next += sizeof(std::uint32_t);
                 break;
             }
@@ -55,53 +63,74 @@ devicetree::node * devicetree::node::parse(const void * in_ptr, const void * in_
             }
         }
     }
-
-    assert(false);
-}
-
-devicetree::node * devicetree::node::find(std::string_view in_name) {
-    auto at_idx = _name.find('@');
-    auto cur_name = _name;
-    if(at_idx != std::string_view::npos) {
-        cur_name = _name.substr(0, at_idx);
-    }
-
-    if(in_name == cur_name) { return this; }
-    else if(!in_name.starts_with(cur_name)) { return nullptr; }
-
-    in_name.remove_prefix(cur_name.length());
-
-    auto cur_child = _children;
-    while(cur_child != nullptr) {
-        auto result = cur_child->find(in_name);
-        if(result != nullptr) { return result; }
-        cur_child = cur_child->next;
-    }
-    return nullptr;
 }
 
 std::string devicetree::node::format(std::size_t in_indent) const {
     auto indent = std::string(in_indent * 2, ' ');
     auto str = std::format("{}{} {\n", indent, _name);
 
-    auto prop = _properties;
-    while(prop != nullptr) {
-        auto prop_str = prop->format(in_indent+1);
-        str.append(prop_str);
-        prop = prop->next;
+    auto aligned_len = internal::align(sizeof(*_start) + _name.size() + 1);
+    auto next = (std::uint8_t *)_start + aligned_len;
+    while(true) {
+        auto cur_token = internal::be_to_le(*(std::uint32_t *)next);
+        switch(cur_token) {
+            case internal::FDT_BEGIN_NODE: {
+                auto child_node = node(next, _strings_block);
+                str.append(child_node.format(in_indent + 1));
+                next += child_node.length();
+                break;
+            }
+            case internal::FDT_END_NODE: {
+                auto close_brace = std::format("{}}\n", indent);
+                str.append(close_brace);
+                return str;
+            }
+            case internal::FDT_PROP: {
+                auto prop = property(next, _strings_block);
+                str.append(prop.format(in_indent + 1));
+                next += prop.length();
+                break;
+            }
+            case internal::FDT_NOP: {
+                next += sizeof(std::uint32_t);
+                break;
+            }
+            default: {
+                assert(false);
+            }
+        }
     }
-
-    auto child = _children;
-    while(child != nullptr) {
-        auto child_str = child->format(in_indent+1);
-        str.append(child_str);
-        child = child->next;
-    }
-    auto close = std::format("{}} \n", indent);
-    str.append(close);
-    return str;
 }
 
 std::size_t devicetree::node::length() const {
-    return _length;
+    auto aligned_len = internal::align(sizeof(*_start) + _name.size() + 1);
+    auto next = (std::uint8_t *)_start + aligned_len;
+    while(true) {
+        auto cur_token = internal::be_to_le(*(std::uint32_t *)next);
+        switch(cur_token) {
+            case internal::FDT_BEGIN_NODE: {
+                auto child_len = node(next, _strings_block).length();
+                aligned_len += child_len;
+                next += child_len;
+                break;
+            }
+            case internal::FDT_END_NODE: {
+                return aligned_len + sizeof(std::uint32_t);
+            }
+            case internal::FDT_PROP: {
+                auto prop_len = property(next, _strings_block).length();
+                aligned_len += prop_len;
+                next += prop_len;
+                break;
+            }
+            case internal::FDT_NOP: {
+                aligned_len += sizeof(std::uint32_t);
+                next += sizeof(std::uint32_t);
+                break;
+            }
+            default: {
+                assert(false);
+            }
+        }
+    }
 }

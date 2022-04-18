@@ -13,19 +13,14 @@ namespace devicetree {
 class node {
 private:
     struct internal::fdt_begin_node * _start;
+    std::uint8_t * _strings_block;
     std::string_view _name;
-    std::size_t _length;
-    node * _children;
-    property * _properties;
-
-    node() {}
 
 public:
-    node * next;
+    node() {}
+    node(const void * in_ptr, const void * in_strings_block);
 
-    static node * parse(const void * in_ptr, const void * in_strings_block);
-
-    node * find(std::string_view in_name);
+    bool find(std::string_view in_name, node * out_node);
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;

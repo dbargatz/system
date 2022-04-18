@@ -2,32 +2,32 @@
 #include <cassert>
 #include "__utils.hpp"
 
-devicetree::fdt devicetree::fdt::parse(const void * in_ptr) {
-    auto header = (struct internal::fdt_header *)in_ptr;
-    assert(internal::be_to_le(header->magic) == 0xD00DFEED);
-    assert(internal::be_to_le(header->version) == 17);
+
+devicetree::fdt::fdt(const void * in_ptr) {
+    _header = (struct internal::fdt_header *)in_ptr;
+    assert(internal::be_to_le(_header->magic) == 0xD00DFEED);
+    assert(internal::be_to_le(_header->version) == 17);
 
     auto byte_ptr = (const std::uint8_t *)in_ptr;
-    auto memrsv_ptr = byte_ptr + internal::be_to_le(header->off_mem_rsvmap);
-    auto structs_block_ptr = byte_ptr + internal::be_to_le(header->off_dt_struct);
-    auto structs_block_size = internal::be_to_le(header->size_dt_struct);
-    auto strings_block_ptr = byte_ptr + internal::be_to_le(header->off_dt_strings);
-    auto fdt = devicetree::fdt();
-    fdt._header = header;
-    fdt._mem_reserve_map = (struct internal::fdt_memory_reserve_entry *)memrsv_ptr;
-    fdt._root = node::parse(structs_block_ptr, strings_block_ptr);
+    auto memrsv_ptr = byte_ptr + internal::be_to_le(_header->off_mem_rsvmap);
+    _mem_reserve_map = (struct internal::fdt_memory_reserve_entry *)memrsv_ptr;
 
-    assert((fdt._root->length() + sizeof(std::uint32_t)) == structs_block_size);
-    auto end = structs_block_ptr + fdt._root->length();
+    _structs_block_ptr = byte_ptr + internal::be_to_le(_header->off_dt_struct);
+    _structs_block_size = internal::be_to_le(_header->size_dt_struct);
+    _strings_block_ptr = byte_ptr + internal::be_to_le(_header->off_dt_strings);
+
+    auto root_node = node(_structs_block_ptr, _strings_block_ptr);
+    assert((root_node.length() + sizeof(std::uint32_t)) == _structs_block_size);
+    auto end = _structs_block_ptr + root_node.length();
     auto end_token = internal::be_to_le(*(std::uint32_t *)end);
-    assert(end_token == 0x09);
-
-    return fdt;
+    assert(end_token == internal::FDT_END);
 }
 
-devicetree::node * devicetree::fdt::find(std::string_view in_name) {
+bool devicetree::fdt::find(std::string_view in_name, devicetree::node * out_node) {
     assert(in_name.starts_with('/'));
-    return _root->find(in_name);
+    assert(out_node != nullptr);
+    auto root_node = node(_structs_block_ptr, _strings_block_ptr);
+    return root_node.find(in_name, out_node);
 }
 
 std::string devicetree::fdt::format() const {
@@ -49,8 +49,9 @@ std::string devicetree::fdt::format() const {
         entry++;
     }
 
+    auto root_node = node(_structs_block_ptr, _strings_block_ptr);
     auto hdr_str = std::format("{}\n{}\n{}", lenstr, cpustr, memrsv_str);
-    auto tree_str = _root->format(1);
+    auto tree_str = root_node.format(1);
     return std::format("Devicetree: 0x{:X}\n{}{}", (const void *)_header, hdr_str, tree_str);
 }
 

@@ -15,14 +15,10 @@ class property {
 private:
     struct internal::fdt_property * _start;
     std::string_view _name;
-    std::size_t _length;
-
-    property() {}
 
 public:
-    property * next;
-
-    static property * parse(const void * in_ptr, const void * in_strings_block);
+    property() = delete;
+    property(const void * in_ptr, const void * in_strings_block);
 
     template<class V> V get_value() const;
     template<class V> std::vector<V*> get_prop_encoded_array() const {

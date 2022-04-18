@@ -3,18 +3,13 @@
 
 using namespace std::literals;
 
-devicetree::property * devicetree::property::parse(const void * in_ptr, const void * in_strings_block) {
-    auto p = new property();
-    p->next = nullptr;
-    p->_start = (struct internal::fdt_property *)in_ptr;
-    assert(internal::be_to_le(p->_start->token) == 0x00000003);
 
-    auto name_ptr = (const char *)in_strings_block + internal::be_to_le(p->_start->nameoff);
-    p->_name = std::string_view(name_ptr);
-    auto len = sizeof(*p->_start) + internal::be_to_le(p->_start->len);
-    p->_length = internal::align(len);
+devicetree::property::property(const void * in_ptr, const void * in_strings_block) {
+    _start = (struct internal::fdt_property *)in_ptr;
+    assert(internal::be_to_le(_start->token) == internal::FDT_PROP);
 
-    return p;
+    auto name_ptr = (const char *)in_strings_block + internal::be_to_le(_start->nameoff);
+    _name = std::string_view(name_ptr);
 }
 
 template<> std::uint32_t devicetree::property::get_value<std::uint32_t>() const {
@@ -143,5 +138,6 @@ std::string devicetree::property::format(std::size_t in_indent) const {
 }
 
 std::size_t devicetree::property::length() const {
-    return _length;
+    auto len = sizeof(*_start) + internal::be_to_le(_start->len);
+    return internal::align(len);
 }

@@ -11,16 +11,17 @@ namespace devicetree {
 
 class fdt {
 private:
-    struct internal::fdt_header * _header;
-    struct internal::fdt_memory_reserve_entry * _mem_reserve_map;
-    node * _root;
-
-    fdt() {}
+    const struct internal::fdt_header * _header;
+    const struct internal::fdt_memory_reserve_entry * _mem_reserve_map;
+    const std::uint8_t * _strings_block_ptr;
+    const std::uint8_t * _structs_block_ptr;
+    std::size_t _structs_block_size;
 
 public:
-    static fdt parse(const void * in_ptr);
+    fdt() = delete;
+    fdt(const void * in_ptr);
 
-    node * find(std::string_view in_name);
+    bool find(std::string_view in_name, node * out_node);
 
     std::string format() const;
     std::size_t length() const;
