@@ -8,12 +8,13 @@ devicetree::node::node(const void * in_ptr, const void * in_strings_block) {
     _strings_block = (std::uint8_t *)in_strings_block;
 
     _name = std::string_view(_start->name);
-    if(_name.length() == 0) {
-        _name = std::string_view("/");
-    }
 }
 
 bool devicetree::node::find(std::string_view in_name, devicetree::node * out_node) {
+    if(in_name.starts_with("/")) {
+        in_name.remove_prefix(1);
+    }
+
     auto at_idx = _name.find('@');
     auto cur_name = _name;
     if(at_idx != std::string_view::npos) {
