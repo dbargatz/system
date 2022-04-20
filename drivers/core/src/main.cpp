@@ -21,8 +21,8 @@ extern core::console::console * _core_assert_log;
     _core_assert_log = &log;
 
     auto fdt = devicetree::fdt(in_boot_info);
-    devicetree::node chosen;
-    assert(fdt.find("/chosen", &chosen));
+    devicetree::node soc;
+    assert(fdt.find("/soc", &soc));
     devicetree::node memnode;
     assert(fdt.find("/memory", &memnode));
 
@@ -30,9 +30,15 @@ extern core::console::console * _core_assert_log;
     _core_memory_manager = &mem_mgr;
 
     log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
-    log.info("{}", mem_mgr);
-    log.info("{}", chosen);
     log.info("{}", memnode);
+
+    log.info("{}", mem_mgr);
+
+    for(auto&& child : soc.children()) {
+        log.info("{}", child);
+    }
+
+    log.info("{}", mem_mgr);
 
     log.unicode_test(core::console::level::Debug);
 

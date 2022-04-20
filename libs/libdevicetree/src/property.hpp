@@ -13,12 +13,16 @@ namespace devicetree {
 
 class property {
 private:
+    static const std::uint8_t * _s_strings_block;
+
     struct internal::fdt_property * _start;
     std::string_view _name;
 
 public:
     property() = delete;
-    property(const void * in_ptr, const void * in_strings_block);
+    property(const void * in_ptr);
+
+    static void set_strings_block(const std::uint8_t * in_ptr) { _s_strings_block = in_ptr; }
 
     template<class V> V get_value() const;
     template<class V> std::vector<V*> get_prop_encoded_array() const {

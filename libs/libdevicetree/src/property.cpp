@@ -4,11 +4,14 @@
 using namespace std::literals;
 
 
-devicetree::property::property(const void * in_ptr, const void * in_strings_block) {
+const std::uint8_t * devicetree::property::_s_strings_block;
+
+
+devicetree::property::property(const void * in_ptr) {
     _start = (struct internal::fdt_property *)in_ptr;
     assert(internal::be_to_le(_start->token) == internal::FDT_PROP);
 
-    auto name_ptr = (const char *)in_strings_block + internal::be_to_le(_start->nameoff);
+    auto name_ptr = (const char *)_s_strings_block + internal::be_to_le(_start->nameoff);
     _name = std::string_view(name_ptr);
 }
 

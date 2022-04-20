@@ -1,6 +1,7 @@
 #include "fdt.hpp"
 #include <cassert>
 #include "__utils.hpp"
+#include "property.hpp"
 
 
 devicetree::fdt::fdt(const void * in_ptr) {
@@ -16,7 +17,9 @@ devicetree::fdt::fdt(const void * in_ptr) {
     _structs_block_size = internal::be_to_le(_header->size_dt_struct);
     _strings_block_ptr = byte_ptr + internal::be_to_le(_header->off_dt_strings);
 
-    auto root_node = node(_structs_block_ptr, _strings_block_ptr);
+    property::set_strings_block(_strings_block_ptr);
+
+    auto root_node = node(_structs_block_ptr);
     assert((root_node.length() + sizeof(std::uint32_t)) == _structs_block_size);
     auto end = _structs_block_ptr + root_node.length();
     auto end_token = internal::be_to_le(*(std::uint32_t *)end);
@@ -26,7 +29,7 @@ devicetree::fdt::fdt(const void * in_ptr) {
 bool devicetree::fdt::find(std::string_view in_name, devicetree::node * out_node) {
     assert(in_name.starts_with('/'));
     assert(out_node != nullptr);
-    auto root_node = node(_structs_block_ptr, _strings_block_ptr);
+    auto root_node = node(_structs_block_ptr);
     return root_node.find(in_name, out_node);
 }
 
@@ -49,7 +52,7 @@ std::string devicetree::fdt::format() const {
         entry++;
     }
 
-    auto root_node = node(_structs_block_ptr, _strings_block_ptr);
+    auto root_node = node(_structs_block_ptr);
     auto hdr_str = std::format("{}\n{}\n{}", lenstr, cpustr, memrsv_str);
     auto tree_str = root_node.format(1);
     return std::format("Devicetree: 0x{:X}\n{}{}", (const void *)_header, hdr_str, tree_str);
