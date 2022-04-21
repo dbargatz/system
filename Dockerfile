@@ -32,6 +32,7 @@ RUN set -x                                             \
       lsb-release                                      \
       make                                             \
       nasm                                             \
+      openssh-client                                   \
       qemu-system-arm                                  \
       qemu-system-x86                                  \
       software-properties-common                       \
