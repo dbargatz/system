@@ -4,7 +4,7 @@ ASM_OBJS = $(PLATFORM_ASM_SRCS:%.asm=$(BUILD_ROOT_DIR)/%.o)
 CPP_SRCS = drivers/core/src/libcxx/cassert.cpp drivers/core/src/libcxx/new.cpp drivers/core/src/memory/heap.cpp drivers/core/src/memory/manager.cpp drivers/core/src/main.cpp libs/libcxx/src/cstring.cpp libs/libcxx/src/cxa_atexit.cpp libs/libcxx/src/cxa_virtual.cpp libs/libcxx/src/memory_resource.cpp libs/libdevicetree/src/__utils.cpp libs/libdevicetree/src/fdt.cpp libs/libdevicetree/src/node.cpp libs/libdevicetree/src/nodelist.cpp libs/libdevicetree/src/property.cpp libs/libdevicetree/src/propertylist.cpp
 CPP_OBJS = $(PLATFORM_CPP_SRCS:%.cpp=$(BUILD_ROOT_DIR)/%.o) $(CPP_SRCS:%.cpp=$(BUILD_ROOT_DIR)/%.o)
 
-all: qemu_pc raspi3b
+all: raspi3b
 
 build:
 	@mkdir -p $(BUILD_ROOT_DIR)
@@ -29,16 +29,16 @@ raspi3b: export PLATFORM_CPP_SRCS=drivers/core/src/platform/$(PLATFORM_NAME)/con
 raspi3b: clean build
 
 raspi3b-build: $(ASM_OBJS) $(CPP_OBJS)
-	@ld.lld-13 -m $(PLATFORM_LD_ARCH) -nostdlib $(ASM_OBJS) $(CPP_OBJS) -T drivers/core/src/platform/$(PLATFORM_NAME)/linker.ld -o $(BUILD_ROOT_DIR)/kernel8.elf
-	@llvm-objcopy-13 -O binary $(BUILD_ROOT_DIR)/kernel8.elf $(BUILD_ROOT_DIR)/kernel8.img
+	@ld.lld -m $(PLATFORM_LD_ARCH) -nostdlib $(ASM_OBJS) $(CPP_OBJS) -T drivers/core/src/platform/$(PLATFORM_NAME)/linker.ld -o $(BUILD_ROOT_DIR)/kernel8.elf
+	@llvm-objcopy -O binary $(BUILD_ROOT_DIR)/kernel8.elf $(BUILD_ROOT_DIR)/kernel8.img
 
 $(BUILD_ROOT_DIR)/%.o : %.asm
 	@mkdir -p $(dir $@)
-	/usr/bin/clang++-13 -flto=thin -fno-rtti -fpic -Wall --target=$(PLATFORM_ARCH) -c $< -o $@
+	/usr/bin/clang++ -flto=thin -fno-rtti -fpic -Wall --target=$(PLATFORM_ARCH) -c $< -o $@
 
 $(BUILD_ROOT_DIR)/%.o : %.cpp
 	@mkdir -p $(dir $@)
-	/usr/bin/clang++-13 -g -isystem libs/libcxx/src -mcmodel=small -fchar8_t -ffreestanding -flto=thin -fno-builtin -fno-exceptions -fno-rtti -fno-threadsafe-statics -fpic -nostdinc -nostdinc++ -std=c++2a -Wall -DPLATFORM_RASPI3B --target=$(PLATFORM_ARCH) -c $< -o $@
+	/usr/bin/clang++ -g -isystem libs/libcxx/src -mcmodel=small -fchar8_t -ffreestanding -flto=thin -fno-builtin -fno-exceptions -fno-rtti -fno-threadsafe-statics -fpic -nostdinc -nostdinc++ -std=c++2a -Wall -DPLATFORM_RASPI3B --target=$(PLATFORM_ARCH) -c $< -o $@
 
 clean:
 	@rm -rf ./build
