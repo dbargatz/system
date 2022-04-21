@@ -15,9 +15,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update to the latest versions of packages, then install the dependencies for
 # compiling, debugging, and running.
-RUN set -x \
-    && apt-get update \
-    && apt-get upgrade --yes \
+RUN set -x                                             \
+    && apt-get update                                  \
+    && apt-get upgrade --yes                           \
     && apt-get install --yes --no-install-recommends   \
       bear                                             \
       curl                                             \
@@ -43,10 +43,13 @@ RUN set -x \
 
 # Download and install the specified version of LLVM/Clang and associated tools.
 WORKDIR /workdir
-RUN set -x                               \
-    && curl -sSLf -o llvm.sh ${LLVM_URL} \
-    && chmod +x llvm.sh                  \
-    && ./llvm.sh ${LLVM_VERSION}         \
+RUN set -x                                                     \
+    && curl -sSLf -o llvm.sh ${LLVM_URL}                       \
+    && chmod +x llvm.sh                                        \
+    && ./llvm.sh ${LLVM_VERSION}                               \
+    && ln -s /usr/bin/clang-${LLVM_VERSION} /usr/bin/clang     \
+    && ln -s /usr/bin/clang++-${LLVM_VERSION} /usr/bin/clang++ \
+    && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld         \
     && rm -rf /workdir
 
 # Download, compile, and install the specified version of build2.
@@ -55,7 +58,7 @@ RUN set -x                                                      \
     && curl -sSLf -o build2.sh ${BUILD2_URL}                    \
     && echo "${BUILD2_HASH} build2.sh" | sha256sum --check      \
     && chmod +x build2.sh                                       \
-    && ./build2.sh --yes --trust yes --cxx /usr/bin/clang++-${LLVM_VERSION} \
+    && ./build2.sh --yes --trust yes --cxx /usr/bin/clang++     \
     && rm -rf /workdir
 
 # Revert back to debconf's interactive prompts for the user.
