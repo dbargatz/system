@@ -44,13 +44,15 @@ RUN set -x                                             \
 
 # Download and install the specified version of LLVM/Clang and associated tools.
 WORKDIR /workdir
-RUN set -x                                                     \
-    && curl -sSLf -o llvm.sh ${LLVM_URL}                       \
-    && chmod +x llvm.sh                                        \
-    && ./llvm.sh ${LLVM_VERSION}                               \
-    && ln -s /usr/bin/clang-${LLVM_VERSION} /usr/bin/clang     \
-    && ln -s /usr/bin/clang++-${LLVM_VERSION} /usr/bin/clang++ \
-    && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld         \
+RUN set -x                                                                \
+    && curl -sSLf -o llvm.sh ${LLVM_URL}                                  \
+    && chmod +x llvm.sh                                                   \
+    && ./llvm.sh ${LLVM_VERSION}                                          \
+    && ln -s /usr/bin/clang-${LLVM_VERSION} /usr/bin/clang                \
+    && ln -s /usr/bin/clang++-${LLVM_VERSION} /usr/bin/clang++            \
+    && ln -s /usr/bin/ld.lld-${LLVM_VERSION} /usr/bin/ld.lld              \
+    && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld                    \
+    && ln -s /usr/bin/llvm-objcopy-${LLVM_VERSION} /usr/bin/llvm-objcopy  \
     && rm -rf /workdir
 
 # Download, compile, and install the specified version of build2.
