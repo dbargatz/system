@@ -1,7 +1,7 @@
 .PHONY: all %-build clean qemu_pc raspi3b
 
 ASM_OBJS = $(PLATFORM_ASM_SRCS:%.asm=$(BUILD_ROOT_DIR)/%.o)
-CPP_SRCS = drivers/core/src/libcxx/cassert.cpp drivers/core/src/libcxx/new.cpp drivers/core/src/memory/heap.cpp drivers/core/src/memory/manager.cpp drivers/core/src/main.cpp libs/libcxx/src/cstring.cpp libs/libcxx/src/cxa_atexit.cpp libs/libcxx/src/cxa_virtual.cpp libs/libcxx/src/memory_resource.cpp libs/libdevicetree/src/__utils.cpp libs/libdevicetree/src/fdt.cpp libs/libdevicetree/src/node.cpp libs/libdevicetree/src/nodelist.cpp libs/libdevicetree/src/property.cpp
+CPP_SRCS = drivers/core/src/libcxx/cassert.cpp drivers/core/src/libcxx/new.cpp drivers/core/src/memory/heap.cpp drivers/core/src/memory/manager.cpp drivers/core/src/main.cpp libs/libcxx/src/cstring.cpp libs/libcxx/src/cxa_atexit.cpp libs/libcxx/src/cxa_virtual.cpp libs/libcxx/src/memory_resource.cpp libs/libdevicetree/src/__utils.cpp libs/libdevicetree/src/fdt.cpp libs/libdevicetree/src/node.cpp libs/libdevicetree/src/nodelist.cpp libs/libdevicetree/src/property.cpp libs/libdevicetree/src/propertylist.cpp
 CPP_OBJS = $(PLATFORM_CPP_SRCS:%.cpp=$(BUILD_ROOT_DIR)/%.o) $(CPP_SRCS:%.cpp=$(BUILD_ROOT_DIR)/%.o)
 
 all: qemu_pc raspi3b

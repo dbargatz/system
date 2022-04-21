@@ -8,6 +8,7 @@
 #include "__structs.hpp"
 #include "nodelist.hpp"
 #include "property.hpp"
+#include "propertylist.hpp"
 
 namespace devicetree {
 
@@ -24,6 +25,7 @@ public:
     bool operator==(const node& in_other) const { return _start == in_other._start; }
 
     nodelist children();
+    propertylist properties();
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;

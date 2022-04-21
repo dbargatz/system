@@ -21,8 +21,8 @@ extern core::console::console * _core_assert_log;
     _core_assert_log = &log;
 
     auto fdt = devicetree::fdt(in_boot_info);
-    devicetree::node soc;
-    assert(fdt.find("/soc", &soc));
+    devicetree::node root;
+    assert(fdt.find("/", &root));
     devicetree::node memnode;
     assert(fdt.find("/memory", &memnode));
 
@@ -34,9 +34,11 @@ extern core::console::console * _core_assert_log;
 
     log.info("{}", mem_mgr);
 
-    for(auto&& child : soc.children()) {
-        log.info("{}", child);
+    log.info("/ {");
+    for(auto&& prop : root.properties()) {
+        log.info("  {}", prop);
     }
+    log.info("}");
 
     log.info("{}", mem_mgr);
 

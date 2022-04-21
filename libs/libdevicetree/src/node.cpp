@@ -139,6 +139,39 @@ std::size_t devicetree::node::length() const {
     }
 }
 
+devicetree::propertylist devicetree::node::properties() {
+    auto aligned_len = internal::align(sizeof(*_start) + _name.size() + 1);
+    auto next = (std::uint8_t *)_start + aligned_len;
+    while(true) {
+        auto cur_token = internal::be_to_le(*(std::uint32_t *)next);
+        switch(cur_token) {
+            case internal::FDT_BEGIN_NODE:
+            case internal::FDT_END_NODE: {
+                // If we encounter an FDT_BEGIN_NODE or an FDT_END_NODE, we've
+                // run out of properties in this node, according to the spec.
+                // Return an empty propertylist.
+                return propertylist();
+            }
+            case internal::FDT_PROP: {
+                // We found the first property in this node's set of properties;
+                // return a propertylist containing the first property.
+                auto prop = (struct internal::fdt_property *)next;
+                return propertylist(prop);
+            }
+            case internal::FDT_NOP: {
+                // We're not interested in NOPs, so move past any we find.
+                next += sizeof(std::uint32_t);
+                break;
+            }
+            default: {
+                // Something is wrong - we've encountered an FDT_END token or a
+                // completely invalid token. Blow up.
+                assert(false);
+            }
+        }
+    }
+}
+
 devicetree::nodelist devicetree::node::children() {
     auto aligned_len = internal::align(sizeof(*_start) + _name.size() + 1);
     auto next = (std::uint8_t *)_start + aligned_len;
