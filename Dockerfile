@@ -51,11 +51,11 @@ RUN set -x                               \
 
 # Download, compile, and install the specified version of build2.
 WORKDIR /workdir
-RUN set -x                                                 \
-    && curl -sSLf -o build2.sh ${BUILD2_URL}               \
-    && echo "${BUILD2_HASH} build2.sh" | sha256sum --check \
-    && chmod +x build2.sh                                  \
-    && ./build2.sh --yes --cxx clang++-${LLVM_VERSION}     \
+RUN set -x                                                      \
+    && curl -sSLf -o build2.sh ${BUILD2_URL}                    \
+    && echo "${BUILD2_HASH} build2.sh" | sha256sum --check      \
+    && chmod +x build2.sh                                       \
+    && ./build2.sh --yes --trust yes --cxx /usr/bin/clang++-${LLVM_VERSION} \
     && rm -rf /workdir
 
 # Revert back to debconf's interactive prompts for the user.
