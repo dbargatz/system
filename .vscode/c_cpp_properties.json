@@ -6,7 +6,7 @@
                 "${workspaceFolder}/libs/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang++-13",
+            "compilerPath": "/usr/bin/clang++",
             "browse": {
                 "path": [
                     "${workspaceFolder}/apps",
