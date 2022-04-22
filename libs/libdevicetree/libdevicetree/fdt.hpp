@@ -5,6 +5,7 @@
 #include <string>
 #include <string_view>
 #include "__structs.hpp"
+#include "export.hpp"
 #include "node.hpp"
 
 namespace devicetree {

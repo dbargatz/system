@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 #include <libdevicetree/version.hpp>
-#include <libdevicetree/devicetree.hpp>
+#include <libdevicetree/fdt.hpp>
 
 #undef NDEBUG
 #include <cassert>
