@@ -1,0 +1,3 @@
+import libs = libdevicetree%lib{devicetree}
+
+exe{driver}: {hxx ixx txx cxx}{**} $libs testscript{**}

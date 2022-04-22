@@ -1,0 +1,12 @@
+: 1
+name: libdevicetree
+version: 0.1.0-a.0.z
+summary: devicetree C++ library
+license: other: proprietary ; Not free/open source.
+description-file: README.md
+url: https://example.org/libdevicetree
+email: dylan@bargatze.net
+#build-error-email: dylan@forallsecure.com
+depends: * build2 >= 0.14.0
+depends: * bpkg >= 0.14.0
+#depends: libhello ^1.0.0
