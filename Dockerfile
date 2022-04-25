@@ -4,12 +4,6 @@ FROM debian:bullseye-20220418
 ARG LLVM_VERSION=14
 ARG LLVM_URL=https://apt.llvm.org/llvm.sh
 
-# Version of build2 to download and install. Hash from installation instructions
-# at https://build2.org/install.xhtml.
-ARG BUILD2_VERSION=0.14.0
-ARG BUILD2_URL=https://download.build2.org/${BUILD2_VERSION}/build2-install-${BUILD2_VERSION}.sh
-ARG BUILD2_HASH=f2e0795fda1bdc6b6ea4d2fc5917469725c20962bb1f6672c8d2462d76b3a7db
-
 # Avoid issues with debconf asking interactive questions during installation.
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -31,7 +25,9 @@ RUN set -x                                             \
       less                                             \
       lsb-release                                      \
       make                                             \
+      meson                                            \
       nasm                                             \
+      ninja-build                                      \
       openssh-client                                   \
       qemu-system-arm                                  \
       qemu-system-x86                                  \
@@ -51,17 +47,9 @@ RUN set -x                                                                \
     && ln -s /usr/bin/clang-${LLVM_VERSION} /usr/bin/clang                \
     && ln -s /usr/bin/clang++-${LLVM_VERSION} /usr/bin/clang++            \
     && ln -s /usr/bin/ld.lld-${LLVM_VERSION} /usr/bin/ld.lld              \
-    && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld                    \
+    && ln -s /usr/bin/llvm-ar-${LLVM_VERSION} /usr/bin/llvm-ar            \
     && ln -s /usr/bin/llvm-objcopy-${LLVM_VERSION} /usr/bin/llvm-objcopy  \
-    && rm -rf /workdir
-
-# Download, compile, and install the specified version of build2.
-WORKDIR /workdir
-RUN set -x                                                      \
-    && curl -sSLf -o build2.sh ${BUILD2_URL}                    \
-    && echo "${BUILD2_HASH} build2.sh" | sha256sum --check      \
-    && chmod +x build2.sh                                       \
-    && ./build2.sh --yes --trust yes --cxx /usr/bin/clang++     \
+    && ln -s /usr/bin/llvm-strip-${LLVM_VERSION} /usr/bin/llvm-strip      \
     && rm -rf /workdir
 
 # Revert back to debconf's interactive prompts for the user.

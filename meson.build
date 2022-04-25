@@ -27,7 +27,7 @@ qemu_pc = custom_target('qemu_pc',
 raspi3b = custom_target('raspi3b',
     input: [core_raspi3b_bin],
     output: 'kernel8.img',
-    command: ['cp', '@INPUT@', '@OUTPUT@'],
+    command: ['llvm-objcopy', '-O', 'binary', '@INPUT@', '@OUTPUT@'],
     install: true,
     install_dir: 'build/raspi3b')
 

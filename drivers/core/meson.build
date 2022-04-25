@@ -10,12 +10,10 @@ core_linker_objs = [libcxx_lib, libdevicetree_lib]
 
 
 # Meson generators to compile assembly for different processor architectures. ---------------------
-# arm64_assembler = find_program('clang-13')
-arm64_assembler = generator(find_program('clang-13'),
+arm64_assembler = generator(find_program('clang'),
     output: '@BASENAME@.o',
     arguments: ['-target', 'aarch64', '-c', '@INPUT@', '-o', '@OUTPUT@'])
 
-# x64_assembler = find_program('nasm')
 x64_assembler = generator(find_program('nasm'),
     output: '@BASENAME@.o',
     arguments: ['-f', 'elf64', '@INPUT@', '-o', '@OUTPUT@'])
@@ -35,7 +33,7 @@ core_qemu_pc_cpp_src = core_cpp_src + [
 core_qemu_pc_linker_script = '../../drivers/core/src/platform/qemu_pc/linker.ld'
 core_qemu_pc_asm_objs = x64_assembler.process(core_qemu_pc_asm_src)
 core_qemu_pc_bin = executable('core_qemu_pc.bin', [core_qemu_pc_cpp_src, core_qemu_pc_asm_objs],
-                          link_args: ['-Wl,-T' + core_qemu_pc_linker_script],
+                          link_args: ['-Wl,--script=' + core_qemu_pc_linker_script],
                           link_with: core_linker_objs)
 
 
@@ -52,5 +50,5 @@ core_raspi3b_cpp_src = core_cpp_src + [
 core_raspi3b_linker_script = '../../drivers/core/src/platform/raspi3b/linker.ld'
 core_raspi3b_asm_objs = arm64_assembler.process(core_raspi3b_asm_src)
 core_raspi3b_bin = executable('core_raspi3b.bin', [core_raspi3b_cpp_src, core_raspi3b_asm_objs],
-                          link_args: ['-Wl,-T' + core_raspi3b_linker_script],
+                          link_args: ['-Wl,--script=' + core_raspi3b_linker_script],
                           link_with: core_linker_objs)

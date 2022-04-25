@@ -9,6 +9,7 @@ SECTIONS {
     {
         KEEP(*(.text.boot))
         *(.text .text.*)
+        KEEP(*(.note.gnu.build-id))
     }
     . = ALIGN(0x1000);
     __text_end = .;

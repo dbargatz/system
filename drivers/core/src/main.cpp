@@ -1,6 +1,6 @@
 #include <cstdint>
 #include <cstdlib>
-#include "../../../libs/libdevicetree/src/fdt.hpp"
+#include "../../../libs/libdevicetree/libdevicetree/fdt.hpp"
 
 #include "console/console.hpp"
 #include "memory/manager.hpp"
