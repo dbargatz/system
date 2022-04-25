@@ -1,3 +1,0 @@
-# libdevicetree
-
-C++ library

@@ -1,6 +1,0 @@
-$out_root/
-{
-  include libdevicetree/
-}
-
-export $out_root/libdevicetree/$import.target
