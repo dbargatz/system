@@ -28,6 +28,7 @@ core_qemu_pc_cpp_src = core_cpp_src + [
     'src/platform/qemu_pc/console/console.cpp',
     'src/platform/qemu_pc/libcxx/abort.cpp',
     'src/platform/qemu_pc/ports/io_port.cpp',
+    'src/platform/qemu_pc/platform.cpp',
 ]
 
 core_qemu_pc_linker_script = '../../drivers/core/src/platform/qemu_pc/linker.ld'
@@ -45,6 +46,7 @@ core_raspi3b_asm_src = [
 core_raspi3b_cpp_src = core_cpp_src + [
     'src/platform/raspi3b/console/console.cpp',
     'src/platform/raspi3b/libcxx/abort.cpp',
+    'src/platform/raspi3b/platform.cpp',
 ]
 
 core_raspi3b_linker_script = '../../drivers/core/src/platform/raspi3b/linker.ld'

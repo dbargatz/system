@@ -6,7 +6,6 @@
 #include "memory/manager.hpp"
 #include "platform.hpp"
 
-
 // TODO: need structure to hold per-core information, like memory manager for each core
 
 // This is defined in libcxx/new.cpp, and is how new/delete allocate and deallocate memory inside
@@ -29,7 +28,8 @@ extern core::console::console * _core_assert_log;
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
 
-    log.info("Starting core driver for {} on processor {:X}", PLATFORM_NAME, in_proc_id);
+    auto perm = get_permission_level();
+    log.info("Starting core driver for {} on processor {:X} at permission level {}", PLATFORM_NAME, in_proc_id, perm);
     log.info("{}", memnode);
 
     log.info("{}", mem_mgr);
