@@ -4,6 +4,12 @@
 //
 // Documentation available at http://tl.tartanllama.xyz/
 //
+// Copied on 28 April 2022 by Dylan Bargatze from the following revision:
+// https://github.com/TartanLlama/expected/blob/96d547c03d2feab8db64c53c3744a9b4a7c8f2c5/include/tl/expected.hpp
+//
+// Modified for use as the implementation of C++23's std::expected() in libcxx,
+// which provides a monad like Rust's Result for returning values or errors.
+//
 // To the extent possible under law, the author(s) have dedicated all
 // copyright and related and neighboring rights to this software to the
 // public domain worldwide. This software is distributed without any warranty.
