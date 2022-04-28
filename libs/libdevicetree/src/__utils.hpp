@@ -1,14 +1,28 @@
 #ifndef _DEVICETREE_DETAILS_UTILS_HPP
 #define _DEVICETREE_DETAILS_UTILS_HPP
 
+#include <bit>
+#include <concepts>
 #include <cstddef>
-#include <cstdint>
 
 namespace devicetree::details {
 
-std::size_t align(const std::size_t in_num);
-std::uint32_t be_to_host(std::uint32_t in_big_endian);
-std::uint64_t be_to_host(std::uint64_t in_big_endian);
+constexpr std::size_t align(const std::size_t in_num) {
+    auto remainder = in_num % 4;
+    return (in_num + ((4 - remainder) % 4));
+}
+
+template<std::integral T>
+constexpr T be_to_host(T in_big_endian) {
+    switch(std::endian::native) {
+    case std::endian::little:
+        return std::byteswap(in_big_endian);
+    case std::endian::big:
+        return in_big_endian;
+    default:
+        static_assert(std::endian::native == std::endian::big || std::endian::native == std::endian::little, "Mixed-endian hosts not supported");
+    }
+}
 
 }; // namespace devicetree::details
 
