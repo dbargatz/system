@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include "__iterator.hpp"
 #include "__structs.hpp"
 #include "__utils.hpp"
 
@@ -19,6 +20,8 @@ private:
     std::string_view _name;
 
 public:
+    using internal_struct = struct internal::fdt_property;
+
     property() = delete;
     property(const void * in_ptr);
 
@@ -40,6 +43,9 @@ public:
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
 }; // class property
+
+template <>
+details::iterator<property>& details::iterator<property>::operator++();
 
 }; // namespace devicetree
 

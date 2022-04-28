@@ -4,6 +4,7 @@
 #include <format>
 #include <string>
 #include <string_view>
+#include "__list.hpp"
 #include "__structs.hpp"
 #include "node.hpp"
 
@@ -21,7 +22,7 @@ public:
     fdt() = delete;
     fdt(const void * in_ptr);
 
-    bool find(std::string_view in_name, node * out_node);
+    details::list<node> find(std::string_view in_node_path);
 
     std::string format() const;
     std::size_t length() const;

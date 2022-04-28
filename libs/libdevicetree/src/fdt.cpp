@@ -1,6 +1,7 @@
 #include "fdt.hpp"
 #include <cassert>
 #include "__utils.hpp"
+#include "node.hpp"
 #include "property.hpp"
 
 
@@ -26,11 +27,10 @@ devicetree::fdt::fdt(const void * in_ptr) {
     assert(end_token == internal::FDT_END);
 }
 
-bool devicetree::fdt::find(std::string_view in_name, devicetree::node * out_node) {
-    assert(in_name.starts_with('/'));
-    assert(out_node != nullptr);
+devicetree::details::list<devicetree::node> devicetree::fdt::find(std::string_view in_node_path) {
+    assert(in_node_path.starts_with('/'));
     auto root_node = node(_structs_block_ptr);
-    return root_node.find(in_name, out_node);
+    return root_node.find(in_node_path);
 }
 
 std::string devicetree::fdt::format() const {

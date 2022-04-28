@@ -14,9 +14,9 @@ devicetree::node::node(const void * in_ptr) {
     _name = std::string_view(_start->name);
 }
 
-bool devicetree::node::find(std::string_view in_name, devicetree::node * out_node) {
-    if(in_name.starts_with("/")) {
-        in_name.remove_prefix(1);
+devicetree::details::list<devicetree::node> devicetree::node::find(std::string_view in_node_path) {
+    if(in_node_path.starts_with("/")) {
+        in_node_path.remove_prefix(1);
     }
 
     auto at_idx = _name.find('@');
@@ -25,48 +25,20 @@ bool devicetree::node::find(std::string_view in_name, devicetree::node * out_nod
         cur_name = _name.substr(0, at_idx);
     }
 
-    if(in_name == cur_name) {
-        out_node->_start = _start;
-        out_node->_name = _name;
-        return true; 
-    }
-    else if(!in_name.starts_with(cur_name)) {
-        return false;
+    if(in_node_path == cur_name) {
+        return details::list<node>(_start);
+    } else if(!in_node_path.starts_with(cur_name)) {
+        return details::list<node>();
     }
 
-    in_name.remove_prefix(cur_name.length());
-    auto align = internal::align(sizeof(*_start) + _name.size() + 1);
-    auto next = (std::uint8_t *)_start + align;
-    while(true) {
-        auto cur_token = internal::be_to_le(*(std::uint32_t *)next);
-        switch(cur_token) {
-            case internal::FDT_BEGIN_NODE: {
-                auto child_node = node(next);
-                auto result = child_node.find(in_name, out_node);
-                if(result) {
-                    return true;
-                }
-
-                next += child_node.length();
-                break;
-            }
-            case internal::FDT_END_NODE: {
-                return false;
-            }
-            case internal::FDT_PROP: {
-                auto prop = property(next);
-                next += prop.length();
-                break;
-            }
-            case internal::FDT_NOP: {
-                next += sizeof(std::uint32_t);
-                break;
-            }
-            default: {
-                assert(false);
-            }
+    for(auto&& child : children()) {
+        auto result = child.find(in_node_path);
+        if(result.begin() != result.end()) {
+            return result;
         }
     }
+
+    return details::list<node>();
 }
 
 std::string devicetree::node::format(std::size_t in_indent) const {
@@ -139,7 +111,7 @@ std::size_t devicetree::node::length() const {
     }
 }
 
-devicetree::propertylist devicetree::node::properties() {
+devicetree::details::list<devicetree::property> devicetree::node::properties() {
     auto aligned_len = internal::align(sizeof(*_start) + _name.size() + 1);
     auto next = (std::uint8_t *)_start + aligned_len;
     while(true) {
@@ -150,13 +122,13 @@ devicetree::propertylist devicetree::node::properties() {
                 // If we encounter an FDT_BEGIN_NODE or an FDT_END_NODE, we've
                 // run out of properties in this node, according to the spec.
                 // Return an empty propertylist.
-                return propertylist();
+                return details::list<property>();
             }
             case internal::FDT_PROP: {
                 // We found the first property in this node's set of properties;
                 // return a propertylist containing the first property.
                 auto prop = (struct internal::fdt_property *)next;
-                return propertylist(prop);
+                return details::list<property>(prop);
             }
             case internal::FDT_NOP: {
                 // We're not interested in NOPs, so move past any we find.
@@ -172,7 +144,7 @@ devicetree::propertylist devicetree::node::properties() {
     }
 }
 
-devicetree::nodelist devicetree::node::children() {
+devicetree::details::list<devicetree::node> devicetree::node::children() {
     auto aligned_len = internal::align(sizeof(*_start) + _name.size() + 1);
     auto next = (std::uint8_t *)_start + aligned_len;
     while(true) {
@@ -183,12 +155,12 @@ devicetree::nodelist devicetree::node::children() {
                 // (if any) is the first child, so create and return the
                 // nodelist from it.
                 auto first_child = (struct internal::fdt_begin_node *)next;
-                return nodelist(first_child);
+                return details::list<node>(first_child);
             }
             case internal::FDT_END_NODE: {
                 // If we encounter an FDT_END_NODE before an FDT_BEGIN_NODE,
                 // this node has no child nodes, so return an empty nodelist.
-                return nodelist();
+                return details::list<node>();
             }
             case internal::FDT_PROP: {
                 // We're not interested in properties, so move past any we find.
@@ -206,6 +178,41 @@ devicetree::nodelist devicetree::node::children() {
                 // completely invalid token. Blow up.
                 assert(false);
             }
+        }
+    }
+}
+
+template<>
+devicetree::details::iterator<devicetree::node>& devicetree::details::iterator<devicetree::node>::operator++() {
+    if(_current == nullptr) { return *this; }
+
+    auto cur = node(_current);
+    auto next_token_ptr = (std::uint8_t *)_current + cur.length();
+    auto next_token = internal::be_to_le(*(std::uint32_t *)next_token_ptr);
+    switch(next_token) {
+        case internal::FDT_BEGIN_NODE: {
+            // If the very next token is a begin node, that means there's
+            // a sibling node immediately after the current node, so keep
+            // iterating!
+            _current = (typename node::internal_struct *)next_token_ptr;
+            return *this;
+        }
+        case internal::FDT_NOP:
+        case internal::FDT_END_NODE: {
+            // If the very next token is an FDT_END_NODE or an FDT_NOP, that
+            // means the current child node has no sibling after it, and
+            // we've iterated all the children of the parent node. Return
+            // the end() sentinel iterator.
+            _current = nullptr;
+            return *this;
+        }
+        default: {
+            // Something has gone wrong - based on the DeviceTree Spec v0.3,
+            // section 5.4.2, we can only have child node representations,
+            // FDT_NOPs, and FDT_END_NODEs at the end of the parent node.
+            // We handle each of these cases, so we've got a malformed FDT;
+            // time to blow up.
+            assert(false);
         }
     }
 }

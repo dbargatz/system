@@ -20,10 +20,9 @@ extern core::console::console * _core_assert_log;
     _core_assert_log = &log;
 
     auto fdt = devicetree::fdt(in_boot_info);
-    devicetree::node root;
-    assert(fdt.find("/", &root));
-    devicetree::node memnode;
-    assert(fdt.find("/memory", &memnode));
+    devicetree::node root = fdt.find("/").first();
+    devicetree::node memnode = fdt.find("/memory").first();
+    devicetree::node reserved_mem = fdt.find("/reserved-memory").first();
 
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
@@ -31,6 +30,7 @@ extern core::console::console * _core_assert_log;
     auto perm = get_permission_level();
     log.info("Starting core driver for {} on processor {:X} at permission level {}", PLATFORM_NAME, in_proc_id, perm);
     log.info("{}", memnode);
+    log.info("{}", reserved_mem);
 
     log.info("{}", mem_mgr);
 
