@@ -291,16 +291,10 @@ template <>
 struct __is_integral<short> : public true_type {};
 
 template <>
-struct __is_integral<signed short> : public true_type {};
-
-template <>
 struct __is_integral<unsigned short> : public true_type {};
 
 template <>
 struct __is_integral<int> : public true_type {};
-
-template <>
-struct __is_integral<signed int> : public true_type {};
 
 template <>
 struct __is_integral<unsigned int> : public true_type {};
@@ -309,16 +303,10 @@ template <>
 struct __is_integral<long> : public true_type {};
 
 template <>
-struct __is_integral<signed long> : public true_type {};
-
-template <>
 struct __is_integral<unsigned long> : public true_type {};
 
 template <>
 struct __is_integral<long long> : public true_type {};
-
-template <>
-struct __is_integral<signed long long> : public true_type {};
 
 template <>
 struct __is_integral<unsigned long long> : public true_type {};
