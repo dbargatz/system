@@ -192,19 +192,27 @@ struct __is_void<void> : public true_type {};
 /**
  * @brief If `T` is a `void` type with optional const/volatile qualifiers, then
  * `value` is `true`. Otherwise, `value` is `false`.
- * 
- * The possible `void` types are `void`, `const void`, `volatile void`, or
- * `const volatile void`. All other types result in `value` being `false`.
+ *
+ * @details
+ * The types considered void that result in `value` being `true` are:
+ *
+ * - `void`
+ * - `const void`
+ * - `volatile void`
+ * - `const volatile void`
+ *
+ * All other types result in `value` being `false`.
  * 
  * @tparam T possible void type with optional const/volatile qualifiers
- * @param value true if `T` is void with optional const/volatile qualifiers
+ * @param value `true` if `T` is a void type with optional const/volatile
+ * qualifiers; `false` otherwise
  */
 template <typename T>
 struct is_void : public __is_void<remove_cv_t<T>>::type {};
 
 /**
  * @brief `True` if `T` is a void type with optional const/volatile qualifiers;
- * otherwise, `False`.
+ * otherwise, `false`.
  * 
  * @tparam T possible void type with optional const/volatile qualifiers
  */
