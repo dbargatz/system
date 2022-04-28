@@ -1,0 +1,38 @@
+#ifndef _STD_ALGORITHM_HPP
+#define _STD_ALGORITHM_HPP
+
+namespace std {
+
+template <typename InputIt, class T>
+constexpr InputIt find(InputIt in_first, InputIt in_last, const T& in_value) {
+    for(; in_first != in_last; ++in_first) {
+        if(*in_first == in_value) {
+            return in_first;
+        }
+    }
+    return in_last;
+}
+
+template <typename InputIt, class UnaryPredicate>
+constexpr InputIt find_if(InputIt in_first, InputIt in_last, UnaryPredicate in_predicate) {
+    for(; in_first != in_last; ++in_first) {
+        if(in_predicate(*in_first)) {
+            return in_first;
+        }
+    }
+    return in_last;
+}
+
+template <typename InputIt, class UnaryPredicate>
+constexpr InputIt find_if_not(InputIt in_first, InputIt in_last, UnaryPredicate in_predicate) {
+    for(; in_first != in_last; ++in_first) {
+        if(!in_predicate(*in_first)) {
+            return in_first;
+        }
+    }
+    return in_last;
+}
+
+}; // namespace std
+
+#endif // _STD_ALGORITHM_HPP
