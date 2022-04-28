@@ -1,0 +1,57 @@
+#ifndef _STD_BIT_HPP
+#define _STD_BIT_HPP
+
+#include <concepts>
+#include <cstdint>
+
+namespace std {
+
+/**
+ * @brief Indicates the endianness of all scalar types on the current system.
+ * 
+ * @details
+ * If the current system is little-endian, then `std::endian::native` will
+ * equal `std::endian::little`. If the current system is big-endian, then
+ * `std::endian::native` will equal `std::endian::big`. Otherwise, the system
+ * is mixed-endian, meaning `std::endian::native` will equal neither
+ * `std::endian::little` or `std::endian::big`.
+ * 
+ * @note The __BYTE_ORDER__, __ORDER_BIG_ENDIAN__, and __ORDER_LITTLE_ENDIAN__
+ * macros are provided by the compiler at compile-time.
+ */
+enum class endian {
+    little = __ORDER_LITTLE_ENDIAN__,
+    big    = __ORDER_BIG_ENDIAN__,
+    native = __BYTE_ORDER__
+};
+
+/**
+ * @brief Reverses the bytes in the given integer value `in_n`. 
+ * 
+ * @tparam T an integral type
+ * @param in_n integer value to reverse the bytes in
+ * @return constexpr T integer value of type `T` with the bytes of `in_n` in
+ * reverse order
+ */
+template<std::integral T>
+constexpr T byteswap(T in_n) noexcept {
+    if constexpr (sizeof(T) == 1) { return in_n; }
+    else if constexpr (sizeof(T) == 2) { return __builtin_bswap16(in_n); }
+    else if constexpr (sizeof(T) == 4) { return __builtin_bswap32(in_n); }
+    else if constexpr (sizeof(T) == 8) { return __builtin_bswap64(in_n); }
+    else if constexpr (sizeof(T) == 16) {
+        #if __has_builtin(__builtin_bswap128)
+            return __builtin_bswap128(in_n);
+        #else
+            auto top = byteswap(static_cast<uint64_t>(in_n)) << 64;
+            auto bottom = byteswap(static_cast<uint64_t>(in_n >> 64));
+            return static_cast<T>(top | bottom);
+        #endif
+    } else {
+        static_assert(sizeof(T) == 0, "byteswap is unimplemented for integral types of this size");
+    }
+}
+
+}; // namespace std
+
+#endif // _STD_BIT_HPP
