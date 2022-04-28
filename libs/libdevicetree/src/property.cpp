@@ -8,21 +8,21 @@ const std::uint8_t * devicetree::property::_s_strings_block;
 
 
 devicetree::property::property(const void * in_ptr) {
-    _start = (struct internal::fdt_property *)in_ptr;
-    assert(internal::be_to_le(_start->token) == internal::FDT_PROP);
+    _start = (property::internal_struct *)in_ptr;
+    assert(details::be_to_host(_start->token) == details::FDT_PROP);
 
-    auto name_ptr = (const char *)_s_strings_block + internal::be_to_le(_start->nameoff);
+    auto name_ptr = (const char *)_s_strings_block + details::be_to_host(_start->nameoff);
     _name = std::string_view(name_ptr);
 }
 
 template<> std::uint32_t devicetree::property::get_value<std::uint32_t>() const {
-    assert(internal::be_to_le(_start->len) == sizeof(std::uint32_t));
-    return internal::be_to_le(*(std::uint32_t *)_start->value);
+    assert(details::be_to_host(_start->len) == sizeof(std::uint32_t));
+    return details::be_to_host(*(std::uint32_t *)_start->value);
 }
 
 template<> std::uint64_t devicetree::property::get_value<std::uint64_t>() const {
-    assert(internal::be_to_le(_start->len) == sizeof(std::uint64_t));
-    return internal::be_to_le(*(std::uint64_t *)_start->value);
+    assert(details::be_to_host(_start->len) == sizeof(std::uint64_t));
+    return details::be_to_host(*(std::uint64_t *)_start->value);
 }
 
 template<> std::string_view devicetree::property::get_value<std::string_view>() const {
@@ -32,7 +32,7 @@ template<> std::string_view devicetree::property::get_value<std::string_view>() 
 template<> std::vector<std::string_view> devicetree::property::get_value<std::vector<std::string_view>>() const {
     auto vec = std::vector<std::string_view>();
     const char * str_ptr = _start->value;
-    const char * end_ptr = _start->value + internal::be_to_le(_start->len);
+    const char * end_ptr = _start->value + details::be_to_host(_start->len);
     while(str_ptr < end_ptr) {
         auto view = std::string_view(str_ptr);
         vec.push_back(view);
@@ -110,11 +110,11 @@ std::string devicetree::property::format(std::size_t in_indent) const {
     }
 
     if(_name == "reg"sv) {
-        auto value = get_prop_encoded_array<struct internal::fdt_reg>();
+        auto value = get_prop_encoded_array<struct details::fdt_reg>();
         auto str = std::format("{}{}:\n", indent, _name);
         for(auto&& item : value) {
-            auto start = internal::be_to_le(item->address);
-            auto len = internal::be_to_le(item->length);
+            auto start = details::be_to_host(item->address);
+            auto len = details::be_to_host(item->length);
             auto end = start + len;
             auto line = std::format("{}  - 0x{:X} - 0x{:X} ({} bytes)\n", indent, start, end, len);
             str.append(line);
@@ -125,12 +125,12 @@ std::string devicetree::property::format(std::size_t in_indent) const {
     if(_name == "ranges"sv ||
        _name == "dma-ranges"sv
     ) {
-        auto value = get_prop_encoded_array<struct internal::fdt_range>();
+        auto value = get_prop_encoded_array<struct details::fdt_range>();
         auto str = std::format("{}{}:\n", indent, _name);
         for(auto&& item : value) {
-            auto child_start = internal::be_to_le(item->child_bus_address);
-            auto parent_start = internal::be_to_le(item->parent_bus_address);
-            auto len = internal::be_to_le(item->length);
+            auto child_start = details::be_to_host(item->child_bus_address);
+            auto parent_start = details::be_to_host(item->parent_bus_address);
+            auto len = details::be_to_host(item->length);
             auto line = std::format("{}  - 0x{:X} -> 0x{:X} ({} bytes)\n", indent, child_start, parent_start, len);
             str.append(line);
         }
@@ -141,8 +141,8 @@ std::string devicetree::property::format(std::size_t in_indent) const {
 }
 
 std::size_t devicetree::property::length() const {
-    auto len = sizeof(*_start) + internal::be_to_le(_start->len);
-    return internal::align(len);
+    auto len = sizeof(*_start) + details::be_to_host(_start->len);
+    return details::align(len);
 }
 
 template<>
@@ -152,27 +152,27 @@ devicetree::details::iterator<devicetree::property>& devicetree::details::iterat
 
     auto cur_prop = property(_current);
     auto next_token_ptr = (std::uint8_t *)_current + cur_prop.length();
-    auto next_token = internal::be_to_le(*(std::uint32_t *)next_token_ptr);
+    auto next_token = details::be_to_host(*(std::uint32_t *)next_token_ptr);
 
     // Our options in a valid FDT are an optional sequence of NOPs followed by
     // an FDT_PROP token, or an optional sequence of NOPs followed by an
     // FDT_END_NODE. Because we could always encounter a sequence of NOPs, skip
     // over those first. For more info, see DeviceTree Spec v0.3, section 5.4.2.
-    while(next_token == internal::FDT_NOP) {
+    while(next_token == details::FDT_NOP) {
         next_token_ptr += sizeof(next_token);
-        next_token = internal::be_to_le(*(std::uint32_t *)next_token_ptr);
+        next_token = details::be_to_host(*(std::uint32_t *)next_token_ptr);
     }
 
     switch(next_token) {
-        case internal::FDT_PROP: {
+        case details::FDT_PROP: {
             // If the very next token is an FDT_PROP, that means there's a
             // a sibling property immediately after the current property, so
             // keep iterating!
             _current = (property::internal_struct *)next_token_ptr;
             return *this;
         }
-        case internal::FDT_BEGIN_NODE:
-        case internal::FDT_END_NODE: {
+        case details::FDT_BEGIN_NODE:
+        case details::FDT_END_NODE: {
             // If the very next token is an FDT_BEGIN_NODE or FDT_END_NODE, the
             // current property has no sibling after it, and we've iterated all
             // the properties in this node. Return the end() sentinel iterator.

@@ -13,14 +13,8 @@
 namespace devicetree {
 
 class property {
-private:
-    static const std::uint8_t * _s_strings_block;
-
-    struct internal::fdt_property * _start;
-    std::string_view _name;
-
 public:
-    using internal_struct = struct internal::fdt_property;
+    using internal_struct = struct details::fdt_property;
 
     property() = delete;
     property(const void * in_ptr);
@@ -31,7 +25,7 @@ public:
     template<class V> std::vector<V*> get_prop_encoded_array() const {
         auto vec = std::vector<V*>();
         auto cur_ptr = (const std::uint8_t *)_start->value;
-        auto end_ptr = (const std::uint8_t *)_start->value + internal::be_to_le(_start->len);
+        auto end_ptr = (const std::uint8_t *)_start->value + details::be_to_host(_start->len);
         while(cur_ptr < end_ptr) {
             auto value = (V*)cur_ptr;
             vec.push_back(value);
@@ -42,6 +36,11 @@ public:
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
+
+private:
+    static const std::uint8_t * _s_strings_block;
+    property::internal_struct * _start;
+    std::string_view _name;
 }; // class property
 
 template <>

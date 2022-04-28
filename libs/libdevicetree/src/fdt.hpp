@@ -12,8 +12,8 @@ namespace devicetree {
 
 class fdt {
 private:
-    const struct internal::fdt_header * _header;
-    const struct internal::fdt_memory_reserve_entry * _mem_reserve_map;
+    const struct details::fdt_header * _header;
+    const struct details::fdt_memory_reserve_entry * _mem_reserve_map;
     const std::uint8_t * _strings_block_ptr;
     const std::uint8_t * _structs_block_ptr;
     std::size_t _structs_block_size;

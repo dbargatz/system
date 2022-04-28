@@ -1,9 +1,9 @@
-#ifndef _DEVICETREE_INTERNAL_STRUCTS_HPP
-#define _DEVICETREE_INTERNAL_STRUCTS_HPP
+#ifndef _DEVICETREE_DETAILS_STRUCTS_HPP
+#define _DEVICETREE_DETAILS_STRUCTS_HPP
 
 #include <cstdint>
 
-namespace devicetree::internal {
+namespace devicetree::details {
 
 constexpr std::uint32_t FDT_BEGIN_NODE = 0x00000001;
 constexpr std::uint32_t FDT_END_NODE = 0x00000002;
@@ -52,6 +52,6 @@ struct fdt_range {
     std::uint32_t length;
 } __attribute__((packed));
 
-}; // namespace devicetree::internal
+}; // namespace devicetree::details
 
-#endif // _DEVICETREE_INTERNAL_STRUCTS_HPP
+#endif // _DEVICETREE_DETAILS_STRUCTS_HPP

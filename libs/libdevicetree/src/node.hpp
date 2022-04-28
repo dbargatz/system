@@ -12,12 +12,8 @@
 namespace devicetree {
 
 class node {
-private:
-    struct internal::fdt_begin_node * _start;
-    std::string_view _name;
-
 public:
-    using internal_struct = struct internal::fdt_begin_node;
+    using internal_struct = struct details::fdt_begin_node;
 
     node();
     node(const void * in_ptr);
@@ -30,6 +26,10 @@ public:
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
+
+private:
+    node::internal_struct * _start;
+    std::string_view _name;
 }; // class node
 
 template <>

@@ -6,25 +6,25 @@
 
 
 devicetree::fdt::fdt(const void * in_ptr) {
-    _header = (struct internal::fdt_header *)in_ptr;
-    assert(internal::be_to_le(_header->magic) == 0xD00DFEED);
-    assert(internal::be_to_le(_header->version) == 17);
+    _header = (struct details::fdt_header *)in_ptr;
+    assert(details::be_to_host(_header->magic) == 0xD00DFEED);
+    assert(details::be_to_host(_header->version) == 17);
 
     auto byte_ptr = (const std::uint8_t *)in_ptr;
-    auto memrsv_ptr = byte_ptr + internal::be_to_le(_header->off_mem_rsvmap);
-    _mem_reserve_map = (struct internal::fdt_memory_reserve_entry *)memrsv_ptr;
+    auto memrsv_ptr = byte_ptr + details::be_to_host(_header->off_mem_rsvmap);
+    _mem_reserve_map = (struct details::fdt_memory_reserve_entry *)memrsv_ptr;
 
-    _structs_block_ptr = byte_ptr + internal::be_to_le(_header->off_dt_struct);
-    _structs_block_size = internal::be_to_le(_header->size_dt_struct);
-    _strings_block_ptr = byte_ptr + internal::be_to_le(_header->off_dt_strings);
+    _structs_block_ptr = byte_ptr + details::be_to_host(_header->off_dt_struct);
+    _structs_block_size = details::be_to_host(_header->size_dt_struct);
+    _strings_block_ptr = byte_ptr + details::be_to_host(_header->off_dt_strings);
 
     property::set_strings_block(_strings_block_ptr);
 
     auto root_node = node(_structs_block_ptr);
     assert((root_node.length() + sizeof(std::uint32_t)) == _structs_block_size);
     auto end = _structs_block_ptr + root_node.length();
-    auto end_token = internal::be_to_le(*(std::uint32_t *)end);
-    assert(end_token == internal::FDT_END);
+    auto end_token = details::be_to_host(*(std::uint32_t *)end);
+    assert(end_token == details::FDT_END);
 }
 
 devicetree::details::list<devicetree::node> devicetree::fdt::find(std::string_view in_node_path) {
@@ -35,15 +35,15 @@ devicetree::details::list<devicetree::node> devicetree::fdt::find(std::string_vi
 
 std::string devicetree::fdt::format() const {
     auto indent = std::string(2, ' ');
-    auto lenstr = std::format("{}Length: {}", indent, internal::be_to_le(_header->totalsize));
-    auto cpustr = std::format("{}Boot CPU ID: {}", indent, internal::be_to_le(_header->boot_cpuid_phys));
+    auto lenstr = std::format("{}Length: {}", indent, details::be_to_host(_header->totalsize));
+    auto cpustr = std::format("{}Boot CPU ID: {}", indent, details::be_to_host(_header->boot_cpuid_phys));
     auto memrsv_str = std::format("{}Reserved Memory:\n", indent);
     indent.append(2, ' ');
 
     auto entry = _mem_reserve_map;
     while(true) {
-        auto addr = internal::be_to_le(entry->address);
-        auto size = internal::be_to_le(entry->size);
+        auto addr = details::be_to_host(entry->address);
+        auto size = details::be_to_host(entry->size);
         if(addr == 0 && size == 0) { break; }
 
         auto end_addr = addr + size - 1;
@@ -59,5 +59,5 @@ std::string devicetree::fdt::format() const {
 }
 
 std::size_t devicetree::fdt::length() const {
-    return internal::be_to_le(_header->totalsize);
+    return details::be_to_host(_header->totalsize);
 }
