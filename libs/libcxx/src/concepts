@@ -1,0 +1,18 @@
+#ifndef _STD_CONCEPTS_HPP
+#define _STD_CONCEPTS_HPP
+
+#include <type_traits>
+
+namespace std {
+
+/**
+ * @brief Concept satisfied if and only if `T` is an integral type.
+ * 
+ * @tparam T possible integral type with optional const/volatile qualifiers
+ */
+template <class T>
+concept integral = std::is_integral_v<T>;
+
+}; // namespace std
+
+#endif // _STD_CONCEPTS_HPP
