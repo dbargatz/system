@@ -32,6 +32,20 @@ constexpr T&& forward(remove_reference_t<T>&& in_obj) noexcept {
     return static_cast<T&&>(in_obj);
 }
 
+/**
+ * @brief Indicates that the object `in_obj` may be "moved from" instead of
+ * requiring a copy, allowing efficient transfer of resources from `in_obj` to
+ * another object.
+ * 
+ * @tparam T the base type of `in_obj`
+ * @param in_obj the object to be moved
+ * @return an xvalue expression that identifies its argument `in_obj`
+ */
+template <typename T>
+constexpr std::remove_reference_t<T>&& move(T&& in_obj) noexcept {
+    return static_cast<typename std::remove_reference<T>::type&&>(in_obj);
+}
+
 }; // namespace std
 
 #endif // _STD_UTILITY_HPP
