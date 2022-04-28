@@ -1,9 +1,42 @@
+/**
+ * @file
+ * @brief Implementations of general-purpose utility functions for working
+ * with objects and lvalue/rvalue references to them.
+ * 
+ * @note Some comments and implementations in this file were based off of or
+ * taken directly from the descriptions on
+ * https://en.cppreference.com/w/cpp/header/utility and various subpages.
+ * All errors are mine, all credit is theirs.
+ */
 #ifndef _STD_UTILITY_HPP
 #define _STD_UTILITY_HPP
 
 #include <type_traits>
 
 namespace std {
+
+template <typename T>
+constexpr bool __always_false = false;
+
+/**
+ * @brief Converts any type `T` to a reference type, which allows member
+ * functions to be used in `decltype()` expressions easily.
+ * 
+ * @details
+ * Commonly used in templates where acceptable template parameters may not
+ * share a common constructor, but have the same member function whose return
+ * type is needed. This type cannot be evaluated and can only be used in
+ * unevaluated contexts, as it only queries the properties of the provided type
+ * `T`.
+ * 
+ * @tparam T type to convert to a reference type
+ * @return `T&&` unless `T` is void (or void with optional const/volatile
+ * qualifiers), in which case `T`.
+ */
+template <typename T>
+typename add_rvalue_reference<T>::type declval() noexcept {
+    static_assert(__always_false<T>, "declval not allowed in an evaluated context");
+}
 
 /**
  * @brief Forwards lvalues as either lvalues or rvalues, depending on T. Used to
