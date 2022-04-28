@@ -529,6 +529,36 @@ template <typename T>
 using add_rvalue_reference_t = typename add_rvalue_reference<T>::type;
 
 template <typename T>
+auto __add_pointer(int) -> type_identity<typename remove_reference<T>::type * >;
+
+template <typename T>
+auto __add_pointer(...) -> type_identity<T>;
+
+/**
+ * @brief If `T` is a reference type to `X`, member `type` has value `X*` (a
+ * pointer to `X`). If `T` is an object type or a function type without const,
+ * volatile, or reference qualifiers, member `type` has value `T*` (a pointer
+ * to `T`). Otherwise, `T` must be a function type with const, volatile, and/or
+ * reference qualifiers, so member `type` has value `T`.
+ *
+ * @tparam T type to add pointer to
+ * @param type pointer to `X` where `T` is a reference type to `X`, or a
+ * pointer to `T`, or `T`
+ */
+template <typename T>
+struct add_pointer : decltype(__add_pointer<T>(0)) {};
+
+/**
+ * @brief `X*` if `T` is a reference type to `X`; `T*` if `T` is an object type
+ * or a function type without const, volatile, or reference qualifiers;
+ * otherwise, `T`.
+ *
+ * @tparam T type to add pointer to
+ */
+template <typename T>
+using add_pointer_t = typename add_pointer<T>::type;
+
+template <typename T>
 struct __is_void : public false_type {};
 
 template <>
