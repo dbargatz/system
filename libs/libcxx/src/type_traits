@@ -19,15 +19,146 @@ using bool_constant = integral_constant<bool, v>;
 using true_type  = bool_constant<true>;
 using false_type = bool_constant<false>;
 
+/**
+ * Removes the topmost const qualifier and/or the topmost volatile qualifier
+ * (if any) from the given type.
+ * 
+ * @tparam T type with possible const/volatile qualifiers
+ * @param type type with topmost const/volatile qualifiers removed (if any) 
+ */
+template <typename T>
+struct remove_cv { typedef T type; };
+
+/**
+ * Removes the topmost const qualifier and/or the topmost volatile qualifier
+ * (if any) from the given type.
+ * 
+ * @tparam T type with possible const/volatile qualifiers
+ * @param type type with topmost const/volatile qualifiers removed (if any) 
+ */
+template <typename T>
+struct remove_cv<const T> { typedef T type; };
+
+/**
+ * Removes the topmost const qualifier and/or the topmost volatile qualifier
+ * (if any) from the given type.
+ * 
+ * @tparam T type with possible const/volatile qualifiers
+ * @param type type with topmost const/volatile qualifiers removed (if any) 
+ */
+template <typename T>
+struct remove_cv<volatile T> { typedef T type; };
+
+/**
+ * Removes the topmost const qualifier and/or the topmost volatile qualifier
+ * (if any) from the given type.
+ * 
+ * @tparam T type with possible const/volatile qualifiers
+ * @param type type with topmost const/volatile qualifiers removed (if any) 
+ */
+template <typename T>
+struct remove_cv<const volatile T> { typedef T type; };
+
+/**
+ * Type with the topmost const qualifier and/or the topmost volatile
+ * qualifier removed (if any).
+ * 
+ * @tparam T type with possible const/volatile qualifiers
+ */
+template <typename T>
+using remove_cv_t = typename remove_cv<T>::type;
+ 
+ /**
+ * Removes the topmost const qualifier (if any) from the given type.
+ * 
+ * @tparam T type with possible const qualifier
+ * @param type type with topmost const qualifier removed (if any)
+ */
+template <typename T>
+struct remove_const { typedef T type; };
+
+ /**
+ * Removes the topmost const qualifier (if any) from the given type.
+ * 
+ * @tparam T type with possible const qualifier
+ * @param type type with topmost const qualifier removed (if any)
+ */
+template <typename T>
+struct remove_const<const T> { typedef T type; };
+
+/**
+ * Type with the topmost const qualifier removed (if any).
+ * 
+ * @tparam T type with possible const qualifier
+ */
+template <typename T>
+using remove_const_t = typename remove_const<T>::type;
+ 
+/**
+ * Removes the topmost volatile qualifier (if any) from the given type.
+ * 
+ * @tparam T type with possible volatile qualifier
+ * @param type type with topmost volatile qualifier removed (if any)
+ */
+template <typename T>
+struct remove_volatile { typedef T type; };
+
+/**
+ * Removes the topmost volatile qualifier (if any) from the given type.
+ * 
+ * @tparam T type with possible volatile qualifier
+ * @param type type with topmost volatile qualifier removed (if any)
+ */
+template <typename T>
+struct remove_volatile<volatile T> { typedef T type; };
+
+/**
+ * Type `T` with the topmost volatile qualifier removed (if any).
+ * 
+ * @tparam T type with possible volatile qualifier
+ */
+template <typename T>
+using remove_volatile_t = typename remove_volatile<T>::type;
+
+/**
+ * If the type `T` is a reference type, member `type` is equal to the type
+ * referred to by T. If the type T is not a reference type, member `type` is
+ * equal to `T`.
+ *
+ * @tparam T possible reference type
+ * @param type the type referred to by `T`, or `T`
+ */
 template <typename T>
 struct remove_reference { typedef T type; };
 
+/**
+ * If the type `T` is a reference type, member `type` is equal to the type
+ * referred to by T. If the type T is not a reference type, member `type` is
+ * equal to `T`.
+ *
+ * @tparam T possible reference type
+ * @param type the type referred to by `T`, or `T`
+ */
 template <typename T>
 struct remove_reference<T&> { typedef T type; };
 
+/**
+ * If the type `T` is a reference type, member `type` is equal to the type
+ * referred to by T. If the type T is not a reference type, member `type` is
+ * equal to `T`.
+ *
+ * @tparam T possible reference type
+ * @param type the type referred to by `T`, or `T`
+ */
 template <typename T>
 struct remove_reference<T&&> { typedef T type; };
 
+/**
+ * Underlying type that `T` is referring to, or `T` if `T` is not a reference
+ * type.
+ * 
+ * @tparam T possible reference type
+ */
 template <typename T>
 using remove_reference_t = typename remove_reference<T>::type;
 
