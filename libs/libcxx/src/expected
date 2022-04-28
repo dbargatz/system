@@ -19,8 +19,8 @@
 // <http://creativecommons.org/publicdomain/zero/1.0/>.
 ///
 
-#ifndef TL_EXPECTED_HPP
-#define TL_EXPECTED_HPP
+#ifndef _STD_EXPECTED_HPP
+#define _STD_EXPECTED_HPP
 
 #define TL_EXPECTED_VERSION_MAJOR 1
 #define TL_EXPECTED_VERSION_MINOR 0
@@ -2329,4 +2329,4 @@ void swap(expected<T, E> &lhs,
 }
 } // namespace tl
 
-#endif
+#endif // _STD_EXPECTED_HPP
