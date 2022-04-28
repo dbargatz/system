@@ -44,7 +44,8 @@
         "utility": "cpp",
         "algorithm": "cpp",
         "cassert": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "functional": "cpp"
     },
     "files.exclude": {
         "**/.git": true,
