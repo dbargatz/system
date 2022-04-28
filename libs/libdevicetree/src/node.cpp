@@ -1,7 +1,6 @@
 #include "node.hpp"
 #include <cassert>
 #include "__utils.hpp"
-#include "nodelist.hpp"
 
 devicetree::node::node() {
     _start = (struct internal::fdt_begin_node *)nullptr;
