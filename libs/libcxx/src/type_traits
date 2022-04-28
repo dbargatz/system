@@ -136,6 +136,41 @@ template <bool B, typename T = void>
 using enable_if_t = typename enable_if<B,T>::type;
 
 /**
+ * @brief If `T` is an array type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+struct is_array : false_type {};
+
+/**
+ * @brief If `T` is an array type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+struct is_array<T[]> : true_type {};
+
+/**
+ * @brief If `T` is an array type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T, size_t N>
+struct is_array<T[N]> : true_type {};
+
+/**
+ * @brief `True` if `T` is an array type; otherwise, `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+inline constexpr bool is_array_v = is_array<T>::value;
+
+/**
  * Removes the topmost const qualifier and/or the topmost volatile qualifier
  * (if any) from the given type.
  * 
