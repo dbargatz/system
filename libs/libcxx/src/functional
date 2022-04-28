@@ -1,0 +1,8 @@
+#ifndef _STD_FUNCTIONAL_HPP
+#define _STD_FUNCTIONAL_HPP
+
+namespace std {
+
+}; // namespace std
+
+#endif // _STD_FUNCTIONAL_HPP

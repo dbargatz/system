@@ -1,0 +1,8 @@
+#ifndef _STD_EXCEPTION_HPP
+#define _STD_EXCEPTION_HPP
+
+namespace std {
+
+}; // namespace std
+
+#endif // _STD_EXCEPTION_HPP
