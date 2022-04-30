@@ -76,6 +76,32 @@ struct is_member_pointer : details::__is_member_pointer<std::remove_cv_t<T>>::ty
 template <typename T>
 inline constexpr bool is_member_pointer_v = is_member_pointer<T>::value;
 
+/**
+ * @brief If `T` is an arithmetic, enum, pointer, member pointer, or null
+ * pointer type, optionally with const and/or volatile qualifiers, then member
+ * `value` is equal to `true`. Otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible scalar type
+ */
+template <typename T>
+struct is_scalar : std::bool_constant<
+                        std::is_arithmetic_v<T> ||
+                        std::is_enum_v<T> ||
+                        std::is_pointer_v<T> ||
+                        std::is_member_pointer_v<T> ||
+                        std::is_null_pointer_v<T>
+                    > {};
+
+/**
+ * @brief `True` if `T` is an arithmetic, enum, pointer, member pointer, or
+ * null pointer type with optional const/volatile qualifiers; otherwise,
+ * `false`.
+ * 
+ * @tparam T possible scalar type
+ */
+template <typename T>
+inline constexpr bool is_scalar_v = is_scalar<T>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
