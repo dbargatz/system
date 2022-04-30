@@ -99,6 +99,24 @@ struct disjunction<B1, Bn...> : std::conditional_t<bool(B1::value), B1, disjunct
 template <typename... B>
 inline constexpr bool disjunction_v = disjunction<B...>::value;
 
+/**
+ * @brief Performs the equivalent of a logical NOT on the given type trait,
+ * storing the result in member `value`.
+ * 
+ * @tparam B type trait which defines a member `value` convertible to `bool`
+ */
+template <typename B>
+struct negation : std::bool_constant<!bool(B::value)> {};
+
+/**
+ * @brief `True` if the equivalent of a logical NOT on the given type trait is
+ * `true`; otherwise, `false`.
+ * 
+ * @tparam B type trait which defines a member `value` convertible to `bool`
+ */
+template <typename B>
+inline constexpr bool negation_v = negation<B>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_TRAIT_OPERATIONS_HPP
