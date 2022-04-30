@@ -79,6 +79,27 @@ template <typename T, typename... Args>
 inline constexpr bool is_constructible_v = is_constructible<T, Args...>::value;
 
 /**
+ * @brief If `T` is a referenceable type and is assignable from a `T&` lvalue
+ * reference or `const T&` lvalue reference (aka a copy assignment), then the
+ * member `value` is equal to `true`; otherwise, member `value` is equal to
+ * `false`.
+ * 
+ * @tparam T possible copy-assignable type
+ */
+template <typename T>
+struct is_copy_assignable : is_assignable<typename std::add_lvalue_reference<T>::type, typename std::add_lvalue_reference<const T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is assignable from a `T&`
+ * lvalue reference or `const T&` lvalue reference (aka a copy assignment);
+ * otherwise, `false`.
+ * 
+ * @tparam T possible copy-assignable type
+ */
+template <typename T>
+inline constexpr bool is_copy_assignable_v = is_copy_assignable<T>::value;
+
+/**
  * @brief If `T` is a referenceable type and is constructible via a constructor
  * accepting a single `const T&` argument (aka a copy constructor), then the
  * member `value` is equal to `true`; otherwise, member `value` is equal to
@@ -217,6 +238,27 @@ struct is_nothrow_constructible : std::bool_constant<__is_nothrow_constructible(
  */
 template <typename T, typename... Args>
 inline constexpr bool is_nothrow_constructible_v = is_nothrow_constructible<T, Args...>::value;
+
+/**
+ * @brief If `T` is a referenceable type and is nothrow-assignable from a `T&`
+ * lvalue reference or `const T&` lvalue reference (aka a nothrow copy
+ * assignment), then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @tparam T possible nothrow-copy-assignable type
+ */
+template <typename T>
+struct is_nothrow_copy_assignable : is_nothrow_assignable<typename std::add_lvalue_reference<T>::type, typename std::add_lvalue_reference<const T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is nothrow-assignable from
+ * a `T&` lvalue reference or `const T&` lvalue reference (aka a nothrow copy
+ * assignment); otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-copy-assignable type
+ */
+template <typename T>
+inline constexpr bool is_nothrow_copy_assignable_v = is_nothrow_copy_assignable<T>::value;
 
 /**
  * @brief If `T` is a referenceable type and is constructible via a nothrow-
@@ -361,6 +403,27 @@ struct is_trivially_constructible : std::bool_constant<__is_trivially_constructi
  */
 template <typename T, typename... Args>
 inline constexpr bool is_trivially_constructible_v = is_trivially_constructible<T, Args...>::value;
+
+/**
+ * @brief If `T` is a referenceable type and is trivially-assignable from a
+ * `T&` lvalue reference or `const T&` lvalue reference (aka a trivial copy
+ * assignment), then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @tparam T possible trivially-copy-assignable type
+ */
+template <typename T>
+struct is_trivially_copy_assignable : is_trivially_assignable<typename std::add_lvalue_reference<T>::type, typename std::add_lvalue_reference<const T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is trivially-assignable
+ * from a `T&` lvalue reference or `const T&` lvalue reference (aka a trivial
+ * copy assignment); otherwise, `false`.
+ * 
+ * @tparam T possible trivially-copy-assignable type
+ */
+template <typename T>
+inline constexpr bool is_trivially_copy_assignable_v = is_trivially_copy_assignable<T>::value;
 
 /**
  * @brief If `T` is a referenceable type and is constructible via a constructor
