@@ -14,6 +14,40 @@
 namespace std {
 
 /**
+ * @brief If `B` is `true` at compile-time, then member `type` is `T`.
+ * Otherwise, `type` is `F`.
+ *
+ * @tparam B compile-time boolean value which is `true` or `false`
+ * @tparam T type to set member `type` to if `B` is `true`
+ * @tparam F type to set member `type` to if `B` is `false`
+ * @param type `T` if `B` is `true`; otherwise, `F`
+ */
+template <bool B, typename T, typename F>
+struct conditional { using type = T; };
+
+/**
+ * @brief If `B` is `true` at compile-time, then member `type` is `T`.
+ * Otherwise, `type` is `F`.
+ *
+ * @tparam B compile-time boolean value which is `true` or `false`
+ * @tparam T type to set member `type` to if `B` is `true`
+ * @tparam F type to set member `type` to if `B` is `false`
+ * @param type `T` if `B` is `true`; otherwise, `F`
+ */
+template <typename T, typename F>
+struct conditional<false, T, F> { using type = F; };
+
+/**
+ * @brief `T` if `B` is `true` at compile-time; otherwise, `F`.
+ * 
+ * @tparam B compile-time boolean value which is `true` or `false`
+ * @tparam T type if `B` is `true`
+ * @tparam F type if `B` is `false`
+ */
+template <bool B, typename T, typename F>
+using conditional_t = typename conditional<B,T,F>::type;
+
+/**
  * @brief Provides the member `type` with value `T`. Also known as the identity
  * transformation.
  * 
