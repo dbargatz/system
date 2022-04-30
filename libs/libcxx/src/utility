@@ -1,7 +1,8 @@
 /**
  * @file
  * @brief Implementations of general-purpose utility functions for working
- * with objects and lvalue/rvalue references to them.
+ * with objects and lvalue/rvalue references to them, as defined by C++20
+ * (N4849 draft) sections 20.2, 20.3, and 20.4.
  * 
  * @note Some comments and implementations in this file were based off of or
  * taken directly from the descriptions on
@@ -11,57 +12,35 @@
 #ifndef _STD_UTILITY_HPP
 #define _STD_UTILITY_HPP
 
+#include <__utility/__declval.hpp>
 #include <type_traits>
 
 namespace std {
 
-template <typename T>
-constexpr bool __always_false = false;
-
 /**
- * @brief Converts any type `T` to a reference type, which allows member
- * functions to be used in `decltype()` expressions easily.
- * 
- * @details
- * Commonly used in templates where acceptable template parameters may not
- * share a common constructor, but have the same member function whose return
- * type is needed. This type cannot be evaluated and can only be used in
- * unevaluated contexts, as it only queries the properties of the provided type
- * `T`.
- * 
- * @tparam T type to convert to a reference type
- * @return `T&&` unless `T` is void (or void with optional const/volatile
- * qualifiers), in which case `T`.
- */
-template <typename T>
-typename add_rvalue_reference<T>::type declval() noexcept {
-    static_assert(__always_false<T>, "declval not allowed in an evaluated context");
-}
-
-/**
- * @brief Forwards lvalues as either lvalues or rvalues, depending on T. Used to
- * implement perfect forwarding.
+ * @brief Forwards lvalues as either lvalues or rvalues, depending on `T`. Used
+ * to implement perfect forwarding.
  * 
  * @tparam T type of object to forward
  * @param in_obj object to be forwarded
  * @return constexpr T&& object cast to the specified type
  */
 template <typename T>
-constexpr T&& forward(remove_reference_t<T>& in_obj) noexcept {
+constexpr T&& forward(std::remove_reference_t<T>& in_obj) noexcept {
     return static_cast<T&&>(in_obj);
 }
 
 /**
- * @brief Forwards rvalues as rvalues, preventing forwarding of lvalues. Used to
- * implement perfect forwarding.
+ * @brief Forwards rvalues as rvalues, preventing forwarding of lvalues. Used
+ * to implement perfect forwarding.
  * 
  * @tparam T type of object to forward
  * @param in_obj object to be forwarded
  * @return constexpr T&& object cast to the specified type
  */
 template <typename T>
-constexpr T&& forward(remove_reference_t<T>&& in_obj) noexcept {
-    static_assert(!is_lvalue_reference<T>(), "cannot forward lvalue");
+constexpr T&& forward(std::remove_reference_t<T>&& in_obj) noexcept {
+    static_assert(!std::is_lvalue_reference<T>(), "cannot forward lvalue");
     return static_cast<T&&>(in_obj);
 }
 
@@ -70,9 +49,10 @@ constexpr T&& forward(remove_reference_t<T>&& in_obj) noexcept {
  * requiring a copy, allowing efficient transfer of resources from `in_obj` to
  * another object.
  * 
- * @tparam T the base type of `in_obj`
+ * @tparam T type of object to move
  * @param in_obj the object to be moved
- * @return an xvalue expression that identifies its argument `in_obj`
+ * @return std::remove_reference_t<T>&& an xvalue expression that identifies
+ * its argument `in_obj`
  */
 template <typename T>
 constexpr std::remove_reference_t<T>&& move(T&& in_obj) noexcept {
