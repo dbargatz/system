@@ -8,8 +8,8 @@
  * https://en.cppreference.com/w/cpp/header/type_traits and various subpages.
  * All errors are mine, all credit is theirs.
  */
-#ifndef _STD_TYPE_TRAITS_CV_MODIFIERS_HPP
-#define _STD_TYPE_TRAITS_CV_MODIFIERS_HPP
+#ifndef _STD_TYPE_TRAITS_CV_MODIFICATIONS_HPP
+#define _STD_TYPE_TRAITS_CV_MODIFICATIONS_HPP
 
 #include <__type_traits/__helpers.hpp>
 
@@ -178,4 +178,4 @@ using remove_volatile_t = typename remove_volatile<T>::type;
 
 }; // namespace std
 
-#endif // _STD_TYPE_TRAITS_CV_MODIFIERS_HPP
+#endif // _STD_TYPE_TRAITS_CV_MODIFICATIONS_HPP
