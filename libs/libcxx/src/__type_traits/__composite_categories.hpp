@@ -14,7 +14,7 @@
 #ifndef _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
 #define _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
 
-#include <__type_traits/__cv_modifiers.hpp>
+#include <__type_traits/__cv_modifications.hpp>
 #include <__type_traits/__helpers.hpp>
 #include <__type_traits/__is_reference.hpp>
 
