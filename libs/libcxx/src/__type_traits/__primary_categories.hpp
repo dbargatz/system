@@ -13,6 +13,8 @@
 
 #include <cstddef>
 #include <__type_traits/__helpers.hpp>
+#include <__type_traits/__is_reference.hpp>
+#include <__type_traits/__properties.hpp>
 #include <__type_traits/__reference_modifiers.hpp>
 
 namespace std {
@@ -162,6 +164,31 @@ struct is_floating_point : public details::__is_floating_point<std::remove_cv_t<
  */
 template <typename T>
 inline constexpr bool is_floating_point_v = is_floating_point<T>::value;
+
+/**
+ * @brief If `T` is a function type, member `value` is `true`; otherwise,
+ * member `value` is `false`.
+ * 
+ * @note Lambdas, classes with `operator()` overloaded, pointers to functions,
+ * and `std::function` do not count as functions for the purposes of this type
+ * check.
+ * 
+ * @tparam T possible function type (see note)
+ */
+template <typename T>
+struct is_function : std::integral_constant<bool, !std::is_const<const T>::value && !std::is_reference<T>::value> {};
+
+/**
+ * @brief `True` if `T` is a function type; otherwise, `false`.
+ * 
+ * @note Lambdas, classes with `operator()` overloaded, pointers to functions,
+ * and `std::function` do not count as functions for the purposes of this type
+ * check.
+ * 
+ * @tparam T possible function type (see note)
+ */
+template <typename T>
+inline constexpr bool is_function_v = is_function<T>::value;
 
 /**
  * @brief If `T` is an integral type with optional const/volatile qualifiers,
