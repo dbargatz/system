@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Templates which add or remove const and/or volatile specifiers for a
+ * @brief Templates which add or remove const and/or volatile qualifiers for a
  * given type, as defined by C++20 (N4849 draft) 20.15.7.1.
  * 
  * @note Some comments and implementations in this file were based off of or
@@ -8,8 +8,8 @@
  * https://en.cppreference.com/w/cpp/header/type_traits and various subpages.
  * All errors are mine, all credit is theirs.
  */
-#ifndef _STD_TYPE_TRAITS_CV_SPECIFIERS_HPP
-#define _STD_TYPE_TRAITS_CV_SPECIFIERS_HPP
+#ifndef _STD_TYPE_TRAITS_CV_MODIFIERS_HPP
+#define _STD_TYPE_TRAITS_CV_MODIFIERS_HPP
 
 #include <__type_traits/__helpers.hpp>
 
@@ -178,4 +178,4 @@ using remove_volatile_t = typename remove_volatile<T>::type;
 
 }; // namespace std
 
-#endif // _STD_TYPE_TRAITS_CV_SPECIFIERS_HPP
+#endif // _STD_TYPE_TRAITS_CV_MODIFIERS_HPP
