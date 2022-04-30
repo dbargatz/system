@@ -40,6 +40,16 @@ auto __add_pointer(...) -> std::type_identity<T>;
 template <typename T>
 struct add_pointer : decltype(details::__add_pointer<T>(0)) {};
 
+/**
+ * @brief `X*` if `T` is a reference type to `X`; `T*` if `T` is an object type
+ * or a function type without const, volatile, or reference qualifiers;
+ * otherwise, `T`.
+ *
+ * @tparam T type to add pointer to
+ */
+template <typename T>
+using add_pointer_t = typename add_pointer<T>::type;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_POINTER_MODIFICATIONS_HPP
