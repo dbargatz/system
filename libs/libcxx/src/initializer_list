@@ -1,0 +1,108 @@
+/**
+ * @file
+ * @brief Implementation of std::initializer_list, as defined by C++20 (N4849
+ * draft) 17.10.
+ * 
+ * @note Some comments and implementations in this file were based off of or
+ * taken directly from the descriptions on
+ * https://en.cppreference.com/w/cpp/header/initializer_list and various
+ * subpages. All errors are mine, all credit is theirs.
+ */
+#ifndef _STD_INITIALIZER_LIST_HPP
+#define _STD_INITIALIZER_LIST_HPP
+
+#include <cstddef>
+
+namespace std {
+
+/**
+ * @brief A lightweight proxy object providing access to an array of objects of
+ * type `const T`. Automatically constructed when a braced-init-list is:
+ * - Used to initialize an object with an initializer-list constructor
+ * - Used to assign to an object/as a function call argument when the
+ *   assignment/function accepts an intializer list argument
+ * - Bound to auto, including in a range-based for loop
+ * 
+ * @note Copying an initializer list does NOT copy the underlying objects.
+ * @tparam T type of the objects in the initializer list
+ */
+template <typename T>
+class initializer_list {
+private:
+    const T* _begin;
+    std::size_t _size;
+
+    constexpr initializer_list(const T* in_begin, std::size_t in_size) noexcept : _begin(in_begin), _size(in_size) {}
+
+public:
+    using value_type = T;
+    using iterator = const T*;
+    using const_iterator = const T*;
+    using reference = const T&;
+    using const_reference = const T&;
+    using size_type = std::size_t;
+
+    /**
+     * @brief Constructs an empty initializer list.
+     */
+    constexpr initializer_list() noexcept : _begin(nullptr), _size(0) {}
+
+    /**
+     * @brief Returns the number of elements in the initializer list.
+     * 
+     * @return `std::size_t` the number of elements in the initializer list
+     */
+    constexpr std::size_t size() const noexcept { return _size; }
+
+    /**
+     * @brief Returns a pointer to the first element in the initalizer list; if
+     * the initializer list is empty, the values of `begin()` and `end()` will
+     * be unspecified, but identical.
+     * 
+     * @return `iterator` pointer to the first element in the initializer list,
+     * or unspecified if the initializer list is empty
+     */
+    constexpr iterator begin() const noexcept { return _begin; }
+
+    /**
+     * @brief Returns a pointer one past the last element in the initalizer
+     * list; if the initializer list is empty, the values of `begin()` and
+     * `end()` will be unspecified, but identical.
+     * 
+     * @return `iterator` pointer to one past the last element in the
+     * initializer list, or unspecified if the initializer list is empty
+     */
+    constexpr iterator end() const noexcept { return _begin + _size; }
+}; // class initializer_list
+
+/**
+ * @brief Overload of `std::begin` for `std::initializer_list`; returns a
+ * pointer to the first element of `in_initializer_list`.
+ * 
+ * @tparam T type of object in the initializer list
+ * @param in_initializer_list initializer list containing objects of type `T`
+ * @return `const T*` pointer to the first element contained in
+ * `in_initializer_list`
+ */
+template <typename T>
+inline constexpr const T* begin(initializer_list<T> in_initializer_list) noexcept {
+    return in_initializer_list.begin();
+}
+
+/**
+ * @brief Overload of `std::end` for `std::initializer_list`; returns a
+ * pointer one past the last element of `in_initializer_list`.
+ * 
+ * @tparam T type of object in the initializer list
+ * @param in_initializer_list initializer list containing objects of type `T`
+ * @return `const T*` pointer one past the last element contained in
+ * `in_initializer_list`
+ */
+template <typename T>
+inline constexpr const T* end(initializer_list<T> in_initializer_list) noexcept {
+    return in_initializer_list.end();
+}
+
+}; // namespace std
+
+#endif // _STD_INITIALIZER_LIST_HPP
