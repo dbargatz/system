@@ -11,6 +11,7 @@
 #ifndef _STD_TYPE_TRAITS_PRIMARY_CATEGORIES_HPP
 #define _STD_TYPE_TRAITS_PRIMARY_CATEGORIES_HPP
 
+#include <cstddef>
 #include <__type_traits/__helpers.hpp>
 #include <__type_traits/__reference_modifiers.hpp>
 
@@ -25,6 +26,41 @@ template <>
 struct __is_void<void> : public true_type {};
 
 }; // namespace details
+
+/**
+ * @brief If `T` is an array type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+struct is_array : false_type {};
+
+/**
+ * @brief If `T` is an array type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+struct is_array<T[]> : true_type {};
+
+/**
+ * @brief If `T` is an array type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T, std::size_t N>
+struct is_array<T[N]> : true_type {};
+
+/**
+ * @brief `True` if `T` is an array type; otherwise, `false`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+inline constexpr bool is_array_v = is_array<T>::value;
 
 /**
  * @brief If `T` is an lvalue reference type, member `value` is `true`.
