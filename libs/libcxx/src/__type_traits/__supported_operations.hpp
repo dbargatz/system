@@ -43,6 +43,37 @@ struct is_constructible : std::bool_constant<__is_constructible(T, Args...)> {};
 template <typename T, typename... Args>
 inline constexpr bool is_constructible_v = is_constructible<T, Args...>::value;
 
+/**
+ * @brief If `T` is an object or reference type, and the variable definition
+ * `T obj(std::declval<Args>()...)` is well-formed and only calls trivial
+ * operations, then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @note The `__is_trivially_constructible()` function used in the definition
+ * of this template is a compiler intrinsic. Compiler support is required for a
+ * correct and conforming implementation of `std::is_trivially_constructible`.
+ * For details, see https://stackoverflow.com/a/65761122, which applies to
+ * `std::is_trivially_constructible` as well.
+ * 
+ * @tparam T possible trivially-constructible type
+ * @tparam Args types of arguments a possible trivial constructor of `T` would
+ * accept
+ */
+template <typename T, typename... Args>
+struct is_trivially_constructible : std::bool_constant<__is_trivially_constructible(T, Args...)> {};
+
+/**
+ * @brief `True` if `T` is an object or reference type and the variable
+ * definition `T obj(std::declval<Args>()...)` is well-formed and only calls
+ * trivial operations; otherwise, `false`.
+ * 
+ * @tparam T possible trivially-constructible type
+ * @tparam Args types of arguments a possible trivial constructor of `T` would
+ * accept
+ */
+template <typename T, typename... Args>
+inline constexpr bool is_trivially_constructible_v = is_trivially_constructible<T, Args...>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_SUPPORTED_OPERATIONS_HPP
