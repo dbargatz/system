@@ -17,6 +17,7 @@
 #include <__type_traits/__cv_modifications.hpp>
 #include <__type_traits/__helpers.hpp>
 #include <__type_traits/__is_reference.hpp>
+#include <__type_traits/__primary_categories.hpp>
 
 namespace std {
 
@@ -29,6 +30,25 @@ template <typename T, typename U>
 struct __is_member_pointer<T U::*> : std::true_type {};
 
 }; // namespace details
+
+/**
+ * @brief If `T` is an integer or floating-point type, optionally with const
+ * and/or volatile qualifiers, then member `value` is equal to `true`.
+ * Otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible arithmetic type
+ */
+template <typename T>
+struct is_arithmetic : std::bool_constant<std::is_integral_v<T> || std::is_floating_point_v<T>> {};
+
+/**
+ * @brief `True` if `T` is an integer or floating-point type with optional
+ * const/volatile qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible arithmetic type
+ */
+template <typename T>
+inline constexpr bool is_arithmetic_v = is_arithmetic<T>::value;
 
 /**
  * @brief If `T` is a pointer to a non-static member object/function, then
