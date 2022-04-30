@@ -48,6 +48,37 @@ template <bool B, typename T, typename F>
 using conditional_t = typename conditional<B,T,F>::type;
 
 /**
+ * @brief If `B` is `true` at compile-time, then member `type` is `T`.
+ * Otherwise, `type` is not defined.
+ *
+ * @tparam B compile-time boolean value which is `true` or `false`
+ * @tparam T type to set member `type` to if `B` is `true`
+ * @param type `T` if `B` is `true`; otherwise, not defined
+ */
+template <bool B, typename T = void>
+struct enable_if {};
+
+/**
+ * @brief If `B` is `true` at compile-time, then member `type` is `T`.
+ * Otherwise, `type` is not defined.
+ *
+ * @tparam B compile-time boolean value which is `true` or `false`
+ * @tparam T type to set member `type` to if `B` is `true`
+ * @param type `T` if `B` is `true`; otherwise, not defined
+ */
+template <typename T>
+struct enable_if<true, T> { using type = T; };
+
+/**
+ * @brief `T` if `B` is `true` at compile-time; otherwise, not defined.
+ * 
+ * @tparam B compile-time boolean value which is `true` or `false`
+ * @tparam T type if `B` is `true`
+ */
+template <bool B, typename T = void>
+using enable_if_t = typename enable_if<B,T>::type;
+
+/**
  * @brief Provides the member `type` with value `T`. Also known as the identity
  * transformation.
  * 
