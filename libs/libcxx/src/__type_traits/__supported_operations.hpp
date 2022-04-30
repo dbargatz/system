@@ -123,6 +123,27 @@ template <typename T, typename... Args>
 inline constexpr bool is_nothrow_constructible_v = is_nothrow_constructible<T, Args...>::value;
 
 /**
+ * @brief If `T` is a referenceable type and is constructible via a nothrow-
+ * marked constructor accepting a single `const T&` argument (aka a copy
+ * constructor), then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @tparam T possible nothrow-copy-constructible type
+ */
+template <typename T>
+struct is_nothrow_copy_constructible : is_nothrow_constructible<T, details::__add_const_lvalue_reference<T>> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is constructible via a
+ * nothrow-marked constructor accepting a single `const T&` argument (aka a
+ * copy constructor); otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-copy-constructible type
+ */
+template <typename T>
+inline constexpr bool is_nothrow_copy_constructible_v = is_nothrow_copy_constructible<T>::value;
+
+/**
  * @brief If `std::is_nothrow_constructible<T>::value` is `true`, meaning `T`
  * is constructible via a no-args (default) constructor marked as `noexcept`,
  * then the member `value` is equal to `true`; otherwise, member `value` is
