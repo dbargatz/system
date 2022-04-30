@@ -18,6 +18,13 @@
 
 namespace std {
 
+namespace details {
+
+template <typename T>
+using __swap_result_t = typename std::enable_if<std::is_move_constructible_v<T> && std::is_move_assignable_v<T>>::type;
+
+}; // namespace details
+
 /**
  * @brief Forwards lvalues as either lvalues or rvalues, depending on `T`. Used
  * to implement perfect forwarding.
@@ -58,6 +65,22 @@ constexpr T&& forward(std::remove_reference_t<T>&& in_obj) noexcept {
 template <typename T>
 constexpr std::remove_reference_t<T>&& move(T&& in_obj) noexcept {
     return static_cast<typename std::remove_reference<T>::type&&>(in_obj);
+}
+
+/**
+ * @brief Swaps the given values `in_lhs` and `in_rhs`. Does not participate
+ * in overload resolution unless `T` is both move-assignable and move-
+ * constructible.
+ * 
+ * @tparam T type of the objects to swap
+ * @param in_lhs object to swap with `in_rhs`
+ * @param in_rhs object to swap with `in_lhs`
+ */
+template <typename T>
+constexpr details::__swap_result_t<T> swap(T& in_lhs, T& in_rhs) noexcept {
+    T temp = move(in_lhs);
+    in_lhs = move(in_rhs);
+    in_rhs = move(temp);
 }
 
 }; // namespace std
