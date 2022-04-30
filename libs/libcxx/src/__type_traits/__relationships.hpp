@@ -11,6 +11,8 @@
 #ifndef _STD_TYPE_TRAITS_RELATIONSHIPS_HPP
 #define _STD_TYPE_TRAITS_RELATIONSHIPS_HPP
 
+#include <__type_traits/__helpers.hpp>
+
 namespace std {
 
 /**
@@ -27,7 +29,7 @@ namespace std {
  * @param value `true` if `T` and `U` are the same type, taking into account
  * const/volatile qualifications; `false` otherwise
  */
-template<typename T, typename U>
+template <typename T, typename U>
 struct is_same : std::false_type {};
  
  /**
@@ -44,7 +46,7 @@ struct is_same : std::false_type {};
  * @param value `true` if `T` and `U` are the same type, taking into account
  * const/volatile qualifications; `false` otherwise
  */
-template<typename T>
+template <typename T>
 struct is_same<T, T> : std::true_type {};
 
 /**
