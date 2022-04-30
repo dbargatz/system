@@ -262,6 +262,35 @@ template <typename T>
 inline constexpr bool is_nothrow_move_constructible_v = is_nothrow_move_constructible<T>::value;
 
 /**
+ * @brief If the expression `std::declval<T>() == std::declval<U>()` is well-
+ * formed in an unevaluated context and the evaluation of the expression only
+ * calls `std::declval` and trivial operations, then the member `value` is
+ * equal to `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @note The `__is_trivially_assignable()` function used in the definition
+ * of this template is a compiler intrinsic. Compiler support is required for a
+ * correct and conforming implementation of `std::is_trivially_assignable`.
+ * For details, see https://stackoverflow.com/a/65761122, which applies to
+ * `std::is_trivially_assignable` as well.
+ * 
+ * @tparam T possible trivially-assignable type
+ * @tparam U possible trivially-assignable type
+ */
+template <typename T, typename U>
+struct is_trivially_assignable : std::bool_constant<__is_trivially_assignable(T, U)> {};
+
+/**
+ * @brief `True` if the expression `std::declval<T>() == std::declval<U>()` is
+ * well-formed in an unevaluated context and the evaluation of the expression
+ * only calls `std::declval` and trivial operations; otherwise, `false`.
+ * 
+ * @tparam T possible trivially-assignable type
+ * @tparam U possible trivially-assignable type
+ */
+template <typename T, typename U>
+inline constexpr bool is_trivially_assignable_v = is_trivially_assignable<T, U>::value;
+
+/**
  * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed and only calls trivial
  * operations, then the member `value` is equal to `true`; otherwise, member
