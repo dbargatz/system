@@ -95,6 +95,27 @@ template <typename T, typename... Args>
 inline constexpr bool is_nothrow_constructible_v = is_nothrow_constructible<T, Args...>::value;
 
 /**
+ * @brief If `std::is_nothrow_constructible<T>::value` is `true`, meaning `T`
+ * is constructible via a no-args (default) constructor marked as `noexcept`,
+ * then the member `value` is equal to `true`; otherwise, member `value` is
+ * equal to `false`.
+ * 
+ * @tparam T possible nothrow-default-constructible type
+ */
+template <typename T>
+struct is_nothrow_default_constructible : is_nothrow_constructible<T> {};
+
+/**
+ * @brief `True` if `std::is_nothrow_constructible<T>::value` is `true`,
+ * meaning `T` is constructible via a no-args (default) constructor marked as
+ * `noexcept`; otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-default-constructible type
+ */
+template <typename T>
+inline constexpr bool is_nothrow_default_constructible_v = is_nothrow_default_constructible<T>::value;
+
+/**
  * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed and only calls trivial
  * operations, then the member `value` is equal to `true`; otherwise, member
