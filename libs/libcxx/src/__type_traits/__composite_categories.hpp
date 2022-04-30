@@ -102,6 +102,30 @@ struct is_scalar : std::bool_constant<
 template <typename T>
 inline constexpr bool is_scalar_v = is_scalar<T>::value;
 
+/**
+ * @brief If `T` is any type other than function, reference, or void, and
+ * optionally with const and/or volatile qualifiers, then member `value` is
+ * equal to `true`. Otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible object type
+ */
+template <typename T>
+struct is_object : std::bool_constant<
+                        std::is_scalar_v<T> ||
+                        std::is_array_v<T> ||
+                        std::is_union_v<T> ||
+                        std::is_class_v<T>
+                    > {};
+
+/**
+ * @brief `True` if `T` is any type other than function, reference, or void,
+ * with optional const/volatile qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible object type
+ */
+template <typename T>
+inline constexpr bool is_object_v = is_object<T>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
