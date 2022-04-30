@@ -119,6 +119,26 @@ template <typename T>
 inline constexpr bool is_default_constructible_v = is_default_constructible<T>::value;
 
 /**
+ * @brief If `T` is a referenceable type and is assignable from a `T&` lvalue
+ * reference or `T&&` rvalue reference (aka a move assignment), then the member
+ * `value` is equal to `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible move-assignable type
+ */
+template <typename T>
+struct is_move_assignable : is_assignable<typename std::add_lvalue_reference<T>::type, typename std::add_rvalue_reference<T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is assignable from a `T&`
+ * lvalue reference or `T&&` rvalue reference (aka a move assignment);
+ * otherwise, `false`.
+ * 
+ * @tparam T possible move-assignable type
+ */
+template <typename T>
+inline constexpr bool is_move_assignable_v = is_move_assignable<T>::value;
+
+/**
  * @brief If `T` is a referenceable type and is constructible via a constructor
  * accepting a single `T&&` argument (aka a move constructor), then the member
  * `value` is equal to `true`; otherwise, member `value` is equal to `false`.
