@@ -24,6 +24,34 @@ using __add_const_lvalue_reference = typename std::add_lvalue_reference<typename
 }; // namespace details
 
 /**
+ * @brief If the expression `std::declval<T>() == std::declval<U>()` is well-
+ * formed in an unevaluated context, then the member `value` is equal to
+ * `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @note The `__is_assignable()` function used in the definition of this
+ * template is a compiler intrinsic. Compiler support isn't necessary for a
+ * correct and conforming implementation of `std::is_nothrow_constructible`,
+ * but it does make the implementation significantly simpler, as seen in this
+ * block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L2510-L2553
+ * 
+ * @tparam T possible assignable type
+ * @tparam U possible assignable type
+ */
+template <typename T, typename U>
+struct is_assignable : std::bool_constant<__is_assignable(T, U)> {};
+
+/**
+ * @brief `True` if the expression `std::declval<T>() == std::declval<U>()` is
+ * well-formed in an unevaluated context; otherwise, `false`.
+ * 
+ * @tparam T possible assignable type
+ * @tparam U possible assignable type
+ */
+template <typename T, typename U>
+inline constexpr bool is_assignable_v = is_assignable<T, U>::value;
+
+/**
  * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed, then the member `value` is
  * equal to `true`; otherwise, member `value` is equal to `false`.
