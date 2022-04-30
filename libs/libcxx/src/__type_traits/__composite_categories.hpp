@@ -51,6 +51,29 @@ template <typename T>
 inline constexpr bool is_arithmetic_v = is_arithmetic<T>::value;
 
 /**
+ * @brief If `T` is an arithmetic, void, or null pointer type, optionally with
+ * const and/or volatile qualifiers, then member `value` is equal to `true`.
+ * Otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible fundamental type
+ */
+template <typename T>
+struct is_fundamental : std::bool_constant<
+                            std::is_arithmetic_v<T> ||
+                            std::is_void_v<T> ||
+                            std::is_null_pointer_v<T>
+                        > {};
+
+/**
+ * @brief `True` if `T` is an arithmetic, void, or null pointer type with
+ * optional const/volatile qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible fundamental type
+ */
+template <typename T>
+inline constexpr bool is_fundamental_v = is_fundamental<T>::value;
+
+/**
  * @brief If `T` is a pointer to a non-static member object/function, then
  * `value` is `true`. Otherwise, `value` is `false`.
  *
