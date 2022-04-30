@@ -69,7 +69,7 @@ struct is_copy_constructible : is_constructible<T, details::__add_const_lvalue_r
  * @tparam T possible copy-constructible type
  */
 template <typename T>
-inline constexpr bool is_copy_constructible_v = is_copy_constructible<T, Args...>::value;
+inline constexpr bool is_copy_constructible_v = is_copy_constructible<T>::value;
 
 /**
  * @brief If `std::is_constructible<T>::value` is `true`, meaning `T` is
