@@ -44,6 +44,25 @@ template <typename T, typename... Args>
 inline constexpr bool is_constructible_v = is_constructible<T, Args...>::value;
 
 /**
+ * @brief If `std::is_constructible<T>::value` is `true`, meaning `T` is
+ * constructible via a no-args (default) constructor, then the member `value`
+ * is equal to `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible default-constructible type
+ */
+template <typename T>
+struct is_default_constructible : is_constructible<T> {};
+
+/**
+ * @brief `True` if `std::is_constructible<T>::value` is `true`, meaning `T` is
+ * constructible via a no-args (default) constructor; otherwise, `false`.
+ * 
+ * @tparam T possible default-constructible type
+ */
+template <typename T>
+inline constexpr bool is_default_constructible_v = is_default_constructible<T>::value;
+
+/**
  * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed and noexcept, then the
  * member `value` is equal to `true`; otherwise, member `value` is equal to
