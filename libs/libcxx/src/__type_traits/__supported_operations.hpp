@@ -175,6 +175,27 @@ template <typename T, typename... Args>
 inline constexpr bool is_trivially_constructible_v = is_trivially_constructible<T, Args...>::value;
 
 /**
+ * @brief If `T` is a referenceable type and is constructible via a constructor
+ * accepting a single `const T&` argument (aka a copy constructor) which only
+ * calls trivial operations, then the member `value` is equal to `true`;
+ * otherwise, member `value` is equal to `false`.
+ * 
+ * @tparam T possible trivially-copy-constructible type
+ */
+template <typename T>
+struct is_trivially_copy_constructible : is_trivially_constructible<T, details::__add_const_lvalue_reference<T>> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is constructible via a
+ * constructor accepting a single `const T&` argument (aka a copy constructor)
+ * which only calls trivial operations; otherwise, `false`.
+ * 
+ * @tparam T possible trivially-copy-constructible type
+ */
+template <typename T>
+inline constexpr bool is_trivially_copy_constructible_v = is_trivially_copy_constructible<T>::value;
+
+/**
  * @brief If `std::is_trivially_constructible<T>::value` is `true`, meaning `T`
  * is constructible via a no-args (default) constructor that only calls trivial
  * operations, then the member `value` is equal to `true`; otherwise, member
