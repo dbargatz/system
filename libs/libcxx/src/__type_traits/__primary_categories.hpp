@@ -12,7 +12,7 @@
 #define _STD_TYPE_TRAITS_PRIMARY_CATEGORIES_HPP
 
 #include <__type_traits/__helpers.hpp>
-#include <__type_traits/__references.hpp>
+#include <__type_traits/__reference_modifiers.hpp>
 
 namespace std {
 
