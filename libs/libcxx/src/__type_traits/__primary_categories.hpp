@@ -134,6 +134,30 @@ template <typename T>
 inline constexpr bool is_array_v = is_array<T>::value;
 
 /**
+ * @brief If `T` is an enum type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @note The `__is_enum()` function used in the definition of this template is
+ * a compiler intrinsic. Compiler support isn't necessary for a correct and
+ * conforming implementation of `std::is_enum`, but it does make the
+ * implementation significantly simpler, as seen in this block from clang's
+ * libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L998-L1029
+ * 
+ * @tparam T possible enum type
+ */
+template <typename T>
+struct is_enum : std::bool_constant<__is_enum(T)> {};
+
+/**
+ * @brief `True` if `T` is an enum type; otherwise, `false`.
+ * 
+ * @tparam T possible enum type
+ */
+template <typename T>
+inline constexpr bool is_enum_v = is_enum<T>::value;
+
+/**
  * @brief If `T` is a floating-point type with optional const/volatile
  * qualifiers, then `value` is `true`. Otherwise, `value` is `false`.
  *
