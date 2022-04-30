@@ -27,4 +27,30 @@
 #include <__type_traits/__supported_operations.hpp>
 #include <__type_traits/__trait_operations.hpp>
 
+// UNIMPLEMENTED TRAITS:
+// __type_traits/__constant_eval.hpp_________________________________________________
+// constexpr bool is_constant_evaluated() noexcept;
+// __type_traits/__member_relationships.hpp_________________________________________________
+// template<class S, class M>
+// constexpr bool is_pointer_interconvertible_with_class(M S::*m) noexcept;
+// template<class S1, class S2, class M1, class M2>
+// constexpr bool is_corresponding_member(M1 S1::*m1, M2 S2::*m2) noexcept;
+// __type_traits/__property_queries.hpp_________________________________________________
+// template<class T> struct alignment_of;
+// template<class T> struct rank;
+// template<class T, unsigned I = 0> struct extent;
+// template<class T>
+// inline constexpr size_t alignment_of_v = alignment_of<T>::value;
+// template<class T>
+// inline constexpr size_t rank_v = rank<T>::value;
+// template<class T, unsigned I = 0>
+// inline constexpr size_t extent_v = extent<T, I>::value;
+// __type_traits/__sign_modifiers.hpp_________________________________________________
+// template<class T> struct make_signed;
+// template<class T> struct make_unsigned;
+// template<class T>
+// using make_signed_t   = typename make_signed<T>::type;
+// template<class T>
+// using make_unsigned_t = typename make_unsigned<T>::type;
+
 #endif // _STD_TYPE_TRAITS_HPP

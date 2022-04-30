@@ -52,4 +52,9 @@ using add_pointer_t = typename add_pointer<T>::type;
 
 }; // namespace std
 
+// UNIMPLEMENTED TRAITS:
+// template<class T> struct remove_pointer;
+// template<class T>
+// using remove_pointer_t = typename remove_pointer<T>::type;
+
 #endif // _STD_TYPE_TRAITS_POINTER_MODIFICATIONS_HPP

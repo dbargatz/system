@@ -656,4 +656,18 @@ inline constexpr bool is_trivially_move_constructible_v = is_trivially_move_cons
 
 }; // namespace std
 
+// UNIMPLEMENTED TRAITS
+// template<class T, class U> struct is_swappable_with;
+// template<class T> struct is_swappable;
+// template<class T, class U> struct is_nothrow_swappable_with;
+// template<class T> struct is_nothrow_swappable;
+// template<class T, class U>
+// inline constexpr bool is_swappable_with_v = is_swappable_with<T, U>::value;
+// template<class T>
+// inline constexpr bool is_swappable_v = is_swappable<T>::value;
+// template<class T, class U>
+// inline constexpr bool is_nothrow_swappable_with_v = is_nothrow_swappable_with<T, U>::value;
+// template<class T>
+// inline constexpr bool is_nothrow_swappable_v = is_nothrow_swappable<T>::value;
+
 #endif // _STD_TYPE_TRAITS_SUPPORTED_OPERATIONS_HPP

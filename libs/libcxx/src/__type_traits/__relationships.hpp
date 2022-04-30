@@ -85,4 +85,30 @@ inline constexpr bool is_same_v = is_same<T, U>::value;
 
 }; // namespace std
 
+// UNIMPLEMENTED TRAITS
+// template<class Base, class Derived> struct is_base_of;
+// template<class From, class To> struct is_nothrow_convertible;
+// template<class T, class U> struct is_layout_compatible;
+// template<class Base, class Derived> struct is_pointer_interconvertible_base_of;
+// template<class Fn, class... ArgTypes> struct is_invocable;
+// template<class R, class Fn, class... ArgTypes> struct is_invocable_r;
+// template<class Fn, class... ArgTypes> struct is_nothrow_invocable;
+// template<class R, class Fn, class... ArgTypes> struct is_nothrow_invocable_r;
+// template<class Base, class Derived>
+// inline constexpr bool is_base_of_v = is_base_of<Base, Derived>::value;
+// template<class From, class To>
+// inline constexpr bool is_nothrow_convertible_v = is_nothrow_convertible<From, To>::value;
+// template<class T, class U>
+// inline constexpr bool is_layout_compatible_v = is_layout_compatible<T, U>::value;
+// template<class Base, class Derived>
+// inline constexpr bool is_pointer_interconvertible_base_of_v = is_pointer_interconvertible_base_of<Base, Derived>::value;
+// template<class Fn, class... ArgTypes>
+// inline constexpr bool is_invocable_v = is_invocable<Fn, ArgTypes...>::value;
+// template<class R, class Fn, class... ArgTypes>
+// inline constexpr bool is_invocable_r_v = is_invocable_r<R, Fn, ArgTypes...>::value;
+// template<class Fn, class... ArgTypes>
+// inline constexpr bool is_nothrow_invocable_v = is_nothrow_invocable<Fn, ArgTypes...>::value;
+// template<class R, class Fn, class... ArgTypes>
+// inline constexpr bool is_nothrow_invocable_r_v = is_nothrow_invocable_r<R, Fn, ArgTypes...>::value;
+
 #endif // _STD_TYPE_TRAITS_RELATIONSHIPS_HPP
