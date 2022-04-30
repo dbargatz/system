@@ -1,8 +1,9 @@
 /**
  * @file
  * @brief Implementations of the helper classes which form the base of the C++
- * type traits. As such, this file includes no other headers - it's included
- * by many other parts of the metaprogramming/type traits family, though.
+ * type traits, per C++20 (N4849 draft) 20.15.3. As such, this file includes no
+ * other headers - it's included by many other parts of the metaprogramming and
+ * type traits family, though.
  * 
  * @note Some comments and implementations in this file were based off of or
  * taken directly from the descriptions on
