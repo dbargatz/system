@@ -24,6 +24,28 @@ using __add_const_lvalue_reference = typename std::add_lvalue_reference<typename
 }; // namespace details
 
 /**
+ * @brief If `T` is a type with a virtual destructor, then the member `value`
+ * is equal to `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @note The `__has_virtual_destructor()` function used in the definition of
+ * this template is a compiler intrinsic. Compiler support is required for a
+ * correct and conforming implementation of `std::has_virtual_destructor`.
+ * 
+ * @tparam T type with possible virtual destructor
+ */
+template <typename T>
+struct has_virtual_destructor : std::bool_constant<__has_virtual_destructor(T)> {};
+
+/**
+ * @brief `True` if `T` is a type with a virtual destructor; otherwise,
+ * `false`.
+ * 
+ * @tparam T type with possible virtual destructor
+ */
+template <typename T>
+inline constexpr bool has_virtual_destructor_v = has_virtual_destructor<T>::value;
+
+/**
  * @brief If the expression `std::declval<T>() == std::declval<U>()` is well-
  * formed in an unevaluated context, then the member `value` is equal to
  * `true`; otherwise, member `value` is equal to `false`.
