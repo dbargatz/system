@@ -20,6 +20,57 @@ namespace std {
 namespace details {
 
 template <typename T>
+struct __is_integral : public false_type {};
+
+template <>
+struct __is_integral<bool> : public true_type {};
+
+template <>
+struct __is_integral<char> : public true_type {};
+
+template <>
+struct __is_integral<signed char> : public true_type {};
+
+template <>
+struct __is_integral<unsigned char> : public true_type {};
+
+template <>
+struct __is_integral<char8_t> : public true_type {};
+
+template <>
+struct __is_integral<char16_t> : public true_type {};
+
+template <>
+struct __is_integral<char32_t> : public true_type {};
+
+template <>
+struct __is_integral<wchar_t> : public true_type {};
+
+template <>
+struct __is_integral<short> : public true_type {};
+
+template <>
+struct __is_integral<unsigned short> : public true_type {};
+
+template <>
+struct __is_integral<int> : public true_type {};
+
+template <>
+struct __is_integral<unsigned int> : public true_type {};
+
+template <>
+struct __is_integral<long> : public true_type {};
+
+template <>
+struct __is_integral<unsigned long> : public true_type {};
+
+template <>
+struct __is_integral<long long> : public true_type {};
+
+template <>
+struct __is_integral<unsigned long long> : public true_type {};
+
+template <typename T>
 struct __is_null_pointer : public false_type {};
 
 template <>
@@ -67,6 +118,43 @@ struct is_array<T[N]> : true_type {};
  */
 template <typename T>
 inline constexpr bool is_array_v = is_array<T>::value;
+
+/**
+ * @brief If `T` is an integral type with optional const/volatile qualifiers,
+ * then `value` is `true`. Otherwise, `value` is `false`.
+ *
+ * @details
+ * The types considered integral that result in `value` being `true` are:
+ *
+ * - `bool`
+ * - `char` (signed, unsigned, or unspecified)
+ * - `char8_t`
+ * - `char16_t`
+ * - `char32_t`
+ * - `wchar_t`
+ * - `short` (signed, unsigned, or unspecified)
+ * - `int` (signed, unsigned, or unspecified)
+ * - `long` (signed, unsigned, or unspecified)
+ * - `long long` (signed, unsigned, or unspecified)
+ *
+ * Any of these types may also have a const and/or volatile qualifier. All
+ * other types result in `value` being `false`.
+ * 
+ * @tparam T possible integral type with optional const/volatile qualifiers
+ * @param value `true` if `T` is an integral type with optional const/volatile
+ * qualifiers; `false` otherwise
+ */
+template <typename T>
+struct is_integral : public details::__is_integral<std::remove_cv_t<T>>::type {};
+
+/**
+ * @brief `True` if `T` is an integral type with optional const/volatile
+ * qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible integral type with optional const/volatile qualifiers
+ */
+template <typename T>
+inline constexpr bool is_integral_v = is_integral<T>::value;
 
 /**
  * @brief If `T` is an lvalue reference type, member `value` is `true`.
