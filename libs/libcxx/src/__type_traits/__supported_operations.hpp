@@ -140,6 +140,40 @@ template <typename T>
 inline constexpr bool is_default_constructible_v = is_default_constructible<T>::value;
 
 /**
+ * @brief If `T` is a reference type, or `T` is an object type such that the
+ * expression `std::declval<U&>().~U()` (where `U` is
+ * `std::remove_all_extents<T>::type`) is well-formed in an unevaluated
+ * context, then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @note The `__is_destructible()` function used in the definition of this
+ * template is a compiler intrinsic, and can only be enabled via the
+ * `-fms-extensions` flag provided to clang. Compiler support isn't necessary
+ * for a correct and conforming implementation of `std::is_destructible`, but
+ * it does make the implementation significantly simpler, as seen in this block
+ * from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L2577-L2652
+ * @note For more information on the required `-fms-extensions` flag and the
+ * `__is_destructible` intrinsic, see the LLVM docs at:
+ * https://clang.llvm.org/docs/LanguageExtensions.html#type-trait-primitives
+ * 
+ * @tparam T possible destructible type
+ */
+template <typename T>
+struct is_destructible : std::bool_constant<__is_destructible(T)> {};
+
+/**
+ * @brief `True` if `T` is a reference type, or `T` is an object type such that
+ * the expression `std::declval<U&>().~U()` (where `U` is
+ * `std::remove_all_extents<T>::type`) is well-formed in an unevaluated
+ * context; otherwise, `false`.
+ * 
+ * @tparam T possible destructible type
+ */
+template <typename T>
+inline constexpr bool is_destructible_v = is_destructible<T>::value;
+
+/**
  * @brief If `T` is a referenceable type and is assignable from a `T&` lvalue
  * reference or `T&&` rvalue reference (aka a move assignment), then the member
  * `value` is equal to `true`; otherwise, member `value` is equal to `false`.
@@ -301,6 +335,40 @@ struct is_nothrow_default_constructible : is_nothrow_constructible<T> {};
  */
 template <typename T>
 inline constexpr bool is_nothrow_default_constructible_v = is_nothrow_default_constructible<T>::value;
+
+/**
+ * @brief If `T` is a reference type, or `T` is an object type such that the
+ * expression `std::declval<U&>().~U() nothrow` (where `U` is
+ * `std::remove_all_extents<T>::type`) is well-formed in an unevaluated
+ * context, then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @note The `__is_nothrow_destructible()` function used in the definition of
+ * this template is a compiler intrinsic, and can only be enabled via the
+ * `-fms-extensions` flag provided to clang. Compiler support isn't necessary
+ * for a correct and conforming implementation of
+ * `std::is_nothrow_destructible`, but it does make the implementation
+ * significantly simpler, as seen in this block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L3213-L3268
+ * @note For more information on the required `-fms-extensions` flag and the
+ * `__is_nothrow_destructible` intrinsic, see the LLVM docs at:
+ * https://clang.llvm.org/docs/LanguageExtensions.html#type-trait-primitives
+ * 
+ * @tparam T possible nothrow-destructible type
+ */
+template <typename T>
+struct is_nothrow_destructible : std::bool_constant<__is_nothrow_destructible(T)> {};
+
+/**
+ * @brief `True` if `T` is a reference type, or `T` is an object type such that
+ * the expression `std::declval<U&>().~U() nothrow` (where `U` is
+ * `std::remove_all_extents<T>::type`) is well-formed in an unevaluated
+ * context; otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-destructible type
+ */
+template <typename T>
+inline constexpr bool is_nothrow_destructible_v = is_nothrow_destructible<T>::value;
 
 /**
  * @brief If `T` is a referenceable type and is nothrow-assignable from a `T&`
@@ -466,6 +534,37 @@ struct is_trivially_default_constructible : is_trivially_constructible<T> {};
  */
 template <typename T>
 inline constexpr bool is_trivially_default_constructible_v = is_trivially_default_constructible<T>::value;
+
+/**
+ * @brief If `T` is a reference type, or `T` is an object type such that the
+ * expression `std::declval<U&>().~U()` (where `U` is
+ * `std::remove_all_extents<T>::type`) is well-formed in an unevaluated
+ * context, and the destructor only calls trivial operations, then the member
+ * `value` is equal to `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @note The `__is_trivially_destructible()` function used in the definition of
+ * this template is a compiler intrinsic. Compiler support isn't necessary for
+ * a correct and conforming implementation of `std::is_trivially_destructible`,
+ * but it does make the implementation significantly simpler, as seen in this
+ * block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L3036-L3065
+ * 
+ * @tparam T possible trivially-destructible type
+ */
+template <typename T>
+struct is_trivially_destructible : std::bool_constant<__is_trivially_destructible(T)> {};
+
+/**
+ * @brief `True` if `T` is a reference type, or `T` is an object type such that
+ * the expression `std::declval<U&>().~U()` (where `U` is
+ * `std::remove_all_extents<T>::type`) is well-formed in an unevaluated
+ * context, and the destructor only calls trivial operations; otherwise,
+ * `false`.
+ * 
+ * @tparam T possible trivially-destructible type
+ */
+template <typename T>
+inline constexpr bool is_trivially_destructible_v = is_trivially_destructible<T>::value;
 
 /**
  * @brief If `T` is a referenceable type and is trivially-assignable from a
