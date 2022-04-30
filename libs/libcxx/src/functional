@@ -1,6 +1,8 @@
 #ifndef _STD_FUNCTIONAL_HPP
 #define _STD_FUNCTIONAL_HPP
 
+#include <memory>
+
 namespace std {
 
 }; // namespace std

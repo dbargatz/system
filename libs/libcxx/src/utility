@@ -13,6 +13,7 @@
 #define _STD_UTILITY_HPP
 
 #include <__utility/__declval.hpp>
+#include <initializer_list>
 #include <type_traits>
 
 namespace std {
