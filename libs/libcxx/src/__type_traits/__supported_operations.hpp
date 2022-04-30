@@ -257,6 +257,27 @@ struct is_trivially_default_constructible : is_trivially_constructible<T> {};
 template <typename T>
 inline constexpr bool is_trivially_default_constructible_v = is_trivially_default_constructible<T>::value;
 
+/**
+ * @brief If `T` is a referenceable type and is constructible via a constructor
+ * accepting a single `T&&` argument (aka a move constructor) which only calls
+ * trivial operations, then the member `value` is equal to `true`; otherwise,
+ * member `value` is equal to `false`.
+ * 
+ * @tparam T possible trivially-move-constructible type
+ */
+template <typename T>
+struct is_trivially_move_constructible : is_trivially_constructible<T, typename std::add_rvalue_reference<T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is constructible via a
+ * constructor accepting a single `T&&` argument (aka a move constructor) which
+ * only calls trivial operations; otherwise, `false`.
+ * 
+ * @tparam T possible trivially-move-constructible type
+ */
+template <typename T>
+inline constexpr bool is_trivially_move_constructible_v = is_trivially_move_constructible<T>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_SUPPORTED_OPERATIONS_HPP
