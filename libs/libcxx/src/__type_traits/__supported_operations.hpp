@@ -45,6 +45,38 @@ inline constexpr bool is_constructible_v = is_constructible<T, Args...>::value;
 
 /**
  * @brief If `T` is an object or reference type, and the variable definition
+ * `T obj(std::declval<Args>()...)` is well-formed and noexcept, then the
+ * member `value` is equal to `true`; otherwise, member `value` is equal to
+ * `false`.
+ * 
+ * @note The `__is_nothrow_constructible()` function used in the definition of
+ * this template is a compiler intrinsic. Compiler support isn't necessary for
+ * a correct and conforming implementation of `std::is_nothrow_constructible`,
+ * but it does make the implementation significantly simpler, as seen in this
+ * block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L3067-L3112
+ * 
+ * @tparam T possible nothrow-constructible type
+ * @tparam Args types of arguments a possible nothrow constructor of `T` would
+ * accept
+ */
+template <typename T, typename... Args>
+struct is_nothrow_constructible : std::bool_constant<__is_nothrow_constructible(T, Args...)> {};
+
+/**
+ * @brief `True` if `T` is an object or reference type and the variable
+ * definition `T obj(std::declval<Args>()...)` is well-formed and noexcept;
+ * otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-constructible type
+ * @tparam Args types of arguments a possible nothrow constructor of `T` would
+ * accept
+ */
+template <typename T, typename... Args>
+inline constexpr bool is_nothrow_constructible_v = is_nothrow_constructible<T, Args...>::value;
+
+/**
+ * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed and only calls trivial
  * operations, then the member `value` is equal to `true`; otherwise, member
  * `value` is equal to `false`.
