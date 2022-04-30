@@ -8,8 +8,8 @@
  * https://en.cppreference.com/w/cpp/header/type_traits and various subpages.
  * All errors are mine, all credit is theirs.
  */
-#ifndef _STD_TYPE_TRAITS_REFERENCE_MODIFIERS_HPP
-#define _STD_TYPE_TRAITS_REFERENCE_MODIFIERS_HPP
+#ifndef _STD_TYPE_TRAITS_REFERENCE_MODIFICATIONS_HPP
+#define _STD_TYPE_TRAITS_REFERENCE_MODIFICATIONS_HPP
 
 #include <__type_traits/__misc_transformations.hpp>
 
@@ -117,4 +117,4 @@ using remove_reference_t = typename remove_reference<T>::type;
 
 }; // namespace std
 
-#endif // _STD_TYPE_TRAITS_REFERENCE_MODIFIERS_HPP
+#endif // _STD_TYPE_TRAITS_REFERENCE_MODIFICATIONS_HPP
