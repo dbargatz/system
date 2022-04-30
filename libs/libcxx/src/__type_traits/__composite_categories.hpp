@@ -14,6 +14,48 @@
 #ifndef _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
 #define _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
 
+#include <__type_traits/__cv_modifiers.hpp>
+#include <__type_traits/__helpers.hpp>
 #include <__type_traits/__is_reference.hpp>
+
+namespace std {
+
+namespace details {
+
+template <typename T>
+struct __is_member_pointer : std::false_type {};
+
+template <typename T, typename U>
+struct __is_member_pointer<T U::*> : std::true_type {};
+
+}; // namespace details
+
+/**
+ * @brief If `T` is a pointer to a non-static member object/function, then
+ * `value` is `true`. Otherwise, `value` is `false`.
+ *
+ * @details
+ * Valid types may also have a const and/or volatile qualifier. All other types
+ * result in `value` being `false`.
+ * 
+ * @tparam T possible pointer type to a non-static member object/function with
+ * optional const/volatile qualifiers
+ * @param value `true` if `T` is a pointer type to a non-static member object/
+ * function with optional const/volatile qualifiers; `false` otherwise
+ */
+template <typename T>
+struct is_member_pointer : details::__is_member_pointer<std::remove_cv_t<T>>::type {};
+
+/**
+ * @brief `True` if `T` is a pointer type to a non-static member object/
+ * function with optional const/volatile qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible pointer type to a non-static member object/function with
+ * optional const/volatile qualifiers
+ */
+template <typename T>
+inline constexpr bool is_member_pointer_v = is_member_pointer<T>::value;
+
+}; // namespace std
 
 #endif // _STD_TYPE_TRAITS_COMPOSITE_CATEGORIES_HPP
