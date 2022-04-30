@@ -261,6 +261,27 @@ template <typename T>
 inline constexpr bool is_nothrow_default_constructible_v = is_nothrow_default_constructible<T>::value;
 
 /**
+ * @brief If `T` is a referenceable type and is nothrow-assignable from a `T&`
+ * lvalue reference or `T&&` rvalue reference (aka a nothrow move assignment),
+ * then the member `value` is equal to `true`; otherwise, member `value` is
+ * equal to `false`.
+ * 
+ * @tparam T possible nothrow-move-assignable type
+ */
+template <typename T>
+struct is_nothrow_move_assignable : is_nothrow_assignable<typename std::add_lvalue_reference<T>::type, typename std::add_rvalue_reference<T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is nothrow-assignable from
+ * a `T&` lvalue reference or `T&&` rvalue reference (aka a nothrow move
+ * assignment); otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-move-assignable type
+ */
+template <typename T>
+inline constexpr bool is_nothrow_move_assignable_v = is_nothrow_move_assignable<T>::value;
+
+/**
  * @brief If `T` is a referenceable type and is constructible via a nothrow-
  * marked constructor accepting a single `T&&` argument (aka a move
  * constructor), then the member `value` is equal to `true`; otherwise, member
@@ -382,6 +403,27 @@ struct is_trivially_default_constructible : is_trivially_constructible<T> {};
  */
 template <typename T>
 inline constexpr bool is_trivially_default_constructible_v = is_trivially_default_constructible<T>::value;
+
+/**
+ * @brief If `T` is a referenceable type and is trivially-assignable from a
+ * `T&` lvalue reference or `T&&` rvalue reference (aka a trivial move
+ * assignment), then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @tparam T possible trivially-move-assignable type
+ */
+template <typename T>
+struct is_trivially_move_assignable : is_trivially_assignable<typename std::add_lvalue_reference<T>::type, typename std::add_rvalue_reference<T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is trivially-assignable
+ * from a `T&` lvalue reference or `T&&` rvalue reference (aka a trivial move
+ * assignment); otherwise, `false`.
+ * 
+ * @tparam T possible trivially-move-assignable type
+ */
+template <typename T>
+inline constexpr bool is_trivially_move_assignable_v = is_trivially_move_assignable<T>::value;
 
 /**
  * @brief If `T` is a referenceable type and is constructible via a constructor
