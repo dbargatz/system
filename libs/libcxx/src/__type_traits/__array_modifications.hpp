@@ -16,6 +16,43 @@
 namespace std {
 
 /**
+ * @brief If `T` is a multidimensional array of some type `X`, member `type` is
+ * equal to `X`; otherwise, member `type` is `T`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+struct remove_all_extents { using type = T; };
+
+/**
+ * @brief If `T` is a multidimensional array of some type `X`, member `type` is
+ * equal to `X`; otherwise, member `type` is `T`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+struct remove_all_extents<T[]> { using type = typename remove_all_extents<T>::type; };
+
+/**
+ * @brief If `T` is a multidimensional array of some type `X`, member `type` is
+ * equal to `X`; otherwise, member `type` is `T`.
+ * 
+ * @tparam T possible array type
+ * @tparam N fixed number of elements
+ */
+template <typename T, std::size_t N>
+struct remove_all_extents<T[N]> { using type = typename remove_all_extents<T[]>::type; };
+
+/**
+ * @brief `X` if `T` is a multidimensional array of some type `X`; otherwise,
+ * `T`.
+ * 
+ * @tparam T possible array type
+ */
+template <typename T>
+using remove_all_extents_t = typename remove_all_extents<T>::type;
+
+/**
  * @brief If `T` is an array of some type `X`, member `type` is equal to `X`;
  * otherwise, member `type` is `T`.
  * 
@@ -47,6 +84,7 @@ struct remove_extent<T[]> { using type = T; };
  * removed.
  * 
  * @tparam T possible array type
+ * @tparam N fixed number of elements
  */
 template <typename T, std::size_t N>
 struct remove_extent<T[N]> { using type = T; };
