@@ -311,6 +311,30 @@ template <typename T>
 inline constexpr bool is_null_pointer_v = is_null_pointer<T>::value;
 
 /**
+ * @brief If `T` is a pointer type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @note The `__is_pointer()` function used in the definition of this template
+ * is a compiler intrinsic. Compiler support isn't necessary for a correct and
+ * conforming implementation of `std::is_pointer`, but it does make the
+ * implementation significantly simpler, as seen in this block from clang's
+ * libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L763-L798
+ * 
+ * @tparam T possible pointer type
+ */
+template <typename T>
+struct is_pointer : std::bool_constant<__is_pointer(T)> {};
+
+/**
+ * @brief `True` if `T` is a pointer type; otherwise, `false`.
+ * 
+ * @tparam T possible pointer type
+ */
+template <typename T>
+inline constexpr bool is_pointer_v = is_pointer<T>::value;
+
+/**
  * @brief If `T` is an rvalue reference type, member `value` is `true`.
  * Otherwise, member `value` is `false`.
  * 
