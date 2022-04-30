@@ -16,6 +16,30 @@
 namespace std {
 
 /**
+ * @brief If type `From` can be converted to type `To` via implicit conversion
+ * such that the function definition `To f() { return std::declval<From>(); }`
+ * is well-formed, then member `value` is equal to `true`. Otherwise, `value`
+ * is `false`.
+ * 
+ * @tparam From type which may be implicitly converted to type `To`
+ * @tparam To type which may be implicitly converted from type `From`
+ */
+template <typename From, typename To>
+struct is_convertible : std::bool_constant<__is_convertible(From, To)> {};
+
+/**
+ * @brief `True` if type `From` can be converted to type `To` via implicit
+ * conversion such that the function definition
+ * `To f() { return std::declval<From>(); }` is well-formed; otherwise,
+ * `false`.
+ * 
+ * @tparam From type which may be implicitly converted to type `To`
+ * @tparam To type which may be implicitly converted from type `From`
+ */
+template <typename From, typename To>
+inline constexpr bool is_convertible_v = is_convertible<From, To>::value;
+
+/**
  * @brief If `T` and `U` are the same type (taking into account const/volatile
  * qualifications), then `value` is `true`. Otherwise, `value` is `false`.
  *
