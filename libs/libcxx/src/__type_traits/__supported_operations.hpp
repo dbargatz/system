@@ -30,9 +30,9 @@ using __add_const_lvalue_reference = typename std::add_lvalue_reference<typename
  * 
  * @note The `__is_assignable()` function used in the definition of this
  * template is a compiler intrinsic. Compiler support isn't necessary for a
- * correct and conforming implementation of `std::is_nothrow_constructible`,
- * but it does make the implementation significantly simpler, as seen in this
- * block from clang's libcxx:
+ * correct and conforming implementation of `std::is_assignable`, but it does
+ * make the implementation significantly simpler, as seen in this block from
+ * clang's libcxx:
  * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L2510-L2553
  * 
  * @tparam T possible assignable type
@@ -137,6 +137,34 @@ struct is_move_constructible : is_constructible<T, typename std::add_rvalue_refe
  */
 template <typename T>
 inline constexpr bool is_move_constructible_v = is_move_constructible<T>::value;
+
+/**
+ * @brief If the expression `std::declval<T>() == std::declval<U>()` is well-
+ * formed and nothrow in an unevaluated context, then the member `value` is
+ * equal to `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @note The `__is_nothrow_assignable()` function used in the definition of
+ * this template is a compiler intrinsic. Compiler support isn't necessary for
+ * a correct and conforming implementation of `std::is_nothrow_assignable`, but
+ * it does make the implementation significantly simpler, as seen in this block
+ * from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L3153-L3183
+ * 
+ * @tparam T possible nothrow-assignable type
+ * @tparam U possible nothrow-assignable type
+ */
+template <typename T, typename U>
+struct is_nothrow_assignable : std::bool_constant<__is_nothrow_assignable(T, U)> {};
+
+/**
+ * @brief `True` if the expression `std::declval<T>() == std::declval<U>()` is
+ * well-formed and noexcept in an unevaluated context; otherwise, `false`.
+ * 
+ * @tparam T possible noexcept-assignable type
+ * @tparam U possible noexcept-assignable type
+ */
+template <typename T, typename U>
+inline constexpr bool is_nothrow_assignable_v = is_nothrow_assignable<T, U>::value;
 
 /**
  * @brief If `T` is an object or reference type, and the variable definition
