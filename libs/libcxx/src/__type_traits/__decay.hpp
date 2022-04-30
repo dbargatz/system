@@ -19,6 +19,7 @@
 
 #include <__type_traits/__array_modifications.hpp>
 #include <__type_traits/__misc_transformations.hpp>
+#include <__type_traits/__pointer_modifications.hpp>
 #include <__type_traits/__primary_categories.hpp>
 #include <__type_traits/__reference_modifications.hpp>
 
