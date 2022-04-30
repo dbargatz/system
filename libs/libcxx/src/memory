@@ -16,6 +16,34 @@
 
 namespace std {
 
+/**
+ * @brief Obtains the actual address of the object or function `in_arg`, even
+ * in the presence of an overloaded `operator&`.
+ * 
+ * @note The rvalue version of `std::addressof` is deleted to avoid taking the
+ * address of `const` rvalues.
+ * 
+ * @tparam T type of `in_arg`
+ * @param in_arg object to get the address of
+ * @return `constexpr T*` - pointer to `in_arg`
+ */
+template <typename T>
+inline constexpr T* addressof(T& in_arg) noexcept { return __builtin_addressof(in_arg); }
+
+/**
+ * @brief Obtains the actual address of the object or function `in_arg`, even
+ * in the presence of an overloaded `operator&`.
+ * 
+ * @note The rvalue version of `std::addressof` is deleted to avoid taking the
+ * address of `const` rvalues.
+ * 
+ * @tparam T type of `in_arg`
+ * @param in_arg object to get the address of
+ * @return `constexpr T*` - pointer to `in_arg`
+ */
+template <typename T>
+const T* addressof(const T&& in_arg) noexcept = delete;
+
 template <class Alloc>
 struct allocator_traits {
 public:
