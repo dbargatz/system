@@ -23,7 +23,7 @@
 #ifndef _STD_UTILITY_DECLVAL_HPP
 #define _STD_UTILITY_DECLVAL_HPP
 
-#include <__type_traits/__reference_modifiers.hpp>
+#include <__type_traits/__reference_modifications.hpp>
 
 namespace std {
 
