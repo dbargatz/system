@@ -185,6 +185,27 @@ template <typename T>
 inline constexpr bool is_nothrow_default_constructible_v = is_nothrow_default_constructible<T>::value;
 
 /**
+ * @brief If `T` is a referenceable type and is constructible via a nothrow-
+ * marked constructor accepting a single `T&&` argument (aka a move
+ * constructor), then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @tparam T possible nothrow-move-constructible type
+ */
+template <typename T>
+struct is_nothrow_move_constructible : is_nothrow_constructible<T, typename std::add_rvalue_reference<T>::type> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is constructible via a
+ * nothrow-marked constructor accepting a single `T&&` argument (aka a move
+ * constructor); otherwise, `false`.
+ * 
+ * @tparam T possible nothrow-move-constructible type
+ */
+template <typename T>
+inline constexpr bool is_nothrow_move_constructible_v = is_nothrow_move_constructible<T>::value;
+
+/**
  * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed and only calls trivial
  * operations, then the member `value` is equal to `true`; otherwise, member
