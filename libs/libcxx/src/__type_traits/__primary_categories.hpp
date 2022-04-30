@@ -20,6 +20,18 @@ namespace std {
 namespace details {
 
 template <typename T>
+struct __is_floating_point : public false_type {};
+
+template <>
+struct __is_floating_point<float> : public true_type {};
+
+template <>
+struct __is_floating_point<double> : public true_type {};
+
+template <>
+struct __is_floating_point<long double> : public true_type {};
+
+template <typename T>
 struct __is_integral : public false_type {};
 
 template <>
@@ -118,6 +130,38 @@ struct is_array<T[N]> : true_type {};
  */
 template <typename T>
 inline constexpr bool is_array_v = is_array<T>::value;
+
+/**
+ * @brief If `T` is a floating-point type with optional const/volatile
+ * qualifiers, then `value` is `true`. Otherwise, `value` is `false`.
+ *
+ * @details
+ * The types considered floating-point that result in `value` being `true` are:
+ *
+ * - `float`
+ * - `double`
+ * - `long double`
+ *
+ * Any of these types may also have a const and/or volatile qualifier. All
+ * other types result in `value` being `false`.
+ * 
+ * @tparam T possible floating-point type with optional const/volatile
+ * qualifiers
+ * @param value `true` if `T` is a floating-point type with optional const/
+ * volatile qualifiers; `false` otherwise
+ */
+template <typename T>
+struct is_floating_point : public details::__is_floating_point<std::remove_cv_t<T>>::type {};
+
+/**
+ * @brief `True` if `T` is a floating-point type with optional const/volatile
+ * qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible floating-point type with optional const/volatile
+ * qualifiers
+ */
+template <typename T>
+inline constexpr bool is_floating_point_v = is_floating_point<T>::value;
 
 /**
  * @brief If `T` is an integral type with optional const/volatile qualifiers,
