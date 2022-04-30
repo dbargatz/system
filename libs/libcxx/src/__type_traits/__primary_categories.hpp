@@ -20,6 +20,12 @@ namespace std {
 namespace details {
 
 template <typename T>
+struct __is_null_pointer : public false_type {};
+
+template <>
+struct __is_null_pointer<nullptr_t> : public true_type {};
+
+template <typename T>
 struct __is_void : public false_type {};
 
 template <>
@@ -87,6 +93,39 @@ struct is_lvalue_reference<T&> : true_type {};
  */
 template <typename T>
 inline constexpr bool is_lvalue_reference_v = is_lvalue_reference<T>::value;
+
+/**
+ * @brief If `T` is the `std::nullptr_t` type with optional const/volatile
+ * qualifiers, then `value` is `true`. Otherwise, `value` is `false`.
+ *
+ * @details
+ * The types considered `std::nullptr_t` that result in `value` being `true`
+ * are:
+ *
+ * - `std::nullptr_t`
+ * - `const std::nullptr_t`
+ * - `volatile std::nullptr_t`
+ * - `const volatile std::nullptr_t`
+ *
+ * All other types result in `value` being `false`.
+ * 
+ * @tparam T possible `std::nullptr_t` type with optional const/volatile
+ * qualifiers
+ * @param value `true` if `T` is the `std::nullptr_t` type with optional const/
+ * volatile qualifiers; `false` otherwise
+ */
+template <typename T>
+struct is_null_pointer : public details::__is_null_pointer<std::remove_cv_t<T>>::type {};
+
+/**
+ * @brief `True` if `T` is the `std::nullptr_t` type with optional const/
+ * volatile qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible `std::nullptr_t` type with optional const/volatile
+ * qualifiers
+ */
+template <typename T>
+inline constexpr bool is_null_pointer_v = is_null_pointer<T>::value;
 
 /**
  * @brief If `T` is an rvalue reference type, member `value` is `true`.
