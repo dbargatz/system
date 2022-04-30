@@ -134,6 +134,29 @@ template <typename T>
 inline constexpr bool is_array_v = is_array<T>::value;
 
 /**
+ * @brief If `T` is a class type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @note The `__is_class()` function used in the definition of this template
+ * is a compiler intrinsic. Compiler support isn't necessary for a correct and
+ * conforming implementation of `std::is_class`, but it does make the
+ * implementation slightly simpler, as seen in this block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L869-L892
+ * 
+ * @tparam T possible class type
+ */
+template <typename T>
+struct is_class : std::bool_constant<__is_class(T)> {};
+
+/**
+ * @brief `True` if `T` is a class type; otherwise, `false`.
+ * 
+ * @tparam T possible class type
+ */
+template <typename T>
+inline constexpr bool is_class_v = is_class<T>::value;
+
+/**
  * @brief If `T` is an enum type, member `value` is `true`; otherwise, member
  * `value` is `false`.
  * 
@@ -278,6 +301,56 @@ template <typename T>
 inline constexpr bool is_lvalue_reference_v = is_lvalue_reference<T>::value;
 
 /**
+ * @brief If `T` is a non-static member function pointer type, member `value`
+ * is `true`; otherwise, member `value` is `false`.
+ * 
+ * @note The `__is_member_function_pointer()` function used in the definition
+ * of this template is a compiler intrinsic. Compiler support isn't necessary
+ * for a correct and conforming implementation of
+ * `std::is_member_function_pointer`, but it does make the implementation
+ * significantly simpler, as seen in this block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L926-L947
+ * 
+ * @tparam T possible member function pointer type
+ */
+template <typename T>
+struct is_member_function_pointer : std::bool_constant<__is_member_function_pointer(T)> {};
+
+/**
+ * @brief `True` if `T` is a non-static member function pointer type; otherwise,
+ * `false`.
+ * 
+ * @tparam T possible member function pointer type
+ */
+template <typename T>
+inline constexpr bool is_member_function_pointer_v = is_member_function_pointer<T>::value;
+
+/**
+ * @brief If `T` is a non-static member object pointer type, member `value` is
+ * `true`; otherwise, member `value` is `false`.
+ * 
+ * @note The `__is_member_object_pointer()` function used in the definition of
+ * this template is a compiler intrinsic. Compiler support isn't necessary for
+ * a correct and conforming implementation of `std::is_member_object_pointer`,
+ * but it does make the implementation significantly simpler, as seen in this
+ * block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L973-L996
+ * 
+ * @tparam T possible member object pointer type
+ */
+template <typename T>
+struct is_member_object_pointer : std::bool_constant<__is_member_object_pointer(T)> {};
+
+/**
+ * @brief `True` if `T` is a non-static member object pointer type; otherwise,
+ * `false`.
+ * 
+ * @tparam T possible member object pointer type
+ */
+template <typename T>
+inline constexpr bool is_member_object_pointer_v = is_member_object_pointer<T>::value;
+
+/**
  * @brief If `T` is the `std::nullptr_t` type with optional const/volatile
  * qualifiers, then `value` is `true`. Otherwise, `value` is `false`.
  *
@@ -359,6 +432,29 @@ struct is_rvalue_reference<T&&> : true_type {};
  */
 template <typename T>
 inline constexpr bool is_rvalue_reference_v = is_rvalue_reference<T>::value;
+
+/**
+ * @brief If `T` is a union type, member `value` is `true`; otherwise, member
+ * `value` is `false`.
+ * 
+ * @note The `__is_union()` function used in the definition of this template
+ * is a compiler intrinsic. Compiler support isn't necessary for a correct and
+ * conforming implementation of `std::is_union`, but it does make the
+ * implementation slightly simpler, as seen in this block from clang's libcxx:
+ * https://github.com/llvm/llvm-project/blob/a9d68a5524dea113cace5983697786599cbdce9a/libcxx/include/type_traits#L849-L867
+ * 
+ * @tparam T possible union type
+ */
+template <typename T>
+struct is_union : std::bool_constant<__is_union(T)> {};
+
+/**
+ * @brief `True` if `T` is a union type; otherwise, `false`.
+ * 
+ * @tparam T possible union type
+ */
+template <typename T>
+inline constexpr bool is_union_v = is_union<T>::value;
 
 /**
  * @brief If `T` is a `void` type with optional const/volatile qualifiers, then
