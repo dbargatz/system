@@ -125,6 +125,27 @@ struct is_trivially_constructible : std::bool_constant<__is_trivially_constructi
 template <typename T, typename... Args>
 inline constexpr bool is_trivially_constructible_v = is_trivially_constructible<T, Args...>::value;
 
+/**
+ * @brief If `std::is_trivially_constructible<T>::value` is `true`, meaning `T`
+ * is constructible via a no-args (default) constructor that only calls trivial
+ * operations, then the member `value` is equal to `true`; otherwise, member
+ * `value` is equal to `false`.
+ * 
+ * @tparam T possible trivially-default-constructible type
+ */
+template <typename T>
+struct is_trivially_default_constructible : is_trivially_constructible<T> {};
+
+/**
+ * @brief `True` if `std::is_trivially_constructible<T>::value` is `true`,
+ * meaning `T` is constructible via a no-args (default) constructor that only
+ * calls trivial operations; otherwise, `false`.
+ * 
+ * @tparam T possible trivially-default-constructible type
+ */
+template <typename T>
+inline constexpr bool is_trivially_default_constructible_v = is_trivially_default_constructible<T>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_SUPPORTED_OPERATIONS_HPP
