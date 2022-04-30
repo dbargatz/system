@@ -25,5 +25,6 @@
 #include <__type_traits/__reference_modifications.hpp>
 #include <__type_traits/__relationships.hpp>
 #include <__type_traits/__supported_operations.hpp>
+#include <__type_traits/__trait_operations.hpp>
 
 #endif // _STD_TYPE_TRAITS_HPP
