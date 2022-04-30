@@ -126,6 +126,25 @@ template <typename T>
 inline constexpr bool is_scalar_v = is_scalar<T>::value;
 
 /**
+ * @brief If `T` is any non-fundamental type, optionally with const and/or
+ * volatile qualifiers, then member `value` is equal to `true`. Otherwise,
+ * member `value` is equal to `false`.
+ * 
+ * @tparam T possible compound type
+ */
+template <typename T>
+struct is_compound : std::bool_constant<!is_fundamental_v<T>> {};
+
+/**
+ * @brief `True` if `T` is any non-fundamental type with optional const/
+ * volatile qualifiers; otherwise, `false`.
+ * 
+ * @tparam T possible compound type
+ */
+template <typename T>
+inline constexpr bool is_compound_v = is_compound<T>::value;
+
+/**
  * @brief If `T` is any type other than function, reference, or void, and
  * optionally with const and/or volatile qualifiers, then member `value` is
  * equal to `true`. Otherwise, member `value` is equal to `false`.
