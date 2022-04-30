@@ -16,6 +16,13 @@
 
 namespace std {
 
+namespace details {
+
+template <typename T>
+using __add_const_lvalue_reference = typename std::add_lvalue_reference<typename std::add_const<T>::type>::type;
+
+}; // namespace details
+
 /**
  * @brief If `T` is an object or reference type, and the variable definition
  * `T obj(std::declval<Args>()...)` is well-formed, then the member `value` is
@@ -42,6 +49,27 @@ struct is_constructible : std::bool_constant<__is_constructible(T, Args...)> {};
  */
 template <typename T, typename... Args>
 inline constexpr bool is_constructible_v = is_constructible<T, Args...>::value;
+
+/**
+ * @brief If `T` is a referenceable type and is constructible via a constructor
+ * accepting a single `const T&` argument (aka a copy constructor), then the
+ * member `value` is equal to `true`; otherwise, member `value` is equal to
+ * `false`.
+ * 
+ * @tparam T possible copy-constructible type
+ */
+template <typename T>
+struct is_copy_constructible : is_constructible<T, details::__add_const_lvalue_reference<T>> {};
+
+/**
+ * @brief `True` if `T` is a referenceable type and is constructible via a
+ * constructor accepting a single `const T&` argument (aka a copy constructor);
+ * otherwise, `false`.
+ * 
+ * @tparam T possible copy-constructible type
+ */
+template <typename T>
+inline constexpr bool is_copy_constructible_v = is_copy_constructible<T, Args...>::value;
 
 /**
  * @brief If `std::is_constructible<T>::value` is `true`, meaning `T` is
