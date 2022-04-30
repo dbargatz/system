@@ -56,6 +56,49 @@ struct conjunction<B1, Bn...> : std::conditional_t<bool(B1::value), conjunction<
 template <typename... B>
 inline constexpr bool conjunction_v = conjunction<B...>::value;
 
+/**
+ * @brief Performs the equivalent of a logical OR on the given sequence of
+ * type traits, with the result stored in member `value`. Will short-circuit,
+ * meaning every Bi::value may not be instantiated.
+ * 
+ * @tparam B... sequence of type traits for which each B must be usable as a
+ * base class and defines a member `value` convertible to `bool`
+ */
+template <typename...>
+struct disjunction : std::false_type {};
+
+/**
+ * @brief Performs the equivalent of a logical OR on the given sequence of
+ * type traits, with the result stored in member `value`. Will short-circuit,
+ * meaning every Bi::value may not be instantiated.
+ * 
+ * @tparam B... sequence of type traits for which each B must be usable as a
+ * base class and defines a member `value` convertible to `bool`
+ */
+template <typename B1>
+struct disjunction<B1> : B1 {};
+
+/**
+ * @brief Performs the equivalent of a logical OR on the given sequence of
+ * type traits, with the result stored in member `value`. Will short-circuit,
+ * meaning every Bi::value may not be instantiated.
+ * 
+ * @tparam B... sequence of type traits for which each B must be usable as a
+ * base class and defines a member `value` convertible to `bool`
+ */
+template <typename B1, typename... Bn>
+struct disjunction<B1, Bn...> : std::conditional_t<bool(B1::value), B1, disjunction<Bn...>> {};
+
+/**
+ * @brief `True` if the equivalent of a logical OR on the given sequence of
+ * type traits is `true`; otherwise, `false`.
+ * 
+ * @tparam B... sequence of type traits for which each B must be usable as a
+ * base class and defines a member `value` convertible to `bool`
+ */
+template <typename... B>
+inline constexpr bool disjunction_v = disjunction<B...>::value;
+
 }; // namespace std
 
 #endif // _STD_TYPE_TRAITS_TRAIT_OPERATIONS_HPP
