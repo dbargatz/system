@@ -11,6 +11,8 @@
 #ifndef _STD_TYPE_TRAITS_PROPERTIES_HPP
 #define _STD_TYPE_TRAITS_PROPERTIES_HPP
 
+#include <__type_traits/__helpers.hpp>
+
 namespace std {
 
 /**
@@ -20,7 +22,7 @@ namespace std {
  * @tparam T possible const-qualified type
  */
 template <typename T>
-struct is_const : false_type {};
+struct is_const : std::false_type {};
 
 /**
  * @brief If `T` is a const-qualified type, member `value` is `true`; otherwise,
@@ -29,7 +31,7 @@ struct is_const : false_type {};
  * @tparam T possible const-qualified type
  */
 template <typename T>
-struct is_const<const T> : true_type {};
+struct is_const<const T> : std::true_type {};
 
 /**
  * @brief `True` if `T` is a const-qualified type; otherwise, `false`.
@@ -46,7 +48,7 @@ inline constexpr bool is_const_v = is_const<T>::value;
  * @tparam T possible volatile-qualified type
  */
 template <typename T>
-struct is_volatile : false_type {};
+struct is_volatile : std::false_type {};
 
 /**
  * @brief If `T` is a volatile-qualified type, member `value` is `true`; otherwise,
@@ -55,7 +57,7 @@ struct is_volatile : false_type {};
  * @tparam T possible volatile-qualified type
  */
 template <typename T>
-struct is_volatile<volatile T> : true_type {};
+struct is_volatile<volatile T> : std::true_type {};
 
 /**
  * @brief `True` if `T` is a volatile-qualified type; otherwise, `false`.
