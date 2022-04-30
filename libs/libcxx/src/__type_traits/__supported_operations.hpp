@@ -24,6 +24,30 @@ using __add_const_lvalue_reference = typename std::add_lvalue_reference<typename
 }; // namespace details
 
 /**
+ * @brief If `T` is a trivially-copyable type, and any two objects of type `T`
+ * have the same object representation, then the member `value` is equal to
+ * `true`; otherwise, member `value` is equal to `false`.
+ * 
+ * @note The `__has_unique_object_representations()` function used in the
+ * definition of this template is a compiler intrinsic. Compiler support is
+ * required for a correct and conforming implementation of
+ * `std::has_unique_object_representations`.
+ * 
+ * @tparam T type with possible unique object representation
+ */
+template <typename T>
+struct has_unique_object_representations : std::bool_constant<__has_unique_object_representations(std::remove_cv_t<std::remove_all_extents_t<T>>)> {};
+
+/**
+ * @brief `True` if `T` is a trivially-copyable type, and any two objects of
+ * type `T` have the same object representation; otherwise, `false`.
+ * 
+ * @tparam T type with possible unique object representation
+ */
+template <typename T>
+inline constexpr bool has_unique_object_representations_v = has_unique_object_representations<T>::value;
+
+/**
  * @brief If `T` is a type with a virtual destructor, then the member `value`
  * is equal to `true`; otherwise, member `value` is equal to `false`.
  * 
