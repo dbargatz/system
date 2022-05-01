@@ -31,9 +31,11 @@
 #include <type_traits>
 #include <utility>
 
-#if defined(__EXCEPTIONS) || defined(_CPPUNWIND)
-#define TL_EXPECTED_EXCEPTIONS_ENABLED
-#endif
+#if !defined(LIBCXX_DISABLE_EXCEPTIONS)
+  #if defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+    #define TL_EXPECTED_EXCEPTIONS_ENABLED
+  #endif
+#endif //!defined(LIBCXX_DISABLE_EXCEPTIONS)
 
 #if (defined(_MSC_VER) && _MSC_VER == 1900)
 #define TL_EXPECTED_MSVC2015
@@ -248,6 +250,7 @@ template <class T> struct is_const_or_const_ref<T const&> : std::true_type {};
 template <class T> struct is_const_or_const_ref<T const> : std::true_type {};
 #endif
 
+#if !defined(LIBCXX_DISABLE_MEM_FN)
 // std::invoke from C++17
 // https://stackoverflow.com/questions/38288042/c11-14-invoke-workaround
 template <typename Fn, typename... Args,
@@ -262,6 +265,7 @@ template <typename Fn, typename... Args,
   -> decltype(std::mem_fn(f)(std::forward<Args>(args)...)) {
   return std::mem_fn(f)(std::forward<Args>(args)...);
 }
+#endif // !defined(LIBCXX_DISABLE_MEM_FN)
 
 template <typename Fn, typename... Args,
   typename = enable_if_t<!std::is_member_pointer<decay_t<Fn>>::value>>
