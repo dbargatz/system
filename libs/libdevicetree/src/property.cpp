@@ -1,5 +1,6 @@
 #include "property.hpp"
 #include <cassert>
+#include "properties/stringlist.hpp"
 
 using namespace std::literals;
 
@@ -13,6 +14,14 @@ devicetree::property::property(const void * in_ptr) {
 
     auto name_ptr = (const char *)_s_strings_block + details::be_to_host(_start->nameoff);
     _name = std::string_view(name_ptr);
+}
+
+template<> char * devicetree::property::get_value<char *>() const {
+    return (char *)_start->value;
+}
+
+template<> devicetree::properties::stringlist devicetree::property::get_value<devicetree::properties::stringlist>() const {
+    return devicetree::properties::stringlist(_start->value, details::be_to_host(_start->len));
 }
 
 template<> std::uint32_t devicetree::property::get_value<std::uint32_t>() const {
@@ -29,16 +38,8 @@ template<> std::string_view devicetree::property::get_value<std::string_view>() 
     return std::string_view((const char *)_start->value);
 }
 
-template<> std::vector<std::string_view> devicetree::property::get_value<std::vector<std::string_view>>() const {
-    auto vec = std::vector<std::string_view>();
-    const char * str_ptr = _start->value;
-    const char * end_ptr = _start->value + details::be_to_host(_start->len);
-    while(str_ptr < end_ptr) {
-        auto view = std::string_view(str_ptr);
-        vec.push_back(view);
-        str_ptr += view.length() + 1;
-    }
-    return vec;
+template<> devicetree::reg_proparray devicetree::property::get_value<devicetree::reg_proparray>() const {
+    return reg_proparray((reg32 *)_start->value, details::be_to_host(_start->len));
 }
 
 std::string devicetree::property::format(std::size_t in_indent) const {
@@ -100,7 +101,7 @@ std::string devicetree::property::format(std::size_t in_indent) const {
     if(_name == "compatible"sv ||
        _name == "enable-method"sv
     ) {
-        auto value = get_value<std::vector<std::string_view>>();
+        auto value = get_value<devicetree::properties::stringlist>();
         auto str = std::format("{}{}:\n", indent, _name);
         for(auto&& item : value) {
             auto line = std::format("{}  - {}\n", indent, item);
@@ -110,32 +111,32 @@ std::string devicetree::property::format(std::size_t in_indent) const {
     }
 
     if(_name == "reg"sv) {
-        auto value = get_prop_encoded_array<struct details::fdt_reg>();
+        auto value = get_value<reg_proparray>();
         auto str = std::format("{}{}:\n", indent, _name);
         for(auto&& item : value) {
-            auto start = details::be_to_host(item->address);
-            auto len = details::be_to_host(item->length);
+            auto start = details::be_to_host(item.address);
+            auto len = details::be_to_host(item.length);
             auto end = start + len;
             auto line = std::format("{}  - 0x{:X} - 0x{:X} ({} bytes)\n", indent, start, end, len);
             str.append(line);
         }
         return str;
     }
-    
-    if(_name == "ranges"sv ||
-       _name == "dma-ranges"sv
-    ) {
-        auto value = get_prop_encoded_array<struct details::fdt_range>();
-        auto str = std::format("{}{}:\n", indent, _name);
-        for(auto&& item : value) {
-            auto child_start = details::be_to_host(item->child_bus_address);
-            auto parent_start = details::be_to_host(item->parent_bus_address);
-            auto len = details::be_to_host(item->length);
-            auto line = std::format("{}  - 0x{:X} -> 0x{:X} ({} bytes)\n", indent, child_start, parent_start, len);
-            str.append(line);
-        }
-        return str;
-    }
+
+    // if(_name == "ranges"sv ||
+    //    _name == "dma-ranges"sv
+    // ) {
+    //     auto value = get_prop_encoded_array<struct details::fdt_range>();
+    //     auto str = std::format("{}{}:\n", indent, _name);
+    //     for(auto&& item : value) {
+    //         auto child_start = details::be_to_host(item->child_bus_address);
+    //         auto parent_start = details::be_to_host(item->parent_bus_address);
+    //         auto len = details::be_to_host(item->length);
+    //         auto line = std::format("{}  - 0x{:X} -> 0x{:X} ({} bytes)\n", indent, child_start, parent_start, len);
+    //         str.append(line);
+    //     }
+    //     return str;
+    // }
 
     return std::format("{}{}: {}\n", indent, _name, "???"sv);
 }
@@ -145,8 +146,12 @@ std::size_t devicetree::property::length() const {
     return details::align(len);
 }
 
+std::string_view devicetree::property::name() const {
+    return _name;
+}
+
 template<>
-devicetree::details::iterator<devicetree::property>& devicetree::details::iterator<devicetree::property>::operator++() {
+devicetree::property_iterator& devicetree::property_iterator::operator++() {
     // If this is an empty/sentinel property class, don't attempt to iterate.
     if(_current == nullptr) { return *this; }
 

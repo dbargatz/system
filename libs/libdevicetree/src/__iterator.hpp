@@ -3,18 +3,18 @@
 
 namespace devicetree::details {
 
-template <typename T>
+template <typename T, typename V>
 class iterator {
 private:
-    typename T::internal_struct * _current;
+    V * _current;
 
 public:
-    iterator(typename T::internal_struct * in_ptr) { _current = in_ptr; }
-    bool operator==(const iterator<T>& in_other) const { return (_current == in_other._current); }
-    bool operator!=(const iterator<T>& in_other) const { return !(*this == in_other); }
+    iterator(V * in_ptr) { _current = in_ptr; }
+    bool operator==(const iterator<T,V>& in_other) const { return (_current == in_other._current); }
+    bool operator!=(const iterator<T,V>& in_other) const { return !(*this == in_other); }
 
     T operator*() { return T(_current); }
-    iterator<T>& operator++();
+    iterator<T,V>& operator++();
 };
 
 }; // namespace devicetree::details

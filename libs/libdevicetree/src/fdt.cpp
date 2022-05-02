@@ -27,10 +27,15 @@ devicetree::fdt::fdt(const void * in_ptr) {
     assert(end_token == details::FDT_END);
 }
 
-devicetree::details::list<devicetree::node> devicetree::fdt::find(std::string_view in_node_path) {
-    assert(in_node_path.starts_with('/'));
-    auto root_node = node(_structs_block_ptr);
-    return root_node.find(in_node_path);
+std::expected<devicetree::node, std::uint32_t> devicetree::fdt::get(const char * in_path) {
+    auto path = std::string_view(in_path);
+    auto root = node(_structs_block_ptr);
+    if(!path.starts_with("/")) {
+        // TODO: handle alias
+    } else {
+        path.remove_prefix(1);
+    }
+    return root.get(path.data());
 }
 
 std::string devicetree::fdt::format() const {
@@ -60,4 +65,8 @@ std::string devicetree::fdt::format() const {
 
 std::size_t devicetree::fdt::length() const {
     return details::be_to_host(_header->totalsize);
+}
+
+std::expected<devicetree::node, std::uint32_t> devicetree::fdt::root() const {
+    return node(_structs_block_ptr);
 }

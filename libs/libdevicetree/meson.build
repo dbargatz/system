@@ -1,6 +1,7 @@
 libdevicetree_src = [
     'src/fdt.cpp',
     'src/node.cpp',
+    'src/properties/stringlist.cpp',
     'src/property.cpp',
 ]
 

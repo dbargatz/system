@@ -1,7 +1,11 @@
 #ifndef _DEVICETREE_NODE_HPP
 #define _DEVICETREE_NODE_HPP
 
+#define LIBCXX_DISABLE_EXCEPTIONS
+#define LIBCXX_DISABLE_MEM_FN
+
 #include <cstdint>
+#include <expected>
 #include <format>
 #include <string>
 #include <string_view>
@@ -15,14 +19,26 @@ class node {
 public:
     using internal_struct = struct details::fdt_begin_node;
 
-    node();
+    node() = delete;
     node(const void * in_ptr);
 
-    details::list<node> find(std::string_view in_node_path);
+    std::expected<node, std::uint32_t> get(const char * in_path);
+
+    template <typename T>
+    std::expected<T, std::uint32_t> get(const char * in_property) {
+        auto target_prop = std::string_view(in_property);
+        for(auto&& prop : properties()) {
+            if(prop.name() == target_prop) {
+                return prop.get_value<T>();
+            }
+        }
+        return std::unexpected(0);
+    }
+
     bool operator==(const node& in_other) const { return _start == in_other._start; }
 
-    details::list<node> children();
-    details::list<property> properties();
+    details::list<node, struct details::fdt_begin_node> children();
+    property_list properties();
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
@@ -32,8 +48,11 @@ private:
     std::string_view _name;
 }; // class node
 
+using node_iterator = details::iterator<node, struct details::fdt_begin_node>;
+using node_list = details::list<node, struct details::fdt_begin_node>;
+
 template <>
-details::iterator<node>& details::iterator<node>::operator++();
+node_iterator& node_iterator::operator++();
 
 }; // namespace devicetree
 

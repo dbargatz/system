@@ -22,10 +22,11 @@ public:
     fdt() = delete;
     fdt(const void * in_ptr);
 
-    details::list<node> find(std::string_view in_node_path);
+    std::expected<node, std::uint32_t> get(const char * in_path);
 
     std::string format() const;
     std::size_t length() const;
+    std::expected<node, std::uint32_t> root() const;
 }; // class fdt
 
 }; // namespace devicetree

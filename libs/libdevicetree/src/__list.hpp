@@ -5,17 +5,17 @@
 
 namespace devicetree::details {
 
-template <typename T>
+template <typename T, typename V>
 class list {
 private:
-    typename T::internal_struct * _first;
+    V * _first;
 
 public:
     list() { _first = nullptr; }
-    list(typename T::internal_struct * in_first) { _first = in_first; }
+    list(V * in_first) { _first = in_first; }
 
-    iterator<T> begin() noexcept { return iterator<T>(_first); }
-    iterator<T> end() noexcept { return iterator<T>(nullptr); }
+    iterator<T,V> begin() noexcept { return iterator<T,V>(_first); }
+    iterator<T,V> end() noexcept { return iterator<T,V>(nullptr); }
 
     T first() noexcept { return T(_first); }
 };

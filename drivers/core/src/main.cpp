@@ -20,27 +20,32 @@ extern core::console::console * _core_assert_log;
     _core_assert_log = &log;
 
     auto fdt = devicetree::fdt(in_boot_info);
-    devicetree::node root = fdt.find("/").first();
-    devicetree::node memnode = fdt.find("/memory").first();
-    devicetree::node reserved_mem = fdt.find("/reserved-memory").first();
+    auto root = fdt.root();
+    assertm(root, "/ node not present in devicetree");
+    auto memnode = fdt.get("/memory");
+    assertm(root, "/memory node not present in devicetree");
+    auto reserved_mem = fdt.get("/reserved-memory");
+    assertm(root, "/reserved-memory node not present in devicetree");
 
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
 
     auto perm = get_permission_level();
-    log.info("Starting core driver for {} on processor {:X} at permission level {}", PLATFORM_NAME, in_proc_id, perm);
-    log.info("{}", memnode);
-    log.info("{}", reserved_mem);
+    auto model = root->get<std::string_view>("model");
+    assert(model);
+    log.info("Starting core driver for {} on processor {:X} at permission level {}", *model, in_proc_id, perm);
+    log.info("{}", *memnode);
+    log.info("{}", *reserved_mem);
 
-    log.info("{}", mem_mgr);
+    auto check = reserved_mem->get<std::uint32_t>("#address-cells");
+    assert(check);
+    log.info("resmem #address-cells: {}", *check);
 
     log.info("/ {");
-    for(auto&& prop : root.properties()) {
+    for(auto&& prop : root->properties()) {
         log.info("  {}", prop);
     }
     log.info("}");
-
-    log.info("{}", mem_mgr);
 
     log.unicode_test(core::console::level::Debug);
 
