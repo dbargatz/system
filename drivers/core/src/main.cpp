@@ -36,6 +36,10 @@ extern core::console::console * _core_assert_log;
 
     auto root = fdt.root();
     assertm(root, "/ node not present in devicetree");
+    auto addr_cells = root->get_value<std::uint32_t>("#address-cells").value_or(0);
+    auto size_cells = root->get_value<std::uint32_t>("#size-cells").value_or(0);
+    assertm(addr_cells && size_cells, "invalid #address-cells and/or #size-cells");
+
     auto memnode = fdt.get("/memory");
     assertm(memnode, "/memory node not present in devicetree");
     auto reserved_mem = fdt.get("/reserved-memory");
@@ -59,6 +63,14 @@ extern core::console::console * _core_assert_log;
         log.info("  {}", prop);
     }
     log.info("}");
+
+    auto devtype_mem = fdt.find([&log] (devicetree::node& n) { 
+        auto device_type = n.get_value<std::string_view>("device_type");
+        if(!device_type || *device_type != std::string_view("memory")) { return false; }
+
+        log.info("{}", n);
+        return false;
+    });
 
     log.unicode_test(core::console::level::Debug);
 
