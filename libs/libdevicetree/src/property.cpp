@@ -38,10 +38,6 @@ template<> std::string_view devicetree::property::get_value<std::string_view>() 
     return std::string_view((const char *)_start->value);
 }
 
-template<> devicetree::reg_proparray devicetree::property::get_value<devicetree::reg_proparray>() const {
-    return reg_proparray((reg32 *)_start->value, details::be_to_host(_start->len));
-}
-
 std::string devicetree::property::format(std::size_t in_indent) const {
     auto indent = std::string(in_indent * 2, ' ');
     if(_name == "model"sv ||
@@ -109,34 +105,6 @@ std::string devicetree::property::format(std::size_t in_indent) const {
         }
         return str;
     }
-
-    if(_name == "reg"sv) {
-        auto value = get_value<reg_proparray>();
-        auto str = std::format("{}{}:\n", indent, _name);
-        for(auto&& item : value) {
-            auto start = details::be_to_host(item.address);
-            auto len = details::be_to_host(item.length);
-            auto end = start + len;
-            auto line = std::format("{}  - 0x{:X} - 0x{:X} ({} bytes)\n", indent, start, end, len);
-            str.append(line);
-        }
-        return str;
-    }
-
-    // if(_name == "ranges"sv ||
-    //    _name == "dma-ranges"sv
-    // ) {
-    //     auto value = get_prop_encoded_array<struct details::fdt_range>();
-    //     auto str = std::format("{}{}:\n", indent, _name);
-    //     for(auto&& item : value) {
-    //         auto child_start = details::be_to_host(item->child_bus_address);
-    //         auto parent_start = details::be_to_host(item->parent_bus_address);
-    //         auto len = details::be_to_host(item->length);
-    //         auto line = std::format("{}  - 0x{:X} -> 0x{:X} ({} bytes)\n", indent, child_start, parent_start, len);
-    //         str.append(line);
-    //     }
-    //     return str;
-    // }
 
     return std::format("{}{}: {}\n", indent, _name, "???"sv);
 }
