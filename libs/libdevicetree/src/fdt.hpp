@@ -7,6 +7,7 @@
 #include "__list.hpp"
 #include "__structs.hpp"
 #include "node.hpp"
+#include "properties/stringlist.hpp"
 
 namespace devicetree {
 
@@ -23,6 +24,14 @@ public:
     fdt(const void * in_ptr);
 
     std::expected<node, std::uint32_t> get(const char * in_path);
+
+    template <typename P>
+    std::expected<node, std::uint32_t> find(P in_predicate) {
+        auto root = this->root();
+        if(!root) { return root; }
+
+        return root->find(in_predicate);
+    }
 
     std::string format() const;
     std::size_t length() const;

@@ -3,12 +3,12 @@
 #include "__utils.hpp"
 
 devicetree::node::node(const void * in_ptr) {
-    _start = (node::internal_struct *)in_ptr;
+    _start = (struct details::fdt_begin_node *)in_ptr;
     assert(details::be_to_host(_start->token) == details::FDT_BEGIN_NODE);
     _name = std::string_view(_start->name);
 }
 
-std::expected<devicetree::node, std::uint32_t> devicetree::node::get(const char * in_path) {
+std::expected<devicetree::node, std::uint32_t> devicetree::node::get_node(const char * in_path) {
     auto path = std::string_view(in_path);
     if(path.starts_with("/")) { path.remove_prefix(1); }
 
@@ -25,10 +25,20 @@ std::expected<devicetree::node, std::uint32_t> devicetree::node::get(const char 
     }
 
     for(auto&& child : children()) {
-        auto result = child.get(path.data());
+        auto result = child.get_node(path.data());
         if(result) { return result; }
     }
 
+    return std::unexpected(0);
+}
+
+std::expected<devicetree::property, std::uint32_t> devicetree::node::get_property(const char * in_name) {
+    auto target_prop = std::string_view(in_name);
+    for(auto&& prop : properties()) {
+        if(prop.name() == target_prop) {
+            return prop;
+        }
+    }
     return std::unexpected(0);
 }
 
@@ -145,7 +155,7 @@ devicetree::details::list<devicetree::node, struct devicetree::details::fdt_begi
                 // The first FDT_BEGIN_NODE we encounter before an FDT_END_NODE
                 // (if any) is the first child, so create and return the
                 // nodelist from it.
-                auto first_child = (node::internal_struct *)next;
+                auto first_child = (struct details::fdt_begin_node *)next;
                 return details::list<node, struct details::fdt_begin_node>(first_child);
             }
             case details::FDT_END_NODE: {
@@ -185,7 +195,7 @@ devicetree::node_iterator& devicetree::node_iterator::operator++() {
             // If the very next token is a begin node, that means there's
             // a sibling node immediately after the current node, so keep
             // iterating!
-            _current = (node::internal_struct *)next_token_ptr;
+            _current = (struct details::fdt_begin_node *)next_token_ptr;
             return *this;
         }
         case details::FDT_NOP:

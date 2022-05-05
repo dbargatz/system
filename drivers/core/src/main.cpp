@@ -16,29 +16,42 @@ extern core::memory::memory_manager * _core_memory_manager;
 extern core::console::console * _core_assert_log;
 
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
+    auto fdt = devicetree::fdt(in_boot_info);
+    auto serial = fdt.find([] (devicetree::node& n) { 
+        auto compatible = n.get_value<devicetree::properties::stringlist>("compatible");
+        if(!compatible) { return false; }
+
+        for(auto&& str : *compatible) {
+            auto sv = std::string_view(str);
+            if(0 == sv.compare("brcm,bcm2835-aux-uart")) {
+                return true;
+            }
+        }
+        return false;
+    });
+    assertm(serial, "no serial nodes present in devicetree");
+
     core::console::console log(core::console::level::Debug);
     _core_assert_log = &log;
 
-    auto fdt = devicetree::fdt(in_boot_info);
     auto root = fdt.root();
     assertm(root, "/ node not present in devicetree");
     auto memnode = fdt.get("/memory");
-    assertm(root, "/memory node not present in devicetree");
+    assertm(memnode, "/memory node not present in devicetree");
     auto reserved_mem = fdt.get("/reserved-memory");
-    assertm(root, "/reserved-memory node not present in devicetree");
+    assertm(reserved_mem, "/reserved-memory node not present in devicetree");
 
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
 
     auto perm = get_permission_level();
-    auto model = root->get<std::string_view>("model");
-    assert(model);
+    auto model = root->get_value<std::string_view>("model");
     log.info("Starting core driver for {} on processor {:X} at permission level {}", *model, in_proc_id, perm);
     log.info("{}", *memnode);
     log.info("{}", *reserved_mem);
+    log.info("{}", *serial);
 
-    auto check = reserved_mem->get<std::uint32_t>("#address-cells");
-    assert(check);
+    auto check = reserved_mem->get_value<std::uint32_t>("#address-cells");
     log.info("resmem #address-cells: {}", *check);
 
     log.info("/ {");

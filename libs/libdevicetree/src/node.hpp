@@ -4,6 +4,7 @@
 #define LIBCXX_DISABLE_EXCEPTIONS
 #define LIBCXX_DISABLE_MEM_FN
 
+#include <algorithm>
 #include <cstdint>
 #include <expected>
 #include <format>
@@ -17,21 +18,29 @@ namespace devicetree {
 
 class node {
 public:
-    using internal_struct = struct details::fdt_begin_node;
-
     node() = delete;
     node(const void * in_ptr);
 
-    std::expected<node, std::uint32_t> get(const char * in_path);
+    std::expected<node, std::uint32_t> get_node(const char * in_path);
+    std::expected<property, std::uint32_t> get_property(const char * in_name);
 
     template <typename T>
-    std::expected<T, std::uint32_t> get(const char * in_property) {
-        auto target_prop = std::string_view(in_property);
-        for(auto&& prop : properties()) {
-            if(prop.name() == target_prop) {
-                return prop.get_value<T>();
-            }
+    std::expected<T, std::uint32_t> get_value(const char * in_property_name) {
+        auto prop = get_property(in_property_name);
+        if(!prop) { return std::unexpected(0); }
+
+        return prop->get_value<T>();
+    }
+
+    template <typename P>
+    std::expected<node, std::uint32_t> find(P in_predicate) {
+        if(in_predicate(*this)) { return *this; }
+
+        for(auto&& child : children()) {
+            auto result = child.find(in_predicate);
+            if(result) { return result; }
         }
+
         return std::unexpected(0);
     }
 
@@ -44,7 +53,7 @@ public:
     std::size_t length() const;
 
 private:
-    node::internal_struct * _start;
+    struct details::fdt_begin_node * _start;
     std::string_view _name;
 }; // class node
 

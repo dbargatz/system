@@ -28,14 +28,16 @@ devicetree::fdt::fdt(const void * in_ptr) {
 }
 
 std::expected<devicetree::node, std::uint32_t> devicetree::fdt::get(const char * in_path) {
+    auto root = this->root();
+    if(!root) { return root; }
+
     auto path = std::string_view(in_path);
-    auto root = node(_structs_block_ptr);
     if(!path.starts_with("/")) {
         // TODO: handle alias
     } else {
         path.remove_prefix(1);
     }
-    return root.get(path.data());
+    return root->get_node(path.data());
 }
 
 std::string devicetree::fdt::format() const {
