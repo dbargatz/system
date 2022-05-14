@@ -22,10 +22,12 @@ public:
 
     static void set_strings_block(const std::uint8_t * in_ptr) { _s_strings_block = in_ptr; }
 
+    std::uint64_t get_cells(std::uint32_t in_num_cells, std::uint32_t in_offset) const;
     template<class V> V get_value(std::uint32_t in_offset = 0) const;
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
+    std::size_t value_length() const;
     std::string_view name() const;
 
 private:
