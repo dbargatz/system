@@ -25,11 +25,11 @@ public:
     std::expected<property, std::uint32_t> get_property(const char * in_name);
 
     template <typename T>
-    std::expected<T, std::uint32_t> get_value(const char * in_property_name) {
+    std::expected<T, std::uint32_t> get_value(const char * in_property_name, std::uint32_t in_offset = 0) {
         auto prop = get_property(in_property_name);
         if(!prop) { return std::unexpected(0); }
 
-        return prop->get_value<T>();
+        return prop->get_value<T>(in_offset);
     }
 
     template <typename P>

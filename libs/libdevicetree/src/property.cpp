@@ -16,26 +16,41 @@ devicetree::property::property(const void * in_ptr) {
     _name = std::string_view(name_ptr);
 }
 
-template<> char * devicetree::property::get_value<char *>() const {
-    return (char *)_start->value;
+template<> char * devicetree::property::get_value<char *>(std::uint32_t in_offset) const {
+    auto len = details::be_to_host(_start->len);
+    assert(in_offset < len);
+    auto ptr = _start->value + in_offset;
+    return (char *)ptr;
 }
 
-template<> devicetree::properties::stringlist devicetree::property::get_value<devicetree::properties::stringlist>() const {
-    return devicetree::properties::stringlist(_start->value, details::be_to_host(_start->len));
+template<> devicetree::properties::stringlist devicetree::property::get_value<devicetree::properties::stringlist>(std::uint32_t in_offset) const {
+    auto len = details::be_to_host(_start->len);
+    assert(in_offset < len);
+    auto ptr = _start->value + in_offset;
+    return devicetree::properties::stringlist(ptr, len - in_offset);
 }
 
-template<> std::uint32_t devicetree::property::get_value<std::uint32_t>() const {
-    assert(details::be_to_host(_start->len) == sizeof(std::uint32_t));
-    return details::be_to_host(*(std::uint32_t *)_start->value);
+template<> std::uint32_t devicetree::property::get_value<std::uint32_t>(std::uint32_t in_offset) const {
+    auto len = details::be_to_host(_start->len);
+    assert(in_offset <= (len - sizeof(std::uint32_t)));
+    assert((in_offset % sizeof(std::uint32_t)) == 0);
+    auto ptr = _start->value + in_offset;
+    return details::be_to_host(*(std::uint32_t *)ptr);
 }
 
-template<> std::uint64_t devicetree::property::get_value<std::uint64_t>() const {
-    assert(details::be_to_host(_start->len) == sizeof(std::uint64_t));
-    return details::be_to_host(*(std::uint64_t *)_start->value);
+template<> std::uint64_t devicetree::property::get_value<std::uint64_t>(std::uint32_t in_offset) const {
+    auto len = details::be_to_host(_start->len);
+    assert(in_offset <= (len - sizeof(std::uint64_t)));
+    assert((in_offset % sizeof(std::uint64_t)) == 0);
+    auto ptr = _start->value + in_offset;
+    return details::be_to_host(*(std::uint64_t *)ptr);
 }
 
-template<> std::string_view devicetree::property::get_value<std::string_view>() const {
-    return std::string_view((const char *)_start->value);
+template<> std::string_view devicetree::property::get_value<std::string_view>(std::uint32_t in_offset) const {
+    auto len = details::be_to_host(_start->len);
+    assert(in_offset < len);
+    auto ptr = _start->value + in_offset;
+    return std::string_view((const char *)ptr);
 }
 
 std::string devicetree::property::format(std::size_t in_indent) const {

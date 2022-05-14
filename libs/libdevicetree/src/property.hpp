@@ -22,7 +22,7 @@ public:
 
     static void set_strings_block(const std::uint8_t * in_ptr) { _s_strings_block = in_ptr; }
 
-    template<class V> V get_value() const;
+    template<class V> V get_value(std::uint32_t in_offset = 0) const;
 
     std::string format(std::size_t in_indent = 0) const;
     std::size_t length() const;
