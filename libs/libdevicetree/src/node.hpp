@@ -13,8 +13,12 @@
 #include "__list.hpp"
 #include "__structs.hpp"
 #include "property.hpp"
+#include "properties/reg.hpp"
 
 namespace devicetree {
+
+template <typename T>
+concept Property = std::is_convertible_v<T, property>;
 
 class node {
 public:
@@ -23,6 +27,17 @@ public:
 
     std::expected<node, std::uint32_t> get_node(const char * in_path);
     std::expected<property, std::uint32_t> get_property(const char * in_name);
+
+    template<Property T = property>
+    std::expected<T, std::uint32_t> get_property(const char * in_property_name, std::uint32_t in_addr_cells, std::uint32_t in_size_cells) {
+        auto prop = get_property(in_property_name);
+        if(!prop) { return std::unexpected(0); }
+        return T(*prop, in_addr_cells, in_size_cells);
+    }
+
+    std::expected<properties::reg, std::uint32_t> get_reg_property(std::uint32_t in_addr_cells, std::uint32_t in_size_cells) {
+        return get_property<properties::reg>("reg", in_addr_cells, in_size_cells);
+    }
 
     template <typename T>
     std::expected<T, std::uint32_t> get_value(const char * in_property_name, std::uint32_t in_offset = 0) {

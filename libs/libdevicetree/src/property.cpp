@@ -16,25 +16,6 @@ devicetree::property::property(const void * in_ptr) {
     _name = std::string_view(name_ptr);
 }
 
-std::uint64_t devicetree::property::get_cells(std::uint32_t in_num_cells, std::uint32_t in_offset) const {
-    // Currently, we can only return the value for one cell (32-bit) or two cells (64-bit).
-    assert(in_num_cells == 1 || in_num_cells == 2);
-
-    // Make sure that the number of cells fits in the remaining length of the property value after
-    // applying the offset.
-    auto cell_size = sizeof(std::uint32_t) * in_num_cells;
-    assert(in_offset <= (value_length() - cell_size));
-
-    // Make sure the value offset is aligned on a number-of-cells boundary.
-    assert((in_offset % cell_size) == 0);
-    auto ptr = _start->value + in_offset;
-    switch(in_num_cells) {
-        case 1:  { return details::be_to_host(*(std::uint32_t *)ptr); }
-        case 2:  { return details::be_to_host(*(std::uint64_t *)ptr); }
-        default: { assertm(false, "unreachable - in_num_cells value unsupported!"); }
-    }
-}
-
 template<> char * devicetree::property::get_value<char *>(std::uint32_t in_offset) const {
     auto len = details::be_to_host(_start->len);
     assert(in_offset < len);

@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include "../../../libs/libdevicetree/src/fdt.hpp"
+#include "../../../libs/libdevicetree/src/properties/reg.hpp"
 
 #include "console/console.hpp"
 #include "memory/manager.hpp"
@@ -41,30 +42,21 @@ extern core::console::console * _core_assert_log;
     auto size_cells = root->get_value<std::uint32_t>("#size-cells").value_or(0);
     assertm(addr_cells && size_cells, "invalid #address-cells and/or #size-cells");
 
-    auto memnode = fdt.get("/memory").or_else(bail("/memory node not present in devicetree"));
-    auto memreg = memnode->get_property("reg").or_else(bail("/memory node missing 'reg' property"));
-    auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
-
     auto mem_mgr = core::memory::memory_manager();
     _core_memory_manager = &mem_mgr;
+
+    auto memnode = fdt.get("/memory").or_else(bail("/memory node not present in devicetree"));
+    auto memreg = memnode->get_reg_property(addr_cells, size_cells).or_else(bail("/memory node missing 'reg' property"));
+    for(auto&& reg : *memreg) {
+        log.info("base: 0x{:X}", reg.base);
+        log.info("length: 0x{:X}", reg.length);
+    }
+    auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
 
     auto perm = get_permission_level();
     auto model = root->get_value<std::string_view>("model");
     log.info("Starting core driver for {} on processor {:X} at permission level {}", *model, in_proc_id, perm);
     log.info("{}", *memnode);
-    std::uint32_t offset = 0;
-    std::size_t addr_field_size = sizeof(std::uint32_t) * addr_cells;
-    std::size_t size_field_size = sizeof(std::uint32_t) * size_cells;
-    std::size_t entry_size = addr_field_size + size_field_size;
-    while((offset + entry_size) <= memreg->value_length()) {
-        std::uint64_t base = memreg->get_cells(addr_cells, offset);
-        offset += addr_field_size;
-        std::size_t length = memreg->get_cells(size_cells, offset);
-        offset += size_field_size;
-
-        log.info("base: 0x{:X}", base);
-        log.info("length: 0x{:X}", length);
-    }
     log.info("{}", *reserved_mem);
     log.info("{}", *serial);
 
