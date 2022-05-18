@@ -1,4 +1,4 @@
-FROM debian:bullseye-20220418
+FROM debian:bullseye-20220509
 
 # Version of LLVM/Clang to download and install.
 ARG LLVM_VERSION=14
@@ -25,10 +25,11 @@ RUN set -x                                             \
       less                                             \
       lsb-release                                      \
       make                                             \
-      meson                                            \
       nasm                                             \
       ninja-build                                      \
       openssh-client                                   \
+      python3                                          \
+      python3-pip                                      \
       qemu-system-arm                                  \
       qemu-system-x86                                  \
       software-properties-common                       \
@@ -37,6 +38,11 @@ RUN set -x                                             \
     && apt-get autoremove -y                           \
     && apt-get clean -y                                \
     && rm -rf /var/lib/apt/lists/*
+
+# Install a more up-to-date version of Meson than is available in Debian repos.
+RUN set -x                \
+    && pip install meson  \
+    && meson --version
 
 # Download and install the specified version of LLVM/Clang and associated tools.
 WORKDIR /workdir
