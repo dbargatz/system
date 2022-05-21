@@ -87,6 +87,60 @@ bool operator== (const std::pmr::polymorphic_allocator<T1>& in_lhs,
     return (*in_lhs.resource() == *in_rhs.resource());
 }
 
+class monotonic_buffer_resource : public memory_resource {
+public:
+    monotonic_buffer_resource(const monotonic_buffer_resource&) = delete;
+
+    monotonic_buffer_resource() {
+        _upstream = get_default_resource();
+        _initial_buffer = nullptr;
+        _initial_buffer_size = 0;
+        _current_buffer = nullptr;
+        _next_buffer_size = 32;
+    }
+
+    explicit monotonic_buffer_resource(memory_resource * in_upstream) : monotonic_buffer_resource() {
+        _upstream = in_upstream;
+    }
+
+    explicit monotonic_buffer_resource(std::size_t in_initial_size) : monotonic_buffer_resource() {
+        if(in_initial_size > _next_buffer_size) {
+            _next_buffer_size = in_initial_size;
+        }
+    }
+
+    monotonic_buffer_resource(std::size_t in_initial_size, memory_resource * in_upstream) : monotonic_buffer_resource(in_initial_size) {
+        _upstream = in_upstream;
+    }
+
+    monotonic_buffer_resource(void * in_buffer, std::size_t in_buffer_size) : monotonic_buffer_resource() {
+        _initial_buffer = (std::uint8_t *)in_buffer;
+        _initial_buffer_size = in_buffer_size;
+        _current_buffer = _initial_buffer;
+        _next_buffer_size = in_buffer_size > 1 ? in_buffer_size : 1;
+    }
+
+    monotonic_buffer_resource(void * in_buffer, std::size_t in_buffer_size, memory_resource * in_upstream) : monotonic_buffer_resource(in_buffer, in_buffer_size) {
+        _upstream = in_upstream;
+    }
+
+    void release() {
+        if(_upstream != nullptr) {
+            if(_current_buffer != _initial_buffer) {
+                _upstream->deallocate(_current_buffer, _next_buffer_size);
+                _current_buffer = _initial_buffer;
+            }
+        }
+    }
+
+protected:
+    memory_resource * _upstream;
+    std::uint8_t * _initial_buffer;
+    std::size_t _initial_buffer_size;
+    std::uint8_t * _current_buffer;
+    std::size_t _next_buffer_size;
+}; // class monotonic_buffer_resource
+
 
 }; // namespace std::pmr
 
