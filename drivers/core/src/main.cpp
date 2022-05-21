@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <cstdlib>
+#include <memory_resource>
 #include "../../../libs/libdevicetree/src/fdt.hpp"
 #include "../../../libs/libdevicetree/src/properties/reg.hpp"
 
@@ -42,7 +43,9 @@ extern core::console::console * _core_assert_log;
     auto size_cells = root->get_value<std::uint32_t>("#size-cells").value_or(0);
     assertm(addr_cells && size_cells, "invalid #address-cells and/or #size-cells");
 
-    auto mem_mgr = core::memory::memory_manager();
+    std::uint8_t buf[1024] = {0};
+    auto buf_resource = std::pmr::monotonic_buffer_resource(buf, 1024);
+    auto mem_mgr = core::memory::memory_manager(&buf_resource);
     _core_memory_manager = &mem_mgr;
 
     auto memnode = fdt.get("/memory").or_else(bail("/memory node not present in devicetree"));

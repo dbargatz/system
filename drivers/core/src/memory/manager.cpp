@@ -11,19 +11,17 @@ constexpr std::size_t _NUM_HEAP_FRAMES = 64;
 constexpr std::size_t _HEAP_SIZE_BYTES = PAGE_SIZE_BYTES * _NUM_HEAP_FRAMES;
 alignas(PAGE_SIZE_BYTES) static std::uint8_t _heap_bytes[_HEAP_SIZE_BYTES] = {0};
 
-/**
- * @brief Performs initial setup of the memory manager, including setup of the initial core
- * driver heap with the provided arguments. Prior to this constructor returning, no dynamic
- * memory allocation can be performed.
- */
-memory_manager::memory_manager() : _core_heap(core::memory::heap("core heap", _heap_bytes, _NUM_HEAP_FRAMES)) {
+memory_manager::memory_manager(std::pmr::memory_resource * in_backing_memory) : _core_heap(core::memory::heap("core heap", _heap_bytes, _NUM_HEAP_FRAMES)) {
+    auto listmem = in_backing_memory->allocate(sizeof(_page_frames));
+    auto alloc = frame_range_alloc(in_backing_memory);
+    _page_frames = new(listmem) framelist(alloc);
     auto initial_value = page_frame_range {
         .num_frames = (UINT64_MAX >> 12),
         .reserved = 0,
         .type = reservation_type::UNINITIALIZED,
         .start_pfn = 0,
     };
-    _page_frames.push_back(initial_value);
+    _page_frames->push_back(initial_value);
 }
 
 void memory_manager::register_pages(const physical_addr_t in_start, const std::size_t in_size, const reservation_type in_type) {
@@ -37,7 +35,7 @@ void memory_manager::register_pages(const physical_addr_t in_start, const std::s
         .type = in_type,
         .start_pfn = (std::uint64_t)in_start >> 12,
     };
-    _page_frames.push_back(value);
+    _page_frames->push_back(value);
 }
 
 physical_addr_t memory_manager::core_allocate(const std::size_t in_size, const std::align_val_t in_alignment) {

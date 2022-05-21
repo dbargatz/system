@@ -34,15 +34,13 @@ struct page_frame_range {
 class memory_manager {
 private:
     heap _core_heap;
-    std::list<struct page_frame_range> _page_frames;
+
+    using frame_range_alloc = typename std::pmr::polymorphic_allocator<struct page_frame_range>;
+    using framelist = typename std::list<struct page_frame_range, frame_range_alloc>;
+    framelist * _page_frames;
 
 public:
-    /**
-     * @brief Performs initial setup of the memory manager, including setup of the initial core
-     * driver heap with the provided arguments. Prior to this constructor returning, no dynamic
-     * memory allocation can be performed.
-     */
-    memory_manager();
+    memory_manager(std::pmr::memory_resource * in_backing_memory);
     physical_addr_t core_allocate(const std::size_t in_size, const std::align_val_t in_alignment = (const std::align_val_t)16);
     physical_addr_t core_reserve(const physical_addr_t in_start, const std::size_t in_size, const std::align_val_t in_alignment = (const std::align_val_t)16);
     bool core_deallocate(const physical_addr_t in_addr);
@@ -56,10 +54,10 @@ public:
             "  Ranges       : {}\n",
             (physical_addr_t)this,
             sizeof(_page_frames),
-            _page_frames.size()
+            _page_frames->size()
         );
 
-        for(auto&& range : _page_frames) {
+        for(auto&& range : *_page_frames) {
             auto typestr = "";
             switch(range.type) {
                 case reservation_type::UNINITIALIZED:
