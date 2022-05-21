@@ -1,6 +1,8 @@
 #ifndef _STD_MEMORY_RESOURCE_HPP
 #define _STD_MEMORY_RESOURCE_HPP
 
+#include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <new>
@@ -87,58 +89,186 @@ bool operator== (const std::pmr::polymorphic_allocator<T1>& in_lhs,
     return (*in_lhs.resource() == *in_rhs.resource());
 }
 
+struct bufferlist {
+    std::size_t size;
+    const std::uint8_t * prev;
+};
+
 class monotonic_buffer_resource : public memory_resource {
 public:
+    /**
+     * @brief Construct a new monotonic buffer resource without an initial buffer and with the
+     * upstream memory resource set as the default memory resource.
+     */
+    monotonic_buffer_resource() : monotonic_buffer_resource(nullptr, 0, get_default_resource()) { }
+
+    /**
+     * @brief Construct a new monotonic buffer resource without an initial buffer and with the
+     * provided upstream memory resource.
+     * 
+     * @param in_upstream memory resource to use as the upstream resource; must be a valid memory
+     * resource
+     */
+    explicit monotonic_buffer_resource(memory_resource * in_upstream) : monotonic_buffer_resource(nullptr, 0, in_upstream) { }
+
+    /**
+     * @brief Construct a new monotonic buffer resource without an initial buffer, with the
+     * upstream memory resource set as the default memory resource, and defines the starting size
+     * of the first buffer to be allocated.
+     * 
+     * @param in_initial_size size of the first buffer to be allocated from the upstream memory
+     * resource; actual allocation size may be larger
+     */
+    explicit monotonic_buffer_resource(std::size_t in_initial_size) : monotonic_buffer_resource(nullptr, in_initial_size, get_default_resource()) { }
+
+    /**
+     * @brief Construct a new monotonic buffer resource without an initial buffer, with the
+     * provided upstream memory resource, and defines the starting size of the first buffer to be
+     * allocated.
+     * 
+     * @param in_initial_size size of the first buffer to be allocated from the upstream memory
+     * resource; actual allocation size may be larger
+     * @param in_upstream memory resource to use as the upstream resource; must be a valid memory
+     * resource
+     */
+    monotonic_buffer_resource(std::size_t in_initial_size, memory_resource * in_upstream) : monotonic_buffer_resource(nullptr, in_initial_size, in_upstream) { }
+
+    /**
+     * @brief Construct a new monotonic buffer resource with the given initial buffer and given
+     * size, with the upstream memory resource set as the default memory resource.
+     * 
+     * @note The inital buffer is not freed on a call to `release()`; the caller must manage this
+     * memory, including securely clearing its contents if necessary, if this memory resource is
+     * destroyed.
+     * @note Future allocations from the upstream memory resource are guaranteed to be larger than
+     * the given buffer size, with each allocation larger than the last.
+     * 
+     * @param in_buffer initial buffer to use for allocations; upstream memory resource will be
+     * allocated from once this buffer is exhausted
+     * @param in_buffer_size length of the initial buffer in bytes
+     */
+    monotonic_buffer_resource(void * in_buffer, std::size_t in_buffer_size) : monotonic_buffer_resource(in_buffer, in_buffer_size, get_default_resource()) { }
+
+    /**
+     * @brief Construct a new monotonic buffer resource with the given initial buffer and given
+     * size, with the provided upstream memory resource.
+     * 
+     * @note The inital buffer is not freed on a call to `release()`; the caller must manage this
+     * memory, including securely clearing its contents if necessary, if this memory resource is
+     * destroyed.
+     * @note Future allocations from the upstream memory resource are guaranteed to be larger than
+     * the given buffer size, with each allocation larger than the last.
+     * 
+     * @param in_buffer initial buffer to use for allocations; upstream memory resource will be
+     * allocated from once this buffer is exhausted
+     * @param in_buffer_size length of the initial buffer in bytes
+     * @param in_upstream memory resource to use as the upstream resource; must be a valid memory
+     * resource
+     */
+    monotonic_buffer_resource(void * in_buffer, std::size_t in_buffer_size, memory_resource * in_upstream) : _upstream(in_upstream), _initial_buffer((const std::uint8_t *)in_buffer), _initial_buffer_size(in_buffer_size) {
+        assert(in_upstream != nullptr);
+        _current_buffer = _initial_buffer;
+        _current_buffer_remaining = _initial_buffer_size;
+        _next_buffer_size = std::max(in_buffer_size * 2, sizeof(struct bufferlist) * 4);
+    }
+
+    /**
+     * @brief Deleted copy constructor.
+     */
     monotonic_buffer_resource(const monotonic_buffer_resource&) = delete;
 
-    monotonic_buffer_resource() {
-        _upstream = get_default_resource();
-        _initial_buffer = nullptr;
-        _initial_buffer_size = 0;
-        _current_buffer = nullptr;
-        _next_buffer_size = 32;
-    }
+    /**
+     * @brief Destroy the monotonic buffer resource by calling `release()`.
+     */
+    virtual ~monotonic_buffer_resource() { this->release(); }
 
-    explicit monotonic_buffer_resource(memory_resource * in_upstream) : monotonic_buffer_resource() {
-        _upstream = in_upstream;
-    }
-
-    explicit monotonic_buffer_resource(std::size_t in_initial_size) : monotonic_buffer_resource() {
-        if(in_initial_size > _next_buffer_size) {
-            _next_buffer_size = in_initial_size;
-        }
-    }
-
-    monotonic_buffer_resource(std::size_t in_initial_size, memory_resource * in_upstream) : monotonic_buffer_resource(in_initial_size) {
-        _upstream = in_upstream;
-    }
-
-    monotonic_buffer_resource(void * in_buffer, std::size_t in_buffer_size) : monotonic_buffer_resource() {
-        _initial_buffer = (std::uint8_t *)in_buffer;
-        _initial_buffer_size = in_buffer_size;
-        _current_buffer = _initial_buffer;
-        _next_buffer_size = in_buffer_size > 1 ? in_buffer_size : 1;
-    }
-
-    monotonic_buffer_resource(void * in_buffer, std::size_t in_buffer_size, memory_resource * in_upstream) : monotonic_buffer_resource(in_buffer, in_buffer_size) {
-        _upstream = in_upstream;
-    }
-
+    /**
+     * @brief Releases all allocated memory back to the upstream memory resource via the upstream's
+     * `deallocate()` function, and resets the current buffer and buffer size to their initial
+     * values at construction.
+     * 
+     * @note The inital buffer is not freed on a call to `release()`; the caller must manage this
+     * memory, including securely clearing its contents if necessary, if this memory resource is
+     * destroyed.
+     * @note Allocated memory will be released back to the upstream memory resource even if
+     * `deallocate()` has not been called for some of the allocated blocks.
+     */
     void release() {
-        if(_upstream != nullptr) {
-            if(_current_buffer != _initial_buffer) {
-                _upstream->deallocate(_current_buffer, _next_buffer_size);
-                _current_buffer = _initial_buffer;
-            }
+        while(_current_buffer != _initial_buffer) {
+            auto header = (struct bufferlist *)_current_buffer;
+            _current_buffer = header->prev;
+            _upstream->deallocate((void *)header, header->size);
         }
+        _current_buffer_remaining = _initial_buffer_size;
     }
+
+    /**
+     * @brief Returns a pointer to the upstream memory resource provided at construction, or the
+     * default memory resource if none was provided.
+     * 
+     * @return memory_resource* pointer to the upstream memory resource
+     */
+    memory_resource * upstream_resource() const { return _upstream; }
 
 protected:
-    memory_resource * _upstream;
-    std::uint8_t * _initial_buffer;
-    std::size_t _initial_buffer_size;
-    std::uint8_t * _current_buffer;
+    memory_resource * const _upstream;
+    const std::uint8_t * const _initial_buffer;
+    const std::size_t _initial_buffer_size;
+    const std::uint8_t * _current_buffer;
+    std::size_t _current_buffer_remaining;
     std::size_t _next_buffer_size;
+
+    /**
+     * @brief Allocates the given number of bytes at the given alignment.
+     * 
+     * @note If the current buffer cannot fit an aligned block of the given number of bytes, then
+     * a new buffer will be allocated from the upstream memory resource of `in_bytes` size or
+     * larger, with the requested number of bytes allocated from the new block.
+     * 
+     * @param in_bytes number of bytes to allocate
+     * @param in_alignment minimum alignment of allocation (in bytes)
+     * @return void* the allocated number of bytes
+     */
+    virtual void * do_allocate(std::size_t in_bytes, std::size_t in_alignment) {
+        auto block_size = in_bytes + ((in_alignment - (in_bytes % in_alignment)) % in_alignment);
+        if(block_size > _current_buffer_remaining) {
+            auto new_buffer_size = std::max(block_size, _next_buffer_size);
+            _next_buffer_size = new_buffer_size * 2;
+            auto new_buffer = (struct bufferlist *)_upstream->allocate(new_buffer_size);
+            new_buffer->prev = _current_buffer;
+            new_buffer->size = new_buffer_size;
+            _current_buffer = (const std::uint8_t *)new_buffer;
+            _current_buffer_remaining = new_buffer->size - sizeof(*new_buffer);
+        }
+        auto header = (struct bufferlist *)_current_buffer;
+        auto block = _current_buffer + (header->size - _current_buffer_remaining);
+        _current_buffer_remaining -= block_size;
+        return (void *)block;
+    }
+
+    /**
+     * @brief Does nothing; memory used by a monotonic buffer resource increases monotonically
+     * until the resource is destroyed.
+     * 
+     * @param in_ptr unused
+     * @param in_bytes unused
+     * @param in_alignment unused
+     */
+    virtual void do_deallocate(void * in_ptr, std::size_t in_bytes, std::align_val_t in_alignment) {
+        return;
+    }
+
+    /**
+     * @brief Compare `*this` with `in_other` for identity; memory allocated using a monotonic
+     * buffer resource can only be deallocated using that same resource.
+     * 
+     * @param in_other other memory resource to compare this one to
+     * @return `true` if the other memory resource is a reference to this memory resource;
+     * otherwise, `false`
+     */
+    virtual bool do_is_equal(const memory_resource& in_other) const noexcept {
+        return (this == &in_other);
+    }
 }; // class monotonic_buffer_resource
 
 
