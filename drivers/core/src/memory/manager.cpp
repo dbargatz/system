@@ -12,7 +12,7 @@ constexpr std::size_t _HEAP_SIZE_BYTES = PAGE_SIZE_BYTES * _NUM_HEAP_FRAMES;
 alignas(PAGE_SIZE_BYTES) static std::uint8_t _heap_bytes[_HEAP_SIZE_BYTES] = {0};
 
 memory_manager::memory_manager(std::pmr::memory_resource * in_backing_memory) : _core_heap(core::memory::heap("core heap", _heap_bytes, _NUM_HEAP_FRAMES)) {
-    auto listmem = in_backing_memory->allocate(sizeof(_page_frames));
+    auto listmem = in_backing_memory->allocate(sizeof(*_page_frames));
     auto alloc = frame_range_alloc(in_backing_memory);
     _page_frames = new(listmem) framelist(alloc);
     auto initial_value = page_frame_range {
