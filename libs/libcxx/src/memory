@@ -54,8 +54,8 @@ public:
     using void_pointer = void*;
     using const_void_pointer = const void*;
 
-    using difference_type = typename Alloc::difference_type;
-    using size_type = typename Alloc::size_type;
+    // using difference_type = typename Alloc::difference_type;
+    // using size_type = typename Alloc::size_type;
 
     // using propagate_on_container_copy_assignment = typename Alloc::propagate_on_container_copy_assignment;
     // using propagate_on_container_move_assignment = typename Alloc::propagate_on_container_move_assignment;
