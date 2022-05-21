@@ -229,8 +229,9 @@ protected:
      * @param in_alignment minimum alignment of allocation (in bytes)
      * @return void* the allocated number of bytes
      */
-    virtual void * do_allocate(std::size_t in_bytes, std::size_t in_alignment) {
-        auto block_size = in_bytes + ((in_alignment - (in_bytes % in_alignment)) % in_alignment);
+    virtual void * do_allocate(std::size_t in_bytes, std::align_val_t in_alignment) {
+        auto align = (std::size_t)in_alignment;
+        auto block_size = in_bytes + ((align - (in_bytes % align)) % align);
         if(block_size > _current_buffer_remaining) {
             auto new_buffer_size = std::max(block_size, _next_buffer_size);
             _next_buffer_size = new_buffer_size * 2;
