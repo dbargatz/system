@@ -48,20 +48,24 @@ extern core::console::console * _core_assert_log;
     auto memnode = fdt.get("/memory").or_else(bail("/memory node not present in devicetree"));
     auto memreg = memnode->get_reg_property(addr_cells, size_cells).or_else(bail("/memory node missing 'reg' property"));
     for(auto&& reg : *memreg) {
-        log.info("base: 0x{:X}", reg.base);
-        log.info("length: 0x{:X}", reg.length);
+        auto addr = (core::memory::physical_addr_t)reg.base;
+        log.info("base: {:X}", reg.base);
+        log.info("length: {}", reg.length);
+        mem_mgr.register_pages(addr, reg.length, core::memory::reservation_type::UNALLOCATED);
     }
     auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
+    auto res_addr_cells = reserved_mem->get_value<std::uint32_t>("#address-cells").value_or(addr_cells);
+    auto res_size_cells = reserved_mem->get_value<std::uint32_t>("#size-cells").value_or(size_cells);
+    log.info("{}", *reserved_mem);
+    log.info("reserved memory #address-cells: {}", res_addr_cells);
+    log.info("reserved memory #size-cells: {}", res_size_cells);
 
     auto perm = get_permission_level();
     auto model = root->get_value<std::string_view>("model");
     log.info("Starting core driver for {} on processor {:X} at permission level {}", *model, in_proc_id, perm);
     log.info("{}", *memnode);
-    log.info("{}", *reserved_mem);
     log.info("{}", *serial);
-
-    auto check = reserved_mem->get_value<std::uint32_t>("#address-cells");
-    log.info("resmem #address-cells: {}", *check);
+    log.info("{}", mem_mgr);
 
     log.info("/ {");
     for(auto&& prop : root->properties()) {
