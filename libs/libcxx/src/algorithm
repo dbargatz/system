@@ -1,6 +1,8 @@
 #ifndef _STD_ALGORITHM_HPP
 #define _STD_ALGORITHM_HPP
 
+#include <initializer_list>
+
 namespace std {
 
 template <typename InputIt, class T>
@@ -31,6 +33,118 @@ constexpr InputIt find_if_not(InputIt in_first, InputIt in_last, UnaryPredicate 
         }
     }
     return in_last;
+}
+
+/**
+ * @brief Returns an iterator to the greatest element in the range `[in_first, in_last)` when
+ * compared with `operator<`, or `in_last` if the range is empty.
+ * 
+ * @tparam ForwardIt type which meets the requirements of `LegacyForwardIterator`
+ * @param in_first forward iterator defining the start of the range to examine
+ * @param in_last forward iterator defining the end of the range to examine
+ * @return constexpr ForwardIt iterator to the greatest value in the range `[in_first, in_last)`;
+ * if multiple values are equivalent to the greatest, returns iterator to the leftmost of the
+ * greatest values; if range is empty, `in_last`
+ */
+template <typename ForwardIt>
+constexpr ForwardIt max_element(ForwardIt in_first, ForwardIt in_last) {
+    if(in_first == in_last) { return in_last; }
+
+    auto max_iterator = in_first;
+    for(++in_first; in_first != in_last; ++in_first) {
+        if(*max_iterator < *in_first) {
+            max_iterator = in_first;
+        }
+    }
+    return max_iterator;
+}
+
+/**
+ * @brief Returns an iterator to the greatest element in the range `[in_first, in_last)` when
+ * compared with `in_comparator`, or `in_last` if the range is empty.
+ * 
+ * @tparam ForwardIt type which meets the requirements of `LegacyForwardIterator`
+ * @tparam Compare type of the comparator function
+ * @param in_first forward iterator defining the start of the range to examine
+ * @param in_last forward iterator defining the end of the range to examine
+ * @param in_comparator comparator function with signature `bool cmp(const A& a, const B& b)`,
+ * which returns `true` if `a` is strictly less-than `b`; types `A` and `B` must be implicitly
+ * convertible to `T`, and may not modify `a` or `b`
+ * @return constexpr ForwardIt iterator to the greatest value in the range `[in_first, in_last)`;
+ * if multiple values are equivalent to the greatest, returns iterator to the leftmost of the
+ * greatest values; if range is empty, `in_last`
+ */
+template <typename ForwardIt, typename Compare>
+constexpr ForwardIt max_element(ForwardIt in_first, ForwardIt in_last, Compare in_comparator) {
+    if(in_first == in_last) { return in_last; }
+
+    auto max_iterator = in_first;
+    for(++in_first; in_first != in_last; ++in_first) {
+        if(in_comparator(*max_iterator,*in_first)) {
+            max_iterator = in_first;
+        }
+    }
+    return max_iterator;
+}
+
+/**
+ * @brief Returns the greater of `in_lhs` and `in_rhs` when compared with `operator<`.
+ * 
+ * @tparam T type of the objects to compare
+ * @param in_lhs first object to compare to second
+ * @param in_rhs second object to compare to first
+ * @return constexpr const T& the greater of `in_lhs` and `in_rhs`
+ */
+template <typename T>
+constexpr const T& max(const T& in_lhs, const T& in_rhs) {
+    return (in_lhs < in_rhs ? in_rhs : in_lhs);
+}
+
+/**
+ * @brief Returns the greater of `in_lhs` and `in_rhs` when compared with `in_comparator`.
+ * 
+ * @tparam T type of the objects to compare
+ * @tparam Compare type of the comparator function
+ * @param in_lhs first object to compare to second
+ * @param in_rhs second object to compare to first
+ * @param in_comparator comparator function which returns `true` if `in_lhs` is strictly less-than
+ * `in_rhs`; must have the signature `bool cmp(const A& a, const B& b)`, where `A` and `B` are
+ * implicitly convertible to `T`, may not modify `a` or `b`
+ * @return constexpr const T& the greater of `in_lhs` and `in_rhs`
+ */
+template <typename T, typename Compare>
+constexpr const T& max(const T& in_lhs, const T& in_rhs, Compare in_comparator) {
+    return (in_comparator(in_lhs, in_rhs) ? in_rhs : in_lhs);
+}
+
+/**
+ * @brief Returns the greatest value in `in_init_list` when compared with `operator<`.
+ * 
+ * @tparam T type of the objects in `in_init_list` to compare
+ * @param in_init_list initializer list with values to compare
+ * @return constexpr T the greatest value in `in_init_list`; if multiple values are equivalent to
+ * the greatest, returns the leftmost of the greatest values
+ */
+template <typename T>
+constexpr T max(std::initializer_list<T> in_init_list) {
+    return *max_element(in_init_list.begin(), in_init_list.end());
+}
+
+/**
+ * @brief Returns the greatest value in `in_init_list` when compared with `in_comparator`.
+ * 
+ * @tparam T type of the objects in `in_init_list` to compare
+ * @tparam Compare type of the comparator function
+ * @param in_init_list initializer list with values to compare
+ * @param in_comparator comparator function which returns `true` if `in_lhs` is strictly less-than
+ * `in_rhs`; must have the signature `bool cmp(const A& a, const B& b)`, where `A` and `B` are
+ * implicitly convertible to `T`, may not modify `a` or `b`
+ * @return constexpr T the greatest value in `in_init_list`; if multiple values are equivalent to
+ * the greatest, returns the leftmost of the greatest values
+ */
+template <typename T, typename Compare>
+constexpr T max(std::initializer_list<T> in_init_list, Compare in_comparator) {
+    return *max_element(in_init_list.begin(), in_init_list.end(), in_comparator);
 }
 
 }; // namespace std
