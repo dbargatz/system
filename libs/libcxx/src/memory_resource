@@ -241,10 +241,17 @@ protected:
             _current_buffer = (const std::uint8_t *)new_buffer;
             _current_buffer_remaining = new_buffer->size - sizeof(*new_buffer);
         }
-        auto header = (struct bufferlist *)_current_buffer;
-        auto block = _current_buffer + (header->size - _current_buffer_remaining);
+
+        void * block = nullptr;
+        if(_current_buffer == _initial_buffer) {
+            block = (void *)(_current_buffer + (_initial_buffer_size - _current_buffer_remaining));
+        } else {
+            auto header = (struct bufferlist *)_current_buffer;
+            block = (void *)(_current_buffer + (header->size - _current_buffer_remaining));
+        }
+
         _current_buffer_remaining -= block_size;
-        return (void *)block;
+        return block;
     }
 
     /**
