@@ -33,15 +33,17 @@ public:
     bool operator!=(const list_iterator<T>& in_other) const { return !(*this == in_other); }
 
     T operator*() { return _current->value; }
-    const list_iterator<T>& operator++() {
+
+    list_iterator<T>& operator++() {
         if(_current == nullptr) { return *this; }
-        auto next = _current->next;
-        return list_iterator<T>(next);
+        _current = _current->next;
+        return *this;
     }
-    const list_iterator<T>& operator--() {
+
+    list_iterator<T>& operator--() {
         if(_current == nullptr) { return *this; }
-        auto prev = _current->prev;
-        return list_iterator<T>(prev);
+        _current = _current->prev;
+        return *this;
     }
 }; // list_iterator
 
@@ -97,15 +99,22 @@ public:
         new_element->next = nullptr;
 
         if(_length_items == 0) {
-            assert(_front == nullptr && _back == nullptr);
+            assert(_front == nullptr && _front == _back);
             new_element->prev = nullptr;
             _front = new_element;
+            assert(_front != nullptr && _back == nullptr);
+        } else if (_length_items == 1) {
+            assert(_front != nullptr && _back == nullptr);
+            new_element->prev = _front;
+            _front->next = new_element;
             _back = new_element;
+            assert(_front != nullptr && _back != nullptr && _front != _back);
         } else {
-            assert(_front != nullptr && _back != nullptr);
+            assert(_front != nullptr && _back != nullptr && _front != _back);
             new_element->prev = _back;
             _back->next = new_element;
             _back = new_element;
+            assert(_front != nullptr && _back != nullptr && _front != _back);
         }
 
         _length_items++;
