@@ -1,0 +1,130 @@
+/**
+ * @file
+ * @brief Implementation of the std::list class.
+ * 
+ * @note Some comments in this file were based off of/taken directly from the
+ * descriptions on https://en.cppreference.com/w/cpp/container/list and various
+ * subpages. All errors are mine, all credit is theirs.
+ */
+#ifndef _STD_LIST_HPP
+#define _STD_LIST_HPP
+
+#include <cstdint>
+#include <memory>
+#include <memory_resource>
+
+namespace std {
+
+template <class T>
+struct list_element {
+    struct list_element<T> * next;
+    struct list_element<T> * prev;
+    T value;
+}; // list_element
+
+template <class T>
+class list_iterator {
+private:
+    struct list_element<T> * _current;
+
+public:
+    list_iterator(struct list_element<T> * in_start_element) : _current(in_start_element) {};
+    bool operator==(const list_iterator<T>& in_other) const { return (_current == in_other._current); }
+    bool operator!=(const list_iterator<T>& in_other) const { return !(*this == in_other); }
+
+    T operator*() { return _current->value; }
+    const list_iterator<T>& operator++() {
+        if(_current == nullptr) { return *this; }
+        auto next = _current->next;
+        return list_iterator<T>(next);
+    }
+    const list_iterator<T>& operator--() {
+        if(_current == nullptr) { return *this; }
+        auto prev = _current->prev;
+        return list_iterator<T>(prev);
+    }
+}; // list_iterator
+
+template <class T, class Allocator = allocator<T>>
+class list {
+public:
+    using value_type             = T;
+    using allocator_type         = Allocator;
+    using size_type              = std::size_t;
+    using difference_type        = std::ptrdiff_t;
+    using reference              = value_type&;
+    using const_reference        = const value_type&;
+    using pointer                = typename allocator_traits<Allocator>::pointer;
+    using const_pointer          = typename allocator_traits<Allocator>::const_pointer;
+    using iterator               = typename list_iterator<T>;
+    using const_iterator         = const iterator;
+    // using reverse_iterator       = std::reverse_iterator<iterator>;
+    // using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+
+    using _element_allocator_type = typename allocator_traits<Allocator>::template rebind_alloc<struct list_element<T>>;
+
+    list() { _alloc = _element_allocator_type(); }
+    explicit list(const Allocator& in_alloc) { _alloc = _element_allocator_type(in_alloc); }
+    explicit list (size_type in_count, const T& in_value, const Allocator& in_alloc = Allocator()) {
+        _alloc = _element_allocator_type(in_alloc);
+        for(int i = 0; i < in_count; i++) {
+            push_back(in_value);
+        }
+    }
+
+    allocator_type get_allocator() const noexcept { return _alloc; }
+
+    reference front() { return *begin(); }
+    const_reference front() const { return *cbegin(); }
+    reference back() { return *list_iterator<T>(_back); }
+    const_reference back() const { return *list_iterator<T>(_back); }
+
+    iterator begin() noexcept { return list_iterator<T>(_front); }
+    const_iterator begin() const noexcept { return list_iterator<T>(_front); }
+    const_iterator cbegin() const noexcept {return list_iterator<T>(_front); }
+    iterator end() noexcept { return list_iterator<T>(nullptr); }
+    const_iterator end() const noexcept { return list_iterator<T>(nullptr); }
+    const_iterator cend() const noexcept { return list_iterator<T>(nullptr); }
+
+    [[nodiscard]] bool empty() const noexcept { return _length_items == 0; }
+    size_type size() const noexcept { return _length_items; }
+    size_type max_size() const noexcept { return (size_type)UINT32_MAX; }
+
+    void push_back(const T& in_value) {
+        auto new_element = _alloc.allocate(1);
+        new_element->value = in_value;
+        new_element->next = nullptr;
+
+        if(_length_items == 0) {
+            assert(_front == nullptr && _back == nullptr);
+            new_element->prev = nullptr;
+            _front = new_element;
+            _back = new_element;
+        } else {
+            assert(_front != nullptr && _back != nullptr);
+            new_element->prev = _back;
+            _back->next = new_element;
+            _back = new_element;
+        }
+
+        _length_items++;
+    }
+
+private:
+    _element_allocator_type _alloc;
+    struct list_element<T> * _back = nullptr;
+    struct list_element<T> * _front = nullptr;
+    size_type _length_items = 0;
+}; // class list
+
+}; // namespace std
+
+namespace std::pmr {
+
+template <class T>
+using list = std::list<T, std::pmr::polymorphic_allocator<T>>;
+
+}; // namespace std::pmr
+
+#endif // _STD_LIST_HPP
