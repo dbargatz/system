@@ -59,9 +59,16 @@ extern core::console::console * _core_assert_log;
     auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
     auto res_addr_cells = reserved_mem->get_value<std::uint32_t>("#address-cells").value_or(addr_cells);
     auto res_size_cells = reserved_mem->get_value<std::uint32_t>("#size-cells").value_or(size_cells);
-    log.info("{}", *reserved_mem);
     log.info("reserved memory #address-cells: {}", res_addr_cells);
     log.info("reserved memory #size-cells: {}", res_size_cells);
+    auto resmem_range = reserved_mem->get_ranges_property(addr_cells, size_cells, res_addr_cells, res_size_cells).or_else(bail("/reserved-memory node missing 'ranges' property"));
+    for(auto&& range : *resmem_range) {
+        auto soc_bus_addr = (core::memory::physical_addr_t)range.parent_bus_address;
+        log.info("child bus addr : {:X}", range.child_bus_address);
+        log.info("parent bus addr: {:X}", range.parent_bus_address);
+        log.info("length: {}", range.length);
+        mem_mgr.register_pages(soc_bus_addr, range.length, core::memory::reservation_type::RESERVED_DEVICE);
+    }
 
     auto perm = get_permission_level();
     auto model = root->get_value<std::string_view>("model");

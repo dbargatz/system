@@ -13,6 +13,7 @@
 #include "__list.hpp"
 #include "__structs.hpp"
 #include "property.hpp"
+#include "properties/ranges.hpp"
 #include "properties/reg.hpp"
 
 namespace devicetree {
@@ -29,14 +30,18 @@ public:
     std::expected<property, std::uint32_t> get_property(const char * in_name);
 
     template<Property T = property>
-    std::expected<T, std::uint32_t> get_property(const char * in_property_name, std::uint32_t in_addr_cells, std::uint32_t in_size_cells) {
+    std::expected<T, std::uint32_t> get_property(const char * in_property_name, std::uint32_t in_parent_addr_cells, std::uint32_t in_parent_size_cells, std::uint32_t in_child_addr_cells, std::uint32_t in_child_size_cells) {
         auto prop = get_property(in_property_name);
         if(!prop) { return std::unexpected(0); }
-        return T(*prop, in_addr_cells, in_size_cells);
+        return T(*prop, in_parent_addr_cells, in_parent_size_cells, in_child_addr_cells, in_child_size_cells);
+    }
+
+    std::expected<properties::ranges, std::uint32_t> get_ranges_property(std::uint32_t in_parent_addr_cells, std::uint32_t in_parent_size_cells, std::uint32_t in_child_addr_cells, std::uint32_t in_child_size_cells) {
+        return get_property<properties::ranges>("ranges", in_parent_addr_cells, in_parent_size_cells, in_child_addr_cells, in_child_size_cells);
     }
 
     std::expected<properties::reg, std::uint32_t> get_reg_property(std::uint32_t in_addr_cells, std::uint32_t in_size_cells) {
-        return get_property<properties::reg>("reg", in_addr_cells, in_size_cells);
+        return get_property<properties::reg>("reg", in_addr_cells, in_size_cells, 0, 0);
     }
 
     template <typename T>

@@ -60,14 +60,14 @@ public:
 
 class reg : public devicetree::property {
 public:
-    reg(property& in_prop, std::uint32_t in_addr_cells, std::uint32_t in_size_cells) : property(in_prop) {
-        _addr_cells = in_addr_cells;
-        _size_cells = in_size_cells;
+    reg(property& in_prop, std::uint32_t in_parent_addr_cells, std::uint32_t in_parent_size_cells, std::uint32_t in_child_addr_cells, std::uint32_t in_child_size_cells) : property(in_prop) {
+        _addr_cells = in_parent_addr_cells;
+        _size_cells = in_parent_size_cells;
     }
 
-    reg(std::uint8_t * in_first, std::uint32_t in_addr_cells, std::uint32_t in_size_cells) : property(in_first) { 
-        _addr_cells = in_addr_cells;
-        _size_cells = in_size_cells;
+    reg(std::uint8_t * in_first, std::uint32_t in_parent_addr_cells, std::uint32_t in_parent_size_cells, std::uint32_t in_child_addr_cells, std::uint32_t in_child_size_cells) : property(in_first) { 
+        _addr_cells = in_parent_addr_cells;
+        _size_cells = in_parent_size_cells;
     }
 
     reg_iterator begin() noexcept { return reg_iterator((std::uint8_t *)_start->value, _addr_cells, _size_cells); }
