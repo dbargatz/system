@@ -19,6 +19,8 @@ extern core::console::console * _core_assert_log;
 
 #define bail(msg) [] (auto exp) { assertm(false, msg); }
 
+alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
+
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
     auto fdt = devicetree::fdt(in_boot_info);
     auto serial = fdt.find([] (devicetree::node& n) { 
@@ -43,8 +45,7 @@ extern core::console::console * _core_assert_log;
     auto size_cells = root->get_value<std::uint32_t>("#size-cells").value_or(0);
     assertm(addr_cells && size_cells, "invalid #address-cells and/or #size-cells");
 
-    std::uint8_t buf[1024] = {0};
-    auto buf_resource = std::pmr::monotonic_buffer_resource(buf, 1024);
+    auto buf_resource = std::pmr::monotonic_buffer_resource(buf, sizeof(buf));
     auto mem_mgr = core::memory::memory_manager(&buf_resource);
     _core_memory_manager = &mem_mgr;
 
@@ -56,6 +57,7 @@ extern core::console::console * _core_assert_log;
         log.info("length: {}", reg.length);
         mem_mgr.register_pages(addr, reg.length, core::memory::reservation_type::UNALLOCATED);
     }
+
     auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
     auto res_addr_cells = reserved_mem->get_value<std::uint32_t>("#address-cells").value_or(addr_cells);
     auto res_size_cells = reserved_mem->get_value<std::uint32_t>("#size-cells").value_or(size_cells);
