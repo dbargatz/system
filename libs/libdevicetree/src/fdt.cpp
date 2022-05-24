@@ -40,6 +40,10 @@ std::expected<devicetree::node, std::uint32_t> devicetree::fdt::get(const char *
     return root->get_node(path.data());
 }
 
+devicetree::details::list<const struct devicetree::details::fdt_memory_reserve_entry *, const struct devicetree::details::fdt_memory_reserve_entry> devicetree::fdt::reserved_memory() {
+    return reserved_memory_list(_mem_reserve_map);
+}
+
 std::string devicetree::fdt::format() const {
     auto indent = std::string(2, ' ');
     auto lenstr = std::format("{}Length: {}", indent, details::be_to_host(_header->totalsize));
@@ -71,4 +75,14 @@ std::size_t devicetree::fdt::length() const {
 
 std::expected<devicetree::node, std::uint32_t> devicetree::fdt::root() const {
     return node(_structs_block_ptr);
+}
+
+template<>
+devicetree::reserved_memory_iterator& devicetree::reserved_memory_iterator::operator++() {
+    if(_current == nullptr) { return *this; }
+    _current++;
+    if(_current->address == 0 && _current->size == 0) {
+        _current = nullptr;
+    }
+    return *this;
 }

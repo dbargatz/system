@@ -49,26 +49,35 @@ alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
     auto mem_mgr = core::memory::memory_manager(&buf_resource);
     _core_memory_manager = &mem_mgr;
 
+    log.info("Reserved Memory (FDT root):");
+    for(auto&& range : fdt.reserved_memory()) {
+        auto addr = (core::memory::physical_addr_t)devicetree::details::be_to_host(range->address);
+        auto size = devicetree::details::be_to_host(range->size);
+        log.info("  address: 0x{:X}", addr);
+        log.info("  size: 0x{:X}", size);
+        mem_mgr.register_pages(addr, size, core::memory::reservation_type::RESERVED_DEVICE);
+    }
+
     auto memnode = fdt.get("/memory").or_else(bail("/memory node not present in devicetree"));
     auto memreg = memnode->get_reg_property(addr_cells, size_cells).or_else(bail("/memory node missing 'reg' property"));
+    log.info("Memory Ranges:");
     for(auto&& reg : *memreg) {
         auto addr = (core::memory::physical_addr_t)reg.base;
-        log.info("base: {:X}", reg.base);
-        log.info("length: {}", reg.length);
+        log.info("  base: {:X}", reg.base);
+        log.info("  length: {}", reg.length);
         mem_mgr.register_pages(addr, reg.length, core::memory::reservation_type::UNALLOCATED);
     }
 
     auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
     auto res_addr_cells = reserved_mem->get_value<std::uint32_t>("#address-cells").value_or(addr_cells);
     auto res_size_cells = reserved_mem->get_value<std::uint32_t>("#size-cells").value_or(size_cells);
-    log.info("reserved memory #address-cells: {}", res_addr_cells);
-    log.info("reserved memory #size-cells: {}", res_size_cells);
     auto resmem_range = reserved_mem->get_ranges_property(addr_cells, size_cells, res_addr_cells, res_size_cells).or_else(bail("/reserved-memory node missing 'ranges' property"));
+    log.info("Reserved Memory Mappings:");
     for(auto&& range : *resmem_range) {
         auto soc_bus_addr = (core::memory::physical_addr_t)range.parent_bus_address;
-        log.info("child bus addr : {:X}", range.child_bus_address);
-        log.info("parent bus addr: {:X}", range.parent_bus_address);
-        log.info("length: {}", range.length);
+        log.info("  child bus addr : {:X}", range.child_bus_address);
+        log.info("  parent bus addr: {:X}", range.parent_bus_address);
+        log.info("  length: {}", range.length);
         mem_mgr.register_pages(soc_bus_addr, range.length, core::memory::reservation_type::RESERVED_DEVICE);
     }
 

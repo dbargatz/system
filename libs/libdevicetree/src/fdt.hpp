@@ -33,10 +33,18 @@ public:
         return root->find(in_predicate);
     }
 
+    details::list<const struct details::fdt_memory_reserve_entry *, const struct details::fdt_memory_reserve_entry> reserved_memory(); 
+
     std::string format() const;
     std::size_t length() const;
     std::expected<node, std::uint32_t> root() const;
 }; // class fdt
+
+using reserved_memory_iterator = details::iterator<const struct details::fdt_memory_reserve_entry *, const struct details::fdt_memory_reserve_entry>;
+using reserved_memory_list = details::list<const struct details::fdt_memory_reserve_entry *, const struct details::fdt_memory_reserve_entry>;
+
+template <>
+reserved_memory_iterator& reserved_memory_iterator::operator++();
 
 }; // namespace devicetree
 
