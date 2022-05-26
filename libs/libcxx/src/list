@@ -27,6 +27,9 @@ class list_iterator {
 private:
     struct list_element<T> * _current;
 
+    template <class U, class Allocator>
+    friend class list;
+
 public:
     list_iterator(struct list_element<T> * in_start_element) : _current(in_start_element) {};
     bool operator==(const list_iterator<T>& in_other) const { return (_current == in_other._current); }
@@ -93,31 +96,45 @@ public:
     size_type size() const noexcept { return _length_items; }
     size_type max_size() const noexcept { return (size_type)UINT32_MAX; }
 
-    void push_back(const T& in_value) {
+    iterator insert(const_iterator in_pos, const T& in_value) {
         auto new_element = _alloc.allocate(1);
         new_element->value = in_value;
         new_element->next = nullptr;
+        new_element->prev = nullptr;
 
-        if(_length_items == 0) {
-            assert(_front == nullptr && _front == _back);
-            new_element->prev = nullptr;
-            _front = new_element;
-            assert(_front != nullptr && _back == nullptr);
-        } else if (_length_items == 1) {
-            assert(_front != nullptr && _back == nullptr);
-            new_element->prev = _front;
-            _front->next = new_element;
-            _back = new_element;
-            assert(_front != nullptr && _back != nullptr && _front != _back);
+        auto cur = in_pos._current;
+        if(cur == nullptr) {
+            if(_front == nullptr) {
+                assert(_length_items == 0 && _back == nullptr);
+                _front = new_element;
+            } else if(_back == nullptr) {
+                assert(_length_items == 1 && _front != nullptr);
+                _back = new_element;
+                _back->prev = _front;
+                _front->next = _back;
+            } else {
+                assert(_length_items > 1 && _front != _back);
+                new_element->prev = _back;
+                _back->next = new_element;
+            }
         } else {
-            assert(_front != nullptr && _back != nullptr && _front != _back);
-            new_element->prev = _back;
-            _back->next = new_element;
-            _back = new_element;
-            assert(_front != nullptr && _back != nullptr && _front != _back);
+            auto prev = cur->prev;
+            new_element->next = cur;
+            new_element->prev = prev;
+
+            if(prev == nullptr) {
+                _front = new_element;
+            } else {
+                cur->prev = new_element;
+            }
         }
 
         _length_items++;
+        return list_iterator<T>(new_element);
+    }
+
+    void push_back(const T& in_value) {
+        insert(cend(), in_value);
     }
 
 private:
