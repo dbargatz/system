@@ -38,13 +38,11 @@ public:
     T operator*() { return _current->value; }
 
     list_iterator<T>& operator++() {
-        if(_current == nullptr) { return *this; }
         _current = _current->next;
         return *this;
     }
 
     list_iterator<T>& operator--() {
-        if(_current == nullptr) { return *this; }
         _current = _current->prev;
         return *this;
     }
@@ -69,78 +67,97 @@ public:
 
     using _element_allocator_type = typename allocator_traits<Allocator>::template rebind_alloc<struct list_element<T>>;
 
-    list() { _alloc = _element_allocator_type(); }
-    explicit list(const Allocator& in_alloc) { _alloc = _element_allocator_type(in_alloc); }
+    list() {
+        _alloc = _element_allocator_type();
+        _start = list_element<T> { .next = &_start, .prev = &_start, .value = T() };
+    }
+
+    explicit list(const Allocator& in_alloc) {
+        _alloc = _element_allocator_type(in_alloc);
+        _start = list_element<T> { .next = &_start, .prev = &_start, .value = T() };
+    }
+
     explicit list (size_type in_count, const T& in_value, const Allocator& in_alloc = Allocator()) {
         _alloc = _element_allocator_type(in_alloc);
-        for(int i = 0; i < in_count; i++) {
-            push_back(in_value);
-        }
+        _start = list_element<T> { .next = &_start, .prev = &_start, .value = T() };
+        insert(cend(), in_count, in_value);
     }
 
     allocator_type get_allocator() const noexcept { return _alloc; }
 
-    reference front() { return *begin(); }
-    const_reference front() const { return *cbegin(); }
-    reference back() { return *list_iterator<T>(_back); }
-    const_reference back() const { return *list_iterator<T>(_back); }
+    reference front() {
+        assert(_length_items > 0);
+        return *begin();
+    }
 
-    iterator begin() noexcept { return list_iterator<T>(_front); }
-    const_iterator begin() const noexcept { return list_iterator<T>(_front); }
-    const_iterator cbegin() const noexcept {return list_iterator<T>(_front); }
-    iterator end() noexcept { return list_iterator<T>(nullptr); }
-    const_iterator end() const noexcept { return list_iterator<T>(nullptr); }
-    const_iterator cend() const noexcept { return list_iterator<T>(nullptr); }
+    const_reference front() const {
+        assert(_length_items > 0);
+        return *cbegin();
+    }
+
+    reference back() {
+        assert(_length_items > 0);
+        return *list_iterator<T>(_start->prev);
+    }
+
+    const_reference back() const { return back(); }
+
+    iterator begin() noexcept { return list_iterator<T>(_start.next); }
+    const_iterator begin() const noexcept { return list_iterator<T>(_start.next); }
+    const_iterator cbegin() const noexcept {return list_iterator<T>(_start.next); }
+    iterator end() noexcept { return list_iterator<T>(&_start); }
+    const_iterator end() const noexcept { return list_iterator<T>(&_start); }
+    const_iterator cend() const noexcept { return list_iterator<T>((std::list_element<T> *)&_start); }
 
     [[nodiscard]] bool empty() const noexcept { return _length_items == 0; }
     size_type size() const noexcept { return _length_items; }
     size_type max_size() const noexcept { return (size_type)UINT32_MAX; }
 
-    iterator insert(const_iterator in_pos, const T& in_value) {
-        auto new_element = _alloc.allocate(1);
-        new_element->value = in_value;
-        new_element->next = nullptr;
-        new_element->prev = nullptr;
+    iterator insert(const_iterator in_pos, const T& in_value) { return insert(in_pos, 1, in_value); }
+    iterator insert(const_iterator in_pos, T&& in_value) { return insert(in_pos, 1, std::move(in_value)); }
+    iterator insert(const_iterator in_pos, size_type in_count, const T& in_value) {
+        if(in_count == 0) { return in_pos; }
 
-        auto cur = in_pos._current;
-        if(cur == nullptr) {
-            if(_front == nullptr) {
-                assert(_length_items == 0 && _back == nullptr);
-                _front = new_element;
-            } else if(_back == nullptr) {
-                assert(_length_items == 1 && _front != nullptr);
-                _back = new_element;
-                _back->prev = _front;
-                _front->next = _back;
-            } else {
-                assert(_length_items > 1 && _front != _back);
-                new_element->prev = _back;
-                _back->next = new_element;
-            }
-        } else {
-            auto prev = cur->prev;
+        auto first_element = _alloc.allocate(in_count);
+        auto new_element = first_element;
+        for(auto i = 0; i < in_count; i++) {
+            auto cur = in_pos._current;
+            assert(cur != nullptr);
+            new_element->value = in_value;
             new_element->next = cur;
-            new_element->prev = prev;
+            new_element->prev = cur->prev;
+            cur->prev->next = new_element;
+            cur->prev = new_element;
 
-            if(prev == nullptr) {
-                _front = new_element;
-            } else {
-                cur->prev = new_element;
+            _length_items++;
+            new_element++;
+        }
+        return list_iterator<T>(first_element);
+    }
+
+    template <typename InputIt>
+    iterator insert(const_iterator in_pos, InputIt in_first, InputIt in_last) {
+        if(in_first == in_last) { return in_pos; }
+
+        auto first_element = nullptr;
+        for(; in_first != in_last; in_first++) {
+            auto cur_element = insert(in_pos, *in_first);
+            if(first_element == nullptr) {
+                first_element = cur_element;
             }
         }
-
-        _length_items++;
-        return list_iterator<T>(new_element);
+        return list_iterator<T>(first_element);
     }
 
-    void push_back(const T& in_value) {
-        insert(cend(), in_value);
+    iterator insert(const_iterator in_pos, std::initializer_list<T> in_ilist) {
+        return insert(in_pos, in_ilist.begin(), in_ilist.end());
     }
+
+    void push_back(const T& in_value) { insert(cend(), 1, in_value); }
 
 private:
     _element_allocator_type _alloc;
-    struct list_element<T> * _back = nullptr;
-    struct list_element<T> * _front = nullptr;
+    struct list_element<T> _start;
     size_type _length_items = 0;
 }; // class list
 
