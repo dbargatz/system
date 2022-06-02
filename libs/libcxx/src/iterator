@@ -1,0 +1,23 @@
+/**
+ * @file
+ * @brief Implementation of the C++ iterator library.
+ * 
+ * @note Some comments in this file were based off of/taken directly from the
+ * descriptions on https://en.cppreference.com/w/cpp/header/iterator and
+ * various subpages. All errors are mine, all credit is theirs.
+ */
+#ifndef _STD_ITERATOR_HPP
+#define _STD_ITERATOR_HPP
+
+#include <initializer_list>
+
+namespace std {
+
+template <typename T>
+[[nodiscard]] constexpr bool empty(std::initializer_list<T> in_ilist) noexcept {
+    return in_ilist.size() == 0;
+}
+
+}; // namespace std
+
+#endif // _STD_ITERATOR_HPP
