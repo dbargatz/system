@@ -58,27 +58,7 @@ public:
         );
 
         for(auto&& range : *_page_frames) {
-            auto typestr = "";
-            switch(range.type) {
-                case reservation_type::UNINITIALIZED:
-                    typestr = "Uninitialized ";
-                    break;
-                case reservation_type::UNALLOCATED:
-                    typestr = "Unallocated   ";
-                    break;
-                case reservation_type::ALLOCATED:
-                    typestr = "Allocated     ";
-                    break;
-                case reservation_type::RESERVED_CORE_DRIVER:
-                    typestr = "Core Driver   ";
-                    break;
-                case reservation_type::RESERVED_DEVICE:
-                    typestr = "Device        ";
-                    break;
-            }
-            auto start = range.start_pfn << 12;
-            auto end = start + (range.num_frames << 12) - 1;
-            auto range_str = std::format("    {}: 0x{:X} - 0x{:X}\n", typestr, start, end);
+            auto range_str = std::format("    {}\n", range);
             str.append(range_str);
         }
 
@@ -97,6 +77,39 @@ struct std::formatter<core::memory::memory_manager> {
 
     string format(const core::memory::memory_manager& in_arg) {
         return in_arg.format();
+    }
+};
+
+template <>
+struct std::formatter<struct core::memory::page_frame_range> {
+    formatter() { }
+
+    void parse(const string::value_type* in_open_brace,
+               const string::value_type* in_close_brace) { }
+
+    string format(const struct core::memory::page_frame_range& in_arg) {
+        auto typestr = "";
+        switch(in_arg.type) {
+            case core::memory::reservation_type::UNINITIALIZED:
+                typestr = "Uninitialized ";
+                break;
+            case core::memory::reservation_type::UNALLOCATED:
+                typestr = "Unallocated   ";
+                break;
+            case core::memory::reservation_type::ALLOCATED:
+                typestr = "Allocated     ";
+                break;
+            case core::memory::reservation_type::RESERVED_CORE_DRIVER:
+                typestr = "Core Driver   ";
+                break;
+            case core::memory::reservation_type::RESERVED_DEVICE:
+                typestr = "Device        ";
+                break;
+        }
+        auto start = in_arg.start_pfn << 12;
+        auto end = (start + (in_arg.num_frames << 12)) - 1;
+        auto range_str = std::format("{}: 0x{:X} - 0x{:X}  [pfn: {} numframes: {:X}]", typestr, start, end, in_arg.start_pfn, in_arg.num_frames);
+        return range_str;
     }
 };
 
