@@ -42,6 +42,12 @@ public:
         return *this;
     }
 
+    list_iterator<T>& operator++(int) {
+        auto tmp = *this;
+        _current = _current->next;
+        return tmp;
+    }
+
     list_iterator<T>& operator--() {
         _current = _current->prev;
         return *this;
@@ -112,6 +118,32 @@ public:
     [[nodiscard]] bool empty() const noexcept { return _length_items == 0; }
     size_type size() const noexcept { return _length_items; }
     size_type max_size() const noexcept { return (size_type)UINT32_MAX; }
+
+    void clear() noexcept { erase(cbegin(), cend()); }
+
+    iterator erase(const_iterator in_pos) {
+        iterator next = iterator(in_pos._current->next);
+        return erase(in_pos, next);
+    }
+
+    iterator erase(const_iterator in_first, const_iterator in_last) {
+        if(in_first == in_last) { return in_last; }
+        assert(in_first != cend());
+
+        iterator cur_iterator = iterator(in_first._current);
+        while(cur_iterator != in_last) {
+            auto cur_element = cur_iterator._current;
+            auto next_element = cur_element->next;
+            auto prev_element = cur_element->prev;
+            prev_element->next = next_element;
+            next_element->prev = prev_element;
+            _alloc.deallocate(cur_element, 1);
+            ++cur_iterator;
+            _length_items--;
+        }
+
+        return in_last;
+    }
 
     iterator insert(const_iterator in_pos, const T& in_value) { return insert(in_pos, 1, in_value); }
     iterator insert(const_iterator in_pos, T&& in_value) { return insert(in_pos, 1, std::move(in_value)); }
