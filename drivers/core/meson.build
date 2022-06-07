@@ -4,6 +4,7 @@ core_cpp_src = [
     'src/libcxx/new.cpp',
     'src/memory/heap.cpp',
     'src/memory/manager.cpp',
+    'src/memory/map.cpp',
     'src/main.cpp'
 ]
 core_linker_objs = [libcxx_lib, libdevicetree_lib]
