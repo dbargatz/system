@@ -14,14 +14,21 @@
 // the core driver.
 extern core::memory::memory_manager * _core_memory_manager;
 
-// This is defined in libcxx/cassert.cpp and is used for logging during asserts.
+// These are defined in libcxx/cassert.cpp and is used for logging during asserts.
 extern core::console::console * _core_assert_log;
+extern bool _assert_in_progress;
 
 #define bail(msg) [] (auto exp) { assertm(false, msg); }
 
-alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
 
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
+    _assert_in_progress = false;
+    core::console::console log(core::console::level::Debug);
+    _core_assert_log = &log;
+
+    auto mem_mgr = core::memory::memory_manager();
+    _core_memory_manager = &mem_mgr;
+
     auto fdt = devicetree::fdt(in_boot_info);
     auto serial = fdt.find([] (devicetree::node& n) { 
         auto compatible = n.get_value<devicetree::properties::stringlist>("compatible");
@@ -37,17 +44,12 @@ alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
     });
     assertm(serial, "no serial nodes present in devicetree");
 
-    core::console::console log(core::console::level::Debug);
-    _core_assert_log = &log;
 
     auto root = fdt.root().or_else(bail("root node not present in devicetree"));
     auto addr_cells = root->get_value<std::uint32_t>("#address-cells").value_or(0);
     auto size_cells = root->get_value<std::uint32_t>("#size-cells").value_or(0);
     assertm(addr_cells && size_cells, "invalid #address-cells and/or #size-cells");
 
-    auto buf_resource = std::pmr::monotonic_buffer_resource(buf, sizeof(buf));
-    auto mem_mgr = core::memory::memory_manager(&buf_resource);
-    _core_memory_manager = &mem_mgr;
 
     log.info("Reserved Memory (FDT root):");
     for(auto&& range : fdt.reserved_memory()) {
@@ -55,7 +57,7 @@ alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
         auto size = devicetree::details::be_to_host(range->size);
         log.info("  address: 0x{:X}", addr);
         log.info("  size: 0x{:X}", size);
-        mem_mgr.register_pages(addr, size, core::memory::reservation_type::RESERVED_DEVICE);
+        mem_mgr.register_range(addr, size, core::memory::reservation_type::RESERVED_DEVICE);
     }
 
     auto memnode = fdt.get("/memory").or_else(bail("/memory node not present in devicetree"));
@@ -65,7 +67,7 @@ alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
         auto addr = (core::memory::physical_addr_t)reg.base;
         log.info("  base: {:X}", reg.base);
         log.info("  length: {}", reg.length);
-        mem_mgr.register_pages(addr, reg.length, core::memory::reservation_type::UNALLOCATED);
+        mem_mgr.register_range(addr, reg.length, core::memory::reservation_type::UNALLOCATED);
     }
 
     auto reserved_mem = fdt.get("/reserved-memory").or_else(bail("/reserved-memory node not present in devicetree"));
@@ -78,7 +80,7 @@ alignas(PAGE_SIZE_BYTES) static std::uint8_t buf[PAGE_SIZE_BYTES] = {0};
         log.info("  child bus addr : {:X}", range.child_bus_address);
         log.info("  parent bus addr: {:X}", range.parent_bus_address);
         log.info("  length: {}", range.length);
-        mem_mgr.register_pages(soc_bus_addr, range.length, core::memory::reservation_type::RESERVED_DEVICE);
+        mem_mgr.register_range(soc_bus_addr, range.length, core::memory::reservation_type::RESERVED_DEVICE);
     }
 
     auto perm = get_permission_level();
