@@ -11,6 +11,7 @@ namespace core::memory {
 
 class memory_manager {
 private:
+    bool _use_assert_heap;
     std::pmr::monotonic_buffer_resource _assert_heap;
     std::pmr::monotonic_buffer_resource _core_heap;
     map _memory_map;
@@ -21,6 +22,7 @@ public:
     void core_deallocate(const physical_addr_t in_addr);
 
     void register_range(const physical_addr_t in_start, const std::size_t in_size, const reservation_type in_type);
+    void use_assert_heap() { _use_assert_heap = true; }
 
     auto format() const {
         auto str = std::format(

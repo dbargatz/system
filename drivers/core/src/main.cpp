@@ -4,30 +4,19 @@
 #include "../../../libs/libdevicetree/src/fdt.hpp"
 #include "../../../libs/libdevicetree/src/properties/reg.hpp"
 
+#include "core.hpp"
 #include "console/console.hpp"
 #include "memory/manager.hpp"
 #include "platform.hpp"
 
-// TODO: need structure to hold per-core information, like memory manager for each core
-
-// This is defined in libcxx/new.cpp, and is how new/delete allocate and deallocate memory inside
-// the core driver.
-extern core::memory::memory_manager * _core_memory_manager;
-
-// These are defined in libcxx/cassert.cpp and is used for logging during asserts.
-extern core::console::console * _core_assert_log;
-extern bool _assert_in_progress;
-
 #define bail(msg) [] (auto exp) { assertm(false, msg); }
 
-
 [[noreturn]] extern "C" void core_entry(std::uint64_t in_proc_id, const core::memory::physical_addr_t in_boot_info) {
-    _assert_in_progress = false;
-    core::console::console log(core::console::level::Debug);
-    _core_assert_log = &log;
-
+    auto log = core::console::console(core::console::level::Debug);
     auto mem_mgr = core::memory::memory_manager();
-    _core_memory_manager = &mem_mgr;
+
+    auto this_core = core::core(log, mem_mgr);
+    core::core::set_current_core(&this_core);
 
     auto fdt = devicetree::fdt(in_boot_info);
     auto serial = fdt.find([] (devicetree::node& n) { 

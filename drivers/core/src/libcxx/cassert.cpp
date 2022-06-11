@@ -1,12 +1,8 @@
 #include <cassert>
 #include <cstdlib>
-#include "../console/console.hpp"
-
-core::console::console * _core_assert_log;
-bool _assert_in_progress;
+#include "../core.hpp"
 
 void __assert_failed(const char * in_file, int in_line, const char * in_func, const char * in_msg) {
-    _assert_in_progress = true;
-    _core_assert_log->error("{} ({}:{}:{}())", in_msg, in_file, in_line, in_func);
-    std::abort();
+    auto current_core = core::core::get_current_core();
+    current_core->handle_assert(in_file, in_line, in_func, in_msg);
 }

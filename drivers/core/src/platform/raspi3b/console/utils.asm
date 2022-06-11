@@ -4,6 +4,16 @@ get_el:
 	lsr x0, x0, #2
 	ret
 
+.globl get_tpidr_el2
+get_tpidr_el2:
+	mrs x0, TPIDR_EL2
+	ret
+
+.globl set_tpidr_el2
+set_tpidr_el2:
+	msr TPIDR_EL2, x0
+	ret
+
 .globl put32
 put32:
 	str w1,[x0]
