@@ -42,7 +42,7 @@ private:
     level _current_level = level::Info;
     constexpr static char _LEVEL_PREFIXES[] = { '?', ' ', '+', '-', '!', '*'};
 
-    void _write(level in_level, const char * in_str) {
+    void _write(level in_level, const char * in_str) const {
         // Don't format or log the message if it's below the current log level.
         if(in_level < _current_level) { return; }
 
@@ -52,17 +52,17 @@ private:
     }
 
     template <typename... Args>
-    void _write(level in_level, const char8_t* in_fmt, Args&&... in_args) {
+    void _write(level in_level, const char8_t* in_fmt, Args&&... in_args) const {
         _write(in_level, std::string((const char *)in_fmt), in_args...);
     }
 
     template <typename... Args>
-    void _write(level in_level, const char* in_fmt, Args&&... in_args) {
+    void _write(level in_level, const char* in_fmt, Args&&... in_args) const {
         _write(in_level, std::string(in_fmt), in_args...);
     }
 
     template <typename... Args>
-    void _write(level in_level, const std::string& in_fmt, Args&&... in_args) {
+    void _write(level in_level, const std::string& in_fmt, Args&&... in_args) const {
         // Don't format or log the message if it's below the current log level.
         if(in_level < _current_level) { return; }
 
@@ -85,17 +85,17 @@ private:
         }
     }
 
-    bool _platform_init(void);
-    void _platform_write(const char in_c);
+    bool _platform_init(void) const;
+    void _platform_write(const char in_c) const;
 
-    void _platform_write(level in_level) {
+    void _platform_write(level in_level) const {
         auto lvl = _LEVEL_PREFIXES[(std::uint8_t)in_level];
         _platform_write('[');
         _platform_write(lvl);
         _platform_write("] ");
     }
 
-    void _platform_write(const char * in_str) {
+    void _platform_write(const char * in_str) const {
         for (int i = 0; in_str[i] != '\0'; i++) {
             // Logging only uses newlines (\n), but TTY serial connections expect a
             // carriage return (\r) followed by a newline (\n). Without the \r, the
@@ -165,45 +165,45 @@ public:
         log(in_level, "  Russian:  это проверка");
     }
 
-    void debug(const char * in_str) { _write(level::Debug, in_str); }
+    void debug(const char * in_str) const { _write(level::Debug, in_str); }
     template <typename... Args>
-    void debug(const char8_t* in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
+    void debug(const char8_t* in_fmt, Args&&... in_args) const { _write(level::Debug, in_fmt, in_args...); }
     template <typename... Args>
-    void debug(const char* in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
+    void debug(const char* in_fmt, Args&&... in_args) const { _write(level::Debug, in_fmt, in_args...); }
     template <typename... Args>
-    void debug(const std::string& in_fmt, Args&&... in_args) { _write(level::Debug, in_fmt, in_args...); }
+    void debug(const std::string& in_fmt, Args&&... in_args) const { _write(level::Debug, in_fmt, in_args...); }
 
-    void info(const char * in_str) { _write(level::Info, in_str); }
+    void info(const char * in_str) const { _write(level::Info, in_str); }
     template <typename... Args>
-    void info(const char8_t* in_fmt, Args&&... in_args) { _write(level::Info, in_fmt, in_args...); }
+    void info(const char8_t* in_fmt, Args&&... in_args) const { _write(level::Info, in_fmt, in_args...); }
     template <typename... Args>
-    void info(const char* in_fmt, Args&&... in_args) { _write(level::Info, in_fmt, in_args...); }
+    void info(const char* in_fmt, Args&&... in_args) const { _write(level::Info, in_fmt, in_args...); }
     template <typename... Args>
-    void info(const std::string& in_fmt, Args&&... in_args) { _write(level::Info, in_fmt, in_args...); }
+    void info(const std::string& in_fmt, Args&&... in_args) const { _write(level::Info, in_fmt, in_args...); }
 
-    void warn(const char * in_str) { _write(level::Warn, in_str); }
+    void warn(const char * in_str) const { _write(level::Warn, in_str); }
     template <typename... Args>
-    void warn(const char8_t* in_fmt, Args&&... in_args) { _write(level::Warn, in_fmt, in_args...); }
+    void warn(const char8_t* in_fmt, Args&&... in_args) const { _write(level::Warn, in_fmt, in_args...); }
     template <typename... Args>
-    void warn(const char* in_fmt, Args&&... in_args) { _write(level::Warn, in_fmt, in_args...); }
+    void warn(const char* in_fmt, Args&&... in_args) const { _write(level::Warn, in_fmt, in_args...); }
     template <typename... Args>
-    void warn(const std::string& in_fmt, Args&&... in_args) { _write(level::Warn, in_fmt, in_args...); }
+    void warn(const std::string& in_fmt, Args&&... in_args) const { _write(level::Warn, in_fmt, in_args...); }
 
-    void error(const char * in_str) { _write(level::Error, in_str); }
+    void error(const char * in_str) const { _write(level::Error, in_str); }
     template <typename... Args>
-    void error(const char8_t* in_fmt, Args&&... in_args) { _write(level::Error, in_fmt, in_args...); }
+    void error(const char8_t* in_fmt, Args&&... in_args) const { _write(level::Error, in_fmt, in_args...); }
     template <typename... Args>
-    void error(const char* in_fmt, Args&&... in_args) { _write(level::Error, in_fmt, in_args...); }
+    void error(const char* in_fmt, Args&&... in_args) const { _write(level::Error, in_fmt, in_args...); }
     template <typename... Args>
-    void error(const std::string& in_fmt, Args&&... in_args) { _write(level::Error, in_fmt, in_args...); }
+    void error(const std::string& in_fmt, Args&&... in_args) const { _write(level::Error, in_fmt, in_args...); }
 
-    void log(level in_level, const char * in_str) { _write(in_level, in_str); }
+    void log(level in_level, const char * in_str) const { _write(in_level, in_str); }
     template <typename... Args>
-    void log(level in_level, const char8_t* in_fmt, Args&&... in_args) { _write(in_level, in_fmt, in_args...); }
+    void log(level in_level, const char8_t* in_fmt, Args&&... in_args) const { _write(in_level, in_fmt, in_args...); }
     template <typename... Args>
-    void log(level in_level, const char* in_fmt, Args&&... in_args) { _write(in_level, in_fmt, in_args...); }
+    void log(level in_level, const char* in_fmt, Args&&... in_args) const { _write(in_level, in_fmt, in_args...); }
     template <typename... Args>
-    void log(level in_level, const std::string& in_fmt, Args&&... in_args) { _write(in_level, in_fmt, in_args...); }
+    void log(level in_level, const std::string& in_fmt, Args&&... in_args) const { _write(in_level, in_fmt, in_args...); }
 };
 
 };

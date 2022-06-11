@@ -9,7 +9,7 @@ constexpr static const core::x64::ports::io_port LINE_CONTROL     = core::x64::p
 constexpr static const core::x64::ports::io_port MODEM_CONTROL    = core::x64::ports::io_port(COM1_IO_PORT + 4);
 constexpr static const core::x64::ports::io_port LINE_STATUS      = core::x64::ports::io_port(COM1_IO_PORT + 5);
 
-bool core::console::console::_platform_init(void) {
+bool core::console::console::_platform_init(void) const {
     // TODO: explain what's going on here
     INTERRUPT_ENABLE.outb(0x00);
     LINE_CONTROL.outb(0x80);
@@ -22,7 +22,7 @@ bool core::console::console::_platform_init(void) {
     return true;
 }
 
-void core::console::console::_platform_write(const char in_c) {
+void core::console::console::_platform_write(const char in_c) const {
     // Busy-loop while we wait for space in the FIFO to clear up.
     while(0 == (LINE_STATUS.inb() & 0x20)) {}
 

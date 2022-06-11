@@ -26,7 +26,7 @@ extern "C" void delay_cycles(std::uint32_t in_num_cycles);
 extern "C" std::uint32_t get32(std::uint32_t in_mmio_reg);
 extern "C" void put32(std::uint32_t in_mmio_reg, std::uint32_t in_value);
 
-bool core::console::console::_platform_init(void) {
+bool core::console::console::_platform_init(void) const {
     put32(AUX_ENABLES, 1);          // Enable mini uart (this also enables access to its registers)
     put32(AUX_MU_CNTL_REG, 0);      // Disable auto flow control and disable receiver and transmitter (for now)
     put32(AUX_MU_LCR_REG, 3);       // Enable 8 bit mode
@@ -53,7 +53,7 @@ bool core::console::console::_platform_init(void) {
     return true;
 }
 
-void core::console::console::_platform_write(const char in_c) {
+void core::console::console::_platform_write(const char in_c) const {
     // Wait until the status register indicates the line is clear to send.
     while (0 == (get32(AUX_MU_LSR_REG) & 0x20)) { }
 
